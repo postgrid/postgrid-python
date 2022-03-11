@@ -235,7 +235,7 @@ class BankAccount(PMResource):
                bank_country_code, transit_number=None, route_number=None,
                routing_number=None, signature_image=None, signature_text=None,
                bank_secondary_line=None, **kwargs):
-        cls._create(locals())
+        return cls._create(locals())
 
 
 class Letter(PMResource):
@@ -246,7 +246,7 @@ class Letter(PMResource):
                express=None, address_placement=None, perforated_page=None, envelope_type=None,
                color=None, double_sided=None, return_envelope=None, send_date=None, merge_variables=None,
                **kwargs):
-        cls._create(locals())
+        return cls._create(locals())
 
 
 PM_OBJECT_TO_CLASS = {
