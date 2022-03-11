@@ -11,7 +11,10 @@ def create_test_contact():
         company_name='Test Company',
         address_line1='20 Bay St, Toronto, ON M9V 4V1',
         country_code='CA',
-        job_title='Test'
+        job_title='Test',
+        metadata={
+            'test': [10, 20]
+        }
     ) 
 
 def test_create():
