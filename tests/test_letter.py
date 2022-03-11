@@ -1,6 +1,7 @@
 import postgrid
 import os
 
+
 def setup_module():
     postgrid.pm_key = os.environ.get('PM_API_KEY')
 
