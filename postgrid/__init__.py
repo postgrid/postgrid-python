@@ -6,10 +6,12 @@ av_base = 'https://api.postgrid/com/v1/'
 pm_key = None
 av_key = None
 
-MAX_LIMIT=100
+MAX_LIMIT = 100
+
 
 def _is_file_like(f):
     return hasattr(f, 'read')
+
 
 def _camel_to_snake(s):
     new_s = ''
@@ -22,6 +24,7 @@ def _camel_to_snake(s):
 
     return new_s
 
+
 def _snake_to_camel(s):
     new_s = ''
 
@@ -33,25 +36,29 @@ def _snake_to_camel(s):
             new_s += ch.upper()
         else:
             new_s += ch
-        
+
     return new_s
 
-def _camel_to_snake_dict_keys_recursive(d):
+
+def _map_keys_recursive(d, fn):
     if isinstance(d, list):
-        return list(map(_camel_to_snake_dict_keys_recursive, d))
+        return list(map(lambda v: _map_keys_recursive(v, fn), d))
     elif not isinstance(d, dict):
         return d
 
     new_d = {}
 
     for key, value in d.items():
-        new_d[_camel_to_snake(key)] = _camel_to_snake_dict_keys_recursive(value)
+        new_d[fn(key)] = _map_keys_recursive(value, fn)
 
     return new_d
 
+
 def _request(base, endpoint, method='GET', **kwargs):
     assert base in [pm_base, av_base]
-    
+
+    kwargs = _map_keys_recursive(kwargs, _snake_to_camel)
+
     headers = {'x-api-key': pm_key if base == pm_base else av_key}
 
     if method == 'GET':
@@ -77,8 +84,9 @@ def _request(base, endpoint, method='GET', **kwargs):
 
         for key, value in kwargs.items():
             flatten(key, value)
-        
-        res = requests.post(base + endpoint, data=data, files=files, headers=headers)
+
+        res = requests.post(base + endpoint, data=data,
+                            files=files, headers=headers)
     elif method == 'DELETE':
         res = requests.delete(base + endpoint, params=kwargs, headers=headers)
     else:
@@ -102,14 +110,18 @@ def _request(base, endpoint, method='GET', **kwargs):
     else:
         raise NotImplementedError()
 
+
 def _pm_get(endpoint, **kwargs):
     return _request(pm_base, endpoint, method='GET', **kwargs)
+
 
 def _pm_post(endpoint, **kwargs):
     return _request(pm_base, endpoint, method='POST', **kwargs)
 
+
 def _pm_delete(endpoint, **kwargs):
     return _request(pm_base, endpoint, method='DELETE', **kwargs)
+
 
 class PMError(Exception):
     def __init__(self, status_code, object, type, message):
@@ -119,6 +131,7 @@ class PMError(Exception):
         self.object = object
         self.type = type
         self.message = message
+
 
 class PMResource:
     def __init__(self, **kwargs):
@@ -130,19 +143,19 @@ class PMResource:
         assert 'kwargs' in locals_
 
         locals_except_kwargs_and_cls = {
-            _snake_to_camel(key): value for key, value in locals_.items() if key != 'kwargs' and key != 'cls'
+            key: value for key, value in locals_.items() if key != 'kwargs' and key != 'cls'
         }
 
         return _pm_post(cls.endpoint, **locals_except_kwargs_and_cls, **locals_['kwargs'])
 
     @classmethod
     def list(cls, skip=0, limit=10):
-        return _pm_get('contacts', skip=skip, limit=limit)
-    
+        return _pm_get(cls.endpoint, skip=skip, limit=limit)
+
     @classmethod
     def list_autopaginate(cls, max=None):
         # We call the derived class's list method repeatedly
-        
+
         # FIXME: Wasteful because we request MAX_LIMIT always and then potentially discard
         # a certain number of contacts.
         data = []
@@ -158,7 +171,7 @@ class PMResource:
             if len(data) >= list_.total_count or \
                (max and len(data) >= max):
                 break
-        
+
         if max:
             data = data[:max]
 
@@ -177,9 +190,10 @@ class PMResource:
     @classmethod
     def delete(cls, id):
         return _pm_delete(f'{cls.endpoint}/{id}')
- 
+
     def to_dict(self):
         return vars(self)
+
 
 class List(PMResource):
     def __init__(self, object, total_count, skip, limit, data):
@@ -193,6 +207,7 @@ class List(PMResource):
 
         self.data = data
 
+
 class Contact(PMResource):
     endpoint = 'contacts'
 
@@ -203,6 +218,7 @@ class Contact(PMResource):
                job_title=None, postal_or_zip=None, **kwargs):
         return cls._create(locals())
 
+
 class Template(PMResource):
     endpoint = 'templates'
 
@@ -210,25 +226,41 @@ class Template(PMResource):
     def create(cls, html, **kwargs):
         return cls._create(locals())
 
+
 class BankAccount(PMResource):
     endpoint = 'bank_accounts'
 
     @classmethod
     def create(cls, bank_name, account_number, bank_primary_line,
-                    bank_country_code, transit_number=None, route_number=None, 
-                    routing_number=None, signature_image=None, signature_text=None,
-                    bank_secondary_line=None):
+               bank_country_code, transit_number=None, route_number=None,
+               routing_number=None, signature_image=None, signature_text=None,
+               bank_secondary_line=None, **kwargs):
         cls._create(locals())
+
+
+class Letter(PMResource):
+    endpoint = 'letters'
+
+    @classmethod
+    def create(cls, to, from_, template=None, html=None, pdf=None, extra_service=None,
+               express=None, address_placement=None, perforated_page=None, envelope_type=None,
+               color=None, double_sided=None, return_envelope=None, send_date=None, merge_variables=None,
+               **kwargs):
+        cls._create(locals())
+
 
 PM_OBJECT_TO_CLASS = {
     'contact': Contact,
     'template': Template,
+    'bank_account': BankAccount,
+    'letter': Letter,
     'list': List
 }
+
 
 def _pm_convert_json_value(value):
     for key, inner_value in value.items():
         if key != 'metadata' and isinstance(inner_value, dict) and 'object' in inner_value:
             value[_camel_to_snake(key)] = _pm_convert_json_value(inner_value)
 
-    return PM_OBJECT_TO_CLASS[value['object']](**_camel_to_snake_dict_keys_recursive(value))
+    return PM_OBJECT_TO_CLASS[value['object']](**_map_keys_recursive(value, _camel_to_snake))

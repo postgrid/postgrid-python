@@ -1,8 +1,10 @@
 import postgrid
 import os
 
+
 def setup_module():
     postgrid.pm_key = os.environ.get('PM_API_KEY')
+
 
 def create_test_contact():
     return postgrid.Contact.create(
@@ -15,7 +17,8 @@ def create_test_contact():
         metadata={
             'test': [10, 20]
         }
-    ) 
+    )
+
 
 def test_create():
     contact = create_test_contact()
@@ -23,13 +26,16 @@ def test_create():
     assert isinstance(contact, postgrid.Contact)
     assert contact.company_name == 'Test Company'
 
+
 def test_list():
     contact = create_test_contact()
     list_ = postgrid.Contact.list()
 
     assert list_.total_count >= 1
+    assert list_.skip == 0
     assert isinstance(list_.data[0], postgrid.Contact)
     assert list_.data[0].company_name == contact.company_name
+
 
 def test_delete():
     contact = create_test_contact()
