@@ -228,7 +228,7 @@ PM_OBJECT_TO_CLASS = {
 
 def _pm_convert_json_value(value):
     for key, inner_value in value.items():
-        if isinstance(inner_value, dict) and 'object' in inner_value:
+        if key != 'metadata' and isinstance(inner_value, dict) and 'object' in inner_value:
             value[_camel_to_snake(key)] = _pm_convert_json_value(inner_value)
 
     return PM_OBJECT_TO_CLASS[value['object']](**_camel_to_snake_dict_keys_recursive(value))
