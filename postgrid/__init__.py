@@ -7,6 +7,7 @@ pm_key = None
 av_key = None
 
 MAX_LIMIT = 100
+KNOWN_ABBREVS = {'HTML', 'URL', 'ID'}
 
 
 def _is_file_like(f):
@@ -15,6 +16,11 @@ def _is_file_like(f):
 
 def _camel_to_snake(s):
     new_s = ''
+
+    # Turn keys like frontHTML to frontHtml so it converts to front_html
+    # instead of front_hTML
+    for abbrev in KNOWN_ABBREVS:
+        s = s.replace(abbrev, abbrev[0] + abbrev[1:].lower())
 
     for i, ch in enumerate(s):
         if i > 0 and ch.isupper() and s[i - 1].islower():
@@ -149,6 +155,10 @@ class PMResource:
         return _pm_post(cls.endpoint, **locals_except_kwargs_and_cls, **locals_['kwargs'])
 
     @classmethod
+    def _progress(cls, id):
+        return _pm_post(f'{cls.endpoint}/{id}/progressions')
+
+    @classmethod
     def list(cls, skip=0, limit=10):
         return _pm_get(cls.endpoint, skip=skip, limit=limit)
 
@@ -248,12 +258,32 @@ class Letter(PMResource):
                **kwargs):
         return cls._create(locals())
 
+    
+    @classmethod
+    def progress(cls, id):
+        return cls._progress(id)
+
+
+class Postcard(PMResource):
+    endpoint = 'postcards'
+
+    @classmethod
+    def create(cls, to, size, from_=None, front_template=None, back_template=None, 
+               front_html=None, back_html=None, pdf=None, express=None, send_date=None, 
+               merge_variables=None, **kwargs):
+        return cls._create(locals())
+
+    @classmethod
+    def progress(cls, id):
+        return cls._progress(id)
+
 
 PM_OBJECT_TO_CLASS = {
     'contact': Contact,
     'template': Template,
     'bank_account': BankAccount,
     'letter': Letter,
+    'postcard': Postcard,
     'list': List
 }
 
