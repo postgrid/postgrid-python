@@ -9,7 +9,7 @@ pm_key = None
 av_key = None
 
 MAX_LIMIT = 100
-KNOWN_ABBREVS = {'HTML', 'URL', 'ID'}
+KNOWN_ABBREVS = {'HTML', 'URL', 'ID', 'PDF'}
 
 
 def _is_file_like(f):
