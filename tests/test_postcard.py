@@ -33,8 +33,6 @@ def create_test_postcard():
 def test_create():
     res = create_test_postcard()
 
-    print(res.to_dict())
-
     assert isinstance(res, postgrid.Postcard)
     assert isinstance(res.front_html, str)
     assert isinstance(res.back_html, str)

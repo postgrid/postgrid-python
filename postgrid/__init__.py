@@ -1,4 +1,6 @@
 import requests
+import jwt
+import os
 
 pm_base = 'https://api.postgrid.com/print-mail/v1/'
 av_base = 'https://api.postgrid/com/v1/'
@@ -34,6 +36,14 @@ def _camel_to_snake(s):
 def _snake_to_camel(s):
     new_s = ''
 
+    # Convert e.g. letter_html to letter_HTML so that
+    # we transmit letterHTML as intended
+    for abbrev in KNOWN_ABBREVS:
+        lower_abbrev = abbrev.lower()
+
+        if lower_abbrev in s:
+            s = s.replace(lower_abbrev, abbrev.upper())
+
     for i, ch in enumerate(s):
         if s[i] == '_':
             continue
@@ -60,6 +70,11 @@ def _map_keys_recursive(d, fn):
     return new_d
 
 
+class UnsupportedFileTypeError(Exception):
+    def __init__(self, ext):
+        self.ext = ext
+
+
 def _request(base, endpoint, method='GET', **kwargs):
     assert base in [pm_base, av_base]
 
@@ -74,11 +89,25 @@ def _request(base, endpoint, method='GET', **kwargs):
         files = None
 
         def flatten(key, value):
+            nonlocal files
+
             if _is_file_like(value):
                 if not files:
                     files = {}
 
-                files[key] = value
+                path, ext = os.path.splitext(value.name)
+
+                if ext == '.pdf':
+                    content_type = 'application/pdf'
+                elif ext == '.png':
+                    content_type = 'image/png'
+                elif ext == '.jpeg':
+                    content_type = 'image/jpeg'
+                else:
+                    # TODO Make sure we don't expect any other file types
+                    raise UnsupportedFileTypeError(ext)
+
+                files[key] = (os.path.basename(path), value, content_type)
             elif isinstance(value, dict):
                 for inner_key, inner_value in value.items():
                     flatten(f'{key}[{inner_key}]', inner_value)
@@ -143,7 +172,7 @@ class PMResource:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
 
-    @classmethod
+    @ classmethod
     def _create(cls, locals_):
         assert 'cls' in locals_
         assert 'kwargs' in locals_
@@ -154,15 +183,15 @@ class PMResource:
 
         return _pm_post(cls.endpoint, **locals_except_kwargs_and_cls, **locals_['kwargs'])
 
-    @classmethod
+    @ classmethod
     def _progress(cls, id):
         return _pm_post(f'{cls.endpoint}/{id}/progressions')
 
-    @classmethod
+    @ classmethod
     def list(cls, skip=0, limit=10):
         return _pm_get(cls.endpoint, skip=skip, limit=limit)
 
-    @classmethod
+    @ classmethod
     def list_autopaginate(cls, max=None):
         # We call the derived class's list method repeatedly
 
@@ -193,16 +222,13 @@ class PMResource:
             data=data
         )
 
-    @classmethod
-    def retrieve(cls, id):
-        return _pm_get(f'{cls.endpoint}/{id}')
+    @ classmethod
+    def retrieve(cls, id, **kwargs):
+        return _pm_get(f'{cls.endpoint}/{id}', **kwargs)
 
-    @classmethod
+    @ classmethod
     def delete(cls, id):
         return _pm_delete(f'{cls.endpoint}/{id}')
-
-    def to_dict(self):
-        return vars(self)
 
 
 class List(PMResource):
@@ -221,7 +247,7 @@ class List(PMResource):
 class Contact(PMResource):
     endpoint = 'contacts'
 
-    @classmethod
+    @ classmethod
     def create(cls, address_line1, country_code, first_name=None, last_name=None,
                company_name=None, address_line2=None, city=None,
                province_or_state=None, email=None, phone_number=None,
@@ -232,7 +258,7 @@ class Contact(PMResource):
 class Template(PMResource):
     endpoint = 'templates'
 
-    @classmethod
+    @ classmethod
     def create(cls, html, **kwargs):
         return cls._create(locals())
 
@@ -240,7 +266,7 @@ class Template(PMResource):
 class BankAccount(PMResource):
     endpoint = 'bank_accounts'
 
-    @classmethod
+    @ classmethod
     def create(cls, bank_name, account_number, bank_primary_line,
                bank_country_code, transit_number=None, route_number=None,
                routing_number=None, signature_image=None, signature_text=None,
@@ -251,15 +277,14 @@ class BankAccount(PMResource):
 class Letter(PMResource):
     endpoint = 'letters'
 
-    @classmethod
+    @ classmethod
     def create(cls, to, from_, template=None, html=None, pdf=None, extra_service=None,
                express=None, address_placement=None, perforated_page=None, envelope_type=None,
                color=None, double_sided=None, return_envelope=None, send_date=None, merge_variables=None,
                **kwargs):
         return cls._create(locals())
 
-    
-    @classmethod
+    @ classmethod
     def progress(cls, id):
         return cls._progress(id)
 
@@ -267,15 +292,71 @@ class Letter(PMResource):
 class Postcard(PMResource):
     endpoint = 'postcards'
 
-    @classmethod
-    def create(cls, to, size, from_=None, front_template=None, back_template=None, 
-               front_html=None, back_html=None, pdf=None, express=None, send_date=None, 
+    @ classmethod
+    def create(cls, to, size, from_=None, front_template=None, back_template=None,
+               front_html=None, back_html=None, pdf=None, express=None, send_date=None,
                merge_variables=None, **kwargs):
         return cls._create(locals())
 
-    @classmethod
+    @ classmethod
     def progress(cls, id):
         return cls._progress(id)
+
+
+class Cheque(PMResource):
+    endpoint = 'cheques'
+
+    @ classmethod
+    def create(cls, to, from_, bank_account, amount, number=None, message=None, memo=None,
+               letter_html=None, letter_template=None, letter_pdf=None, extra_service=None,
+               express=None, send_date=None, redirect_to=None, logo=None, currency_code=None,
+               merge_variables=None, **kwargs):
+        return cls._create(locals())
+
+    @ classmethod
+    def progress(cls, id):
+        return cls._progress(id)
+
+
+class WebhookEvent:
+    def __init__(self, type_, data):
+        self.type = type_
+        self.data = data
+
+
+class SignatureVerificationError(Exception):
+    pass
+
+
+class Webhook(PMResource):
+    endpoint = 'webhooks'
+
+    @ classmethod
+    def create(cls, enabled_events, url, **kwargs):
+        return cls._create(locals())
+
+    @ classmethod
+    def list_invocations(cls, id, skip=0, limit=10):
+        return _pm_get(cls.endpoint + f'/{id}/invocations', skip=skip, limit=limit)
+
+    @ classmethod
+    def construct_event(cls, payload, secret):
+        try:
+            event = jwt.decode(payload, secret)
+
+            return WebhookEvent(
+                type_=event['type'],
+                data=event['data']
+            )
+        except jwt.exceptions.InvalidSignatureError:
+            raise SignatureVerificationError()
+        except jwt.exceptions.InvalidTokenError:
+            raise ValueError()
+
+
+class WebhookInvocation:
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
 
 
 PM_OBJECT_TO_CLASS = {
@@ -284,6 +365,9 @@ PM_OBJECT_TO_CLASS = {
     'bank_account': BankAccount,
     'letter': Letter,
     'postcard': Postcard,
+    'cheque': Cheque,
+    'webhook': Webhook,
+    'webhook_invocation': WebhookInvocation,
     'list': List
 }
 
