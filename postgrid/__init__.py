@@ -384,6 +384,10 @@ class ReturnEnvelopeOrder(BaseResource,
         return super().list_autopaginate(max, return_envelope_id)
 
     @classmethod
+    def fill(cls, return_envelope_id, id):
+        return _pm_post(f'{cls.endpoint.format(return_envelope_id)}/{id}/fills')
+
+    @classmethod
     def delete(cls, return_envelope_id, id):
         return super().delete(id, return_envelope_id)
 
@@ -391,12 +395,11 @@ class ReturnEnvelopeOrder(BaseResource,
 class ReturnEnvelope(BaseResource,
                      CreateableResource,
                      RetrieveableResource,
-                     ListableResource,
-                     DeleteableResource):
+                     ListableResource):
     endpoint = 'return_envelopes'
 
     @classmethod
-    def create(cls, to):
+    def create(cls, to, **kwargs):
         return super().create(locals())
 
 
