@@ -445,11 +445,14 @@ class Webhook(BaseResource,
     @ classmethod
     def construct_event(cls, payload, secret):
         try:
-            event = jwt.decode(payload, secret)
+            event = jwt.decode(payload, secret, algorithms='HS256')
+
+            type_ = event['type']
+            event['data']['object'] = type_.split('.')[0]
 
             return WebhookEvent(
-                type_=event['type'],
-                data=event['data']
+                type_=type_,
+                data=_pm_convert_json_value(event['data'])
             )
         except jwt.exceptions.InvalidSignatureError:
             raise SignatureVerificationError()
