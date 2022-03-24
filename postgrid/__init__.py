@@ -37,11 +37,13 @@ def _snake_to_camel(s):
     new_s = ''
 
     # Convert e.g. letter_html to letter_HTML so that
-    # we transmit letterHTML as intended
+    # we transmit letterHTML as intended. However,
+    # if the abbrev is at the start of the word, then don't change it
     for abbrev in KNOWN_ABBREVS:
         lower_abbrev = abbrev.lower()
+        lower_abbrev_index = s.find(lower_abbrev)
 
-        if lower_abbrev in s:
+        if lower_abbrev_index > 0:
             s = s.replace(lower_abbrev, abbrev.upper())
 
     for i, ch in enumerate(s):
@@ -168,12 +170,9 @@ class PMError(Exception):
         self.message = message
 
 
-class PMResource:
-    def __init__(self, **kwargs):
-        self.__dict__.update(kwargs)
-
+class CreateableResource:
     @classmethod
-    def _create(cls, locals_):
+    def create(cls, locals_, parent_resource_id=None):
         assert 'cls' in locals_
         assert 'kwargs' in locals_
 
@@ -181,18 +180,22 @@ class PMResource:
             key: value for key, value in locals_.items() if key != 'kwargs' and key != 'cls'
         }
 
-        return _pm_post(cls.endpoint, **locals_except_kwargs_and_cls, **locals_['kwargs'])
+        return _pm_post(cls.endpoint.format(parent_resource_id), **locals_except_kwargs_and_cls, **locals_['kwargs'])
 
+
+class ProgressableResource:
     @classmethod
-    def _progress(cls, id):
+    def progress(cls, id):
         return _pm_post(f'{cls.endpoint}/{id}/progressions')
 
+
+class ListableResource:
     @classmethod
-    def list(cls, skip=0, limit=10):
-        return _pm_get(cls.endpoint, skip=skip, limit=limit)
+    def list(cls, skip=0, limit=10, parent_resource_id=None):
+        return _pm_get(cls.endpoint.format(parent_resource_id), skip=skip, limit=limit)
 
     @classmethod
-    def list_autopaginate(cls, max=None):
+    def list_autopaginate(cls, max=None, parent_resource_id=None):
         # We call the derived class's list method repeatedly
 
         # FIXME: Wasteful because we request MAX_LIMIT always and then potentially discard
@@ -202,7 +205,8 @@ class PMResource:
 
         while True:
             list_ = cls.list(skip=len(data),
-                             limit=MAX_LIMIT)
+                             limit=MAX_LIMIT,
+                             parent_resource_id=parent_resource_id)
 
             data.extend(list_.data)
             last_total_count = list_.total_count
@@ -222,16 +226,39 @@ class PMResource:
             data=data
         )
 
+
+class RetrieveableResource:
     @classmethod
-    def retrieve(cls, id, **kwargs):
-        return _pm_get(f'{cls.endpoint}/{id}', **kwargs)
+    def retrieve(cls, id, parent_resource_id=None, **kwargs):
+        return _pm_get(f'{cls.endpoint.format(parent_resource_id)}/{id}', **kwargs)
 
+
+class UpdatableResource:
     @classmethod
-    def delete(cls, id):
-        return _pm_delete(f'{cls.endpoint}/{id}')
+    def update(cls, id, locals_, parent_resource_id=None, **kwargs):
+        # HACK This is copied from create, the only difference is the endpoint
+        assert 'cls' in locals_
+        assert 'kwargs' in locals_
+
+        locals_except_kwargs_and_cls = {
+            key: value for key, value in locals_.items() if key != 'kwargs' and key != 'cls'
+        }
+
+        return _pm_post(f'{cls.endpoint.format(parent_resource_id)}/{id}', **locals_except_kwargs_and_cls, **locals_['kwargs'])
 
 
-class List(PMResource):
+class DeleteableResource:
+    @classmethod
+    def delete(cls, id, parent_resource_id=None):
+        return _pm_delete(f'{cls.endpoint.format(parent_resource_id)}/{id}')
+
+
+class BaseResource:
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
+
+
+class List:
     def __init__(self, object, total_count, skip, limit, data):
         self.object = object
         self.total_count = total_count
@@ -244,7 +271,11 @@ class List(PMResource):
         self.data = data
 
 
-class Contact(PMResource):
+class Contact(BaseResource,
+              CreateableResource,
+              RetrieveableResource,
+              ListableResource,
+              DeleteableResource):
     endpoint = 'contacts'
 
     @classmethod
@@ -252,18 +283,26 @@ class Contact(PMResource):
                company_name=None, address_line2=None, city=None,
                province_or_state=None, email=None, phone_number=None,
                job_title=None, postal_or_zip=None, **kwargs):
-        return cls._create(locals())
+        return super().create(locals())
 
 
-class Template(PMResource):
+class Template(BaseResource,
+               CreateableResource,
+               RetrieveableResource,
+               ListableResource,
+               DeleteableResource):
     endpoint = 'templates'
 
     @classmethod
     def create(cls, html, **kwargs):
-        return cls._create(locals())
+        return super().create(locals())
 
 
-class BankAccount(PMResource):
+class BankAccount(BaseResource,
+                  CreateableResource,
+                  RetrieveableResource,
+                  ListableResource,
+                  DeleteableResource):
     endpoint = 'bank_accounts'
 
     @classmethod
@@ -271,10 +310,15 @@ class BankAccount(PMResource):
                bank_country_code, transit_number=None, route_number=None,
                routing_number=None, signature_image=None, signature_text=None,
                bank_secondary_line=None, **kwargs):
-        return cls._create(locals())
+        return super().create(locals())
 
 
-class Letter(PMResource):
+class Letter(BaseResource,
+             CreateableResource,
+             RetrieveableResource,
+             ListableResource,
+             ProgressableResource,
+             DeleteableResource):
     endpoint = 'letters'
 
     @classmethod
@@ -282,28 +326,30 @@ class Letter(PMResource):
                express=None, address_placement=None, perforated_page=None, envelope_type=None,
                color=None, double_sided=None, return_envelope=None, send_date=None, merge_variables=None,
                **kwargs):
-        return cls._create(locals())
-
-    @classmethod
-    def progress(cls, id):
-        return cls._progress(id)
+        return super().create(locals())
 
 
-class Postcard(PMResource):
+class Postcard(BaseResource,
+               CreateableResource,
+               RetrieveableResource,
+               ListableResource,
+               ProgressableResource,
+               DeleteableResource):
     endpoint = 'postcards'
 
     @classmethod
     def create(cls, to, size, from_=None, front_template=None, back_template=None,
                front_html=None, back_html=None, pdf=None, express=None, send_date=None,
                merge_variables=None, **kwargs):
-        return cls._create(locals())
-
-    @classmethod
-    def progress(cls, id):
-        return cls._progress(id)
+        return super().create(locals())
 
 
-class Cheque(PMResource):
+class Cheque(BaseResource,
+             CreateableResource,
+             RetrieveableResource,
+             ListableResource,
+             ProgressableResource,
+             DeleteableResource):
     endpoint = 'cheques'
 
     @classmethod
@@ -311,11 +357,47 @@ class Cheque(PMResource):
                letter_html=None, letter_template=None, letter_pdf=None, extra_service=None,
                express=None, send_date=None, redirect_to=None, logo=None, currency_code=None,
                merge_variables=None, **kwargs):
-        return cls._create(locals())
+        return super().create(locals())
+
+
+class ReturnEnvelopeOrder(BaseResource,
+                          CreateableResource,
+                          RetrieveableResource,
+                          ListableResource,
+                          DeleteableResource):
+    endpoint = 'return_envelopes/{}/orders'
 
     @classmethod
-    def progress(cls, id):
-        return cls._progress(id)
+    def create(cls, return_envelope_id, quantity_ordered, **kwargs):
+        return super().create(locals(), parent_resource_id=return_envelope_id)
+
+    @classmethod
+    def retrieve(cls, return_envelope_id, id):
+        return super().retrieve(id, return_envelope_id)
+
+    @classmethod
+    def list(cls, return_envelope_id, skip=0, limit=10):
+        return super().list(skip, limit, return_envelope_id)
+
+    @classmethod
+    def list_autopaginate(cls, return_envelope_id, max=None):
+        return super().list_autopaginate(max, return_envelope_id)
+
+    @classmethod
+    def delete(cls, return_envelope_id, id):
+        return super().delete(id, return_envelope_id)
+
+
+class ReturnEnvelope(BaseResource,
+                     CreateableResource,
+                     RetrieveableResource,
+                     ListableResource,
+                     DeleteableResource):
+    endpoint = 'return_envelopes'
+
+    @classmethod
+    def create(cls, to):
+        return super().create(locals())
 
 
 class WebhookEvent:
@@ -328,18 +410,36 @@ class SignatureVerificationError(Exception):
     pass
 
 
-class Webhook(PMResource):
+class WebhookInvocation(BaseResource,
+                        ListableResource):
+    endpoint = 'webhooks/{}/invocations'
+
+    @classmethod
+    def list(cls, webhook_id, skip=0, limit=0):
+        return super().list(skip, limit, webhook_id)
+
+    @classmethod
+    def list_autopaginate(cls, webhook_id, max=None):
+        return super().list_autopaginate(max, webhook_id)
+
+
+class Webhook(BaseResource,
+              CreateableResource,
+              RetrieveableResource,
+              ListableResource,
+              UpdatableResource,
+              DeleteableResource):
     endpoint = 'webhooks'
 
     @classmethod
     def create(cls, enabled_events, url, **kwargs):
-        return cls._create(locals())
+        return cls.create(locals())
 
     @classmethod
-    def list_invocations(cls, id, skip=0, limit=10):
-        return _pm_get(cls.endpoint + f'/{id}/invocations', skip=skip, limit=limit)
+    def update(cls, id, enabled_events, url, **kwargs):
+        return cls.update(id, locals())
 
-    @classmethod
+    @ classmethod
     def construct_event(cls, payload, secret):
         try:
             event = jwt.decode(payload, secret)
@@ -354,11 +454,6 @@ class Webhook(PMResource):
             raise ValueError()
 
 
-class WebhookInvocation:
-    def __init__(self, **kwargs):
-        self.__dict__.update(kwargs)
-
-
 PM_OBJECT_TO_CLASS = {
     'contact': Contact,
     'template': Template,
@@ -368,6 +463,8 @@ PM_OBJECT_TO_CLASS = {
     'cheque': Cheque,
     'webhook': Webhook,
     'webhook_invocation': WebhookInvocation,
+    'return_envelope': ReturnEnvelope,
+    'return_envelope_order': ReturnEnvelopeOrder,
     'list': List
 }
 
