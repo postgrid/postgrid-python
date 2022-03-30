@@ -191,8 +191,8 @@ class ProgressableResource:
 
 class ListableResource:
     @classmethod
-    def list(cls, skip=0, limit=10, parent_resource_id=None):
-        return _pm_get(cls.endpoint.format(parent_resource_id), skip=skip, limit=limit)
+    def list(cls, skip=0, limit=10, parent_resource_id=None, search=None):
+        return _pm_get(cls.endpoint.format(parent_resource_id), skip=skip, limit=limit, search=search)
 
     @classmethod
     def list_autopaginate(cls, max=None, parent_resource_id=None):
@@ -376,8 +376,8 @@ class ReturnEnvelopeOrder(BaseResource,
         return super().retrieve(id, return_envelope_id)
 
     @classmethod
-    def list(cls, return_envelope_id, skip=0, limit=10):
-        return super().list(skip, limit, return_envelope_id)
+    def list(cls, return_envelope_id, skip=0, limit=10, search=None):
+        return super().list(skip, limit, return_envelope_id, search=search)
 
     @classmethod
     def list_autopaginate(cls, return_envelope_id, max=None):
@@ -418,8 +418,8 @@ class WebhookInvocation(BaseResource,
     endpoint = 'webhooks/{}/invocations'
 
     @classmethod
-    def list(cls, webhook_id, skip=0, limit=0):
-        return super().list(skip, limit, webhook_id)
+    def list(cls, webhook_id, skip=0, limit=0, search=None):
+        return super().list(skip, limit, webhook_id, search=search)
 
     @classmethod
     def list_autopaginate(cls, webhook_id, max=None):

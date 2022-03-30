@@ -45,6 +45,16 @@ def test_list():
     assert list_.data[0].html == letter.html
 
 
+def test_list_search():
+    letter = create_test_letter()
+    list_ = postgrid.Letter.list(search=f'{{"_id": "{letter.id}"}}')
+
+    assert list_.total_count >= 1
+    assert list_.skip == 0
+    assert isinstance(list_.data[0], postgrid.Letter)
+    assert list_.data[0].html == letter.html
+
+
 def test_delete():
     letter = create_test_letter()
     res = postgrid.Letter.delete(letter.id)
