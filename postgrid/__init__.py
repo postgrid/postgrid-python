@@ -195,7 +195,7 @@ class ListableResource:
         return _pm_get(cls.endpoint.format(parent_resource_id), skip=skip, limit=limit, search=search)
 
     @classmethod
-    def list_autopaginate(cls, max=None, parent_resource_id=None):
+    def list_autopaginate(cls, max=None, parent_resource_id=None, search=None):
         # We call the derived class's list method repeatedly
 
         # FIXME: Wasteful because we request MAX_LIMIT always and then potentially discard
@@ -206,7 +206,8 @@ class ListableResource:
         while True:
             list_ = cls.list(skip=len(data),
                              limit=MAX_LIMIT,
-                             parent_resource_id=parent_resource_id)
+                             parent_resource_id=parent_resource_id,
+                             search=search)
 
             data.extend(list_.data)
             last_total_count = list_.total_count
@@ -380,8 +381,8 @@ class ReturnEnvelopeOrder(BaseResource,
         return super().list(skip, limit, return_envelope_id, search=search)
 
     @classmethod
-    def list_autopaginate(cls, return_envelope_id, max=None):
-        return super().list_autopaginate(max, return_envelope_id)
+    def list_autopaginate(cls, return_envelope_id, max=None, search=None):
+        return super().list_autopaginate(max, return_envelope_id, search=search)
 
     @classmethod
     def fill(cls, return_envelope_id, id):
@@ -422,8 +423,8 @@ class WebhookInvocation(BaseResource,
         return super().list(skip, limit, webhook_id, search=search)
 
     @classmethod
-    def list_autopaginate(cls, webhook_id, max=None):
-        return super().list_autopaginate(max, webhook_id)
+    def list_autopaginate(cls, webhook_id, max=None, search=None):
+        return super().list_autopaginate(max, webhook_id, search=search)
 
 
 class Webhook(BaseResource,
