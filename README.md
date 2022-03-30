@@ -5,9 +5,17 @@ conveniently from applications written in Python. It contains classes representi
 every resource in the PostGrid Print & Mail API and methods which create and operate
 on these resources.
 
+## Installation
+
+In order to install this package, run
+
+```bash
+pip install --upgrade postgrid-python
+```
+
 ### Requirements
 
-- Python 3.4+
+- Python 3.6+
 
 ## Usage
 
