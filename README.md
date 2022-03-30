@@ -103,3 +103,8 @@ except postgrid.PMError as e:
 
     raise e
 ```
+
+## Support
+
+Email `support@postgrid.com` if you face any errors with the API or create issues in the
+`postgrid-python` GitHub if you face issues with the SDK itself.
