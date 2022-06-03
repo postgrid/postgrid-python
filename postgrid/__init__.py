@@ -37,10 +37,10 @@ def _snake_to_camel(s):
     new_s = ''
 
     # Convert e.g. letter_html to letter_HTML so that
-    # we transmit letterHTML as intended. However,
-    # if the abbrev is at the start of the word, then don't change it
+    # we transmit letterHTML as intended. We match on the '_' + abbrev
+    # so that we don't replace e.g. double_sided with double_sIDed.
     for abbrev in KNOWN_ABBREVS:
-        lower_abbrev = abbrev.lower()
+        lower_abbrev = f'_{abbrev.lower()}'
         lower_abbrev_index = s.find(lower_abbrev)
 
         if lower_abbrev_index > 0:
