@@ -26,7 +26,10 @@ def create_test_letter():
         },
         html='Hello, {{to.firstName}}',
         double_sided=True,
-        color=True
+        color=True,
+        merge_variables={
+            'testCamel': 1
+        }
     )
 
 

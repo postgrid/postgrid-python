@@ -30,7 +30,7 @@ def _camel_to_snake(s):
         else:
             new_s += ch
 
-    return new_s
+    return new_s.lower()
 
 
 def _snake_to_camel(s):
@@ -67,7 +67,9 @@ def _map_keys_recursive(d, fn):
     new_d = {}
 
     for key, value in d.items():
-        new_d[fn(key)] = _map_keys_recursive(value, fn)
+        # HACK We should not mess with the camel/snake casing of merge variables/metadata
+        new_d[fn(key)] = value if key == 'metadata' or key == 'mergeVariables' \
+            else _map_keys_recursive(value, fn)
 
     return new_d
 
