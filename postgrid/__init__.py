@@ -116,6 +116,8 @@ def _request(base, endpoint, method='GET', **kwargs):
             elif isinstance(value, list):
                 for inner_value in value:
                     flatten(f'{key}[]', inner_value)
+            elif isinstance(value, bool):
+                data.append((key, 'true' if value else 'false'))
             elif value is not None:
                 data.append((key, value))
 
