@@ -30,17 +30,17 @@ def _camel_to_snake(s):
         else:
             new_s += ch
 
-    return new_s
+    return new_s.lower()
 
 
 def _snake_to_camel(s):
     new_s = ''
 
     # Convert e.g. letter_html to letter_HTML so that
-    # we transmit letterHTML as intended. However,
-    # if the abbrev is at the start of the word, then don't change it
+    # we transmit letterHTML as intended. We match on the '_' + abbrev
+    # so that we don't replace e.g. double_sided with double_sIDed.
     for abbrev in KNOWN_ABBREVS:
-        lower_abbrev = abbrev.lower()
+        lower_abbrev = f'_{abbrev.lower()}'
         lower_abbrev_index = s.find(lower_abbrev)
 
         if lower_abbrev_index > 0:
@@ -67,7 +67,9 @@ def _map_keys_recursive(d, fn):
     new_d = {}
 
     for key, value in d.items():
-        new_d[fn(key)] = _map_keys_recursive(value, fn)
+        # HACK We should not mess with the camel/snake casing of merge variables/metadata
+        new_d[fn(key)] = value if key == 'metadata' or key == 'mergeVariables' \
+            else _map_keys_recursive(value, fn)
 
     return new_d
 
@@ -116,6 +118,8 @@ def _request(base, endpoint, method='GET', **kwargs):
             elif isinstance(value, list):
                 for inner_value in value:
                     flatten(f'{key}[]', inner_value)
+            elif isinstance(value, bool):
+                data.append((key, 'true' if value else 'false'))
             elif value is not None:
                 data.append((key, value))
 

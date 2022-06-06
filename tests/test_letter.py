@@ -24,7 +24,12 @@ def create_test_letter():
             'address_line1': '20 Bay St, Toronto, ON M9V 4V1',
             'country_code': 'CA'
         },
-        html='Hello, {{to.firstName}}'
+        html='Hello, {{to.firstName}}',
+        double_sided=True,
+        color=True,
+        merge_variables={
+            'testCamel': 1
+        }
     )
 
 
@@ -33,6 +38,8 @@ def test_create():
 
     assert isinstance(letter, postgrid.Letter)
     assert isinstance(letter.html, str)
+    assert letter.double_sided
+    assert letter.color
 
 
 def test_list():
