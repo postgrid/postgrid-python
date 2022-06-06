@@ -6,7 +6,7 @@ README = (HERE / 'README.md').read_text()
 
 setuptools.setup(
     name='postgrid-python',
-    version='1.0.5',
+    version='1.0.6',
     description='A Python Library for the PostGrid Print & Mail API',
     long_description=README,
     long_description_content_type='text/markdown',
