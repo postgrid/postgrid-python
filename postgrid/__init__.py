@@ -295,12 +295,17 @@ class Template(BaseResource,
                CreateableResource,
                RetrieveableResource,
                ListableResource,
+               UpdatableResource,
                DeleteableResource):
     endpoint = 'templates'
 
     @classmethod
     def create(cls, html, **kwargs):
         return super().create(locals())
+
+    @classmethod
+    def update(cls, id, html, **kwargs):
+        return cls.update(id, locals())
 
 
 class BankAccount(BaseResource,
