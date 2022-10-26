@@ -35,7 +35,7 @@ letter = postgrid.Letter.create(
         'address_line1': '145 Mulberry St, Apt PH D, New York NY 10013',
         'country_code': 'US'
     },
-    from={
+    from_={
         'first_name': 'Kevin',
         'last_name': 'Villena',
         'address_line1': '90 Canal St',

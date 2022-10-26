@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "postgrid-python"
+version = "1.0.9"
+description = "A Python Library for the PostGrid Print & Mail API"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = ["requests", "pyjwt"]
+
+[project.urls]
+"Homepage" = "https://github.com/postgrid/postgrid-python"
+"Bug Tracker" = "https://github.com/postgrid/postgrid-python/issues"
