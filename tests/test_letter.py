@@ -28,7 +28,8 @@ def create_test_letter():
         double_sided=True,
         color=True,
         merge_variables={
-            'testCamel': 1
+            'testCamel': 1,
+            'test_snake': 1
         }
     )
 
@@ -40,6 +41,8 @@ def test_create():
     assert isinstance(letter.html, str)
     assert letter.double_sided
     assert letter.color
+    assert letter.merge_variables.get('testCamel') == '1'
+    assert letter.merge_variables.get('test_snake') == '1'
 
 
 def test_list():

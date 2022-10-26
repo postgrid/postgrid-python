@@ -68,7 +68,7 @@ def _map_keys_recursive(d, fn):
 
     for key, value in d.items():
         # HACK We should not mess with the camel/snake casing of merge variables/metadata
-        new_d[fn(key)] = value if key == 'metadata' or key == 'mergeVariables' \
+        new_d[fn(key)] = value if key == 'metadata' or key == 'merge_variables' \
             else _map_keys_recursive(value, fn)
 
     return new_d
@@ -481,8 +481,19 @@ PM_OBJECT_TO_CLASS = {
 
 
 def _pm_convert_json_value(value):
-    for key, inner_value in value.items():
-        if key != 'metadata' and key != 'merge_variables' and isinstance(inner_value, dict) and 'object' in inner_value:
-            value[_camel_to_snake(key)] = _pm_convert_json_value(inner_value)
+    new_value = {}
 
-    return PM_OBJECT_TO_CLASS[value['object']](**_map_keys_recursive(value, _camel_to_snake))
+    for key, inner_value in value.items():
+        # HACK We convert mergeVariables to merge_variables but we
+        # do not convert the inner value
+        if key == 'mergeVariables' and isinstance(inner_value, dict):
+            new_value[_camel_to_snake(key)] = inner_value
+            continue
+
+        if key != 'metadata' and isinstance(inner_value, dict) and 'object' in inner_value:
+            new_value[_camel_to_snake(key)] = _pm_convert_json_value(inner_value)
+            continue
+
+        new_value[key] = inner_value
+
+    return PM_OBJECT_TO_CLASS[new_value['object']](**_map_keys_recursive(new_value, _camel_to_snake))
