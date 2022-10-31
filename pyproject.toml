@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "postgrid-python"
-version = "1.0.9"
+version = "1.0.10"
 description = "A Python Library for the PostGrid Print & Mail API"
 readme = "README.md"
 requires-python = ">=3.6"
