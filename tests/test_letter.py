@@ -1,5 +1,6 @@
 import postgrid
 import os
+import time
 
 
 def setup_module():
@@ -44,6 +45,16 @@ def test_create():
     assert letter.merge_variables.get('testCamel') == '1'
     assert letter.merge_variables.get('test_snake') == '1'
 
+def test_preview_generated():
+    letter = create_test_letter()
+
+    assert isinstance(letter, postgrid.Letter)
+
+    time.sleep(5)
+
+    letter = postgrid.Letter.retrieve(letter.id)
+
+    assert letter.url is not None
 
 def test_list():
     letter = create_test_letter()

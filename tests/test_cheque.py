@@ -1,5 +1,6 @@
 import postgrid
 import os
+import time
 
 
 def setup_module():
@@ -47,6 +48,17 @@ def test_create():
     assert isinstance(cheque, postgrid.Cheque)
     assert isinstance(cheque.letter_html, str)
 
+
+def test_preview_generated():
+    cheque = create_test_cheque()
+
+    assert isinstance(cheque, postgrid.Cheque)
+
+    time.sleep(5)
+
+    cheque = postgrid.Cheque.retrieve(cheque.id)
+
+    assert cheque.url is not None
 
 def test_delete():
     cheque = create_test_cheque()
