@@ -54,7 +54,7 @@ def test_preview_generated():
 
     letter = postgrid.Letter.retrieve(letter.id)
 
-    assert letter.url is not None
+    assert isinstance(letter.url, str)
 
 def test_list():
     letter = create_test_letter()

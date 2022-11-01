@@ -58,7 +58,7 @@ def test_preview_generated():
 
     cheque = postgrid.Cheque.retrieve(cheque.id)
 
-    assert cheque.url is not None
+    assert isinstance(cheque.url, str)
 
 def test_delete():
     cheque = create_test_cheque()
