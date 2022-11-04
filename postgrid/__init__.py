@@ -441,11 +441,11 @@ class Webhook(BaseResource,
 
     @classmethod
     def create(cls, enabled_events, url, **kwargs):
-        return cls.create(locals())
+        return super().create(locals())
 
     @classmethod
     def update(cls, id, enabled_events, url, **kwargs):
-        return cls.update(id, locals())
+        return super().update(id, locals())
 
     @ classmethod
     def construct_event(cls, payload, secret):
