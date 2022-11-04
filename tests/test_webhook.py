@@ -16,3 +16,13 @@ def test_construct_event():
     assert isinstance(event, postgrid.WebhookEvent)
     assert event.type == TEST_PAYLOAD_EVENT_TYPE
     assert isinstance(event.data, postgrid.Postcard)
+
+def create_test_webhook():
+    return postgrid.Webhook.create(
+        enabled_events=['letter.created', 'postcard.updated'],
+        url='https://path-to-your-webhook-listener.com'
+    )
+
+def test_create():
+    webhook=create_test_webhook()
+    assert isinstance(webhook, postgrid.Webhook)
