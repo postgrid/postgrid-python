@@ -54,7 +54,7 @@ def test_preview_generated():
 
     assert isinstance(cheque, postgrid.Cheque)
 
-    time.sleep(5)
+    time.sleep(10)
 
     cheque = postgrid.Cheque.retrieve(cheque.id)
 
