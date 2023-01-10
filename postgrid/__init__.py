@@ -305,7 +305,7 @@ class Template(BaseResource,
 
     @classmethod
     def update(cls, id, html, **kwargs):
-        return cls.update(id, locals())
+        return super().update(id, locals())
 
 
 class BankAccount(BaseResource,
