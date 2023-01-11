@@ -27,11 +27,9 @@ def test_create():
     assert template.description == 'Test'
 
 
-def test_preview_generated(): 
+def test_retrieve(): 
     template = create_test_template()
     assert isinstance(template, postgrid.Template)
-
-    time.sleep(5)
 
     template = postgrid.Template.retrieve(template.id)
     assert isinstance(template, postgrid.Template)
