@@ -159,7 +159,7 @@ def _request(base, endpoint, method="GET", idempotency_key=None, **kwargs):
     if base == pm_base:
         return _pm_convert_json_value(value)
     else:
-        return _av_convert_json_value(value)
+        return value
 
 
 def _pm_get(endpoint, **kwargs):
@@ -587,11 +587,22 @@ class RetrieveableAVResource:
     def retrieve(cls, locals_):
         assert 'cls' in locals_
 
-        locals_except_kwargs_and_cls = {
+        locals_except_cls = {
             key: value for key, value in locals_.items() if key != 'cls'
         }
 
-        return _av_get(cls.endpoint, **locals_except_kwargs_and_cls)
+        return _av_get(cls.endpoint, **locals_except_cls)
+
+class CreateableAVResource:
+    @classmethod
+    def create(cls, locals_):
+        assert 'cls' in locals_
+
+        locals_except_cls = {
+            key: value for key, value in locals_.items() if key != 'cls'
+        }
+
+        return _av_post(cls.endpoint, **locals_except_cls)
 
 def _av_get(endpoint, **kwargs):
     return _request(av_base, endpoint, method='GET', **kwargs)
@@ -601,46 +612,61 @@ def _av_post(endpoint, **kwargs):
     return _request(av_base, endpoint, method='POST', **kwargs)
     
 
-class Address(RetrieveableAVResource, UpdatableResource): 
+def _batch_verify(endpoint, json):
+    headers = {'x-api-key': av_key}
+
+    res = requests.post(av_base + endpoint, json=json, headers=headers)
+    value = res.json()
+    try:
+        res.raise_for_status()
+    except requests.HTTPError as e:
+            raise AVError(status_code=res.status_code,
+                          message=value['message'])
+    return value
+
+
+class Address(RetrieveableAVResource, CreateableAVResource): 
     endpoint = 'addver'
 
     @classmethod
     def lookup_info(cls):
         return super().retrieve(locals())
 
-    # @classmethod
-    # def verify(cls, address=None):
-    #     endpoint = 'addver/verifications'
-    #     return super().create(locals())
+    @classmethod
+    def verify(cls, address=None):
+        cls.endpoint += '/verifications'
+        return super().create(locals())
 
     @classmethod
     def autocomplete_previews(cls, partial_street=None, country_filter=None, prov_instead_of_pc=None):
         cls.endpoint += '/completions'
         return super().retrieve(locals())
 
-    # @classmethod
-    # def autocomplete_address(cls, partial_street=None, city_filter=None, state_filter=None, pc_filter=None, country_filter=None):
-    #     endpoint = 'addver/completions'
-    #     return super().create(locals())
+    @classmethod
+    def autocomplete_address(cls, partial_street=None, city_filter=None, state_filter=None, pc_filter=None, country_filter=None, index=0):
+        cls.endpoint += f'/completions?index={index}'
+        return super().create(locals())
 
-    # @classmethod
-    # def batch_verify(cls, raw_body=None):
-    #     endpoint = 'addver/verifications/batch'
-    #     return super().create(locals())
+    @classmethod
+    def batch_verify(cls, raw_body=None, include_details=True, proper_case=True, geocode=True):
+        cls.endpoint += f'/verifications/batch?includeDetails={str(include_details).lower()}&properCase={str(proper_case).lower()}&geocode={str(geocode).lower()}'
+        print(cls.endpoint)
+        return _batch_verify(cls.endpoint, raw_body)
 
-    # @classmethod
-    # def suggest_addresses(cls, address=None):
-    #     return super().create(locals())
+    @classmethod
+    def suggest_addresses(cls, address=None, include_details=True):
+        cls.endpoint += f'/suggestions?includeDetails={str(include_details).lower()}'
+        return super().create(locals())
 
-    # @classmethod
-    # def parse_address(cls, address=None):
-    #     endpoint = 'addver/parses'
-    #     return super().create(locals())
+    @classmethod
+    def parse_address(cls, address=None):
+        cls.endpoint += '/parses'
+        return super().create(locals())
 
-    # @classmethod
-    # def lookup_city_state(cls, postal_or_zip=None):
-    #     endpoint = 'addver/city_states'
-    #     return super().create(locals())
+    @classmethod
+    def lookup_city_state(cls, postal_or_zip=None):
+        cls.endpoint += '/city_states'
+        return super().create(locals())
 
 
 PM_OBJECT_TO_CLASS = {
@@ -680,6 +706,3 @@ def _pm_convert_json_value(value):
 
     return PM_OBJECT_TO_CLASS[new_value['object']](**_map_keys_recursive(new_value, _camel_to_snake))
 
-def _av_convert_json_value(value):
-
-    return value
