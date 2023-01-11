@@ -153,12 +153,13 @@ def _request(base, endpoint, method="GET", idempotency_key=None, **kwargs):
                 message=value["error"]["message"],
             )
         else:
-            raise NotImplementedError()
+            raise AVError(status_code=res.status_code,
+                          message=value['message'])
 
     if base == pm_base:
         return _pm_convert_json_value(value)
     else:
-        raise NotImplementedError()
+        return _av_convert_json_value(value)
 
 
 def _pm_get(endpoint, **kwargs):
@@ -180,6 +181,13 @@ class PMError(Exception):
         self.status_code = status_code
         self.object = object
         self.type = type
+        self.message = message
+
+class AVError(Exception):
+    def __init__(self, status_code, message):
+        super().__init__(message)
+
+        self.status_code = status_code
         self.message = message
 
 
@@ -574,46 +582,65 @@ class Webhook(
             raise ValueError()
 
 
-class Address(BaseResource, RetrieveableResource, UpdatableResource): 
+class RetrieveableAVResource:
+    @classmethod
+    def retrieve(cls, locals_):
+        assert 'cls' in locals_
+
+        locals_except_kwargs_and_cls = {
+            key: value for key, value in locals_.items() if key != 'cls'
+        }
+
+        return _av_get(cls.endpoint, **locals_except_kwargs_and_cls)
+
+def _av_get(endpoint, **kwargs):
+    return _request(av_base, endpoint, method='GET', **kwargs)
+
+
+def _av_post(endpoint, **kwargs):
+    return _request(av_base, endpoint, method='POST', **kwargs)
+    
+
+class Address(RetrieveableAVResource, UpdatableResource): 
     endpoint = 'addver'
 
     @classmethod
     def lookup_info(cls):
         return super().retrieve(locals())
 
-    @classmethod
-    def verify(cls, address=None):
-        endpoint = 'addver/verifications'
-        return super().create(locals())
+    # @classmethod
+    # def verify(cls, address=None):
+    #     endpoint = 'addver/verifications'
+    #     return super().create(locals())
 
     @classmethod
     def autocomplete_previews(cls, partial_street=None, country_filter=None, prov_instead_of_pc=None):
-        endpoint = 'addver/completions'
+        cls.endpoint += '/completions'
         return super().retrieve(locals())
 
-    @classmethod
-    def autocomplete_address(cls, partial_street=None, city_filter=None, state_filter=None, pc_filter=None, country_filter=None):
-        endpoint = 'addver/completions'
-        return super().create(locals())
+    # @classmethod
+    # def autocomplete_address(cls, partial_street=None, city_filter=None, state_filter=None, pc_filter=None, country_filter=None):
+    #     endpoint = 'addver/completions'
+    #     return super().create(locals())
 
-    @classmethod
-    def batch_verify(cls, raw_body=None):
-        endpoint = 'addver/verifications/batch'
-        return super().create(locals())
+    # @classmethod
+    # def batch_verify(cls, raw_body=None):
+    #     endpoint = 'addver/verifications/batch'
+    #     return super().create(locals())
 
-    @classmethod
-    def suggest_addresses(cls, address=None):
-        return super().create(locals())
+    # @classmethod
+    # def suggest_addresses(cls, address=None):
+    #     return super().create(locals())
 
-    @classmethod
-    def parse_address(cls, address=None):
-        endpoint = 'addver/parses'
-        return super().create(locals())
+    # @classmethod
+    # def parse_address(cls, address=None):
+    #     endpoint = 'addver/parses'
+    #     return super().create(locals())
 
-    @classmethod
-    def lookup_city_state(cls, postal_or_zip=None):
-        endpoint = 'addver/city_states'
-        return super().create(locals())
+    # @classmethod
+    # def lookup_city_state(cls, postal_or_zip=None):
+    #     endpoint = 'addver/city_states'
+    #     return super().create(locals())
 
 
 PM_OBJECT_TO_CLASS = {
@@ -651,6 +678,8 @@ def _pm_convert_json_value(value):
 
         new_value[key] = inner_value
 
-    return PM_OBJECT_TO_CLASS[new_value["object"]](
-        **_map_keys_recursive(new_value, _camel_to_snake)
-    )
+    return PM_OBJECT_TO_CLASS[new_value['object']](**_map_keys_recursive(new_value, _camel_to_snake))
+
+def _av_convert_json_value(value):
+
+    return value
