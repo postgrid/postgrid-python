@@ -183,6 +183,7 @@ class PMError(Exception):
         self.type = type
         self.message = message
 
+
 class AVError(Exception):
     def __init__(self, status_code, message):
         super().__init__(message)
@@ -593,6 +594,7 @@ class RetrieveableAVResource:
 
         return _av_get(cls.endpoint, **locals_except_cls)
 
+
 class CreateableAVResource:
     @classmethod
     def create(cls, locals_):
@@ -604,13 +606,14 @@ class CreateableAVResource:
 
         return _av_post(cls.endpoint, **locals_except_cls)
 
+
 def _av_get(endpoint, **kwargs):
     return _request(av_base, endpoint, method='GET', **kwargs)
 
 
 def _av_post(endpoint, **kwargs):
     return _request(av_base, endpoint, method='POST', **kwargs)
-    
+
 
 def _batch_verify(endpoint, json):
     headers = {'x-api-key': av_key}
@@ -620,12 +623,12 @@ def _batch_verify(endpoint, json):
     try:
         res.raise_for_status()
     except requests.HTTPError as e:
-            raise AVError(status_code=res.status_code,
-                          message=value['message'])
+        raise AVError(status_code=res.status_code,
+                      message=value['message'])
     return value
 
 
-class Address(RetrieveableAVResource, CreateableAVResource): 
+class Address(RetrieveableAVResource, CreateableAVResource):
     endpoint = 'addver'
 
     @classmethod
@@ -705,4 +708,3 @@ def _pm_convert_json_value(value):
         new_value[key] = inner_value
 
     return PM_OBJECT_TO_CLASS[new_value['object']](**_map_keys_recursive(new_value, _camel_to_snake))
-
