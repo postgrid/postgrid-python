@@ -574,6 +574,48 @@ class Webhook(
             raise ValueError()
 
 
+class Address(BaseResource, RetrieveableResource, UpdatableResource): 
+    endpoint = 'addver'
+
+    @classmethod
+    def lookup_info(cls):
+        return super().retrieve(locals())
+
+    @classmethod
+    def verify(cls, address=None):
+        endpoint = 'addver/verifications'
+        return super().create(locals())
+
+    @classmethod
+    def autocomplete_previews(cls, partial_street=None, country_filter=None, prov_instead_of_pc=None):
+        endpoint = 'addver/completions'
+        return super().retrieve(locals())
+
+    @classmethod
+    def autocomplete_address(cls, partial_street=None, city_filter=None, state_filter=None, pc_filter=None, country_filter=None):
+        endpoint = 'addver/completions'
+        return super().create(locals())
+
+    @classmethod
+    def batch_verify(cls, raw_body=None):
+        endpoint = 'addver/verifications/batch'
+        return super().create(locals())
+
+    @classmethod
+    def suggest_addresses(cls, address=None):
+        return super().create(locals())
+
+    @classmethod
+    def parse_address(cls, address=None):
+        endpoint = 'addver/parses'
+        return super().create(locals())
+
+    @classmethod
+    def lookup_city_state(cls, postal_or_zip=None):
+        endpoint = 'addver/city_states'
+        return super().create(locals())
+
+
 PM_OBJECT_TO_CLASS = {
     "contact": Contact,
     "template": Template,
