@@ -1,6 +1,5 @@
 import postgrid
 import os
-import time
 
 
 def setup_module():
@@ -9,8 +8,8 @@ def setup_module():
 
 def create_test_template():
     return postgrid.Template.create(
-        html = '<b>test</b> template, hello {{to.firstName}}!',
-        description = 'Test',
+        html='<b>test</b> template, hello {{to.firstName}}!',
+        description='Test',
         metadata={
             'test': [10, 20]
         }
@@ -27,7 +26,7 @@ def test_create():
     assert template.description == 'Test'
 
 
-def test_retrieve(): 
+def test_retrieve():
     template = create_test_template()
     assert isinstance(template, postgrid.Template)
 
@@ -50,9 +49,10 @@ def test_update():
     template = create_test_template()
     assert isinstance(template, postgrid.Template)
 
-    template = postgrid.Template.update(template.id, html = 'updated template', description = 'updated description')
+    template = postgrid.Template.update(
+        template.id, html='updated template', description='updated description')
     assert isinstance(template, postgrid.Template)
-    assert template.html =='updated template'
+    assert template.html == 'updated template'
     assert template.description == 'updated description'
 
 
