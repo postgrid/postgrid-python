@@ -637,38 +637,38 @@ class Address(RetrieveableAVResource, CreateableAVResource):
 
     @classmethod
     def verify(cls, address=None):
-        cls.endpoint += '/verifications'
+        cls.endpoint = 'addver/verifications'
         return super().create(locals())
 
     @classmethod
     def autocomplete_previews(cls, partial_street=None, country_filter=None, prov_instead_of_pc=None):
-        cls.endpoint += '/completions'
+        cls.endpoint = 'addver/completions'
         return super().retrieve(locals())
 
     @classmethod
     def autocomplete_address(cls, partial_street=None, city_filter=None, state_filter=None, pc_filter=None, country_filter=None, index=0):
-        cls.endpoint += f'/completions?index={index}'
+        cls.endpoint = f'addver/completions?index={index}'
         return super().create(locals())
 
     @classmethod
     def batch_verify(cls, raw_body=None, include_details=True, proper_case=True, geocode=True):
-        cls.endpoint += f'/verifications/batch?includeDetails={str(include_details).lower()}&properCase={str(proper_case).lower()}&geocode={str(geocode).lower()}'
+        cls.endpoint = f'addver/verifications/batch?includeDetails={str(include_details).lower()}&properCase={str(proper_case).lower()}&geocode={str(geocode).lower()}'
         print(cls.endpoint)
         return _batch_verify(cls.endpoint, raw_body)
 
     @classmethod
     def suggest_addresses(cls, address=None, include_details=True):
-        cls.endpoint += f'/suggestions?includeDetails={str(include_details).lower()}'
+        cls.endpoint = f'addver/suggestions?includeDetails={str(include_details).lower()}'
         return super().create(locals())
 
     @classmethod
     def parse_address(cls, address=None):
-        cls.endpoint += '/parses'
+        cls.endpoint = 'addver/parses'
         return super().create(locals())
 
     @classmethod
     def lookup_city_state(cls, postal_or_zip=None):
-        cls.endpoint += '/city_states'
+        cls.endpoint = 'addver/city_states'
         return super().create(locals())
 
 
