@@ -709,6 +709,7 @@ def _pm_convert_json_value(value):
 
     return PM_OBJECT_TO_CLASS[new_value['object']](**_map_keys_recursive(new_value, _camel_to_snake))
 
+
 def _av_convert_json_value(value):
     new_value = {}
     for key, inner_value in value.items():
@@ -717,11 +718,11 @@ def _av_convert_json_value(value):
                 key)] = _av_convert_json_value(inner_value)
             continue
         elif isinstance(inner_value, list):
-            for i in range (len(inner_value)):
+            for i in range(len(inner_value)):
                 if (isinstance(inner_value[i], dict)):
                     inner_value[i] = _av_convert_json_value(inner_value[i])
             new_value[_camel_to_snake(key)] = inner_value
             continue
         new_value[key] = inner_value
-        
+
     return Address(**_map_keys_recursive(new_value, _camel_to_snake))
