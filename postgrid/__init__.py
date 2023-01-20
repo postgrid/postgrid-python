@@ -595,9 +595,9 @@ class RetrieveableAVResource:
         return _av_get(cls.endpoint, **locals_except_cls)
 
 
-class CreateableAVResource:
+class PostableAVResource:
     @classmethod
-    def create(cls, locals_):
+    def post(cls, locals_):
         assert 'cls' in locals_
 
         locals_except_cls = {
@@ -628,7 +628,7 @@ def _batch_verify(endpoint, json):
     return _av_convert_json_value(value)
 
 
-class Address(BaseResource, RetrieveableAVResource, CreateableAVResource):
+class Address(BaseResource, RetrieveableAVResource, PostableAVResource):
     endpoint = 'addver'
 
     @classmethod
@@ -638,7 +638,7 @@ class Address(BaseResource, RetrieveableAVResource, CreateableAVResource):
     @classmethod
     def verify(cls, address=None):
         cls.endpoint = 'addver/verifications'
-        return super().create(locals())
+        return super().post(locals())
 
     @classmethod
     def autocomplete_previews(cls, partial_street=None, country_filter=None, prov_instead_of_pc=None):
@@ -648,7 +648,7 @@ class Address(BaseResource, RetrieveableAVResource, CreateableAVResource):
     @classmethod
     def autocomplete_address(cls, partial_street=None, city_filter=None, state_filter=None, pc_filter=None, country_filter=None, index=0):
         cls.endpoint = f'addver/completions?index={index}'
-        return super().create(locals())
+        return super().post(locals())
 
     @classmethod
     def batch_verify(cls, raw_body=None, include_details=True, proper_case=True, geocode=True):
@@ -659,17 +659,17 @@ class Address(BaseResource, RetrieveableAVResource, CreateableAVResource):
     @classmethod
     def suggest_addresses(cls, address=None, include_details=True):
         cls.endpoint = f'addver/suggestions?includeDetails={str(include_details).lower()}'
-        return super().create(locals())
+        return super().post(locals())
 
     @classmethod
     def parse_address(cls, address=None):
         cls.endpoint = 'addver/parses'
-        return super().create(locals())
+        return super().post(locals())
 
     @classmethod
     def lookup_city_state(cls, postal_or_zip=None):
         cls.endpoint = 'addver/city_states'
-        return super().create(locals())
+        return super().post(locals())
 
 
 PM_OBJECT_TO_CLASS = {
