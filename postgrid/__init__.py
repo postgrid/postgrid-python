@@ -583,13 +583,57 @@ class Webhook(
             raise ValueError()
 
 
+def _av_post_request(base, endpoint, json=None, data=None, params=None):
+    data = _map_keys_recursive(data, _snake_to_camel)
+    params = _map_keys_recursive(params, _snake_to_camel)
+
+    headers = {'x-api-key': av_key}
+    data_to_pass = []
+    params_to_pass = []
+
+    def flatten(arr, key, value):
+        if isinstance(value, dict):
+            for inner_key, inner_value in value.items():
+                flatten(arr, f'{key}[{inner_key}]', inner_value)
+        elif isinstance(value, list):
+            for inner_value in value:
+                flatten(arr, f'{key}[]', inner_value)
+        elif isinstance(value, bool):
+            arr.append((key, 'true' if value else 'false'))
+        elif value is not None:
+            arr.append((key, value))
+
+    if data:
+        for key, value in data.items():
+            flatten(data_to_pass, key, value)
+
+    if params:
+        for key, value in params.items():
+            flatten(params_to_pass, key, value)
+
+    res = requests.post(
+        base + endpoint,
+        json=json,
+        data=data_to_pass,
+        params=params_to_pass,
+        headers=headers,
+    )
+    value = res.json()
+
+    try:
+        res.raise_for_status()
+    except requests.HTTPError as e:
+        raise AVError(status_code=res.status_code, message=value['message'])
+    return _av_convert_json_value(value)
+
+
 class RetrieveableAVResource:
     @classmethod
     def retrieve(cls, locals_):
-        assert 'cls' in locals_
+        assert "cls" in locals_
 
         locals_except_cls = {
-            key: value for key, value in locals_.items() if key != 'cls'
+            key: value for key, value in locals_.items() if key != "cls"
         }
 
         return _av_get(cls.endpoint, **locals_except_cls)
@@ -597,35 +641,23 @@ class RetrieveableAVResource:
 
 class PostableAVResource:
     @classmethod
-    def post(cls, locals_):
-        assert 'cls' in locals_
+    def post(cls, **kwargs):
 
-        locals_except_cls = {
-            key: value for key, value in locals_.items() if key != 'cls'
-        }
+        data = kwargs.get('data', None)
+        params = kwargs.get('params', None)
+        json = kwargs.get('json', None)
 
-        return _av_post(cls.endpoint, **locals_except_cls)
+        return _av_post_request(
+            av_base, cls.endpoint, json=json, data=data, params=params
+        )
 
 
 def _av_get(endpoint, **kwargs):
     return _request(av_base, endpoint, method='GET', **kwargs)
 
 
-def _av_post(endpoint, **kwargs):
-    return _request(av_base, endpoint, method='POST', **kwargs)
-
-
-def _batch_verify(endpoint, json):
-    headers = {'x-api-key': av_key}
-
-    res = requests.post(av_base + endpoint, json=json, headers=headers)
-    value = res.json()
-    try:
-        res.raise_for_status()
-    except requests.HTTPError as e:
-        raise AVError(status_code=res.status_code,
-                      message=value['message'])
-    return _av_convert_json_value(value)
+def create_dict(**kwargs):
+    return locals()['kwargs']
 
 
 class Address(BaseResource, RetrieveableAVResource, PostableAVResource):
@@ -638,38 +670,67 @@ class Address(BaseResource, RetrieveableAVResource, PostableAVResource):
     @classmethod
     def verify(cls, address=None):
         cls.endpoint = 'addver/verifications'
-        return super().post(locals())
+        return super().post(data=locals())
 
     @classmethod
-    def autocomplete_previews(cls, partial_street=None, country_filter=None, prov_instead_of_pc=None):
+    def autocomplete_previews(
+        cls, partial_street=None, country_filter=None, prov_instead_of_pc=None
+    ):
         cls.endpoint = 'addver/completions'
         return super().retrieve(locals())
 
     @classmethod
-    def autocomplete_address(cls, partial_street=None, city_filter=None, state_filter=None, pc_filter=None, country_filter=None, index=0):
-        cls.endpoint = f'addver/completions?index={index}'
-        return super().post(locals())
+    def autocomplete_address(
+        cls,
+        partial_street=None,
+        city_filter=None,
+        state_filter=None,
+        pc_filter=None,
+        country_filter=None,
+        index=0,
+    ):
+        cls.endpoint = 'addver/completions'
+        return super().post(
+            data=create_dict(
+                partial_street=partial_street,
+                city_filter=city_filter,
+                state_filter=state_filter,
+                pc_filter=pc_filter,
+                country_filter=country_filter,
+            ),
+            params=create_dict(index=index),
+        )
 
     @classmethod
-    def batch_verify(cls, raw_body=None, include_details=True, proper_case=True, geocode=True):
-        cls.endpoint = f'addver/verifications/batch?includeDetails={str(include_details).lower()}&properCase={str(proper_case).lower()}&geocode={str(geocode).lower()}'
-        print(cls.endpoint)
-        return _batch_verify(cls.endpoint, raw_body)
+    def batch_verify(
+        cls, raw_body=None, include_details=True, proper_case=True, geocode=True
+    ):
+        cls.endpoint = 'addver/verifications/batch'
+        return super().post(
+            json=raw_body,
+            params=create_dict(
+                include_details=include_details,
+                proper_case=proper_case,
+                geocode=geocode,
+            ),
+        )
 
     @classmethod
     def suggest_addresses(cls, address=None, include_details=True):
-        cls.endpoint = f'addver/suggestions?includeDetails={str(include_details).lower()}'
-        return super().post(locals())
+        cls.endpoint = 'addver/suggestions'
+        return super().post(
+            data=locals(), params=create_dict(include_details=include_details)
+        )
 
     @classmethod
     def parse_address(cls, address=None):
         cls.endpoint = 'addver/parses'
-        return super().post(locals())
+        return super().post(data=locals())
 
     @classmethod
     def lookup_city_state(cls, postal_or_zip=None):
         cls.endpoint = 'addver/city_states'
-        return super().post(locals())
+        return super().post(data=locals())
 
 
 PM_OBJECT_TO_CLASS = {
@@ -707,19 +768,20 @@ def _pm_convert_json_value(value):
 
         new_value[key] = inner_value
 
-    return PM_OBJECT_TO_CLASS[new_value['object']](**_map_keys_recursive(new_value, _camel_to_snake))
+    return PM_OBJECT_TO_CLASS[new_value["object"]](
+        **_map_keys_recursive(new_value, _camel_to_snake)
+    )
 
 
 def _av_convert_json_value(value):
     new_value = {}
     for key, inner_value in value.items():
         if isinstance(inner_value, dict):
-            new_value[_camel_to_snake(
-                key)] = _av_convert_json_value(inner_value)
+            new_value[_camel_to_snake(key)] = _av_convert_json_value(inner_value)
             continue
         elif isinstance(inner_value, list):
             for i in range(len(inner_value)):
-                if (isinstance(inner_value[i], dict)):
+                if isinstance(inner_value[i], dict):
                     inner_value[i] = _av_convert_json_value(inner_value[i])
             new_value[_camel_to_snake(key)] = inner_value
             continue
