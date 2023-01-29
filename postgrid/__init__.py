@@ -79,12 +79,15 @@ class UnsupportedFileTypeError(Exception):
         self.ext = ext
 
 
-def _request(base, endpoint, method='GET', **kwargs):
+def _request(base, endpoint, method='GET', idempotency_key=None, **kwargs):
     assert base in [pm_base, av_base]
 
     kwargs = _map_keys_recursive(kwargs, _snake_to_camel)
 
     headers = {'x-api-key': pm_key if base == pm_base else av_key}
+
+    if idempotency_key is not None:
+        headers["Idempotency-Key"] = idempotency_key
 
     if method == 'GET':
         res = requests.get(base + endpoint, params=kwargs, headers=headers)
