@@ -1,12 +1,13 @@
 import postgrid
 import os
+import uuid
 
 
 def setup_module():
     postgrid.pm_key = os.environ.get('PM_API_KEY')
 
 
-def create_test_contact():
+def create_test_contact(idempotency_key=None):
     return postgrid.Contact.create(
         first_name='Test',
         last_name='Contact',
@@ -16,7 +17,8 @@ def create_test_contact():
         job_title='Test',
         metadata={
             'test': [10, 20]
-        }
+        },
+        idempotency_key=idempotency_key
     )
 
 
@@ -25,6 +27,16 @@ def test_create():
 
     assert isinstance(contact, postgrid.Contact)
     assert contact.company_name == 'Test Company'
+
+
+def test_idempotency():
+    idempotency_key = str(uuid.uuid4())
+
+    contact = create_test_contact(idempotency_key=idempotency_key)
+    contact_duplicate = create_test_contact(idempotency_key=idempotency_key)
+
+    # The second call should not result in a new contact being created
+    assert contact.id == contact_duplicate.id
 
 
 def test_list():
