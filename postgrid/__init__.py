@@ -583,7 +583,7 @@ class Webhook(
             raise ValueError()
 
 
-def _av_post_request(base, endpoint, json=None, data=None, params=None):
+def _av_post_request(endpoint, json=None, data=None, params=None):
     data = _map_keys_recursive(data, _snake_to_camel)
     params = _map_keys_recursive(params, _snake_to_camel)
 
@@ -612,7 +612,7 @@ def _av_post_request(base, endpoint, json=None, data=None, params=None):
             flatten(params_to_pass, key, value)
 
     res = requests.post(
-        base + endpoint,
+        'https://api.postgrid.com/v1/addver' + endpoint,
         json=json,
         data=data_to_pass,
         params=params_to_pass,
@@ -626,58 +626,22 @@ def _av_post_request(base, endpoint, json=None, data=None, params=None):
         raise AVError(status_code=res.status_code, message=value['message'])
     return _av_convert_json_value(value)
 
-
-class RetrieveableAVResource:
-    @classmethod
-    def retrieve(cls, locals_):
-        assert 'cls' in locals_
-
-        locals_except_cls = {
-            key: value for key, value in locals_.items() if key != 'cls'
-        }
-
-        return _av_get(cls.endpoint, **locals_except_cls)
-
-
-class PostableAVResource:
-    @classmethod
-    def post(cls, **kwargs):
-
-        data = kwargs.get('data', None)
-        params = kwargs.get('params', None)
-        json = kwargs.get('json', None)
-
-        return _av_post_request(
-            av_base, cls.endpoint, json=json, data=data, params=params
-        )
-
-
-def _av_get(endpoint, **kwargs):
-    return _request(av_base, endpoint, method='GET', **kwargs)
-
-
-def create_dict(**kwargs):
-    return locals()['kwargs']
-
-
-class Address(BaseResource, RetrieveableAVResource, PostableAVResource):
+class Address(BaseResource):
     endpoint = 'addver'
 
     @classmethod
     def lookup_info(cls):
-        return super().retrieve(locals())
+        return _request(av_base, 'addver', method='GET')
 
     @classmethod
     def verify(cls, address=None):
-        cls.endpoint = 'addver/verifications'
-        return super().post(data=locals())
+        return _request(av_base, 'addver/verifications', method='POST', **locals())
 
     @classmethod
     def autocomplete_previews(
         cls, partial_street=None, country_filter=None, prov_instead_of_pc=None
     ):
-        cls.endpoint = 'addver/completions'
-        return super().retrieve(locals())
+        return _request(av_base, 'addver/completions', method='GET', **locals())
 
     @classmethod
     def autocomplete_address(
@@ -689,48 +653,46 @@ class Address(BaseResource, RetrieveableAVResource, PostableAVResource):
         country_filter=None,
         index=0,
     ):
-        cls.endpoint = 'addver/completions'
-        return super().post(
-            data=create_dict(
-                partial_street=partial_street,
-                city_filter=city_filter,
-                state_filter=state_filter,
-                pc_filter=pc_filter,
-                country_filter=country_filter,
-            ),
-            params=create_dict(index=index),
+        return _av_post_request(
+            endpoint='/completions',
+            data={
+                'partial_street': partial_street,
+                'city_filter': city_filter,
+                'state_filter': state_filter,
+                'pc_filter': pc_filter,
+                'country_filter': country_filter,
+            },
+            params={'index':index},
         )
 
     @classmethod
     def batch_verify(
         cls, raw_body=None, include_details=True, proper_case=True, geocode=True
     ):
-        cls.endpoint = 'addver/verifications/batch'
-        return super().post(
+        return _av_post_request(
+            endpoint = '/verifications/batch',
             json=raw_body,
-            params=create_dict(
-                include_details=include_details,
-                proper_case=proper_case,
-                geocode=geocode,
-            ),
+            params={
+                'include_details': include_details,
+                'proper_case': proper_case,
+                'geocode': geocode,
+            },
         )
 
     @classmethod
     def suggest_addresses(cls, address=None, include_details=True):
-        cls.endpoint = 'addver/suggestions'
-        return super().post(
-            data=locals(), params=create_dict(include_details=include_details)
+        return _av_post_request(
+            endpoint='/suggestions',
+            data={'address': address}, params={'include_details': include_details}
         )
 
     @classmethod
     def parse_address(cls, address=None):
-        cls.endpoint = 'addver/parses'
-        return super().post(data=locals())
+        return _av_post_request(endpoint='/parses', data=locals())
 
     @classmethod
     def lookup_city_state(cls, postal_or_zip=None):
-        cls.endpoint = 'addver/city_states'
-        return super().post(data=locals())
+        return _av_post_request(endpoint='/city_states', data=locals())
 
 
 PM_OBJECT_TO_CLASS = {
