@@ -626,6 +626,7 @@ def _av_post_request(endpoint, json=None, data=None, params=None):
         raise AVError(status_code=res.status_code, message=value['message'])
     return _av_convert_json_value(value)
 
+
 class Address(BaseResource):
     endpoint = 'addver'
 
@@ -639,7 +640,14 @@ class Address(BaseResource):
 
     @classmethod
     def autocomplete_previews(
-        cls, partial_street=None, country_filter=None, prov_instead_of_pc=None
+        cls, 
+        partial_street=None, 
+        city_filter=None, 
+        state_filter=None, 
+        pc_filter=None, 
+        country_filter=None, 
+        prov_instead_of_pc=None, 
+        proper_case=None
     ):
         return _request(av_base, 'addver/completions', method='GET', **locals())
 
@@ -651,7 +659,7 @@ class Address(BaseResource):
         state_filter=None,
         pc_filter=None,
         country_filter=None,
-        index=0,
+        index=None,
     ):
         return _av_post_request(
             endpoint='/completions',
@@ -662,7 +670,7 @@ class Address(BaseResource):
                 'pc_filter': pc_filter,
                 'country_filter': country_filter,
             },
-            params={'index':index},
+            params={'index': index},
         )
 
     @classmethod
@@ -670,7 +678,7 @@ class Address(BaseResource):
         cls, raw_body=None, include_details=True, proper_case=True, geocode=True
     ):
         return _av_post_request(
-            endpoint = '/verifications/batch',
+            endpoint='/verifications/batch',
             json=raw_body,
             params={
                 'include_details': include_details,
@@ -725,7 +733,8 @@ def _pm_convert_json_value(value):
             and isinstance(inner_value, dict)
             and 'object' in inner_value
         ):
-            new_value[_camel_to_snake(key)] = _pm_convert_json_value(inner_value)
+            new_value[_camel_to_snake(
+                key)] = _pm_convert_json_value(inner_value)
             continue
 
         new_value[key] = inner_value
@@ -739,7 +748,8 @@ def _av_convert_json_value(value):
     new_value = {}
     for key, inner_value in value.items():
         if isinstance(inner_value, dict):
-            new_value[_camel_to_snake(key)] = _av_convert_json_value(inner_value)
+            new_value[_camel_to_snake(
+                key)] = _av_convert_json_value(inner_value)
             continue
         elif isinstance(inner_value, list):
             for i in range(len(inner_value)):
