@@ -37,8 +37,8 @@ def test_autocomplete_address():
 
     assert res.status == 'success'
     assert hasattr(res, 'data')
-    assert res.data.address.address == '20 BAY ST'
-    assert res.data.address.pc == 'M5H 4A6'
+    assert res.data[0].address.address == '20 BAY ST'
+    assert res.data[0].address.pc == 'M5H 4A6'
 
 
 def test_batch_verify_address():
