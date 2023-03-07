@@ -166,8 +166,9 @@ def _av_request(endpoint, method='GET', data=None, params=None, json=None):
 
     def flatten(array, key, value):
         nonlocal files
-
-        if _is_file_like(value):
+        if key == 'cls':
+            return
+        elif _is_file_like(value):
             if not files:
                 files = {}
 
