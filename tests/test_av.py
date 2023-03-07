@@ -1,22 +1,22 @@
 import postgrid
 import os
 
-
 def setup_module():
     # Use live key to test
     postgrid.av_key = os.environ.get('AV_API_KEY')
 
 
 def test_lookup_info():
-    info = postgrid.Address.lookup_info()
-
-    assert info.status == 'success'
-    assert hasattr(info, 'data')
+    res = postgrid.LookupInfo.lookup_info()
+    assert isinstance(res, postgrid.LookupInfo)
+    assert res.status == 'success'
+    assert hasattr(res, 'data')
 
 
 def test_verify_freeform():
-    res = postgrid.Address.verify('22-20 bay st, floor 11, toronto, on')
-
+    res = postgrid.Verification.verify('22-20 bay st, floor 11, toronto, on')
+    
+    assert isinstance(res, postgrid.Verification)
     assert res.status == 'success'
     assert hasattr(res, 'data')
     assert res.data.country == 'ca'
@@ -25,16 +25,19 @@ def test_verify_freeform():
 
 
 def test_autocomplete_previews():
-    res = postgrid.Address.autocomplete_previews(
+    res = postgrid.Autocomplete.previews(
         partial_street='77 bloor st', country_filter='CA', prov_instead_of_pc='false')
+    
+    assert isinstance(res, postgrid.Autocomplete)
     assert res.status == 'success'
     assert hasattr(res, 'data')
     assert len(res.data) >= 1
 
 
 def test_autocomplete_address():
-    res = postgrid.Address.autocomplete_address('20 bay st', 'Toronto')
+    res = postgrid.Autocomplete.address('20 bay st', 'Toronto')
 
+    assert isinstance(res, postgrid.Autocomplete)
     assert res.status == 'success'
     assert hasattr(res, 'data')
     assert res.data[0].address.address == '20 BAY ST'
@@ -60,7 +63,9 @@ def test_batch_verify_address():
             "22-20 bay st, floor 11, toronto on, ca"
         ]
     }
-    res = postgrid.Address.batch_verify(addresses)
+    res = postgrid.Verification.batch_verify(addresses)
+
+    assert isinstance(res, postgrid.Verification)
     assert res.status == 'success'
     assert hasattr(res, 'data')
     assert len(res.data.results) == 3
@@ -75,8 +80,9 @@ def test_verify_structured():
         "province_or_state": "ny",
         "country": "us"
     }
-    res = postgrid.Address.verify(address)
+    res = postgrid.Verification.verify(address)
 
+    assert isinstance(res, postgrid.Verification)
     assert res.status == 'success'
     assert hasattr(res, 'data')
     assert res.data.country == 'us'
@@ -91,18 +97,24 @@ def test_suggest_address():
         "province_or_state": "on",
         "country": "ca"
     }
-    res = postgrid.Address.suggest_addresses(address)
-    print(res)
+    res = postgrid.Suggestion.suggest_addresses(address)
+
+    assert isinstance(res, postgrid.Suggestion)
     assert res.status == 'success'
     assert hasattr(res, 'data')
+    assert hasattr(res.data[0], 'details')
+    assert res.data[0].city == 'TORONTO'
     assert res.data[0].country == 'ca'
+    assert res.data[0].country_name == 'CANADA'
     assert res.data[0].postal_or_zip == 'M8V 0E3'
     assert res.data[0].line1 == '2220 LAKE SHORE BLVD W'
 
 
 def test_parse_address():
-    res = postgrid.Address.parse_address(
+    res = postgrid.Parse.parse_address(
         '20 bay st toronto, on m9v4v1, canada')
+    
+    assert isinstance(res, postgrid.Parse)
     assert res.status == 'success'
     assert hasattr(res, 'data')
     assert res.data.city == 'toronto'
@@ -111,8 +123,9 @@ def test_parse_address():
 
 
 def test_lookup_city():
-    res = postgrid.Address.lookup_city_state('m9v4v1')
+    res = postgrid.CityState.lookup_city_state('m9v4v1')
 
+    assert isinstance(res, postgrid.CityState)
     assert res.status == 'success'
     assert hasattr(res, 'data')
     assert res.data[0].province_or_state == 'ON'

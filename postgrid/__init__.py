@@ -3,7 +3,7 @@ import jwt
 import os
 
 pm_base = "https://api.postgrid.com/print-mail/v1/"
-av_base = "https://api.postgrid/com/v1/"
+av_base = "https://api.postgrid.com/v1/addver/"
 
 pm_key = None
 av_key = None
@@ -82,19 +82,18 @@ class UnsupportedFileTypeError(Exception):
         self.ext = ext
 
 
-def _request(base, endpoint, method="GET", idempotency_key=None, **kwargs):
-    assert base in [pm_base, av_base]
+def _request(endpoint, method='GET', idempotency_key=None, **kwargs):
 
     kwargs = _map_keys_recursive(kwargs, _snake_to_camel)
 
-    headers = {"x-api-key": pm_key if base == pm_base else av_key}
+    headers = {'x-api-key': pm_key}
 
     if idempotency_key is not None:
         headers["Idempotency-Key"] = idempotency_key
 
-    if method == "GET":
-        res = requests.get(base + endpoint, params=kwargs, headers=headers)
-    elif method == "POST":
+    if method == 'GET':
+        res = requests.get(pm_base + endpoint, params=kwargs, headers=headers)
+    elif method == 'POST':
         data = []
         files = None
 
@@ -134,9 +133,10 @@ def _request(base, endpoint, method="GET", idempotency_key=None, **kwargs):
         for key, value in kwargs.items():
             flatten(key, value)
 
-        res = requests.post(base + endpoint, data=data, files=files, headers=headers)
-    elif method == "DELETE":
-        res = requests.delete(base + endpoint, params=kwargs, headers=headers)
+        res = requests.post(pm_base + endpoint, data=data,
+                            files=files, headers=headers)
+    elif method == 'DELETE':
+        res = requests.delete(pm_base + endpoint, params=kwargs, headers=headers)
     else:
         raise NotImplementedError()
 
@@ -145,33 +145,100 @@ def _request(base, endpoint, method="GET", idempotency_key=None, **kwargs):
     try:
         res.raise_for_status()
     except requests.HTTPError as e:
-        if base == pm_base:
-            raise PMError(
-                status_code=res.status_code,
-                object=value["object"],
-                type=value["error"]["type"],
-                message=value["error"]["message"],
-            )
-        else:
-            raise AVError(status_code=res.status_code,
-                          message=value['message'])
+        raise PMError(status_code=res.status_code,
+                      object=value['object'],
+                      type=value['error']['type'],
+                      message=value['error']['message'])
 
-    if base == pm_base:
-        return _pm_convert_json_value(value)
+    return _pm_convert_json_value(value)
+
+
+def _av_request(endpoint, method='GET', data=None, params=None, json=None):
+
+    data = _map_keys_recursive(data, _snake_to_camel)
+    params = _map_keys_recursive(params, _snake_to_camel)
+    json = _map_keys_recursive(json, _snake_to_camel)
+
+    headers = {'x-api-key': av_key}
+
+    if method == 'GET':
+        res = requests.get(av_base + endpoint, params=params, headers=headers)
+    elif method == 'POST':
+        data_to_pass = []
+        params_to_pass = []
+        files = None
+
+        def flatten(array, key, value):
+            nonlocal files
+
+            if _is_file_like(value):
+                if not files:
+                    files = {}
+
+                path, ext = os.path.splitext(value.name)
+
+                if ext == '.pdf':
+                    content_type = 'application/pdf'
+                elif ext == '.png':
+                    content_type = 'image/png'
+                elif ext == '.jpeg':
+                    content_type = 'image/jpeg'
+                else:
+                    # TODO Make sure we don't expect any other file types
+                    raise UnsupportedFileTypeError(ext)
+
+                files[key] = (os.path.basename(path), value, content_type)
+            elif isinstance(value, dict):
+                for inner_key, inner_value in value.items():
+                    flatten(f'{key}[{inner_key}]', inner_value)
+            elif isinstance(value, list):
+                for inner_value in value:
+                    flatten(f'{key}[]', inner_value)
+            elif isinstance(value, bool):
+                array.append((key, 'true' if value else 'false'))
+            elif value is not None:
+                array.append((key, value))
+        if data:
+            for key, value in data.items():
+                flatten(data_to_pass, key, value)
+        if params:
+            for key, value in params.items():
+                flatten(params_to_pass, key, value)
+
+        res = requests.post(
+            av_base + endpoint,
+            json=json,
+            data=data_to_pass,
+            params=params_to_pass,
+            headers=headers,
+        )
+    elif method == 'DELETE':
+        res = requests.delete(av_base + endpoint,
+                              params=params, headers=headers)
     else:
-        return _av_convert_json_value(value)
+        raise NotImplementedError()
+
+    value = res.json()
+
+    try:
+        res.raise_for_status()
+    except requests.HTTPError as e:
+        raise AVError(status_code=res.status_code,
+                      message=value['message'])
+
+    return _av_convert_json_value(endpoint, value)
 
 
 def _pm_get(endpoint, **kwargs):
-    return _request(pm_base, endpoint, method="GET", **kwargs)
+    return _request(endpoint, method='GET', **kwargs)
 
 
 def _pm_post(endpoint, **kwargs):
-    return _request(pm_base, endpoint, method="POST", **kwargs)
+    return _request(endpoint, method='POST', **kwargs)
 
 
 def _pm_delete(endpoint, **kwargs):
-    return _request(pm_base, endpoint, method="DELETE", **kwargs)
+    return _request(endpoint, method='DELETE', **kwargs)
 
 
 class PMError(Exception):
@@ -583,76 +650,49 @@ class Webhook(
             raise ValueError()
 
 
-def _av_post_request(endpoint, json=None, data=None, params=None):
-    data = _map_keys_recursive(data, _snake_to_camel)
-    params = _map_keys_recursive(params, _snake_to_camel)
-
-    headers = {'x-api-key': av_key}
-    data_to_pass = []
-    params_to_pass = []
-
-    def flatten(arr, key, value):
-        if isinstance(value, dict):
-            for inner_key, inner_value in value.items():
-                flatten(arr, f'{key}[{inner_key}]', inner_value)
-        elif isinstance(value, list):
-            for inner_value in value:
-                flatten(arr, f'{key}[]', inner_value)
-        elif isinstance(value, bool):
-            arr.append((key, 'true' if value else 'false'))
-        elif value is not None:
-            arr.append((key, value))
-
-    if data:
-        for key, value in data.items():
-            flatten(data_to_pass, key, value)
-
-    if params:
-        for key, value in params.items():
-            flatten(params_to_pass, key, value)
-
-    res = requests.post(
-        'https://api.postgrid.com/v1/addver' + endpoint,
-        json=json,
-        data=data_to_pass,
-        params=params_to_pass,
-        headers=headers,
-    )
-    value = res.json()
-
-    try:
-        res.raise_for_status()
-    except requests.HTTPError as e:
-        raise AVError(status_code=res.status_code, message=value['message'])
-    return _av_convert_json_value(value)
-
-
-class Address(BaseResource):
-    endpoint = 'addver'
-
+class LookupInfo(BaseResource):
     @classmethod
     def lookup_info(cls):
-        return _request(av_base, 'addver', method='GET')
+        return _av_request('', method='GET')
 
+
+class Verification(BaseResource):
     @classmethod
     def verify(cls, address=None):
-        return _request(av_base, 'addver/verifications', method='POST', **locals())
+        return _av_request('verifications', method='POST', json={'address': address})
 
     @classmethod
-    def autocomplete_previews(
-        cls, 
-        partial_street=None, 
-        city_filter=None, 
-        state_filter=None, 
-        pc_filter=None, 
-        country_filter=None, 
-        prov_instead_of_pc=None, 
+    def batch_verify(
+        cls, raw_body=None, include_details=True, proper_case=True, geocode=True
+    ):
+        return _av_request(
+            endpoint='verifications/batch',
+            method='POST',
+            params={
+                'include_details': include_details,
+                'proper_case': proper_case,
+                'geocode': geocode,
+            },
+            json=raw_body,
+        )
+
+
+class Autocomplete(BaseResource):
+    @classmethod
+    def previews(
+        cls,
+        partial_street=None,
+        city_filter=None,
+        state_filter=None,
+        pc_filter=None,
+        country_filter=None,
+        prov_instead_of_pc=None,
         proper_case=None
     ):
-        return _request(av_base, 'addver/completions', method='GET', **locals())
+        return _av_request('completions', method='GET', params=locals())
 
     @classmethod
-    def autocomplete_address(
+    def address(
         cls,
         partial_street=None,
         city_filter=None,
@@ -661,8 +701,9 @@ class Address(BaseResource):
         country_filter=None,
         index=None,
     ):
-        return _av_post_request(
-            endpoint='/completions',
+        return _av_request(
+            endpoint='completions',
+            method='POST',
             data={
                 'partial_street': partial_street,
                 'city_filter': city_filter,
@@ -673,34 +714,27 @@ class Address(BaseResource):
             params={'index': index},
         )
 
-    @classmethod
-    def batch_verify(
-        cls, raw_body=None, include_details=True, proper_case=True, geocode=True
-    ):
-        return _av_post_request(
-            endpoint='/verifications/batch',
-            json=raw_body,
-            params={
-                'include_details': include_details,
-                'proper_case': proper_case,
-                'geocode': geocode,
-            },
-        )
 
+class Suggestion(BaseResource):
     @classmethod
     def suggest_addresses(cls, address=None, include_details=True):
-        return _av_post_request(
-            endpoint='/suggestions',
-            data={'address': address}, params={'include_details': include_details}
+        return _av_request(
+            endpoint='suggestions',
+            method='POST',
+            json={'address': address}, params={'include_details': include_details}
         )
 
+
+class Parse(BaseResource):
     @classmethod
     def parse_address(cls, address=None):
-        return _av_post_request(endpoint='/parses', data=locals())
+        return _av_request(endpoint='parses', method='POST', data=locals())
 
+
+class CityState(BaseResource):
     @classmethod
     def lookup_city_state(cls, postal_or_zip=None):
-        return _av_post_request(endpoint='/city_states', data=locals())
+        return _av_request(endpoint='city_states', method='POST', data=locals())
 
 
 PM_OBJECT_TO_CLASS = {
@@ -715,6 +749,17 @@ PM_OBJECT_TO_CLASS = {
     "return_envelope": ReturnEnvelope,
     "return_envelope_order": ReturnEnvelopeOrder,
     "list": List,
+}
+
+AV_OBJECT_TO_CLASS = {
+    '': LookupInfo,
+    'verifications': Verification,
+    'verifications/batch': Verification,
+    'completions': Autocomplete,
+    'suggestions': Suggestion,
+    'parses': Parse,
+    'city_states': CityState,
+    'list': List
 }
 
 
@@ -744,19 +789,22 @@ def _pm_convert_json_value(value):
     )
 
 
-def _av_convert_json_value(value):
+def _av_convert_json_value(type, value):
     new_value = {}
     for key, inner_value in value.items():
         if isinstance(inner_value, dict):
             new_value[_camel_to_snake(
-                key)] = _av_convert_json_value(inner_value)
+                key)] = _av_convert_json_value(type, inner_value)
             continue
         elif isinstance(inner_value, list):
             for i in range(len(inner_value)):
                 if isinstance(inner_value[i], dict):
-                    inner_value[i] = _av_convert_json_value(inner_value[i])
+                    inner_value[i] = _av_convert_json_value(
+                        type, inner_value[i])
             new_value[_camel_to_snake(key)] = inner_value
             continue
         new_value[key] = inner_value
 
-    return Address(**_map_keys_recursive(new_value, _camel_to_snake))
+    return AV_OBJECT_TO_CLASS[type](
+        **_map_keys_recursive(new_value, _camel_to_snake)
+    )
