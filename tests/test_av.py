@@ -1,6 +1,7 @@
 import postgrid
 import os
 
+
 def setup_module():
     # Use live key to test
     postgrid.av_key = os.environ.get('AV_API_KEY')
@@ -15,7 +16,7 @@ def test_lookup_info():
 
 def test_verify_freeform():
     res = postgrid.Verification.verify('22-20 bay st, floor 11, toronto, on')
-    
+
     assert isinstance(res, postgrid.Verification)
     assert res.status == 'success'
     assert hasattr(res, 'data')
@@ -26,8 +27,8 @@ def test_verify_freeform():
 
 def test_autocomplete_previews():
     res = postgrid.Autocomplete.previews(
-        partial_street='77 bloor st', country_filter='CA', prov_instead_of_pc='false')
-    
+        partial_street='77 bloor st', country_filter='CA', prov_instead_of_pc=False)
+
     assert isinstance(res, postgrid.Autocomplete)
     assert res.status == 'success'
     assert hasattr(res, 'data')
@@ -113,7 +114,7 @@ def test_suggest_address():
 def test_parse_address():
     res = postgrid.Parse.parse_address(
         '20 bay st toronto, on m9v4v1, canada')
-    
+
     assert isinstance(res, postgrid.Parse)
     assert res.status == 'success'
     assert hasattr(res, 'data')

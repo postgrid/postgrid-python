@@ -136,7 +136,8 @@ def _request(endpoint, method='GET', idempotency_key=None, **kwargs):
         res = requests.post(pm_base + endpoint, data=data,
                             files=files, headers=headers)
     elif method == 'DELETE':
-        res = requests.delete(pm_base + endpoint, params=kwargs, headers=headers)
+        res = requests.delete(pm_base + endpoint,
+                              params=kwargs, headers=headers)
     else:
         raise NotImplementedError()
 
@@ -159,51 +160,53 @@ def _av_request(endpoint, method='GET', data=None, params=None, json=None):
     params = _map_keys_recursive(params, _snake_to_camel)
     json = _map_keys_recursive(json, _snake_to_camel)
 
+    data_to_pass = []
+    params_to_pass = []
+    files = None
+
+    def flatten(array, key, value):
+        nonlocal files
+
+        if _is_file_like(value):
+            if not files:
+                files = {}
+
+            path, ext = os.path.splitext(value.name)
+
+            if ext == '.pdf':
+                content_type = 'application/pdf'
+            elif ext == '.png':
+                content_type = 'image/png'
+            elif ext == '.jpeg':
+                content_type = 'image/jpeg'
+            else:
+                # TODO Make sure we don't expect any other file types
+                raise UnsupportedFileTypeError(ext)
+
+            files[key] = (os.path.basename(path), value, content_type)
+        elif isinstance(value, dict):
+            for inner_key, inner_value in value.items():
+                flatten(f'{key}[{inner_key}]', inner_value)
+        elif isinstance(value, list):
+            for inner_value in value:
+                flatten(f'{key}[]', inner_value)
+        elif isinstance(value, bool):
+            array.append((key, 'true' if value else 'false'))
+        elif value is not None:
+            array.append((key, value))
+    if data:
+        for key, value in data.items():
+            flatten(data_to_pass, key, value)
+    if params:
+        for key, value in params.items():
+            flatten(params_to_pass, key, value)
+
     headers = {'x-api-key': av_key}
 
     if method == 'GET':
-        res = requests.get(av_base + endpoint, params=params, headers=headers)
+        res = requests.get(av_base + endpoint,
+                           params=params_to_pass, headers=headers)
     elif method == 'POST':
-        data_to_pass = []
-        params_to_pass = []
-        files = None
-
-        def flatten(array, key, value):
-            nonlocal files
-
-            if _is_file_like(value):
-                if not files:
-                    files = {}
-
-                path, ext = os.path.splitext(value.name)
-
-                if ext == '.pdf':
-                    content_type = 'application/pdf'
-                elif ext == '.png':
-                    content_type = 'image/png'
-                elif ext == '.jpeg':
-                    content_type = 'image/jpeg'
-                else:
-                    # TODO Make sure we don't expect any other file types
-                    raise UnsupportedFileTypeError(ext)
-
-                files[key] = (os.path.basename(path), value, content_type)
-            elif isinstance(value, dict):
-                for inner_key, inner_value in value.items():
-                    flatten(f'{key}[{inner_key}]', inner_value)
-            elif isinstance(value, list):
-                for inner_value in value:
-                    flatten(f'{key}[]', inner_value)
-            elif isinstance(value, bool):
-                array.append((key, 'true' if value else 'false'))
-            elif value is not None:
-                array.append((key, value))
-        if data:
-            for key, value in data.items():
-                flatten(data_to_pass, key, value)
-        if params:
-            for key, value in params.items():
-                flatten(params_to_pass, key, value)
 
         res = requests.post(
             av_base + endpoint,
@@ -214,7 +217,7 @@ def _av_request(endpoint, method='GET', data=None, params=None, json=None):
         )
     elif method == 'DELETE':
         res = requests.delete(av_base + endpoint,
-                              params=params, headers=headers)
+                              params=params_to_pass, headers=headers)
     else:
         raise NotImplementedError()
 
