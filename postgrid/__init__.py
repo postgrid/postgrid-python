@@ -74,6 +74,18 @@ def _map_keys_recursive(d, fn):
     return new_d
 
 
+def _add_lists_in_query_params(q):
+    new_q = {}
+
+    for key, value in q.items():
+        if isinstance(value, list):
+            new_q[f'{key}[]'] = value
+        else:
+            new_q[key] = value
+
+    return new_q
+
+
 class UnsupportedFileTypeError(Exception):
     def __init__(self, ext):
         self.ext = ext
@@ -90,7 +102,8 @@ def _request(base, endpoint, method='GET', idempotency_key=None, **kwargs):
         headers["Idempotency-Key"] = idempotency_key
 
     if method == 'GET':
-        res = requests.get(base + endpoint, params=kwargs, headers=headers)
+        res = requests.get(
+            base + endpoint, params=_add_lists_in_query_params(kwargs), headers=headers)
     elif method == 'POST':
         data = []
         files = None
@@ -473,6 +486,14 @@ class Webhook(BaseResource,
             raise ValueError()
 
 
+class Event(BaseResource, ListableResource):
+    endpoint = 'events'
+
+    @classmethod
+    def list(cls, type, skip=0, limit=10, ):
+        return _pm_get(cls.endpoint, skip=skip, limit=limit, type=type)
+
+
 PM_OBJECT_TO_CLASS = {
     'contact': Contact,
     'template': Template,
@@ -484,6 +505,7 @@ PM_OBJECT_TO_CLASS = {
     'webhook_invocation': WebhookInvocation,
     'return_envelope': ReturnEnvelope,
     'return_envelope_order': ReturnEnvelopeOrder,
+    'event': Event,
     'list': List
 }
 
@@ -499,7 +521,8 @@ def _pm_convert_json_value(value):
             continue
 
         if key != 'metadata' and isinstance(inner_value, dict) and 'object' in inner_value:
-            new_value[_camel_to_snake(key)] = _pm_convert_json_value(inner_value)
+            new_value[_camel_to_snake(
+                key)] = _pm_convert_json_value(inner_value)
             continue
 
         new_value[key] = inner_value
