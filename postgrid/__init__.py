@@ -108,6 +108,8 @@ def _request(base, endpoint, method='GET', idempotency_key=None, **kwargs):
                     content_type = 'application/pdf'
                 elif ext == '.png':
                     content_type = 'image/png'
+                elif ext == '.jpg':
+                    content_type = 'image/jpeg'
                 elif ext == '.jpeg':
                     content_type = 'image/jpeg'
                 else:
