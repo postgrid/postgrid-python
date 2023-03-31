@@ -64,7 +64,7 @@ def test_batch_verify_address():
             "22-20 bay st, floor 11, toronto on, ca"
         ]
     }
-    res = postgrid.Verification.batch_verify(addresses)
+    res = postgrid.Verification.batch_verify(addresses, False, True, False)
 
     assert isinstance(res, postgrid.Verification)
     assert res.status == 'success'
@@ -98,7 +98,7 @@ def test_suggest_address():
         "province_or_state": "on",
         "country": "ca"
     }
-    res = postgrid.Suggestion.suggest_addresses(address)
+    res = postgrid.Suggestion.suggest_addresses(address, True, False, False)
 
     assert isinstance(res, postgrid.Suggestion)
     assert res.status == 'success'

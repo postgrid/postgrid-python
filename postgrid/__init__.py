@@ -180,6 +180,8 @@ def _av_request(endpoint, method='GET', data=None, params=None, json=None):
                 content_type = 'image/png'
             elif ext == '.jpeg':
                 content_type = 'image/jpeg'
+            elif ext == '.jpg':
+                content_type = 'image/jpeg'
             else:
                 # TODO Make sure we don't expect any other file types
                 raise UnsupportedFileTypeError(ext)
@@ -662,12 +664,21 @@ class LookupInfo(BaseResource):
 
 class Verification(BaseResource):
     @classmethod
-    def verify(cls, address=None):
-        return _av_request('verifications', method='POST', json={'address': address})
+    def verify(cls, address=None, include_details=None, proper_case=None, geocode=None):
+        return _av_request(
+            endpoint='verifications', 
+            method='POST', 
+            params={
+                'include_details': include_details,
+                'proper_case': proper_case,
+                'geocode': geocode,
+            },
+            json={'address': address}
+        )
 
     @classmethod
     def batch_verify(
-        cls, raw_body=None, include_details=True, proper_case=True, geocode=True
+        cls, raw_body=None, include_details=None, proper_case=None, geocode=None
     ):
         return _av_request(
             endpoint='verifications/batch',
@@ -704,6 +715,7 @@ class Autocomplete(BaseResource):
         pc_filter=None,
         country_filter=None,
         index=None,
+        geocode=None
     ):
         return _av_request(
             endpoint='completions',
@@ -714,6 +726,7 @@ class Autocomplete(BaseResource):
                 'state_filter': state_filter,
                 'pc_filter': pc_filter,
                 'country_filter': country_filter,
+                'geocode': geocode,
             },
             params={'index': index},
         )
@@ -721,11 +734,16 @@ class Autocomplete(BaseResource):
 
 class Suggestion(BaseResource):
     @classmethod
-    def suggest_addresses(cls, address=None, include_details=True):
+    def suggest_addresses(cls, address=None, include_details=None, proper_case=None, geocode=None):
         return _av_request(
             endpoint='suggestions',
             method='POST',
-            json={'address': address}, params={'include_details': include_details}
+            json={'address': address}, 
+            params={
+                'include_details': include_details,
+                'proper_case': proper_case,
+                'geocode': geocode,
+            },
         )
 
 
