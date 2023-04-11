@@ -4,6 +4,7 @@ import os
 
 pm_base = "https://api.postgrid.com/print-mail/v1/"
 av_base = "https://api.postgrid.com/v1/addver/"
+intl_av_base = "https://api.postgrid.com/v1/intl_addver/"
 
 pm_key = None
 av_key = None
@@ -154,7 +155,8 @@ def _request(endpoint, method='GET', idempotency_key=None, **kwargs):
     return _pm_convert_json_value(value)
 
 
-def _av_request(endpoint, method='GET', data=None, params=None, json=None):
+def _av_request(endpoint, intl=False, method='GET', data=None, params=None, json=None):
+    request_endpoint = (intl_av_base if intl else av_base) + endpoint
 
     data = _map_keys_recursive(data, _snake_to_camel)
     params = _map_keys_recursive(params, _snake_to_camel)
@@ -207,19 +209,19 @@ def _av_request(endpoint, method='GET', data=None, params=None, json=None):
     headers = {'x-api-key': av_key}
 
     if method == 'GET':
-        res = requests.get(av_base + endpoint,
+        res = requests.get(request_endpoint,
                            params=params_to_pass, headers=headers)
     elif method == 'POST':
 
         res = requests.post(
-            av_base + endpoint,
+            request_endpoint,
             json=json,
             data=data_to_pass,
             params=params_to_pass,
             headers=headers,
         )
     elif method == 'DELETE':
-        res = requests.delete(av_base + endpoint,
+        res = requests.delete(request_endpoint,
                               params=params_to_pass, headers=headers)
     else:
         raise NotImplementedError()
@@ -231,7 +233,8 @@ def _av_request(endpoint, method='GET', data=None, params=None, json=None):
     except requests.HTTPError as e:
         raise AVError(status_code=res.status_code,
                       message=value['message'])
-
+    if intl:
+        endpoint = 'intl/' + endpoint
     return _av_convert_json_value(endpoint, value)
 
 
@@ -666,8 +669,8 @@ class Verification(BaseResource):
     @classmethod
     def verify(cls, address=None, include_details=None, proper_case=None, geocode=None):
         return _av_request(
-            endpoint='verifications', 
-            method='POST', 
+            endpoint='verifications',
+            method='POST',
             params={
                 'include_details': include_details,
                 'proper_case': proper_case,
@@ -738,7 +741,7 @@ class Suggestion(BaseResource):
         return _av_request(
             endpoint='suggestions',
             method='POST',
-            json={'address': address}, 
+            json={'address': address},
             params={
                 'include_details': include_details,
                 'proper_case': proper_case,
@@ -759,6 +762,85 @@ class CityState(BaseResource):
         return _av_request(endpoint='city_states', method='POST', data=locals())
 
 
+class IntlVerification(BaseResource):
+    @classmethod
+    def verify(cls, address=None, include_details=None, proper_case=None, geo_data=None):
+        return _av_request(
+            endpoint='verifications',
+            intl=True,
+            method='POST',
+            params={
+                'include_details': include_details,
+                'proper_case': proper_case,
+                'geo_data': geo_data,
+            },
+            json={'address': address}
+        )
+
+    @classmethod
+    def batch_verify(
+        cls, raw_body=None, include_details=None, proper_case=None, geo_data=None
+    ):
+        return _av_request(
+            endpoint='verifications/batch',
+            intl=True,
+            method='POST',
+            params={
+                'include_details': include_details,
+                'proper_case': proper_case,
+                'geo_data': geo_data,
+            },
+            json=raw_body,
+        )
+
+
+class IntlAutocomplete(BaseResource):
+    @classmethod
+    def previews(
+        cls,
+        partial_street=None,
+        countries_filter=None,
+        limit=None,
+        language=None,
+        city_filter=None,
+        street_filter=None,
+        postal_or_zip_filter=None,
+        proper_case=None,
+    ):
+        return _av_request(
+            endpoint='completions',
+            intl=True,
+            method='GET',
+            params=locals()
+        )
+
+    @classmethod
+    def advanced_previews(
+        cls,
+        container=None,
+        language=None,
+        advanced=None,
+    ):
+        return _av_request(
+            endpoint='completions',
+            intl=True,
+            method='GET',
+            params=locals()
+        )
+
+    @classmethod
+    def address(
+        cls,
+        id=None,
+    ):
+        return _av_request(
+            endpoint='completions',
+            intl=True,
+            method='POST',
+            data=locals()
+        )
+
+
 PM_OBJECT_TO_CLASS = {
     "contact": Contact,
     "template": Template,
@@ -776,8 +858,11 @@ PM_OBJECT_TO_CLASS = {
 AV_OBJECT_TO_CLASS = {
     '': LookupInfo,
     'verifications': Verification,
+    'intl/verifications': IntlVerification,
     'verifications/batch': Verification,
+    'intl/verifications/batch': IntlVerification,
     'completions': Autocomplete,
+    'intl/completions': IntlAutocomplete,
     'suggestions': Suggestion,
     'parses': Parse,
     'city_states': CityState,
