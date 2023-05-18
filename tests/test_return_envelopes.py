@@ -4,24 +4,22 @@ import random
 
 
 def setup_module():
-    postgrid.pm_key = os.environ.get('PM_API_KEY')
+    postgrid.pm_key = os.environ.get("PM_API_KEY")
 
 
 def create_test_return_envelope(retrieve_existing):
     try:
         return postgrid.ReturnEnvelope.create(
             to={
-                'first_name': 'Test',
-                'last_name': 'Contact',
-                'company_name': 'Test Company',
-                'address_line1': '20 Bay St, Toronto, ON M9V 4V1',
-                'country_code': 'CA',
-                'job_title': 'Test',
-                'metadata': {
-                    'dedup': 0 if retrieve_existing else random.random()
-                }
+                "first_name": "Test",
+                "last_name": "Contact",
+                "company_name": "Test Company",
+                "address_line1": "20 Bay St, Toronto, ON M9V 4V1",
+                "country_code": "CA",
+                "job_title": "Test",
+                "metadata": {"dedup": 0 if retrieve_existing else random.random()},
             },
-            description='SDK Test'
+            description="SDK Test",
         )
     except postgrid.PMError:
         # Ideally we would only hit this codepath if we're retrieving an existing return envelope
@@ -62,7 +60,7 @@ def test_fill_order():
     res = postgrid.ReturnEnvelope.retrieve(res.id)
 
     assert isinstance(order, postgrid.ReturnEnvelopeOrder)
-    assert order.status == 'filled'
+    assert order.status == "filled"
     assert res.available >= 10000
 
 
@@ -73,4 +71,4 @@ def test_cancel_order():
     order = postgrid.ReturnEnvelopeOrder.delete(res.id, order_res.id)
 
     assert isinstance(order, postgrid.ReturnEnvelopeOrder)
-    assert order.status == 'cancelled'
+    assert order.status == "cancelled"

@@ -3,30 +3,28 @@ import os
 
 
 def setup_module():
-    postgrid.pm_key = os.environ.get('PM_API_KEY')
+    postgrid.pm_key = os.environ.get("PM_API_KEY")
 
 
 def create_test_postcard():
     return postgrid.Postcard.create(
         to={
-            'first_name': 'Test',
-            'last_name': 'Contact',
-            'company_name': 'Test Company',
-            'address_line1': '20 Bay St, Toronto, ON M9V 4V1',
-            'country_code': 'CA',
-            'job_title': 'Test',
-            'metadata': {
-                'test': [10, 20]
-            }
+            "first_name": "Test",
+            "last_name": "Contact",
+            "company_name": "Test Company",
+            "address_line1": "20 Bay St, Toronto, ON M9V 4V1",
+            "country_code": "CA",
+            "job_title": "Test",
+            "metadata": {"test": [10, 20]},
         },
         from_={
-            'company_name': 'PostGrid',
-            'address_line1': '20 Bay St, Toronto, ON M9V 4V1',
-            'country_code': 'CA'
+            "company_name": "PostGrid",
+            "address_line1": "20 Bay St, Toronto, ON M9V 4V1",
+            "country_code": "CA",
         },
-        frontHTML='Hello, {{to.firstName}}',
-        backHTML='Goodbye, {{to.firstName}}',
-        size='6x4'
+        frontHTML="Hello, {{to.firstName}}",
+        backHTML="Goodbye, {{to.firstName}}",
+        size="6x4",
     )
 
 

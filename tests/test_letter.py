@@ -4,34 +4,29 @@ import time
 
 
 def setup_module():
-    postgrid.pm_key = os.environ.get('PM_API_KEY')
+    postgrid.pm_key = os.environ.get("PM_API_KEY")
 
 
 def create_test_letter():
     return postgrid.Letter.create(
         to={
-            'first_name': 'Test',
-            'last_name': 'Contact',
-            'company_name': 'Test Company',
-            'address_line1': '20 Bay St, Toronto, ON M9V 4V1',
-            'country_code': 'CA',
-            'job_title': 'Test',
-            'metadata': {
-                'test': [10, 20]
-            }
+            "first_name": "Test",
+            "last_name": "Contact",
+            "company_name": "Test Company",
+            "address_line1": "20 Bay St, Toronto, ON M9V 4V1",
+            "country_code": "CA",
+            "job_title": "Test",
+            "metadata": {"test": [10, 20]},
         },
         from_={
-            'company_name': 'PostGrid',
-            'address_line1': '20 Bay St, Toronto, ON M9V 4V1',
-            'country_code': 'CA'
+            "company_name": "PostGrid",
+            "address_line1": "20 Bay St, Toronto, ON M9V 4V1",
+            "country_code": "CA",
         },
-        html='Hello, {{to.firstName}}',
+        html="Hello, {{to.firstName}}",
         double_sided=True,
         color=True,
-        merge_variables={
-            'testCamel': 1,
-            'test_snake': 1
-        }
+        merge_variables={"testCamel": 1, "test_snake": 1},
     )
 
 
@@ -42,8 +37,9 @@ def test_create():
     assert isinstance(letter.html, str)
     assert letter.double_sided
     assert letter.color
-    assert letter.merge_variables.get('testCamel') == '1'
-    assert letter.merge_variables.get('test_snake') == '1'
+    assert letter.merge_variables.get("testCamel") == "1"
+    assert letter.merge_variables.get("test_snake") == "1"
+
 
 def test_preview_generated():
     letter = create_test_letter()
@@ -55,6 +51,7 @@ def test_preview_generated():
     letter = postgrid.Letter.retrieve(letter.id)
 
     assert isinstance(letter.url, str)
+
 
 def test_list():
     letter = create_test_letter()

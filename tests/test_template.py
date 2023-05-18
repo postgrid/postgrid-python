@@ -3,16 +3,14 @@ import os
 
 
 def setup_module():
-    postgrid.pm_key = os.environ.get('PM_API_KEY')
+    postgrid.pm_key = os.environ.get("PM_API_KEY")
 
 
 def create_test_template():
     return postgrid.Template.create(
-        html='<b>test</b> template, hello {{to.firstName}}!',
-        description='Test',
-        metadata={
-            'test': [10, 20]
-        }
+        html="<b>test</b> template, hello {{to.firstName}}!",
+        description="Test",
+        metadata={"test": [10, 20]},
     )
 
 
@@ -22,8 +20,8 @@ def test_create():
     assert isinstance(template, postgrid.Template)
     assert isinstance(template.html, str)
     assert isinstance(template.description, str)
-    assert template.html == '<b>test</b> template, hello {{to.firstName}}!'
-    assert template.description == 'Test'
+    assert template.html == "<b>test</b> template, hello {{to.firstName}}!"
+    assert template.description == "Test"
 
 
 def test_retrieve():
@@ -50,10 +48,11 @@ def test_update():
     assert isinstance(template, postgrid.Template)
 
     template = postgrid.Template.update(
-        template.id, html='updated template', description='updated description')
+        template.id, html="updated template", description="updated description"
+    )
     assert isinstance(template, postgrid.Template)
-    assert template.html == 'updated template'
-    assert template.description == 'updated description'
+    assert template.html == "updated template"
+    assert template.description == "updated description"
 
 
 def test_delete():
