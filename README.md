@@ -15,7 +15,7 @@ pip install --upgrade postgrid-python
 
 ### Requirements
 
-- Python 3.6+
+-   Python 3.6+
 
 ## Usage
 
@@ -78,7 +78,7 @@ print(verification.status)
 # Prints '22-20 BAY ST FLOOR 11'
 print(verification.data.line1)
 
-# Verify a freeform address
+# Verify a structured address
 address = {
     "line1": "22-20 bay st, floor 11",
     "city": "toronto",
