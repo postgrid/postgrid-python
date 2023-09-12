@@ -15,7 +15,7 @@ pip install --upgrade postgrid-python
 
 ### Requirements
 
-- Python 3.6+
+-   Python 3.6+
 
 ## Usage
 
@@ -105,9 +105,7 @@ in the original API would be `letter_html` in this library.
 
 Errors produced by the Print & Mail API will raise a `PMError` exception. The `PMError`
 object has a `type` field that can be used to determine what the error was. It also has a
-`message` field which provides a human readable message describing the error in detail. The 
-`PMError` object has a `status` field that determines the result of your query. It also has 
-a `message` field which provides a human readable message describing the error in detail.
+`message` field which provides a human readable message describing the error in detail.
 
 ```python
 import postgrid
@@ -136,7 +134,9 @@ except postgrid.PMError as e:
     raise e
 ```
 
-The Address Verification API will instead raise a `AVError` exception. 
+The Address Verification API will instead raise a `AVError` exception. The `AVError`
+object has a `status` field that determines the result of your query. It also has a
+`message` field which provides a human readable message describing the error in detail.
 
 ```python
 import postgrid
