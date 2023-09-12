@@ -15,20 +15,17 @@ pip install --upgrade postgrid-python
 
 ### Requirements
 
--   Python 3.6+
+-  Python 3.6+
 
 ## Usage
 
 To access the Print & Mail services, you must have a PostGrid Print & Mail Account (you can sign up at https://dashboard.postgrid.com/signup) and access to your API key which you can retrieve from the [settings page](https://dashboard.postgrid.com/settings).
-
-Similarly, to access the Address Verification services, you must have a PostGrid Address Verification Account (you can sign up at https://app.postgrid.com/signup) and access to your API key which you can retrieve from the [developers page](https://app.postgrid.com/dashboard/developers).
 
 ```python
 import postgrid
 
 # Swap this out for your live API key to create live orders
 postgrid.pm_key = 'test_sk_...'
-postgrid.av_key = 'test_sk_...'
 
 # Send a letter
 letter = postgrid.Letter.create(
@@ -68,6 +65,15 @@ letter = postgrid.Letter.delete(letter.id)
 
 # Prints 'cancelled'
 print(letter.status)
+```
+
+Similarly, to access the Address Verification services, you must have a PostGrid Address Verification Account (you can sign up at https://app.postgrid.com/signup) and access to your API key which you can retrieve from the [developers page](https://app.postgrid.com/dashboard/developers).
+
+```python
+import postgrid
+
+# Swap this out for your live API key to create live orders
+postgrid.av_key = 'test_sk_...'
 
 # Verify a freeform address
 verification = postgrid.Verification.verify('22-20 bay st, floor 11, toronto, on')
@@ -99,16 +105,14 @@ in the original API would be `letter_html` in this library.
 
 Errors produced by the Print & Mail API will raise a `PMError` exception. The `PMError`
 object has a `type` field that can be used to determine what the error was. It also has a
-`message` field which provides a human readable message describing the error in detail. The
-Address Verification API will raise a `AVError` exception. The `PMError` object has a
-`status` field that determines the result of your query. It also has a `message` field which
-provides a human readable message describing the error in detail.
+`message` field which provides a human readable message describing the error in detail. The 
+`PMError` object has a `status` field that determines the result of your query. It also has 
+a `message` field which provides a human readable message describing the error in detail.
 
 ```python
 import postgrid
 
 postgrid.pm_key = 'test_sk_...'
-postgrid.av_key = 'test_sk_...'
 
 try:
     template = postgrid.Template.create(
@@ -130,6 +134,14 @@ except postgrid.PMError as e:
     print(e.message)
 
     raise e
+```
+
+The Address Verification API will instead raise a `AVError` exception. 
+
+```python
+import postgrid
+
+postgrid.av_key = 'test_sk_...'
 
 try:
     addresses = {

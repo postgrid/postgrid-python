@@ -77,6 +77,37 @@ def _map_keys_recursive(d, fn):
 
     return new_d
 
+def flatten(files, array, key, value):
+    if _is_file_like(value):
+        if not files:
+            files = {}
+
+        path, ext = os.path.splitext(value.name)
+
+        if ext == ".pdf":
+            content_type = "application/pdf"
+        elif ext == ".png":
+            content_type = "image/png"
+        elif ext == ".jpeg":
+            content_type = "image/jpeg"
+        elif ext == ".jpg":
+            content_type = "image/jpeg"
+        else:
+            # TODO Make sure we don't expect any other file types
+            raise UnsupportedFileTypeError(ext)
+
+        files[key] = (os.path.basename(path), value, content_type)
+    elif isinstance(value, dict):
+        for inner_key, inner_value in value.items():
+            flatten(files, array, f"{key}[{inner_key}]", inner_value)
+    elif isinstance(value, list):
+        for inner_value in value:
+            flatten(files, array, f"{key}[]", inner_value)
+    elif isinstance(value, bool):
+        array.append((key, "true" if value else "false"))
+    elif value is not None:
+        array.append((key, value))
+    return files
 
 class UnsupportedFileTypeError(Exception):
     def __init__(self, ext):
@@ -97,42 +128,8 @@ def _request(endpoint, method="GET", idempotency_key=None, **kwargs):
         data = []
         files = None
 
-        def flatten(key, value):
-            nonlocal files
-
-            if _is_file_like(value):
-                if not files:
-                    files = {}
-
-                path, ext = os.path.splitext(value.name)
-
-                if ext == ".pdf":
-                    content_type = "application/pdf"
-                elif ext == ".png":
-                    content_type = "image/png"
-                elif ext == ".jpg":
-                    content_type = "image/jpeg"
-                elif ext == ".jpeg":
-                    content_type = "image/jpeg"
-                else:
-                    # TODO Make sure we don't expect any other file types
-                    raise UnsupportedFileTypeError(ext)
-
-                files[key] = (os.path.basename(path), value, content_type)
-            elif isinstance(value, dict):
-                for inner_key, inner_value in value.items():
-                    flatten(f"{key}[{inner_key}]", inner_value)
-            elif isinstance(value, list):
-                for inner_value in value:
-                    flatten(f"{key}[]", inner_value)
-            elif isinstance(value, bool):
-                data.append((key, "true" if value else "false"))
-            elif value is not None:
-                data.append((key, value))
-
         for key, value in kwargs.items():
-            flatten(key, value)
-
+            files = flatten(files, data, key, value)
         res = requests.post(pm_base + endpoint, data=data, files=files, headers=headers)
     elif method == "DELETE":
         res = requests.delete(pm_base + endpoint, params=kwargs, headers=headers)
@@ -165,46 +162,12 @@ def _av_request(endpoint, intl=False, method="GET", data=None, params=None, json
     params_to_pass = []
     files = None
 
-    def flatten(array, key, value):
-        nonlocal files
-        if key == "cls":
-            return
-        elif _is_file_like(value):
-            if not files:
-                files = {}
-
-            path, ext = os.path.splitext(value.name)
-
-            if ext == ".pdf":
-                content_type = "application/pdf"
-            elif ext == ".png":
-                content_type = "image/png"
-            elif ext == ".jpeg":
-                content_type = "image/jpeg"
-            elif ext == ".jpg":
-                content_type = "image/jpeg"
-            else:
-                # TODO Make sure we don't expect any other file types
-                raise UnsupportedFileTypeError(ext)
-
-            files[key] = (os.path.basename(path), value, content_type)
-        elif isinstance(value, dict):
-            for inner_key, inner_value in value.items():
-                flatten(f"{key}[{inner_key}]", inner_value)
-        elif isinstance(value, list):
-            for inner_value in value:
-                flatten(f"{key}[]", inner_value)
-        elif isinstance(value, bool):
-            array.append((key, "true" if value else "false"))
-        elif value is not None:
-            array.append((key, value))
-
     if data:
         for key, value in data.items():
-            flatten(data_to_pass, key, value)
+            flatten(files, data_to_pass, key, value)
     if params:
         for key, value in params.items():
-            flatten(params_to_pass, key, value)
+            flatten(files, params_to_pass, key, value)
 
     headers = {"x-api-key": av_key}
 
