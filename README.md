@@ -15,7 +15,7 @@ pip install --upgrade postgrid-python
 
 ### Requirements
 
--  Python 3.6+
+- Python 3.6+
 
 ## Usage
 
