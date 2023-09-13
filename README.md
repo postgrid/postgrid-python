@@ -72,7 +72,7 @@ Similarly, to access the Address Verification services, you must have a PostGrid
 ```python
 import postgrid
 
-# Swap this out for your live API key to create live orders
+# Swap this out for your live API key to create live requests
 postgrid.av_key = 'test_sk_...'
 
 # Verify a freeform address

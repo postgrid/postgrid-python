@@ -192,10 +192,7 @@ def _av_request(endpoint, intl=False, method="GET", data=None, params=None, json
         res.raise_for_status()
     except requests.HTTPError as e:
         raise AVError(status_code=res.status_code, message=value["message"])
-    if intl:
-        endpoint = "intl/" + endpoint
-    return _av_convert_json_value(endpoint, value)
-
+    return _av_convert_json_value(f"intl/{endpoint}" if intl else endpoint, value)
 
 def _pm_get(endpoint, **kwargs):
     return _request(endpoint, method="GET", **kwargs)
