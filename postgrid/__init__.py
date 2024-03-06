@@ -324,6 +324,16 @@ class DeleteableResource:
     @classmethod
     def delete(cls, id, parent_resource_id=None):
         return _pm_delete(f"{cls.endpoint.format(parent_resource_id)}/{id}")
+    
+
+class DeleteableResourceWithNote(DeleteableResource):
+
+    @classmethod
+    def delete_with_note(cls, id, note,  parent_resource_id=None, ):
+        return _pm_post(
+            f"{cls.endpoint.format(parent_resource_id)}/{id}/cancellation",
+            note=note
+        )
 
 
 class BaseResource:
@@ -425,7 +435,7 @@ class Letter(
     RetrieveableResource,
     ListableResource,
     ProgressableResource,
-    DeleteableResource,
+    DeleteableResourceWithNote,
 ):
     endpoint = "letters"
 
