@@ -326,7 +326,7 @@ class DeleteableResource:
         return _pm_delete(f"{cls.endpoint.format(parent_resource_id)}/{id}")
     
 
-class DeleteableResourceWithNote(DeleteableResource):
+class CancellableCollateral(DeleteableResource):
 
     @classmethod
     def delete_with_note(cls, id, note,  parent_resource_id=None, ):
@@ -435,7 +435,7 @@ class Letter(
     RetrieveableResource,
     ListableResource,
     ProgressableResource,
-    DeleteableResourceWithNote,
+    CancellableCollateral,
 ):
     endpoint = "letters"
 
