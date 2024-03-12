@@ -497,7 +497,7 @@ class Cheque(
     RetrieveableResource,
     ListableResource,
     ProgressableResource,
-    DeleteableResource,
+    CancellableCollateral,
 ):
     endpoint = "cheques"
 
