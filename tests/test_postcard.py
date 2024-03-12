@@ -51,3 +51,11 @@ def test_delete():
     res = postgrid.Postcard.delete(postcard.id)
 
     assert isinstance(res, postgrid.Postcard)
+
+def test_delete_with_note():
+    postcard = create_test_postcard()
+    note = "cancelled due to issues test"
+    res = postgrid.Postcard.delete_with_note(postcard.id, note)
+
+    assert isinstance(res, postgrid.Postcard)
+    assert res.cancellation["note"] == note

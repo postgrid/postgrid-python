@@ -468,7 +468,7 @@ class Postcard(
     RetrieveableResource,
     ListableResource,
     ProgressableResource,
-    DeleteableResource,
+    CancellableCollateral,
 ):
     endpoint = "postcards"
 
