@@ -72,3 +72,4 @@ def test_delete_with_note():
 
     assert isinstance(res, postgrid.Cheque)
     assert res.cancellation["note"] == note
+    
