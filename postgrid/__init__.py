@@ -77,6 +77,7 @@ def _map_keys_recursive(d, fn):
 
     return new_d
 
+
 def flatten(files, array, key, value):
     if _is_file_like(value):
         if not files:
@@ -108,6 +109,7 @@ def flatten(files, array, key, value):
     elif value is not None:
         array.append((key, value))
     return files
+
 
 class UnsupportedFileTypeError(Exception):
     def __init__(self, ext):
@@ -193,6 +195,7 @@ def _av_request(endpoint, intl=False, method="GET", data=None, params=None, json
     except requests.HTTPError as e:
         raise AVError(status_code=res.status_code, message=value["message"])
     return _av_convert_json_value(f"intl/{endpoint}" if intl else endpoint, value)
+
 
 def _pm_get(endpoint, **kwargs):
     return _request(endpoint, method="GET", **kwargs)
@@ -326,6 +329,19 @@ class DeleteableResource:
         return _pm_delete(f"{cls.endpoint.format(parent_resource_id)}/{id}")
 
 
+class CancellableCollateral(DeleteableResource):
+    @classmethod
+    def delete_with_note(
+        cls,
+        id,
+        note,
+        parent_resource_id=None,
+    ):
+        return _pm_post(
+            f"{cls.endpoint.format(parent_resource_id)}/{id}/cancellation", note=note
+        )
+
+
 class BaseResource:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
@@ -425,7 +441,7 @@ class Letter(
     RetrieveableResource,
     ListableResource,
     ProgressableResource,
-    DeleteableResource,
+    CancellableCollateral,
 ):
     endpoint = "letters"
 
@@ -458,7 +474,7 @@ class Postcard(
     RetrieveableResource,
     ListableResource,
     ProgressableResource,
-    DeleteableResource,
+    CancellableCollateral,
 ):
     endpoint = "postcards"
 
@@ -487,7 +503,7 @@ class Cheque(
     RetrieveableResource,
     ListableResource,
     ProgressableResource,
-    DeleteableResource,
+    CancellableCollateral,
 ):
     endpoint = "cheques"
 

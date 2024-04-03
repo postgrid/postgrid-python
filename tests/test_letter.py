@@ -78,3 +78,12 @@ def test_delete():
     res = postgrid.Letter.delete(letter.id)
 
     assert isinstance(res, postgrid.Letter)
+
+
+def test_delete_with_note():
+    letter = create_test_letter()
+    note = "cancelled due to issues test"
+    res = postgrid.Letter.delete_with_note(letter.id, note)
+
+    assert isinstance(res, postgrid.Letter)
+    assert res.cancellation["note"] == note
