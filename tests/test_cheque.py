@@ -65,6 +65,7 @@ def test_delete():
 
     assert isinstance(res, postgrid.Cheque)
 
+
 def test_delete_with_note():
     cheque = create_test_cheque()
     note = "cancelled due to issues test"
@@ -72,4 +73,3 @@ def test_delete_with_note():
 
     assert isinstance(res, postgrid.Cheque)
     assert res.cancellation["note"] == note
-    
