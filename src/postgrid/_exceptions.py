@@ -18,11 +18,11 @@ __all__ = [
 ]
 
 
-class PostgridError(Exception):
+class PostGridError(Exception):
     pass
 
 
-class APIError(PostgridError):
+class APIError(PostGridError):
     message: str
     request: httpx.Request
 

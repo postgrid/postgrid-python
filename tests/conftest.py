@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Iterator, AsyncIterator
 import pytest
 from pytest_asyncio import is_async_test
 
-from postgrid import Postgrid, AsyncPostgrid
+from postgrid import PostGrid, AsyncPostGrid
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest
@@ -32,20 +32,20 @@ api_key = "My API Key"
 
 
 @pytest.fixture(scope="session")
-def client(request: FixtureRequest) -> Iterator[Postgrid]:
+def client(request: FixtureRequest) -> Iterator[PostGrid]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with Postgrid(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
+    with PostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
         yield client
 
 
 @pytest.fixture(scope="session")
-async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncPostgrid]:
+async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncPostGrid]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    async with AsyncPostgrid(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
+    async with AsyncPostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
         yield client

@@ -25,7 +25,7 @@ from ._utils import (
 )
 from ._version import __version__
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import PostgridError, APIStatusError
+from ._exceptions import PostGridError, APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
@@ -38,18 +38,18 @@ __all__ = [
     "ProxiesTypes",
     "RequestOptions",
     "resources",
-    "Postgrid",
-    "AsyncPostgrid",
+    "PostGrid",
+    "AsyncPostGrid",
     "Client",
     "AsyncClient",
 ]
 
 
-class Postgrid(SyncAPIClient):
+class PostGrid(SyncAPIClient):
     contacts: resources.ContactsResource
     templates: resources.TemplatesResource
-    with_raw_response: PostgridWithRawResponse
-    with_streaming_response: PostgridWithStreamedResponse
+    with_raw_response: PostGridWithRawResponse
+    with_streaming_response: PostGridWithStreamedResponse
 
     # client options
     api_key: str
@@ -84,7 +84,7 @@ class Postgrid(SyncAPIClient):
         if api_key is None:
             api_key = os.environ.get("X_API_KEY")
         if api_key is None:
-            raise PostgridError(
+            raise PostGridError(
                 "The api_key client option must be set either by passing api_key to the client or by setting the X_API_KEY environment variable"
             )
         self.api_key = api_key
@@ -107,8 +107,8 @@ class Postgrid(SyncAPIClient):
 
         self.contacts = resources.ContactsResource(self)
         self.templates = resources.TemplatesResource(self)
-        self.with_raw_response = PostgridWithRawResponse(self)
-        self.with_streaming_response = PostgridWithStreamedResponse(self)
+        self.with_raw_response = PostGridWithRawResponse(self)
+        self.with_streaming_response = PostGridWithStreamedResponse(self)
 
     @property
     @override
@@ -215,11 +215,11 @@ class Postgrid(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncPostgrid(AsyncAPIClient):
+class AsyncPostGrid(AsyncAPIClient):
     contacts: resources.AsyncContactsResource
     templates: resources.AsyncTemplatesResource
-    with_raw_response: AsyncPostgridWithRawResponse
-    with_streaming_response: AsyncPostgridWithStreamedResponse
+    with_raw_response: AsyncPostGridWithRawResponse
+    with_streaming_response: AsyncPostGridWithStreamedResponse
 
     # client options
     api_key: str
@@ -254,7 +254,7 @@ class AsyncPostgrid(AsyncAPIClient):
         if api_key is None:
             api_key = os.environ.get("X_API_KEY")
         if api_key is None:
-            raise PostgridError(
+            raise PostGridError(
                 "The api_key client option must be set either by passing api_key to the client or by setting the X_API_KEY environment variable"
             )
         self.api_key = api_key
@@ -277,8 +277,8 @@ class AsyncPostgrid(AsyncAPIClient):
 
         self.contacts = resources.AsyncContactsResource(self)
         self.templates = resources.AsyncTemplatesResource(self)
-        self.with_raw_response = AsyncPostgridWithRawResponse(self)
-        self.with_streaming_response = AsyncPostgridWithStreamedResponse(self)
+        self.with_raw_response = AsyncPostGridWithRawResponse(self)
+        self.with_streaming_response = AsyncPostGridWithStreamedResponse(self)
 
     @property
     @override
@@ -385,30 +385,30 @@ class AsyncPostgrid(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class PostgridWithRawResponse:
-    def __init__(self, client: Postgrid) -> None:
+class PostGridWithRawResponse:
+    def __init__(self, client: PostGrid) -> None:
         self.contacts = resources.ContactsResourceWithRawResponse(client.contacts)
         self.templates = resources.TemplatesResourceWithRawResponse(client.templates)
 
 
-class AsyncPostgridWithRawResponse:
-    def __init__(self, client: AsyncPostgrid) -> None:
+class AsyncPostGridWithRawResponse:
+    def __init__(self, client: AsyncPostGrid) -> None:
         self.contacts = resources.AsyncContactsResourceWithRawResponse(client.contacts)
         self.templates = resources.AsyncTemplatesResourceWithRawResponse(client.templates)
 
 
-class PostgridWithStreamedResponse:
-    def __init__(self, client: Postgrid) -> None:
+class PostGridWithStreamedResponse:
+    def __init__(self, client: PostGrid) -> None:
         self.contacts = resources.ContactsResourceWithStreamingResponse(client.contacts)
         self.templates = resources.TemplatesResourceWithStreamingResponse(client.templates)
 
 
-class AsyncPostgridWithStreamedResponse:
-    def __init__(self, client: AsyncPostgrid) -> None:
+class AsyncPostGridWithStreamedResponse:
+    def __init__(self, client: AsyncPostGrid) -> None:
         self.contacts = resources.AsyncContactsResourceWithStreamingResponse(client.contacts)
         self.templates = resources.AsyncTemplatesResourceWithStreamingResponse(client.templates)
 
 
-Client = Postgrid
+Client = PostGrid
 
-AsyncClient = AsyncPostgrid
+AsyncClient = AsyncPostGrid

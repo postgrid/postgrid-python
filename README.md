@@ -2,7 +2,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/postgrid.svg)](https://pypi.org/project/postgrid/)
 
-The PostGrid Python library provides convenient access to the Postgrid REST API from any Python 3.8+
+The PostGrid Python library provides convenient access to the PostGrid REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -28,9 +28,9 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from postgrid import Postgrid
+from postgrid import PostGrid
 
-client = Postgrid(
+client = PostGrid(
     api_key=os.environ.get("X_API_KEY"),  # This is the default and can be omitted
 )
 
@@ -49,14 +49,14 @@ so that your API Key is not stored in source control.
 
 ## Async usage
 
-Simply import `AsyncPostgrid` instead of `Postgrid` and use `await` with each API call:
+Simply import `AsyncPostGrid` instead of `PostGrid` and use `await` with each API call:
 
 ```python
 import os
 import asyncio
-from postgrid import AsyncPostgrid
+from postgrid import AsyncPostGrid
 
-client = AsyncPostgrid(
+client = AsyncPostGrid(
     api_key=os.environ.get("X_API_KEY"),  # This is the default and can be omitted
 )
 
@@ -86,14 +86,14 @@ Typed requests and responses provide autocomplete and documentation within your 
 
 ## Pagination
 
-List methods in the Postgrid API are paginated.
+List methods in the PostGrid API are paginated.
 
 This library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:
 
 ```python
-from postgrid import Postgrid
+from postgrid import PostGrid
 
-client = Postgrid()
+client = PostGrid()
 
 all_contacts = []
 # Automatically fetches more pages as needed.
@@ -107,9 +107,9 @@ Or, asynchronously:
 
 ```python
 import asyncio
-from postgrid import AsyncPostgrid
+from postgrid import AsyncPostGrid
 
-client = AsyncPostgrid()
+client = AsyncPostGrid()
 
 
 async def main() -> None:
@@ -156,9 +156,9 @@ All errors inherit from `postgrid.APIError`.
 
 ```python
 import postgrid
-from postgrid import Postgrid
+from postgrid import PostGrid
 
-client = Postgrid()
+client = PostGrid()
 
 try:
     client.contacts.create(
@@ -199,10 +199,10 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from postgrid import Postgrid
+from postgrid import PostGrid
 
 # Configure the default for all requests:
-client = Postgrid(
+client = PostGrid(
     # default is 2
     max_retries=0,
 )
@@ -221,16 +221,16 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
 
 ```python
-from postgrid import Postgrid
+from postgrid import PostGrid
 
 # Configure the default for all requests:
-client = Postgrid(
+client = PostGrid(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = Postgrid(
+client = PostGrid(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
@@ -275,9 +275,9 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from postgrid import Postgrid
+from postgrid import PostGrid
 
-client = Postgrid()
+client = PostGrid()
 response = client.contacts.with_raw_response.create(
     address_line1="addressLine1",
     country_code="countryCode",
@@ -357,9 +357,9 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 - Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
 
 ```python
-from postgrid import Postgrid, DefaultHttpxClient
+from postgrid import PostGrid, DefaultHttpxClient
 
-client = Postgrid(
+client = PostGrid(
     # Or use the `POSTGRID_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(

@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from postgrid import Postgrid, AsyncPostgrid
+from postgrid import PostGrid, AsyncPostGrid
 from tests.utils import assert_matches_type
 from postgrid.types import Contact, ContactDeleteResponse
 from postgrid.pagination import SyncList, AsyncList
@@ -19,7 +19,7 @@ class TestContacts:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_create_overload_1(self, client: Postgrid) -> None:
+    def test_method_create_overload_1(self, client: PostGrid) -> None:
         contact = client.contacts.create(
             address_line1="addressLine1",
             country_code="countryCode",
@@ -28,7 +28,7 @@ class TestContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    def test_method_create_with_all_params_overload_1(self, client: Postgrid) -> None:
+    def test_method_create_with_all_params_overload_1(self, client: PostGrid) -> None:
         contact = client.contacts.create(
             address_line1="addressLine1",
             country_code="countryCode",
@@ -50,7 +50,7 @@ class TestContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    def test_raw_response_create_overload_1(self, client: Postgrid) -> None:
+    def test_raw_response_create_overload_1(self, client: PostGrid) -> None:
         response = client.contacts.with_raw_response.create(
             address_line1="addressLine1",
             country_code="countryCode",
@@ -63,7 +63,7 @@ class TestContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    def test_streaming_response_create_overload_1(self, client: Postgrid) -> None:
+    def test_streaming_response_create_overload_1(self, client: PostGrid) -> None:
         with client.contacts.with_streaming_response.create(
             address_line1="addressLine1",
             country_code="countryCode",
@@ -78,7 +78,7 @@ class TestContacts:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_create_overload_2(self, client: Postgrid) -> None:
+    def test_method_create_overload_2(self, client: PostGrid) -> None:
         contact = client.contacts.create(
             address_line1="addressLine1",
             company_name="companyName",
@@ -87,7 +87,7 @@ class TestContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    def test_method_create_with_all_params_overload_2(self, client: Postgrid) -> None:
+    def test_method_create_with_all_params_overload_2(self, client: PostGrid) -> None:
         contact = client.contacts.create(
             address_line1="addressLine1",
             company_name="companyName",
@@ -109,7 +109,7 @@ class TestContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    def test_raw_response_create_overload_2(self, client: Postgrid) -> None:
+    def test_raw_response_create_overload_2(self, client: PostGrid) -> None:
         response = client.contacts.with_raw_response.create(
             address_line1="addressLine1",
             company_name="companyName",
@@ -122,7 +122,7 @@ class TestContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    def test_streaming_response_create_overload_2(self, client: Postgrid) -> None:
+    def test_streaming_response_create_overload_2(self, client: PostGrid) -> None:
         with client.contacts.with_streaming_response.create(
             address_line1="addressLine1",
             company_name="companyName",
@@ -137,14 +137,14 @@ class TestContacts:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_retrieve(self, client: Postgrid) -> None:
+    def test_method_retrieve(self, client: PostGrid) -> None:
         contact = client.contacts.retrieve(
             "id",
         )
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    def test_raw_response_retrieve(self, client: Postgrid) -> None:
+    def test_raw_response_retrieve(self, client: PostGrid) -> None:
         response = client.contacts.with_raw_response.retrieve(
             "id",
         )
@@ -155,7 +155,7 @@ class TestContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    def test_streaming_response_retrieve(self, client: Postgrid) -> None:
+    def test_streaming_response_retrieve(self, client: PostGrid) -> None:
         with client.contacts.with_streaming_response.retrieve(
             "id",
         ) as response:
@@ -168,19 +168,19 @@ class TestContacts:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_retrieve(self, client: Postgrid) -> None:
+    def test_path_params_retrieve(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.contacts.with_raw_response.retrieve(
                 "",
             )
 
     @parametrize
-    def test_method_list(self, client: Postgrid) -> None:
+    def test_method_list(self, client: PostGrid) -> None:
         contact = client.contacts.list()
         assert_matches_type(SyncList[Contact], contact, path=["response"])
 
     @parametrize
-    def test_method_list_with_all_params(self, client: Postgrid) -> None:
+    def test_method_list_with_all_params(self, client: PostGrid) -> None:
         contact = client.contacts.list(
             limit=0,
             search="search",
@@ -189,7 +189,7 @@ class TestContacts:
         assert_matches_type(SyncList[Contact], contact, path=["response"])
 
     @parametrize
-    def test_raw_response_list(self, client: Postgrid) -> None:
+    def test_raw_response_list(self, client: PostGrid) -> None:
         response = client.contacts.with_raw_response.list()
 
         assert response.is_closed is True
@@ -198,7 +198,7 @@ class TestContacts:
         assert_matches_type(SyncList[Contact], contact, path=["response"])
 
     @parametrize
-    def test_streaming_response_list(self, client: Postgrid) -> None:
+    def test_streaming_response_list(self, client: PostGrid) -> None:
         with client.contacts.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -209,14 +209,14 @@ class TestContacts:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_delete(self, client: Postgrid) -> None:
+    def test_method_delete(self, client: PostGrid) -> None:
         contact = client.contacts.delete(
             "id",
         )
         assert_matches_type(ContactDeleteResponse, contact, path=["response"])
 
     @parametrize
-    def test_raw_response_delete(self, client: Postgrid) -> None:
+    def test_raw_response_delete(self, client: PostGrid) -> None:
         response = client.contacts.with_raw_response.delete(
             "id",
         )
@@ -227,7 +227,7 @@ class TestContacts:
         assert_matches_type(ContactDeleteResponse, contact, path=["response"])
 
     @parametrize
-    def test_streaming_response_delete(self, client: Postgrid) -> None:
+    def test_streaming_response_delete(self, client: PostGrid) -> None:
         with client.contacts.with_streaming_response.delete(
             "id",
         ) as response:
@@ -240,7 +240,7 @@ class TestContacts:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_delete(self, client: Postgrid) -> None:
+    def test_path_params_delete(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             client.contacts.with_raw_response.delete(
                 "",
@@ -251,7 +251,7 @@ class TestAsyncContacts:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_create_overload_1(self, async_client: AsyncPostgrid) -> None:
+    async def test_method_create_overload_1(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.contacts.create(
             address_line1="addressLine1",
             country_code="countryCode",
@@ -260,7 +260,7 @@ class TestAsyncContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params_overload_1(self, async_client: AsyncPostgrid) -> None:
+    async def test_method_create_with_all_params_overload_1(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.contacts.create(
             address_line1="addressLine1",
             country_code="countryCode",
@@ -282,7 +282,7 @@ class TestAsyncContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    async def test_raw_response_create_overload_1(self, async_client: AsyncPostgrid) -> None:
+    async def test_raw_response_create_overload_1(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.contacts.with_raw_response.create(
             address_line1="addressLine1",
             country_code="countryCode",
@@ -295,7 +295,7 @@ class TestAsyncContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create_overload_1(self, async_client: AsyncPostgrid) -> None:
+    async def test_streaming_response_create_overload_1(self, async_client: AsyncPostGrid) -> None:
         async with async_client.contacts.with_streaming_response.create(
             address_line1="addressLine1",
             country_code="countryCode",
@@ -310,7 +310,7 @@ class TestAsyncContacts:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_create_overload_2(self, async_client: AsyncPostgrid) -> None:
+    async def test_method_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.contacts.create(
             address_line1="addressLine1",
             company_name="companyName",
@@ -319,7 +319,7 @@ class TestAsyncContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncPostgrid) -> None:
+    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.contacts.create(
             address_line1="addressLine1",
             company_name="companyName",
@@ -341,7 +341,7 @@ class TestAsyncContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    async def test_raw_response_create_overload_2(self, async_client: AsyncPostgrid) -> None:
+    async def test_raw_response_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.contacts.with_raw_response.create(
             address_line1="addressLine1",
             company_name="companyName",
@@ -354,7 +354,7 @@ class TestAsyncContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create_overload_2(self, async_client: AsyncPostgrid) -> None:
+    async def test_streaming_response_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         async with async_client.contacts.with_streaming_response.create(
             address_line1="addressLine1",
             company_name="companyName",
@@ -369,14 +369,14 @@ class TestAsyncContacts:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncPostgrid) -> None:
+    async def test_method_retrieve(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.contacts.retrieve(
             "id",
         )
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncPostgrid) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.contacts.with_raw_response.retrieve(
             "id",
         )
@@ -387,7 +387,7 @@ class TestAsyncContacts:
         assert_matches_type(Contact, contact, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncPostgrid) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         async with async_client.contacts.with_streaming_response.retrieve(
             "id",
         ) as response:
@@ -400,19 +400,19 @@ class TestAsyncContacts:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncPostgrid) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.contacts.with_raw_response.retrieve(
                 "",
             )
 
     @parametrize
-    async def test_method_list(self, async_client: AsyncPostgrid) -> None:
+    async def test_method_list(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.contacts.list()
         assert_matches_type(AsyncList[Contact], contact, path=["response"])
 
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncPostgrid) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.contacts.list(
             limit=0,
             search="search",
@@ -421,7 +421,7 @@ class TestAsyncContacts:
         assert_matches_type(AsyncList[Contact], contact, path=["response"])
 
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncPostgrid) -> None:
+    async def test_raw_response_list(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.contacts.with_raw_response.list()
 
         assert response.is_closed is True
@@ -430,7 +430,7 @@ class TestAsyncContacts:
         assert_matches_type(AsyncList[Contact], contact, path=["response"])
 
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncPostgrid) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncPostGrid) -> None:
         async with async_client.contacts.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -441,14 +441,14 @@ class TestAsyncContacts:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_delete(self, async_client: AsyncPostgrid) -> None:
+    async def test_method_delete(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.contacts.delete(
             "id",
         )
         assert_matches_type(ContactDeleteResponse, contact, path=["response"])
 
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncPostgrid) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.contacts.with_raw_response.delete(
             "id",
         )
@@ -459,7 +459,7 @@ class TestAsyncContacts:
         assert_matches_type(ContactDeleteResponse, contact, path=["response"])
 
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncPostgrid) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncPostGrid) -> None:
         async with async_client.contacts.with_streaming_response.delete(
             "id",
         ) as response:
@@ -472,7 +472,7 @@ class TestAsyncContacts:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_delete(self, async_client: AsyncPostgrid) -> None:
+    async def test_path_params_delete(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.contacts.with_raw_response.delete(
                 "",

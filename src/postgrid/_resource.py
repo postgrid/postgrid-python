@@ -8,13 +8,13 @@ from typing import TYPE_CHECKING
 import anyio
 
 if TYPE_CHECKING:
-    from ._client import Postgrid, AsyncPostgrid
+    from ._client import PostGrid, AsyncPostGrid
 
 
 class SyncAPIResource:
-    _client: Postgrid
+    _client: PostGrid
 
-    def __init__(self, client: Postgrid) -> None:
+    def __init__(self, client: PostGrid) -> None:
         self._client = client
         self._get = client.get
         self._post = client.post
@@ -28,9 +28,9 @@ class SyncAPIResource:
 
 
 class AsyncAPIResource:
-    _client: AsyncPostgrid
+    _client: AsyncPostGrid
 
-    def __init__(self, client: AsyncPostgrid) -> None:
+    def __init__(self, client: AsyncPostGrid) -> None:
         self._client = client
         self._get = client.get
         self._post = client.post
