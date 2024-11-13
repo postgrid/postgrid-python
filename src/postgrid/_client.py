@@ -79,13 +79,13 @@ class PostGrid(SyncAPIClient):
     ) -> None:
         """Construct a new synchronous postgrid client instance.
 
-        This automatically infers the `api_key` argument from the `X_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `POSTGRID_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
-            api_key = os.environ.get("X_API_KEY")
+            api_key = os.environ.get("POSTGRID_API_KEY")
         if api_key is None:
             raise PostGridError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the X_API_KEY environment variable"
+                "The api_key client option must be set either by passing api_key to the client or by setting the POSTGRID_API_KEY environment variable"
             )
         self.api_key = api_key
 
@@ -104,6 +104,8 @@ class PostGrid(SyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
+
+        self._idempotency_header = "Idempotency-Key"
 
         self.contacts = resources.ContactsResource(self)
         self.templates = resources.TemplatesResource(self)
@@ -249,13 +251,13 @@ class AsyncPostGrid(AsyncAPIClient):
     ) -> None:
         """Construct a new async postgrid client instance.
 
-        This automatically infers the `api_key` argument from the `X_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `POSTGRID_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
-            api_key = os.environ.get("X_API_KEY")
+            api_key = os.environ.get("POSTGRID_API_KEY")
         if api_key is None:
             raise PostGridError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the X_API_KEY environment variable"
+                "The api_key client option must be set either by passing api_key to the client or by setting the POSTGRID_API_KEY environment variable"
             )
         self.api_key = api_key
 
@@ -274,6 +276,8 @@ class AsyncPostGrid(AsyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
+
+        self._idempotency_header = "Idempotency-Key"
 
         self.contacts = resources.AsyncContactsResource(self)
         self.templates = resources.AsyncTemplatesResource(self)

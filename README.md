@@ -31,7 +31,7 @@ import os
 from postgrid import PostGrid
 
 client = PostGrid(
-    api_key=os.environ.get("X_API_KEY"),  # This is the default and can be omitted
+    api_key=os.environ.get("POSTGRID_API_KEY"),  # This is the default and can be omitted
 )
 
 contact = client.contacts.create(
@@ -44,7 +44,7 @@ print(contact.id)
 
 While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `X_API_KEY="My API Key"` to your `.env` file
+to add `POSTGRID_API_KEY="My API Key"` to your `.env` file
 so that your API Key is not stored in source control.
 
 ## Async usage
@@ -57,7 +57,7 @@ import asyncio
 from postgrid import AsyncPostGrid
 
 client = AsyncPostGrid(
-    api_key=os.environ.get("X_API_KEY"),  # This is the default and can be omitted
+    api_key=os.environ.get("POSTGRID_API_KEY"),  # This is the default and can be omitted
 )
 
 
