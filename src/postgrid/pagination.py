@@ -32,7 +32,7 @@ class SyncList(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
         length = len(self._get_page_items())
         current_count = offset + length
 
-        total_count = self.total_count
+        total_count = self.totalCount
         if total_count is None:
             return None
 
@@ -62,7 +62,7 @@ class AsyncList(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
         length = len(self._get_page_items())
         current_count = offset + length
 
-        total_count = self.total_count
+        total_count = self.totalCount
         if total_count is None:
             return None
 
