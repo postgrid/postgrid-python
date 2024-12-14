@@ -8,7 +8,7 @@ from typing_extensions import Self, override
 
 import httpx
 
-from . import resources, _exceptions
+from . import _exceptions
 from ._qs import Querystring
 from ._types import (
     NOT_GIVEN,
@@ -24,6 +24,7 @@ from ._utils import (
     get_async_library,
 )
 from ._version import __version__
+from .resources import contacts, templates
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import PostGridError, APIStatusError
 from ._base_client import (
@@ -37,7 +38,6 @@ __all__ = [
     "Transport",
     "ProxiesTypes",
     "RequestOptions",
-    "resources",
     "PostGrid",
     "AsyncPostGrid",
     "Client",
@@ -46,8 +46,8 @@ __all__ = [
 
 
 class PostGrid(SyncAPIClient):
-    contacts: resources.ContactsResource
-    templates: resources.TemplatesResource
+    contacts: contacts.ContactsResource
+    templates: templates.TemplatesResource
     with_raw_response: PostGridWithRawResponse
     with_streaming_response: PostGridWithStreamedResponse
 
@@ -107,8 +107,8 @@ class PostGrid(SyncAPIClient):
 
         self._idempotency_header = "Idempotency-Key"
 
-        self.contacts = resources.ContactsResource(self)
-        self.templates = resources.TemplatesResource(self)
+        self.contacts = contacts.ContactsResource(self)
+        self.templates = templates.TemplatesResource(self)
         self.with_raw_response = PostGridWithRawResponse(self)
         self.with_streaming_response = PostGridWithStreamedResponse(self)
 
@@ -218,8 +218,8 @@ class PostGrid(SyncAPIClient):
 
 
 class AsyncPostGrid(AsyncAPIClient):
-    contacts: resources.AsyncContactsResource
-    templates: resources.AsyncTemplatesResource
+    contacts: contacts.AsyncContactsResource
+    templates: templates.AsyncTemplatesResource
     with_raw_response: AsyncPostGridWithRawResponse
     with_streaming_response: AsyncPostGridWithStreamedResponse
 
@@ -279,8 +279,8 @@ class AsyncPostGrid(AsyncAPIClient):
 
         self._idempotency_header = "Idempotency-Key"
 
-        self.contacts = resources.AsyncContactsResource(self)
-        self.templates = resources.AsyncTemplatesResource(self)
+        self.contacts = contacts.AsyncContactsResource(self)
+        self.templates = templates.AsyncTemplatesResource(self)
         self.with_raw_response = AsyncPostGridWithRawResponse(self)
         self.with_streaming_response = AsyncPostGridWithStreamedResponse(self)
 
@@ -391,26 +391,26 @@ class AsyncPostGrid(AsyncAPIClient):
 
 class PostGridWithRawResponse:
     def __init__(self, client: PostGrid) -> None:
-        self.contacts = resources.ContactsResourceWithRawResponse(client.contacts)
-        self.templates = resources.TemplatesResourceWithRawResponse(client.templates)
+        self.contacts = contacts.ContactsResourceWithRawResponse(client.contacts)
+        self.templates = templates.TemplatesResourceWithRawResponse(client.templates)
 
 
 class AsyncPostGridWithRawResponse:
     def __init__(self, client: AsyncPostGrid) -> None:
-        self.contacts = resources.AsyncContactsResourceWithRawResponse(client.contacts)
-        self.templates = resources.AsyncTemplatesResourceWithRawResponse(client.templates)
+        self.contacts = contacts.AsyncContactsResourceWithRawResponse(client.contacts)
+        self.templates = templates.AsyncTemplatesResourceWithRawResponse(client.templates)
 
 
 class PostGridWithStreamedResponse:
     def __init__(self, client: PostGrid) -> None:
-        self.contacts = resources.ContactsResourceWithStreamingResponse(client.contacts)
-        self.templates = resources.TemplatesResourceWithStreamingResponse(client.templates)
+        self.contacts = contacts.ContactsResourceWithStreamingResponse(client.contacts)
+        self.templates = templates.TemplatesResourceWithStreamingResponse(client.templates)
 
 
 class AsyncPostGridWithStreamedResponse:
     def __init__(self, client: AsyncPostGrid) -> None:
-        self.contacts = resources.AsyncContactsResourceWithStreamingResponse(client.contacts)
-        self.templates = resources.AsyncTemplatesResourceWithStreamingResponse(client.templates)
+        self.contacts = contacts.AsyncContactsResourceWithStreamingResponse(client.contacts)
+        self.templates = templates.AsyncTemplatesResourceWithStreamingResponse(client.templates)
 
 
 Client = PostGrid
