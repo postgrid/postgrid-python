@@ -1,7 +1,9 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import builtins
 from typing import Dict, Optional
 from datetime import datetime
+from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
 
@@ -20,6 +22,9 @@ class Template(BaseModel):
     live: bool
     """`true` if this is a live mode resource else `false`."""
 
+    object: Literal["template"]
+    """Always `template`."""
+
     updated_at: datetime = FieldInfo(alias="updatedAt")
     """The UTC time at which this resource was last updated."""
 
@@ -29,5 +34,8 @@ class Template(BaseModel):
     Will be visible in the API and the dashboard.
     """
 
-    metadata: Optional[Dict[str, object]] = None
+    html: Optional[str] = None
+    """The HTML content of this template."""
+
+    metadata: Optional[Dict[str, builtins.object]] = None
     """See the section on Metadata."""
