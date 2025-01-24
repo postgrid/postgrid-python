@@ -24,7 +24,7 @@ from ._utils import (
     get_async_library,
 )
 from ._version import __version__
-from .resources import contacts, templates
+from .resources import letters, contacts, postcards, templates, bank_accounts
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import PostGridError, APIStatusError
 from ._base_client import (
@@ -32,6 +32,7 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.cheques import cheques
 
 __all__ = [
     "Timeout",
@@ -48,6 +49,10 @@ __all__ = [
 class PostGrid(SyncAPIClient):
     contacts: contacts.ContactsResource
     templates: templates.TemplatesResource
+    bank_accounts: bank_accounts.BankAccountsResource
+    cheques: cheques.ChequesResource
+    letters: letters.LettersResource
+    postcards: postcards.PostcardsResource
     with_raw_response: PostGridWithRawResponse
     with_streaming_response: PostGridWithStreamedResponse
 
@@ -109,6 +114,10 @@ class PostGrid(SyncAPIClient):
 
         self.contacts = contacts.ContactsResource(self)
         self.templates = templates.TemplatesResource(self)
+        self.bank_accounts = bank_accounts.BankAccountsResource(self)
+        self.cheques = cheques.ChequesResource(self)
+        self.letters = letters.LettersResource(self)
+        self.postcards = postcards.PostcardsResource(self)
         self.with_raw_response = PostGridWithRawResponse(self)
         self.with_streaming_response = PostGridWithStreamedResponse(self)
 
@@ -220,6 +229,10 @@ class PostGrid(SyncAPIClient):
 class AsyncPostGrid(AsyncAPIClient):
     contacts: contacts.AsyncContactsResource
     templates: templates.AsyncTemplatesResource
+    bank_accounts: bank_accounts.AsyncBankAccountsResource
+    cheques: cheques.AsyncChequesResource
+    letters: letters.AsyncLettersResource
+    postcards: postcards.AsyncPostcardsResource
     with_raw_response: AsyncPostGridWithRawResponse
     with_streaming_response: AsyncPostGridWithStreamedResponse
 
@@ -281,6 +294,10 @@ class AsyncPostGrid(AsyncAPIClient):
 
         self.contacts = contacts.AsyncContactsResource(self)
         self.templates = templates.AsyncTemplatesResource(self)
+        self.bank_accounts = bank_accounts.AsyncBankAccountsResource(self)
+        self.cheques = cheques.AsyncChequesResource(self)
+        self.letters = letters.AsyncLettersResource(self)
+        self.postcards = postcards.AsyncPostcardsResource(self)
         self.with_raw_response = AsyncPostGridWithRawResponse(self)
         self.with_streaming_response = AsyncPostGridWithStreamedResponse(self)
 
@@ -393,24 +410,40 @@ class PostGridWithRawResponse:
     def __init__(self, client: PostGrid) -> None:
         self.contacts = contacts.ContactsResourceWithRawResponse(client.contacts)
         self.templates = templates.TemplatesResourceWithRawResponse(client.templates)
+        self.bank_accounts = bank_accounts.BankAccountsResourceWithRawResponse(client.bank_accounts)
+        self.cheques = cheques.ChequesResourceWithRawResponse(client.cheques)
+        self.letters = letters.LettersResourceWithRawResponse(client.letters)
+        self.postcards = postcards.PostcardsResourceWithRawResponse(client.postcards)
 
 
 class AsyncPostGridWithRawResponse:
     def __init__(self, client: AsyncPostGrid) -> None:
         self.contacts = contacts.AsyncContactsResourceWithRawResponse(client.contacts)
         self.templates = templates.AsyncTemplatesResourceWithRawResponse(client.templates)
+        self.bank_accounts = bank_accounts.AsyncBankAccountsResourceWithRawResponse(client.bank_accounts)
+        self.cheques = cheques.AsyncChequesResourceWithRawResponse(client.cheques)
+        self.letters = letters.AsyncLettersResourceWithRawResponse(client.letters)
+        self.postcards = postcards.AsyncPostcardsResourceWithRawResponse(client.postcards)
 
 
 class PostGridWithStreamedResponse:
     def __init__(self, client: PostGrid) -> None:
         self.contacts = contacts.ContactsResourceWithStreamingResponse(client.contacts)
         self.templates = templates.TemplatesResourceWithStreamingResponse(client.templates)
+        self.bank_accounts = bank_accounts.BankAccountsResourceWithStreamingResponse(client.bank_accounts)
+        self.cheques = cheques.ChequesResourceWithStreamingResponse(client.cheques)
+        self.letters = letters.LettersResourceWithStreamingResponse(client.letters)
+        self.postcards = postcards.PostcardsResourceWithStreamingResponse(client.postcards)
 
 
 class AsyncPostGridWithStreamedResponse:
     def __init__(self, client: AsyncPostGrid) -> None:
         self.contacts = contacts.AsyncContactsResourceWithStreamingResponse(client.contacts)
         self.templates = templates.AsyncTemplatesResourceWithStreamingResponse(client.templates)
+        self.bank_accounts = bank_accounts.AsyncBankAccountsResourceWithStreamingResponse(client.bank_accounts)
+        self.cheques = cheques.AsyncChequesResourceWithStreamingResponse(client.cheques)
+        self.letters = letters.AsyncLettersResourceWithStreamingResponse(client.letters)
+        self.postcards = postcards.AsyncPostcardsResourceWithStreamingResponse(client.postcards)
 
 
 Client = PostGrid
