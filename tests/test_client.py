@@ -23,6 +23,7 @@ from pydantic import ValidationError
 
 from postgrid import PostGrid, AsyncPostGrid, APIResponseValidationError
 from postgrid._types import Omit
+from postgrid._utils import maybe_transform
 from postgrid._models import BaseModel, FinalRequestOptions
 from postgrid._constants import RAW_RESPONSE_HEADER
 from postgrid._exceptions import PostGridError, APIStatusError, APITimeoutError, APIResponseValidationError
@@ -32,6 +33,7 @@ from postgrid._base_client import (
     BaseClient,
     make_request_options,
 )
+from postgrid.types.contact_create_params import ContactCreateWithFirstName
 
 from .utils import update_env
 
@@ -749,7 +751,11 @@ class TestPostGrid:
             self.client.post(
                 "/contacts",
                 body=cast(
-                    object, dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName")
+                    object,
+                    maybe_transform(
+                        dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName"),
+                        ContactCreateWithFirstName,
+                    ),
                 ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
@@ -766,7 +772,11 @@ class TestPostGrid:
             self.client.post(
                 "/contacts",
                 body=cast(
-                    object, dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName")
+                    object,
+                    maybe_transform(
+                        dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName"),
+                        ContactCreateWithFirstName,
+                    ),
                 ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
@@ -1572,7 +1582,11 @@ class TestAsyncPostGrid:
             await self.client.post(
                 "/contacts",
                 body=cast(
-                    object, dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName")
+                    object,
+                    maybe_transform(
+                        dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName"),
+                        ContactCreateWithFirstName,
+                    ),
                 ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
@@ -1589,7 +1603,11 @@ class TestAsyncPostGrid:
             await self.client.post(
                 "/contacts",
                 body=cast(
-                    object, dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName")
+                    object,
+                    maybe_transform(
+                        dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName"),
+                        ContactCreateWithFirstName,
+                    ),
                 ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
