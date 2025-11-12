@@ -97,7 +97,7 @@ class PostGrid(SyncAPIClient):
         self.print_mail_api_key = print_mail_api_key
 
         if base_url is None:
-            base_url = os.environ.get("POST_GRID_BASE_URL")
+            base_url = os.environ.get("POSTGRID_BASE_URL")
         if base_url is None:
             base_url = f"https://api.postgrid.com"
 
@@ -308,7 +308,7 @@ class AsyncPostGrid(AsyncAPIClient):
         self.print_mail_api_key = print_mail_api_key
 
         if base_url is None:
-            base_url = os.environ.get("POST_GRID_BASE_URL")
+            base_url = os.environ.get("POSTGRID_BASE_URL")
         if base_url is None:
             base_url = f"https://api.postgrid.com"
 

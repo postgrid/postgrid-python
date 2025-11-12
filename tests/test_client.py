@@ -631,7 +631,7 @@ class TestPostGrid:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(POST_GRID_BASE_URL="http://localhost:5000/from/env"):
+        with update_env(POSTGRID_BASE_URL="http://localhost:5000/from/env"):
             client = PostGrid(
                 address_verification_api_key=address_verification_api_key,
                 print_mail_api_key=print_mail_api_key,
@@ -1524,7 +1524,7 @@ class TestAsyncPostGrid:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(POST_GRID_BASE_URL="http://localhost:5000/from/env"):
+        with update_env(POSTGRID_BASE_URL="http://localhost:5000/from/env"):
             client = AsyncPostGrid(
                 address_verification_api_key=address_verification_api_key,
                 print_mail_api_key=print_mail_api_key,

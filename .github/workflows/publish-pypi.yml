@@ -28,4 +28,4 @@ jobs:
         run: |
           bash ./bin/publish-pypi
         env:
-          PYPI_TOKEN: ${{ secrets.POST_GRID_PYPI_TOKEN || secrets.PYPI_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.POSTGRID_PYPI_TOKEN || secrets.PYPI_TOKEN }}
