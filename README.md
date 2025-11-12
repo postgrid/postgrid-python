@@ -1,6 +1,6 @@
 # Post Grid Python API library
 
-[![PyPI version](https://img.shields.io/pypi/v/postgrid.svg)](https://pypi.org/project/postgrid/)
+[![PyPI version](https://img.shields.io/pypi/v/postgrid-python.svg)](https://pypi.org/project/postgrid-python/)
 
 The Post Grid Python library provides convenient access to the Post Grid REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
@@ -13,12 +13,9 @@ The REST API documentation can be found on [docs.postgrid.com](https://docs.post
 ## Installation
 
 ```sh
-# install from the production repo
-pip install git+ssh://git@github.com/postgrid/postgrid-python.git
+# install from PyPI
+pip install --pre postgrid-python
 ```
-
-> [!NOTE]
-> Once this package is [published to PyPI](https://app.stainlessapi.com/docs/guides/publish), this will become: `pip install --pre postgrid`
 
 ## Usage
 
