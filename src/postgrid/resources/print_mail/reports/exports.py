@@ -2,15 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import Dict
 
 import httpx
 
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ...._utils import (
-    maybe_transform,
-    async_maybe_transform,
-)
+from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
+from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -51,15 +48,15 @@ class ExportsResource(SyncAPIResource):
         self,
         report_id: str,
         *,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, str] | NotGiven = NOT_GIVEN,
-        params: List[str] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        metadata: Dict[str, str] | Omit = omit,
+        params: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ReportExport:
         """Create a new export job for a saved report.
 
@@ -111,7 +108,7 @@ class ExportsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ReportExport:
         """Retrieve the status and details of a specific report export job.
 
@@ -149,7 +146,7 @@ class ExportsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeletedResponse:
         """
         Delete a completed or failed report export job and its associated output file
@@ -202,15 +199,15 @@ class AsyncExportsResource(AsyncAPIResource):
         self,
         report_id: str,
         *,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, str] | NotGiven = NOT_GIVEN,
-        params: List[str] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        metadata: Dict[str, str] | Omit = omit,
+        params: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ReportExport:
         """Create a new export job for a saved report.
 
@@ -262,7 +259,7 @@ class AsyncExportsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ReportExport:
         """Retrieve the status and details of a specific report export job.
 
@@ -300,7 +297,7 @@ class AsyncExportsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeletedResponse:
         """
         Delete a completed or failed report export job and its associated output file

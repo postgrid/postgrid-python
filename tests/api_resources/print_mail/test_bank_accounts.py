@@ -21,7 +21,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestBankAccounts:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_overload_1(self, client: PostGrid) -> None:
         bank_account = client.print_mail.bank_accounts.create(
@@ -32,7 +32,7 @@ class TestBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_1(self, client: PostGrid) -> None:
         bank_account = client.print_mail.bank_accounts.create(
@@ -51,7 +51,7 @@ class TestBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create_overload_1(self, client: PostGrid) -> None:
         response = client.print_mail.bank_accounts.with_raw_response.create(
@@ -66,7 +66,7 @@ class TestBankAccounts:
         bank_account = response.parse()
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_1(self, client: PostGrid) -> None:
         with client.print_mail.bank_accounts.with_streaming_response.create(
@@ -83,7 +83,7 @@ class TestBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_overload_2(self, client: PostGrid) -> None:
         bank_account = client.print_mail.bank_accounts.create(
@@ -94,7 +94,7 @@ class TestBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_2(self, client: PostGrid) -> None:
         bank_account = client.print_mail.bank_accounts.create(
@@ -113,7 +113,7 @@ class TestBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create_overload_2(self, client: PostGrid) -> None:
         response = client.print_mail.bank_accounts.with_raw_response.create(
@@ -128,7 +128,7 @@ class TestBankAccounts:
         bank_account = response.parse()
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_2(self, client: PostGrid) -> None:
         with client.print_mail.bank_accounts.with_streaming_response.create(
@@ -145,7 +145,7 @@ class TestBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_overload_3(self, client: PostGrid) -> None:
         bank_account = client.print_mail.bank_accounts.create(
@@ -156,7 +156,7 @@ class TestBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_3(self, client: PostGrid) -> None:
         bank_account = client.print_mail.bank_accounts.create(
@@ -175,7 +175,7 @@ class TestBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create_overload_3(self, client: PostGrid) -> None:
         response = client.print_mail.bank_accounts.with_raw_response.create(
@@ -190,7 +190,7 @@ class TestBankAccounts:
         bank_account = response.parse()
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_3(self, client: PostGrid) -> None:
         with client.print_mail.bank_accounts.with_streaming_response.create(
@@ -207,7 +207,7 @@ class TestBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: PostGrid) -> None:
         bank_account = client.print_mail.bank_accounts.retrieve(
@@ -215,7 +215,7 @@ class TestBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: PostGrid) -> None:
         response = client.print_mail.bank_accounts.with_raw_response.retrieve(
@@ -227,7 +227,7 @@ class TestBankAccounts:
         bank_account = response.parse()
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: PostGrid) -> None:
         with client.print_mail.bank_accounts.with_streaming_response.retrieve(
@@ -241,7 +241,7 @@ class TestBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -249,13 +249,13 @@ class TestBankAccounts:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list(self, client: PostGrid) -> None:
         bank_account = client.print_mail.bank_accounts.list()
         assert_matches_type(SyncSkipLimit[BankAccount], bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: PostGrid) -> None:
         bank_account = client.print_mail.bank_accounts.list(
@@ -265,7 +265,7 @@ class TestBankAccounts:
         )
         assert_matches_type(SyncSkipLimit[BankAccount], bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: PostGrid) -> None:
         response = client.print_mail.bank_accounts.with_raw_response.list()
@@ -275,7 +275,7 @@ class TestBankAccounts:
         bank_account = response.parse()
         assert_matches_type(SyncSkipLimit[BankAccount], bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: PostGrid) -> None:
         with client.print_mail.bank_accounts.with_streaming_response.list() as response:
@@ -287,7 +287,7 @@ class TestBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_delete(self, client: PostGrid) -> None:
         bank_account = client.print_mail.bank_accounts.delete(
@@ -295,7 +295,7 @@ class TestBankAccounts:
         )
         assert_matches_type(BankAccountDeleteResponse, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: PostGrid) -> None:
         response = client.print_mail.bank_accounts.with_raw_response.delete(
@@ -307,7 +307,7 @@ class TestBankAccounts:
         bank_account = response.parse()
         assert_matches_type(BankAccountDeleteResponse, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: PostGrid) -> None:
         with client.print_mail.bank_accounts.with_streaming_response.delete(
@@ -321,7 +321,7 @@ class TestBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -331,9 +331,11 @@ class TestBankAccounts:
 
 
 class TestAsyncBankAccounts:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
+    )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_overload_1(self, async_client: AsyncPostGrid) -> None:
         bank_account = await async_client.print_mail.bank_accounts.create(
@@ -344,7 +346,7 @@ class TestAsyncBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_1(self, async_client: AsyncPostGrid) -> None:
         bank_account = await async_client.print_mail.bank_accounts.create(
@@ -363,7 +365,7 @@ class TestAsyncBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_1(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.bank_accounts.with_raw_response.create(
@@ -378,7 +380,7 @@ class TestAsyncBankAccounts:
         bank_account = await response.parse()
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_1(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.bank_accounts.with_streaming_response.create(
@@ -395,7 +397,7 @@ class TestAsyncBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         bank_account = await async_client.print_mail.bank_accounts.create(
@@ -406,7 +408,7 @@ class TestAsyncBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_2(self, async_client: AsyncPostGrid) -> None:
         bank_account = await async_client.print_mail.bank_accounts.create(
@@ -425,7 +427,7 @@ class TestAsyncBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.bank_accounts.with_raw_response.create(
@@ -440,7 +442,7 @@ class TestAsyncBankAccounts:
         bank_account = await response.parse()
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.bank_accounts.with_streaming_response.create(
@@ -457,7 +459,7 @@ class TestAsyncBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_overload_3(self, async_client: AsyncPostGrid) -> None:
         bank_account = await async_client.print_mail.bank_accounts.create(
@@ -468,7 +470,7 @@ class TestAsyncBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_3(self, async_client: AsyncPostGrid) -> None:
         bank_account = await async_client.print_mail.bank_accounts.create(
@@ -487,7 +489,7 @@ class TestAsyncBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_3(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.bank_accounts.with_raw_response.create(
@@ -502,7 +504,7 @@ class TestAsyncBankAccounts:
         bank_account = await response.parse()
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_3(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.bank_accounts.with_streaming_response.create(
@@ -519,7 +521,7 @@ class TestAsyncBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncPostGrid) -> None:
         bank_account = await async_client.print_mail.bank_accounts.retrieve(
@@ -527,7 +529,7 @@ class TestAsyncBankAccounts:
         )
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.bank_accounts.with_raw_response.retrieve(
@@ -539,7 +541,7 @@ class TestAsyncBankAccounts:
         bank_account = await response.parse()
         assert_matches_type(BankAccount, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.bank_accounts.with_streaming_response.retrieve(
@@ -553,7 +555,7 @@ class TestAsyncBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -561,13 +563,13 @@ class TestAsyncBankAccounts:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncPostGrid) -> None:
         bank_account = await async_client.print_mail.bank_accounts.list()
         assert_matches_type(AsyncSkipLimit[BankAccount], bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncPostGrid) -> None:
         bank_account = await async_client.print_mail.bank_accounts.list(
@@ -577,7 +579,7 @@ class TestAsyncBankAccounts:
         )
         assert_matches_type(AsyncSkipLimit[BankAccount], bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.bank_accounts.with_raw_response.list()
@@ -587,7 +589,7 @@ class TestAsyncBankAccounts:
         bank_account = await response.parse()
         assert_matches_type(AsyncSkipLimit[BankAccount], bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.bank_accounts.with_streaming_response.list() as response:
@@ -599,7 +601,7 @@ class TestAsyncBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncPostGrid) -> None:
         bank_account = await async_client.print_mail.bank_accounts.delete(
@@ -607,7 +609,7 @@ class TestAsyncBankAccounts:
         )
         assert_matches_type(BankAccountDeleteResponse, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.bank_accounts.with_raw_response.delete(
@@ -619,7 +621,7 @@ class TestAsyncBankAccounts:
         bank_account = await response.parse()
         assert_matches_type(BankAccountDeleteResponse, bank_account, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.bank_accounts.with_streaming_response.delete(
@@ -633,7 +635,7 @@ class TestAsyncBankAccounts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):

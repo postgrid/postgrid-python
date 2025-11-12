@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 from typing_extensions import Required, Annotated, TypedDict
 
+from ...._types import SequenceNotStr
 from ...._utils import PropertyInfo
 from .self_mailer_size import SelfMailerSize
 from ..order_mailing_class import OrderMailingClass
@@ -16,7 +17,7 @@ class SelfMailerCreateParams(TypedDict, total=False):
     size: Required[SelfMailerSize]
     """Enum representing the supported self-mailer sizes."""
 
-    expand: List[str]
+    expand: SequenceNotStr[str]
     """Optional list of related resources to expand in the response."""
 
     description: Optional[str]

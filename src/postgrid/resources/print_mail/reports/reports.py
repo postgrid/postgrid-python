@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 import httpx
 
@@ -22,11 +22,8 @@ from .samples import (
     SamplesResourceWithStreamingResponse,
     AsyncSamplesResourceWithStreamingResponse,
 )
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ...._utils import (
-    maybe_transform,
-    async_maybe_transform,
-)
+from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
+from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -77,14 +74,14 @@ class ReportsResource(SyncAPIResource):
         self,
         *,
         sql_query: str,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, str] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        metadata: Dict[str, str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Report:
         """Create a new saved report definition.
 
@@ -134,7 +131,7 @@ class ReportsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Report:
         """
         Retrieve the details of a specific saved report by its ID.
@@ -162,15 +159,15 @@ class ReportsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        sql_query: str | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        sql_query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Report:
         """Update an existing saved report definition.
 
@@ -213,15 +210,15 @@ class ReportsResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[Report]:
         """
         Retrieve a list of saved reports for your organization.
@@ -270,7 +267,7 @@ class ReportsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeletedResponse:
         """Delete a saved report definition.
 
@@ -300,14 +297,14 @@ class ReportsResource(SyncAPIResource):
         self,
         *,
         sql_query: str,
-        limit: int | NotGiven = NOT_GIVEN,
-        params: List[str] | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        params: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ReportSample:
         """
         Run an ad-hoc SQL query against your data lake and get a sample of the results.
@@ -379,14 +376,14 @@ class AsyncReportsResource(AsyncAPIResource):
         self,
         *,
         sql_query: str,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, str] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        metadata: Dict[str, str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Report:
         """Create a new saved report definition.
 
@@ -436,7 +433,7 @@ class AsyncReportsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Report:
         """
         Retrieve the details of a specific saved report by its ID.
@@ -464,15 +461,15 @@ class AsyncReportsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        sql_query: str | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        sql_query: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Report:
         """Update an existing saved report definition.
 
@@ -515,15 +512,15 @@ class AsyncReportsResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[Report, AsyncSkipLimit[Report]]:
         """
         Retrieve a list of saved reports for your organization.
@@ -572,7 +569,7 @@ class AsyncReportsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> DeletedResponse:
         """Delete a saved report definition.
 
@@ -602,14 +599,14 @@ class AsyncReportsResource(AsyncAPIResource):
         self,
         *,
         sql_query: str,
-        limit: int | NotGiven = NOT_GIVEN,
-        params: List[str] | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        params: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ReportSample:
         """
         Run an ad-hoc SQL query against your data lake and get a sample of the results.

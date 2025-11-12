@@ -7,12 +7,8 @@ from datetime import datetime
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import (
-    maybe_transform,
-    strip_not_given,
-    async_maybe_transform,
-)
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._utils import maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -59,21 +55,21 @@ class CampaignsResource(SyncAPIResource):
         self,
         *,
         mailing_list: str,
-        cheque_profile: str | NotGiven = NOT_GIVEN,
-        default_sender_contact: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        letter_profile: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        postcard_profile: str | NotGiven = NOT_GIVEN,
-        self_mailer_profile: str | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
-        idempotency_key: str | NotGiven = NOT_GIVEN,
+        cheque_profile: str | Omit = omit,
+        default_sender_contact: str | Omit = omit,
+        description: str | Omit = omit,
+        letter_profile: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        postcard_profile: str | Omit = omit,
+        self_mailer_profile: str | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Campaign:
         """
         Create a new campaign.
@@ -143,7 +139,7 @@ class CampaignsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Campaign:
         """
         Retrieve a specific campaign by its ID.
@@ -171,20 +167,20 @@ class CampaignsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        cheque_profile: Optional[str] | NotGiven = NOT_GIVEN,
-        default_sender_contact: Optional[str] | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        letter_profile: Optional[str] | NotGiven = NOT_GIVEN,
-        mailing_list: str | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        postcard_profile: Optional[str] | NotGiven = NOT_GIVEN,
-        self_mailer_profile: Optional[str] | NotGiven = NOT_GIVEN,
+        cheque_profile: Optional[str] | Omit = omit,
+        default_sender_contact: Optional[str] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        letter_profile: Optional[str] | Omit = omit,
+        mailing_list: str | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        postcard_profile: Optional[str] | Omit = omit,
+        self_mailer_profile: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Campaign:
         """
         Update an existing campaign.
@@ -250,15 +246,15 @@ class CampaignsResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[Campaign]:
         """
         Retrieve a list of campaigns.
@@ -310,7 +306,7 @@ class CampaignsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CampaignDeleteResponse:
         """
         Delete a campaign.
@@ -342,13 +338,13 @@ class CampaignsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        send_date: Union[Union[str, datetime], str] | NotGiven = NOT_GIVEN,
+        send_date: Union[Union[str, datetime], str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Campaign:
         """
         Send a campaign for processing.
@@ -405,21 +401,21 @@ class AsyncCampaignsResource(AsyncAPIResource):
         self,
         *,
         mailing_list: str,
-        cheque_profile: str | NotGiven = NOT_GIVEN,
-        default_sender_contact: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        letter_profile: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        postcard_profile: str | NotGiven = NOT_GIVEN,
-        self_mailer_profile: str | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
-        idempotency_key: str | NotGiven = NOT_GIVEN,
+        cheque_profile: str | Omit = omit,
+        default_sender_contact: str | Omit = omit,
+        description: str | Omit = omit,
+        letter_profile: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        postcard_profile: str | Omit = omit,
+        self_mailer_profile: str | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Campaign:
         """
         Create a new campaign.
@@ -489,7 +485,7 @@ class AsyncCampaignsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Campaign:
         """
         Retrieve a specific campaign by its ID.
@@ -517,20 +513,20 @@ class AsyncCampaignsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        cheque_profile: Optional[str] | NotGiven = NOT_GIVEN,
-        default_sender_contact: Optional[str] | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        letter_profile: Optional[str] | NotGiven = NOT_GIVEN,
-        mailing_list: str | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        postcard_profile: Optional[str] | NotGiven = NOT_GIVEN,
-        self_mailer_profile: Optional[str] | NotGiven = NOT_GIVEN,
+        cheque_profile: Optional[str] | Omit = omit,
+        default_sender_contact: Optional[str] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        letter_profile: Optional[str] | Omit = omit,
+        mailing_list: str | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        postcard_profile: Optional[str] | Omit = omit,
+        self_mailer_profile: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Campaign:
         """
         Update an existing campaign.
@@ -596,15 +592,15 @@ class AsyncCampaignsResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[Campaign, AsyncSkipLimit[Campaign]]:
         """
         Retrieve a list of campaigns.
@@ -656,7 +652,7 @@ class AsyncCampaignsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> CampaignDeleteResponse:
         """
         Delete a campaign.
@@ -688,13 +684,13 @@ class AsyncCampaignsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        send_date: Union[Union[str, datetime], str] | NotGiven = NOT_GIVEN,
+        send_date: Union[Union[str, datetime], str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Campaign:
         """
         Send a campaign for processing.

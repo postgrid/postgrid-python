@@ -1,6 +1,7 @@
 # PostGrid Python API library
 
-[![PyPI version](https://img.shields.io/pypi/v/postgrid-python.svg)](https://pypi.org/project/postgrid-python/)
+<!-- prettier-ignore -->
+[![PyPI version](https://img.shields.io/pypi/v/postgrid-python.svg?label=pypi%20(stable))](https://pypi.org/project/postgrid-python/)
 
 The PostGrid Python library provides convenient access to the PostGrid REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
@@ -26,9 +27,6 @@ import os
 from postgrid import PostGrid
 
 client = PostGrid(
-    address_verification_api_key=os.environ.get(
-        "POSTGRID_ADDRESS_VERIFICATION_API_KEY"
-    ),  # This is the default and can be omitted
     print_mail_api_key=os.environ.get(
         "POSTGRID_PRINT_MAIL_API_KEY"
     ),  # This is the default and can be omitted
@@ -57,9 +55,6 @@ import asyncio
 from postgrid import AsyncPostGrid
 
 client = AsyncPostGrid(
-    address_verification_api_key=os.environ.get(
-        "POSTGRID_ADDRESS_VERIFICATION_API_KEY"
-    ),  # This is the default and can be omitted
     print_mail_api_key=os.environ.get(
         "POSTGRID_PRINT_MAIL_API_KEY"
     ),  # This is the default and can be omitted
@@ -79,6 +74,41 @@ asyncio.run(main())
 ```
 
 Functionality between the synchronous and asynchronous clients is otherwise identical.
+
+### With aiohttp
+
+By default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.
+
+You can enable this by installing `aiohttp`:
+
+```sh
+# install from PyPI
+pip install --pre postgrid-python[aiohttp]
+```
+
+Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
+
+```python
+import asyncio
+from postgrid import DefaultAioHttpClient
+from postgrid import AsyncPostGrid
+
+
+async def main() -> None:
+    async with AsyncPostGrid(
+        print_mail_api_key="My Print Mail API Key",
+        http_client=DefaultAioHttpClient(),
+    ) as client:
+        contact = await client.print_mail.contacts.create(
+            address_line1="addressLine1",
+            country_code="countryCode",
+            first_name="firstName",
+        )
+        print(contact.id)
+
+
+asyncio.run(main())
+```
 
 ## Using types
 
@@ -158,6 +188,27 @@ for letter in first_page.data:
 # Remove `await` for non-async usage.
 ```
 
+## Nested params
+
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
+
+```python
+from postgrid import PostGrid
+
+client = PostGrid()
+
+response = client.address_verification.verify(
+    address={
+        "city": "city",
+        "country": "ca",
+        "line1": "line1",
+        "postal_or_zip": "postalOrZip",
+        "province_or_state": "provinceOrState",
+    },
+)
+print(response.address)
+```
+
 ## Handling errors
 
 When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `postgrid.APIConnectionError` is raised.
@@ -227,7 +278,7 @@ client.with_options(max_retries=5).address_verification.verify(
 ### Timeouts
 
 By default requests time out after 1 minute. You can configure this with a `timeout` option,
-which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
+which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
 from postgrid import PostGrid

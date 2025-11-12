@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Optional
+from typing import Dict, Union, Optional
 from typing_extensions import Required, Annotated, TypedDict
 
-from ...._types import Base64FileInput
+from ...._types import SequenceNotStr, Base64FileInput
 from ...._utils import PropertyInfo
 from ..cheque_size import ChequeSize
 from .currency_code import CurrencyCode
@@ -21,7 +21,7 @@ class ChequeUpdateParams(TypedDict, total=False):
     size: Required[ChequeSize]
     """Enum representing the supported cheque sizes."""
 
-    expand: List[str]
+    expand: SequenceNotStr[str]
     """Optional list of related resources to expand in the response."""
 
     currency_code: Annotated[CurrencyCode, PropertyInfo(alias="currencyCode")]

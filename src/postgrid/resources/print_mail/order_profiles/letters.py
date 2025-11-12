@@ -2,16 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ...._utils import (
-    maybe_transform,
-    async_maybe_transform,
-)
+from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
+from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -63,26 +60,26 @@ class LettersResource(SyncAPIResource):
         self,
         *,
         size: LetterSize,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        address_placement: AddressPlacement | NotGiven = NOT_GIVEN,
-        attached_pdf: AttachedPdfParam | NotGiven = NOT_GIVEN,
-        color: bool | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        double_sided: bool | NotGiven = NOT_GIVEN,
-        envelope: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
-        perforated_page: Literal[1] | NotGiven = NOT_GIVEN,
-        return_envelope: str | NotGiven = NOT_GIVEN,
-        template: str | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        address_placement: AddressPlacement | Omit = omit,
+        attached_pdf: AttachedPdfParam | Omit = omit,
+        color: bool | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        double_sided: bool | Omit = omit,
+        envelope: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        pdf: str | Omit = omit,
+        perforated_page: Literal[1] | Omit = omit,
+        return_envelope: str | Omit = omit,
+        template: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LetterProfile:
         """Creates a new Letter Profile.
 
@@ -164,13 +161,13 @@ class LettersResource(SyncAPIResource):
         self,
         id: str,
         *,
-        expand: List[str] | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LetterProfile:
         """
         Retrieves the details of a specific Letter Profile by its ID.
@@ -204,26 +201,26 @@ class LettersResource(SyncAPIResource):
         self,
         id: str,
         *,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        address_placement: AddressPlacement | NotGiven = NOT_GIVEN,
-        attached_pdf: AttachedPdfParam | NotGiven = NOT_GIVEN,
-        color: bool | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        double_sided: bool | NotGiven = NOT_GIVEN,
-        envelope: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
-        perforated_page: Literal[1] | NotGiven = NOT_GIVEN,
-        return_envelope: str | NotGiven = NOT_GIVEN,
-        template: str | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        address_placement: AddressPlacement | Omit = omit,
+        attached_pdf: AttachedPdfParam | Omit = omit,
+        color: bool | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        double_sided: bool | Omit = omit,
+        envelope: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        pdf: str | Omit = omit,
+        perforated_page: Literal[1] | Omit = omit,
+        return_envelope: str | Omit = omit,
+        template: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LetterProfile:
         """Updates specific fields of an existing Letter Profile.
 
@@ -303,15 +300,15 @@ class LettersResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[LetterProfile]:
         """Retrieves a list of Letter Profiles.
 
@@ -362,7 +359,7 @@ class LettersResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LetterDeleteResponse:
         """Deletes a Letter Profile.
 
@@ -413,26 +410,26 @@ class AsyncLettersResource(AsyncAPIResource):
         self,
         *,
         size: LetterSize,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        address_placement: AddressPlacement | NotGiven = NOT_GIVEN,
-        attached_pdf: AttachedPdfParam | NotGiven = NOT_GIVEN,
-        color: bool | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        double_sided: bool | NotGiven = NOT_GIVEN,
-        envelope: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
-        perforated_page: Literal[1] | NotGiven = NOT_GIVEN,
-        return_envelope: str | NotGiven = NOT_GIVEN,
-        template: str | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        address_placement: AddressPlacement | Omit = omit,
+        attached_pdf: AttachedPdfParam | Omit = omit,
+        color: bool | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        double_sided: bool | Omit = omit,
+        envelope: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        pdf: str | Omit = omit,
+        perforated_page: Literal[1] | Omit = omit,
+        return_envelope: str | Omit = omit,
+        template: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LetterProfile:
         """Creates a new Letter Profile.
 
@@ -514,13 +511,13 @@ class AsyncLettersResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        expand: List[str] | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LetterProfile:
         """
         Retrieves the details of a specific Letter Profile by its ID.
@@ -554,26 +551,26 @@ class AsyncLettersResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        address_placement: AddressPlacement | NotGiven = NOT_GIVEN,
-        attached_pdf: AttachedPdfParam | NotGiven = NOT_GIVEN,
-        color: bool | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        double_sided: bool | NotGiven = NOT_GIVEN,
-        envelope: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
-        perforated_page: Literal[1] | NotGiven = NOT_GIVEN,
-        return_envelope: str | NotGiven = NOT_GIVEN,
-        template: str | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        address_placement: AddressPlacement | Omit = omit,
+        attached_pdf: AttachedPdfParam | Omit = omit,
+        color: bool | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        double_sided: bool | Omit = omit,
+        envelope: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        pdf: str | Omit = omit,
+        perforated_page: Literal[1] | Omit = omit,
+        return_envelope: str | Omit = omit,
+        template: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LetterProfile:
         """Updates specific fields of an existing Letter Profile.
 
@@ -653,15 +650,15 @@ class AsyncLettersResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[LetterProfile, AsyncSkipLimit[LetterProfile]]:
         """Retrieves a list of Letter Profiles.
 
@@ -712,7 +709,7 @@ class AsyncLettersResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> LetterDeleteResponse:
         """Deletes a Letter Profile.
 

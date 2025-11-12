@@ -8,11 +8,8 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import (
-    maybe_transform,
-    async_maybe_transform,
-)
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -60,26 +57,26 @@ class ChequesResource(SyncAPIResource):
         bank_account: str,
         from_: cheque_create_params.From,
         to: cheque_create_params.To,
-        currency_code: Literal["USD", "CAD"] | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        digital_only: DigitalOnlyParam | NotGiven = NOT_GIVEN,
-        envelope: Union[Literal["standard"], str] | NotGiven = NOT_GIVEN,
-        logo_url: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        memo: str | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        message: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        number: int | NotGiven = NOT_GIVEN,
-        redirect_to: cheque_create_params.RedirectTo | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
-        size: ChequeSize | NotGiven = NOT_GIVEN,
+        currency_code: Literal["USD", "CAD"] | Omit = omit,
+        description: str | Omit = omit,
+        digital_only: DigitalOnlyParam | Omit = omit,
+        envelope: Union[Literal["standard"], str] | Omit = omit,
+        logo_url: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        memo: str | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        message: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        number: int | Omit = omit,
+        redirect_to: cheque_create_params.RedirectTo | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        size: ChequeSize | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Cheque:
         """
         Create a cheque.
@@ -214,7 +211,7 @@ class ChequesResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Cheque:
         """
         Retrieve a cheque by ID.
@@ -241,15 +238,15 @@ class ChequesResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[Cheque]:
         """
         Get a list of cheques.
@@ -298,7 +295,7 @@ class ChequesResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Cheque:
         """Cancel a cheque by ID.
 
@@ -332,7 +329,7 @@ class ChequesResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChequeRetrieveURLResponse:
         """
         Retrieve a cheque preview URL.
@@ -370,7 +367,7 @@ class ChequesResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Cheque:
         """Retrieve the deposit-ready PDF for a digital-only cheque.
 
@@ -426,26 +423,26 @@ class AsyncChequesResource(AsyncAPIResource):
         bank_account: str,
         from_: cheque_create_params.From,
         to: cheque_create_params.To,
-        currency_code: Literal["USD", "CAD"] | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        digital_only: DigitalOnlyParam | NotGiven = NOT_GIVEN,
-        envelope: Union[Literal["standard"], str] | NotGiven = NOT_GIVEN,
-        logo_url: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        memo: str | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        message: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        number: int | NotGiven = NOT_GIVEN,
-        redirect_to: cheque_create_params.RedirectTo | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
-        size: ChequeSize | NotGiven = NOT_GIVEN,
+        currency_code: Literal["USD", "CAD"] | Omit = omit,
+        description: str | Omit = omit,
+        digital_only: DigitalOnlyParam | Omit = omit,
+        envelope: Union[Literal["standard"], str] | Omit = omit,
+        logo_url: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        memo: str | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        message: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        number: int | Omit = omit,
+        redirect_to: cheque_create_params.RedirectTo | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        size: ChequeSize | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Cheque:
         """
         Create a cheque.
@@ -580,7 +577,7 @@ class AsyncChequesResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Cheque:
         """
         Retrieve a cheque by ID.
@@ -607,15 +604,15 @@ class AsyncChequesResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[Cheque, AsyncSkipLimit[Cheque]]:
         """
         Get a list of cheques.
@@ -664,7 +661,7 @@ class AsyncChequesResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Cheque:
         """Cancel a cheque by ID.
 
@@ -698,7 +695,7 @@ class AsyncChequesResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChequeRetrieveURLResponse:
         """
         Retrieve a cheque preview URL.
@@ -736,7 +733,7 @@ class AsyncChequesResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Cheque:
         """Retrieve the deposit-ready PDF for a digital-only cheque.
 

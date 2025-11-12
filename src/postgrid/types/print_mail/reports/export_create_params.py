@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import Dict
 from typing_extensions import TypedDict
+
+from ...._types import SequenceNotStr
 
 __all__ = ["ExportCreateParams"]
 
@@ -15,5 +17,5 @@ class ExportCreateParams(TypedDict, total=False):
     metadata: Dict[str, str]
     """Optional key-value metadata associated with the export."""
 
-    params: List[str]
+    params: SequenceNotStr[str]
     """Optional parameters to bind to the SQL query of the associated report."""

@@ -8,19 +8,8 @@ from typing_extensions import overload
 
 import httpx
 
-from ..._types import (
-    NOT_GIVEN,
-    Body,
-    Query,
-    Headers,
-    NotGiven,
-    Base64FileInput,
-)
-from ..._utils import (
-    required_args,
-    maybe_transform,
-    async_maybe_transform,
-)
+from ..._types import Body, Omit, Query, Headers, NotGiven, Base64FileInput, omit, not_given
+from ..._utils import required_args, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -70,17 +59,17 @@ class SelfMailersResource(SyncAPIResource):
         outside_html: str,
         size: SelfMailerSize,
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo,
-        description: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """Create a self-mailer.
 
@@ -146,7 +135,7 @@ class SelfMailersResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """Create a self-mailer.
 
@@ -183,17 +172,17 @@ class SelfMailersResource(SyncAPIResource):
         pdf: str,
         size: SelfMailerSize,
         to: self_mailer_create_params.SelfMailerCreateWithPdfurlTo,
-        description: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """Create a self-mailer.
 
@@ -254,17 +243,17 @@ class SelfMailersResource(SyncAPIResource):
         pdf: Union[str, Base64FileInput],
         size: SelfMailerSize,
         to: self_mailer_create_params.SelfMailerCreateWithPdfFileTo,
-        description: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """Create a self-mailer.
 
@@ -324,25 +313,31 @@ class SelfMailersResource(SyncAPIResource):
     def create(
         self,
         *,
-        from_: self_mailer_create_params.SelfMailerCreateWithHTMLFrom | NotGiven = NOT_GIVEN,
-        inside_html: str | NotGiven = NOT_GIVEN,
-        outside_html: str | NotGiven = NOT_GIVEN,
-        size: SelfMailerSize | NotGiven = NOT_GIVEN,
-        to: self_mailer_create_params.SelfMailerCreateWithHTMLTo | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
-        inside_template: str | NotGiven = NOT_GIVEN,
-        outside_template: str | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
+        from_: self_mailer_create_params.SelfMailerCreateWithHTMLFrom
+        | self_mailer_create_params.SelfMailerCreateWithPdfurlFrom
+        | self_mailer_create_params.SelfMailerCreateWithPdfFileFrom
+        | Omit = omit,
+        inside_html: str | Omit = omit,
+        outside_html: str | Omit = omit,
+        size: SelfMailerSize | Omit = omit,
+        to: self_mailer_create_params.SelfMailerCreateWithHTMLTo
+        | self_mailer_create_params.SelfMailerCreateWithPdfurlTo
+        | self_mailer_create_params.SelfMailerCreateWithPdfFileTo
+        | Omit = omit,
+        description: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        inside_template: str | Omit = omit,
+        outside_template: str | Omit = omit,
+        pdf: str | Union[str, Base64FileInput] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         return self._post(
             "/print-mail/v1/self_mailers",
@@ -379,7 +374,7 @@ class SelfMailersResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """
         Retrieve a self-mailer by ID.
@@ -406,15 +401,15 @@ class SelfMailersResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[SelfMailer]:
         """
         Get a list of self-mailers.
@@ -463,7 +458,7 @@ class SelfMailersResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """Cancel a self-mailer by ID.
 
@@ -497,7 +492,7 @@ class SelfMailersResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailerRetrieveURLResponse:
         """
         Retrieve a self-mailer preview URL.
@@ -556,17 +551,17 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         outside_html: str,
         size: SelfMailerSize,
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo,
-        description: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """Create a self-mailer.
 
@@ -632,7 +627,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """Create a self-mailer.
 
@@ -669,17 +664,17 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         pdf: str,
         size: SelfMailerSize,
         to: self_mailer_create_params.SelfMailerCreateWithPdfurlTo,
-        description: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """Create a self-mailer.
 
@@ -740,17 +735,17 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         pdf: Union[str, Base64FileInput],
         size: SelfMailerSize,
         to: self_mailer_create_params.SelfMailerCreateWithPdfFileTo,
-        description: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """Create a self-mailer.
 
@@ -810,25 +805,31 @@ class AsyncSelfMailersResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        from_: self_mailer_create_params.SelfMailerCreateWithHTMLFrom | NotGiven = NOT_GIVEN,
-        inside_html: str | NotGiven = NOT_GIVEN,
-        outside_html: str | NotGiven = NOT_GIVEN,
-        size: SelfMailerSize | NotGiven = NOT_GIVEN,
-        to: self_mailer_create_params.SelfMailerCreateWithHTMLTo | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
-        inside_template: str | NotGiven = NOT_GIVEN,
-        outside_template: str | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
+        from_: self_mailer_create_params.SelfMailerCreateWithHTMLFrom
+        | self_mailer_create_params.SelfMailerCreateWithPdfurlFrom
+        | self_mailer_create_params.SelfMailerCreateWithPdfFileFrom
+        | Omit = omit,
+        inside_html: str | Omit = omit,
+        outside_html: str | Omit = omit,
+        size: SelfMailerSize | Omit = omit,
+        to: self_mailer_create_params.SelfMailerCreateWithHTMLTo
+        | self_mailer_create_params.SelfMailerCreateWithPdfurlTo
+        | self_mailer_create_params.SelfMailerCreateWithPdfFileTo
+        | Omit = omit,
+        description: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        inside_template: str | Omit = omit,
+        outside_template: str | Omit = omit,
+        pdf: str | Union[str, Base64FileInput] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         return await self._post(
             "/print-mail/v1/self_mailers",
@@ -865,7 +866,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """
         Retrieve a self-mailer by ID.
@@ -892,15 +893,15 @@ class AsyncSelfMailersResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[SelfMailer, AsyncSkipLimit[SelfMailer]]:
         """
         Get a list of self-mailers.
@@ -949,7 +950,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailer:
         """Cancel a self-mailer by ID.
 
@@ -983,7 +984,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailerRetrieveURLResponse:
         """
         Retrieve a self-mailer preview URL.

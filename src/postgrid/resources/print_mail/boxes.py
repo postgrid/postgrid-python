@@ -7,11 +7,8 @@ from datetime import datetime
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import (
-    maybe_transform,
-    async_maybe_transform,
-)
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -55,17 +52,17 @@ class BoxesResource(SyncAPIResource):
         cheques: Iterable[box_create_params.Cheque],
         from_: box_create_params.From,
         to: box_create_params.To,
-        description: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Box:
         """This endpoint allows you to create a box containing up to 100 cheques.
 
@@ -152,7 +149,7 @@ class BoxesResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Box:
         """
         Retrieve a box by ID.
@@ -179,15 +176,15 @@ class BoxesResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[Box]:
         """
         List all boxes.
@@ -236,7 +233,7 @@ class BoxesResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Box:
         """
         Cancel a box by ID (cannot be undone).
@@ -287,17 +284,17 @@ class AsyncBoxesResource(AsyncAPIResource):
         cheques: Iterable[box_create_params.Cheque],
         from_: box_create_params.From,
         to: box_create_params.To,
-        description: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Box:
         """This endpoint allows you to create a box containing up to 100 cheques.
 
@@ -384,7 +381,7 @@ class AsyncBoxesResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Box:
         """
         Retrieve a box by ID.
@@ -411,15 +408,15 @@ class AsyncBoxesResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[Box, AsyncSkipLimit[Box]]:
         """
         List all boxes.
@@ -468,7 +465,7 @@ class AsyncBoxesResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Box:
         """
         Cancel a box by ID (cannot be undone).

@@ -2,16 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import Dict
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import (
-    maybe_transform,
-    strip_not_given,
-    async_maybe_transform,
-)
+from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
+from ..._utils import maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -58,15 +54,15 @@ class MailingListsResource(SyncAPIResource):
     def create(
         self,
         *,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        idempotency_key: str | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingList:
         """
         Create a new mailing list.
@@ -110,7 +106,7 @@ class MailingListsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingList:
         """
         Retrieve a specific mailing list by its ID.
@@ -138,14 +134,14 @@ class MailingListsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListUpdate:
         """
         Update an existing mailing list.
@@ -184,15 +180,15 @@ class MailingListsResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[MailingList]:
         """
         Retrieve a list of mailing lists.
@@ -244,7 +240,7 @@ class MailingListsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListDeleteResponse:
         """
         Delete a mailing list.
@@ -275,16 +271,16 @@ class MailingListsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        add_contacts: List[str] | NotGiven = NOT_GIVEN,
-        add_mailing_list_imports: List[str] | NotGiven = NOT_GIVEN,
-        remove_contacts: List[str] | NotGiven = NOT_GIVEN,
-        remove_mailing_list_imports: List[str] | NotGiven = NOT_GIVEN,
+        add_contacts: SequenceNotStr[str] | Omit = omit,
+        add_mailing_list_imports: SequenceNotStr[str] | Omit = omit,
+        remove_contacts: SequenceNotStr[str] | Omit = omit,
+        remove_mailing_list_imports: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingList:
         """Runs a mailing list job.
 
@@ -364,15 +360,15 @@ class AsyncMailingListsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        idempotency_key: str | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingList:
         """
         Create a new mailing list.
@@ -416,7 +412,7 @@ class AsyncMailingListsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingList:
         """
         Retrieve a specific mailing list by its ID.
@@ -444,14 +440,14 @@ class AsyncMailingListsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListUpdate:
         """
         Update an existing mailing list.
@@ -490,15 +486,15 @@ class AsyncMailingListsResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[MailingList, AsyncSkipLimit[MailingList]]:
         """
         Retrieve a list of mailing lists.
@@ -550,7 +546,7 @@ class AsyncMailingListsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListDeleteResponse:
         """
         Delete a mailing list.
@@ -581,16 +577,16 @@ class AsyncMailingListsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        add_contacts: List[str] | NotGiven = NOT_GIVEN,
-        add_mailing_list_imports: List[str] | NotGiven = NOT_GIVEN,
-        remove_contacts: List[str] | NotGiven = NOT_GIVEN,
-        remove_mailing_list_imports: List[str] | NotGiven = NOT_GIVEN,
+        add_contacts: SequenceNotStr[str] | Omit = omit,
+        add_mailing_list_imports: SequenceNotStr[str] | Omit = omit,
+        remove_contacts: SequenceNotStr[str] | Omit = omit,
+        remove_mailing_list_imports: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingList:
         """Runs a mailing list job.
 

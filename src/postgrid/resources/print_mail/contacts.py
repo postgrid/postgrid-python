@@ -7,12 +7,8 @@ from typing_extensions import overload
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import (
-    required_args,
-    maybe_transform,
-    async_maybe_transform,
-)
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._utils import required_args, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -57,25 +53,25 @@ class ContactsResource(SyncAPIResource):
         address_line1: str,
         country_code: str,
         first_name: str,
-        address_line2: str | NotGiven = NOT_GIVEN,
-        city: str | NotGiven = NOT_GIVEN,
-        company_name: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        force_verified_status: bool | NotGiven = NOT_GIVEN,
-        job_title: str | NotGiven = NOT_GIVEN,
-        last_name: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        phone_number: str | NotGiven = NOT_GIVEN,
-        postal_or_zip: str | NotGiven = NOT_GIVEN,
-        province_or_state: str | NotGiven = NOT_GIVEN,
-        skip_verification: bool | NotGiven = NOT_GIVEN,
+        address_line2: str | Omit = omit,
+        city: str | Omit = omit,
+        company_name: str | Omit = omit,
+        description: str | Omit = omit,
+        email: str | Omit = omit,
+        force_verified_status: bool | Omit = omit,
+        job_title: str | Omit = omit,
+        last_name: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        phone_number: str | Omit = omit,
+        postal_or_zip: str | Omit = omit,
+        province_or_state: str | Omit = omit,
+        skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Contact:
         """Creates a contact.
 
@@ -144,25 +140,25 @@ class ContactsResource(SyncAPIResource):
         address_line1: str,
         company_name: str,
         country_code: str,
-        address_line2: str | NotGiven = NOT_GIVEN,
-        city: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        first_name: str | NotGiven = NOT_GIVEN,
-        force_verified_status: bool | NotGiven = NOT_GIVEN,
-        job_title: str | NotGiven = NOT_GIVEN,
-        last_name: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        phone_number: str | NotGiven = NOT_GIVEN,
-        postal_or_zip: str | NotGiven = NOT_GIVEN,
-        province_or_state: str | NotGiven = NOT_GIVEN,
-        skip_verification: bool | NotGiven = NOT_GIVEN,
+        address_line2: str | Omit = omit,
+        city: str | Omit = omit,
+        description: str | Omit = omit,
+        email: str | Omit = omit,
+        first_name: str | Omit = omit,
+        force_verified_status: bool | Omit = omit,
+        job_title: str | Omit = omit,
+        last_name: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        phone_number: str | Omit = omit,
+        postal_or_zip: str | Omit = omit,
+        province_or_state: str | Omit = omit,
+        skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Contact:
         """Creates a contact.
 
@@ -230,26 +226,26 @@ class ContactsResource(SyncAPIResource):
         *,
         address_line1: str,
         country_code: str,
-        first_name: str | NotGiven = NOT_GIVEN,
-        address_line2: str | NotGiven = NOT_GIVEN,
-        city: str | NotGiven = NOT_GIVEN,
-        company_name: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        force_verified_status: bool | NotGiven = NOT_GIVEN,
-        job_title: str | NotGiven = NOT_GIVEN,
-        last_name: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        phone_number: str | NotGiven = NOT_GIVEN,
-        postal_or_zip: str | NotGiven = NOT_GIVEN,
-        province_or_state: str | NotGiven = NOT_GIVEN,
-        skip_verification: bool | NotGiven = NOT_GIVEN,
+        first_name: str | Omit = omit,
+        address_line2: str | Omit = omit,
+        city: str | Omit = omit,
+        company_name: str | Omit = omit,
+        description: str | Omit = omit,
+        email: str | Omit = omit,
+        force_verified_status: bool | Omit = omit,
+        job_title: str | Omit = omit,
+        last_name: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        phone_number: str | Omit = omit,
+        postal_or_zip: str | Omit = omit,
+        province_or_state: str | Omit = omit,
+        skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Contact:
         return self._post(
             "/print-mail/v1/contacts",
@@ -289,7 +285,7 @@ class ContactsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Contact:
         """
         Retrieve a contact.
@@ -316,15 +312,15 @@ class ContactsResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[Contact]:
         """
         Get a list of contacts.
@@ -373,7 +369,7 @@ class ContactsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ContactDeleteResponse:
         """Delete a contact.
 
@@ -427,25 +423,25 @@ class AsyncContactsResource(AsyncAPIResource):
         address_line1: str,
         country_code: str,
         first_name: str,
-        address_line2: str | NotGiven = NOT_GIVEN,
-        city: str | NotGiven = NOT_GIVEN,
-        company_name: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        force_verified_status: bool | NotGiven = NOT_GIVEN,
-        job_title: str | NotGiven = NOT_GIVEN,
-        last_name: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        phone_number: str | NotGiven = NOT_GIVEN,
-        postal_or_zip: str | NotGiven = NOT_GIVEN,
-        province_or_state: str | NotGiven = NOT_GIVEN,
-        skip_verification: bool | NotGiven = NOT_GIVEN,
+        address_line2: str | Omit = omit,
+        city: str | Omit = omit,
+        company_name: str | Omit = omit,
+        description: str | Omit = omit,
+        email: str | Omit = omit,
+        force_verified_status: bool | Omit = omit,
+        job_title: str | Omit = omit,
+        last_name: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        phone_number: str | Omit = omit,
+        postal_or_zip: str | Omit = omit,
+        province_or_state: str | Omit = omit,
+        skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Contact:
         """Creates a contact.
 
@@ -514,25 +510,25 @@ class AsyncContactsResource(AsyncAPIResource):
         address_line1: str,
         company_name: str,
         country_code: str,
-        address_line2: str | NotGiven = NOT_GIVEN,
-        city: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        first_name: str | NotGiven = NOT_GIVEN,
-        force_verified_status: bool | NotGiven = NOT_GIVEN,
-        job_title: str | NotGiven = NOT_GIVEN,
-        last_name: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        phone_number: str | NotGiven = NOT_GIVEN,
-        postal_or_zip: str | NotGiven = NOT_GIVEN,
-        province_or_state: str | NotGiven = NOT_GIVEN,
-        skip_verification: bool | NotGiven = NOT_GIVEN,
+        address_line2: str | Omit = omit,
+        city: str | Omit = omit,
+        description: str | Omit = omit,
+        email: str | Omit = omit,
+        first_name: str | Omit = omit,
+        force_verified_status: bool | Omit = omit,
+        job_title: str | Omit = omit,
+        last_name: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        phone_number: str | Omit = omit,
+        postal_or_zip: str | Omit = omit,
+        province_or_state: str | Omit = omit,
+        skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Contact:
         """Creates a contact.
 
@@ -600,26 +596,26 @@ class AsyncContactsResource(AsyncAPIResource):
         *,
         address_line1: str,
         country_code: str,
-        first_name: str | NotGiven = NOT_GIVEN,
-        address_line2: str | NotGiven = NOT_GIVEN,
-        city: str | NotGiven = NOT_GIVEN,
-        company_name: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        email: str | NotGiven = NOT_GIVEN,
-        force_verified_status: bool | NotGiven = NOT_GIVEN,
-        job_title: str | NotGiven = NOT_GIVEN,
-        last_name: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        phone_number: str | NotGiven = NOT_GIVEN,
-        postal_or_zip: str | NotGiven = NOT_GIVEN,
-        province_or_state: str | NotGiven = NOT_GIVEN,
-        skip_verification: bool | NotGiven = NOT_GIVEN,
+        first_name: str | Omit = omit,
+        address_line2: str | Omit = omit,
+        city: str | Omit = omit,
+        company_name: str | Omit = omit,
+        description: str | Omit = omit,
+        email: str | Omit = omit,
+        force_verified_status: bool | Omit = omit,
+        job_title: str | Omit = omit,
+        last_name: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        phone_number: str | Omit = omit,
+        postal_or_zip: str | Omit = omit,
+        province_or_state: str | Omit = omit,
+        skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Contact:
         return await self._post(
             "/print-mail/v1/contacts",
@@ -659,7 +655,7 @@ class AsyncContactsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Contact:
         """
         Retrieve a contact.
@@ -686,15 +682,15 @@ class AsyncContactsResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[Contact, AsyncSkipLimit[Contact]]:
         """
         Get a list of contacts.
@@ -743,7 +739,7 @@ class AsyncContactsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ContactDeleteResponse:
         """Delete a contact.
 
