@@ -42,7 +42,7 @@ class MailingListsResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/postgrid-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/postgrid/postgrid-python#accessing-raw-response-data-eg-headers
         """
         return MailingListsResourceWithRawResponse(self)
 
@@ -51,7 +51,7 @@ class MailingListsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/postgrid-python#with_streaming_response
+        For more information, see https://www.github.com/postgrid/postgrid-python#with_streaming_response
         """
         return MailingListsResourceWithStreamingResponse(self)
 
@@ -348,7 +348,7 @@ class AsyncMailingListsResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/postgrid-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/postgrid/postgrid-python#accessing-raw-response-data-eg-headers
         """
         return AsyncMailingListsResourceWithRawResponse(self)
 
@@ -357,7 +357,7 @@ class AsyncMailingListsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/postgrid-python#with_streaming_response
+        For more information, see https://www.github.com/postgrid/postgrid-python#with_streaming_response
         """
         return AsyncMailingListsResourceWithStreamingResponse(self)
 
