@@ -1,8 +1,8 @@
-# Post Grid Python API library
+# PostGrid Python API library
 
 [![PyPI version](https://img.shields.io/pypi/v/postgrid-python.svg)](https://pypi.org/project/postgrid-python/)
 
-The Post Grid Python library provides convenient access to the Post Grid REST API from any Python 3.8+
+The PostGrid Python library provides convenient access to the PostGrid REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -91,7 +91,7 @@ Typed requests and responses provide autocomplete and documentation within your 
 
 ## Pagination
 
-List methods in the Post Grid API are paginated.
+List methods in the PostGrid API are paginated.
 
 This library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:
 
@@ -259,10 +259,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `POST_GRID_LOG` to `info`.
+You can enable logging by setting the environment variable `POSTGRID_LOG` to `info`.
 
 ```shell
-$ export POST_GRID_LOG=info
+$ export POSTGRID_LOG=info
 ```
 
 Or to `debug` for more verbose logging.
@@ -365,7 +365,7 @@ import httpx
 from postgrid import PostGrid, DefaultHttpxClient
 
 client = PostGrid(
-    # Or use the `POST_GRID_BASE_URL` env var
+    # Or use the `POSTGRID_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxy="http://my.test.proxy.example.com",
