@@ -1,16 +1,14 @@
-# PostGrid Python API library
+# Post Grid Python API library
 
 [![PyPI version](https://img.shields.io/pypi/v/postgrid.svg)](https://pypi.org/project/postgrid/)
 
-The PostGrid Python library provides convenient access to the PostGrid REST API from any Python 3.8+
+The Post Grid Python library provides convenient access to the Post Grid REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
-It is generated with [Stainless](https://www.stainlessapi.com/).
-
 ## Documentation
 
-The REST API documentation can be found on [postgrid.com](https://postgrid.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.postgrid.com](https://docs.postgrid.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -31,10 +29,15 @@ import os
 from postgrid import PostGrid
 
 client = PostGrid(
-    api_key=os.environ.get("POSTGRID_API_KEY"),  # This is the default and can be omitted
+    address_verification_api_key=os.environ.get(
+        "POSTGRID_ADDRESS_VERIFICATION_API_KEY"
+    ),  # This is the default and can be omitted
+    print_mail_api_key=os.environ.get(
+        "POSTGRID_PRINT_MAIL_API_KEY"
+    ),  # This is the default and can be omitted
 )
 
-contact = client.contacts.create(
+contact = client.print_mail.contacts.create(
     address_line1="addressLine1",
     country_code="countryCode",
     first_name="firstName",
@@ -42,10 +45,10 @@ contact = client.contacts.create(
 print(contact.id)
 ```
 
-While you can provide an `api_key` keyword argument,
+While you can provide a `address_verification_api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `POSTGRID_API_KEY="My API Key"` to your `.env` file
-so that your API Key is not stored in source control.
+to add `POSTGRID_ADDRESS_VERIFICATION_API_KEY="My Address Verification API Key"` to your `.env` file
+so that your Address Verification API Key is not stored in source control.
 
 ## Async usage
 
@@ -57,12 +60,17 @@ import asyncio
 from postgrid import AsyncPostGrid
 
 client = AsyncPostGrid(
-    api_key=os.environ.get("POSTGRID_API_KEY"),  # This is the default and can be omitted
+    address_verification_api_key=os.environ.get(
+        "POSTGRID_ADDRESS_VERIFICATION_API_KEY"
+    ),  # This is the default and can be omitted
+    print_mail_api_key=os.environ.get(
+        "POSTGRID_PRINT_MAIL_API_KEY"
+    ),  # This is the default and can be omitted
 )
 
 
 async def main() -> None:
-    contact = await client.contacts.create(
+    contact = await client.print_mail.contacts.create(
         address_line1="addressLine1",
         country_code="countryCode",
         first_name="firstName",
@@ -86,7 +94,7 @@ Typed requests and responses provide autocomplete and documentation within your 
 
 ## Pagination
 
-List methods in the PostGrid API are paginated.
+List methods in the Post Grid API are paginated.
 
 This library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:
 
@@ -95,12 +103,14 @@ from postgrid import PostGrid
 
 client = PostGrid()
 
-all_contacts = []
+all_letters = []
 # Automatically fetches more pages as needed.
-for contact in client.contacts.list():
-    # Do something with contact here
-    all_contacts.append(contact)
-print(all_contacts)
+for letter in client.print_mail.letters.list(
+    limit=100,
+):
+    # Do something with letter here
+    all_letters.append(letter)
+print(all_letters)
 ```
 
 Or, asynchronously:
@@ -113,11 +123,13 @@ client = AsyncPostGrid()
 
 
 async def main() -> None:
-    all_contacts = []
+    all_letters = []
     # Iterate through items across all pages, issuing requests as needed.
-    async for contact in client.contacts.list():
-        all_contacts.append(contact)
-    print(all_contacts)
+    async for letter in client.print_mail.letters.list(
+        limit=100,
+    ):
+        all_letters.append(letter)
+    print(all_letters)
 
 
 asyncio.run(main())
@@ -126,7 +138,9 @@ asyncio.run(main())
 Alternatively, you can use the `.has_next_page()`, `.next_page_info()`, or `.get_next_page()` methods for more granular control working with pages:
 
 ```python
-first_page = await client.contacts.list()
+first_page = await client.print_mail.letters.list(
+    limit=100,
+)
 if first_page.has_next_page():
     print(f"will fetch next page using these details: {first_page.next_page_info()}")
     next_page = await first_page.get_next_page()
@@ -138,9 +152,11 @@ if first_page.has_next_page():
 Or just work directly with the returned data:
 
 ```python
-first_page = await client.contacts.list()
-for contact in first_page.data:
-    print(contact.id)
+first_page = await client.print_mail.letters.list(
+    limit=100,
+)
+for letter in first_page.data:
+    print(letter.id)
 
 # Remove `await` for non-async usage.
 ```
@@ -161,10 +177,8 @@ from postgrid import PostGrid
 client = PostGrid()
 
 try:
-    client.contacts.create(
-        address_line1="addressLine1",
-        country_code="countryCode",
-        first_name="firstName",
+    client.address_verification.verify(
+        address="address",
     )
 except postgrid.APIConnectionError as e:
     print("The server could not be reached")
@@ -208,10 +222,8 @@ client = PostGrid(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).contacts.create(
-    address_line1="addressLine1",
-    country_code="countryCode",
-    first_name="firstName",
+client.with_options(max_retries=5).address_verification.verify(
+    address="address",
 )
 ```
 
@@ -235,10 +247,8 @@ client = PostGrid(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).contacts.create(
-    address_line1="addressLine1",
-    country_code="countryCode",
-    first_name="firstName",
+client.with_options(timeout=5.0).address_verification.verify(
+    address="address",
 )
 ```
 
@@ -252,10 +262,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `POSTGRID_LOG` to `info`.
+You can enable logging by setting the environment variable `POST_GRID_LOG` to `info`.
 
 ```shell
-$ export POSTGRID_LOG=info
+$ export POST_GRID_LOG=info
 ```
 
 Or to `debug` for more verbose logging.
@@ -280,15 +290,13 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from postgrid import PostGrid
 
 client = PostGrid()
-response = client.contacts.with_raw_response.create(
-    address_line1="addressLine1",
-    country_code="countryCode",
-    first_name="firstName",
+response = client.address_verification.with_raw_response.verify(
+    address="address",
 )
 print(response.headers.get('X-My-Header'))
 
-contact = response.parse()  # get the object that `contacts.create()` would have returned
-print(contact.id)
+address_verification = response.parse()  # get the object that `address_verification.verify()` would have returned
+print(address_verification.data)
 ```
 
 These methods return an [`APIResponse`](https://github.com/stainless-sdks/postgrid-python/tree/main/src/postgrid/_response.py) object.
@@ -302,10 +310,8 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.contacts.with_streaming_response.create(
-    address_line1="addressLine1",
-    country_code="countryCode",
-    first_name="firstName",
+with client.address_verification.with_streaming_response.verify(
+    address="address",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
@@ -362,7 +368,7 @@ import httpx
 from postgrid import PostGrid, DefaultHttpxClient
 
 client = PostGrid(
-    # Or use the `POSTGRID_BASE_URL` env var
+    # Or use the `POST_GRID_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxy="http://my.test.proxy.example.com",

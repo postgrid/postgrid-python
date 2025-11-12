@@ -26,19 +26,20 @@ from postgrid._types import Omit
 from postgrid._utils import maybe_transform
 from postgrid._models import BaseModel, FinalRequestOptions
 from postgrid._constants import RAW_RESPONSE_HEADER
-from postgrid._exceptions import PostGridError, APIStatusError, APITimeoutError, APIResponseValidationError
+from postgrid._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
 from postgrid._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
     BaseClient,
     make_request_options,
 )
-from postgrid.types.contact_create_params import ContactCreateWithFirstName
+from postgrid.types.address_verification_verify_params import StandardFreeformAddressInput
 
 from .utils import update_env
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
-api_key = "My API Key"
+address_verification_api_key = "My Address Verification API Key"
+print_mail_api_key = "My Print Mail API Key"
 
 
 def _get_params(client: BaseClient[Any, Any]) -> dict[str, str]:
@@ -60,7 +61,12 @@ def _get_open_connections(client: PostGrid | AsyncPostGrid) -> int:
 
 
 class TestPostGrid:
-    client = PostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+    client = PostGrid(
+        base_url=base_url,
+        address_verification_api_key=address_verification_api_key,
+        print_mail_api_key=print_mail_api_key,
+        _strict_response_validation=True,
+    )
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -86,9 +92,13 @@ class TestPostGrid:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(api_key="another My API Key")
-        assert copied.api_key == "another My API Key"
-        assert self.client.api_key == "My API Key"
+        copied = self.client.copy(address_verification_api_key="another My Address Verification API Key")
+        assert copied.address_verification_api_key == "another My Address Verification API Key"
+        assert self.client.address_verification_api_key == "My Address Verification API Key"
+
+        copied = self.client.copy(print_mail_api_key="another My Print Mail API Key")
+        assert copied.print_mail_api_key == "another My Print Mail API Key"
+        assert self.client.print_mail_api_key == "My Print Mail API Key"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -108,7 +118,11 @@ class TestPostGrid:
 
     def test_copy_default_headers(self) -> None:
         client = PostGrid(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+            default_headers={"X-Foo": "bar"},
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -142,7 +156,11 @@ class TestPostGrid:
 
     def test_copy_default_query(self) -> None:
         client = PostGrid(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+            default_query={"foo": "bar"},
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -267,7 +285,11 @@ class TestPostGrid:
 
     def test_client_timeout_option(self) -> None:
         client = PostGrid(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+            timeout=httpx.Timeout(0),
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -278,7 +300,11 @@ class TestPostGrid:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
             client = PostGrid(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+                http_client=http_client,
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -288,7 +314,11 @@ class TestPostGrid:
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
             client = PostGrid(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+                http_client=http_client,
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -298,7 +328,11 @@ class TestPostGrid:
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = PostGrid(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+                http_client=http_client,
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -310,14 +344,19 @@ class TestPostGrid:
             async with httpx.AsyncClient() as http_client:
                 PostGrid(
                     base_url=base_url,
-                    api_key=api_key,
+                    address_verification_api_key=address_verification_api_key,
+                    print_mail_api_key=print_mail_api_key,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = PostGrid(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+            default_headers={"X-Foo": "bar"},
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -325,7 +364,8 @@ class TestPostGrid:
 
         client2 = PostGrid(
             base_url=base_url,
-            api_key=api_key,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -337,18 +377,48 @@ class TestPostGrid:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = PostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = PostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+        )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("X-API-Key") == api_key
+        assert request.headers.get("X-API-Key") == address_verification_api_key
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("X-API-Key") == print_mail_api_key
 
-        with pytest.raises(PostGridError):
-            with update_env(**{"POSTGRID_API_KEY": Omit()}):
-                client2 = PostGrid(base_url=base_url, api_key=None, _strict_response_validation=True)
-            _ = client2
+        with update_env(
+            **{
+                "POSTGRID_ADDRESS_VERIFICATION_API_KEY": Omit(),
+                "POSTGRID_PRINT_MAIL_API_KEY": Omit(),
+            }
+        ):
+            client2 = PostGrid(
+                base_url=base_url,
+                address_verification_api_key=None,
+                print_mail_api_key=None,
+                _strict_response_validation=True,
+            )
+
+        with pytest.raises(
+            TypeError,
+            match="Could not resolve authentication method. Expected either address_verification_api_key or print_mail_api_key to be set. Or for one of the `X-API-Key` or `X-API-Key` headers to be explicitly omitted",
+        ):
+            client2._build_request(FinalRequestOptions(method="get", url="/foo"))
+
+        request2 = client2._build_request(FinalRequestOptions(method="get", url="/foo", headers={"X-API-Key": Omit()}))
+        assert request2.headers.get("X-API-Key") is None
+        request2 = client2._build_request(FinalRequestOptions(method="get", url="/foo", headers={"X-API-Key": Omit()}))
+        assert request2.headers.get("X-API-Key") is None
 
     def test_default_query_option(self) -> None:
         client = PostGrid(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+            default_query={"query_param": "bar"},
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -547,39 +617,13 @@ class TestPostGrid:
         assert isinstance(response, Model)
         assert response.foo == 2
 
-    @pytest.mark.respx(base_url=base_url)
-    def test_idempotency_header_options(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/foo").mock(return_value=httpx.Response(200, json={}))
-
-        response = self.client.post("/foo", cast_to=httpx.Response)
-
-        header = response.request.headers.get("Idempotency-Key")
-        assert header is not None
-        assert header.startswith("stainless-python-retry")
-
-        # explicit header
-        response = self.client.post(
-            "/foo",
-            cast_to=httpx.Response,
-            options=make_request_options(extra_headers={"Idempotency-Key": "custom-key"}),
-        )
-        assert response.request.headers.get("Idempotency-Key") == "custom-key"
-
-        response = self.client.post(
-            "/foo",
-            cast_to=httpx.Response,
-            options=make_request_options(extra_headers={"idempotency-key": "custom-key"}),
-        )
-        assert response.request.headers.get("Idempotency-Key") == "custom-key"
-
-        # custom argument
-        response = self.client.post(
-            "/foo", cast_to=httpx.Response, options=make_request_options(idempotency_key="custom-key")
-        )
-        assert response.request.headers.get("Idempotency-Key") == "custom-key"
-
     def test_base_url_setter(self) -> None:
-        client = PostGrid(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
+        client = PostGrid(
+            base_url="https://example.com/from_init",
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+        )
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -587,17 +631,27 @@ class TestPostGrid:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(POSTGRID_BASE_URL="http://localhost:5000/from/env"):
-            client = PostGrid(api_key=api_key, _strict_response_validation=True)
+        with update_env(POST_GRID_BASE_URL="http://localhost:5000/from/env"):
+            client = PostGrid(
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+            )
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
-            PostGrid(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             PostGrid(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+            ),
+            PostGrid(
+                base_url="http://localhost:5000/custom/path/",
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -617,10 +671,16 @@ class TestPostGrid:
     @pytest.mark.parametrize(
         "client",
         [
-            PostGrid(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             PostGrid(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+            ),
+            PostGrid(
+                base_url="http://localhost:5000/custom/path/",
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -640,10 +700,16 @@ class TestPostGrid:
     @pytest.mark.parametrize(
         "client",
         [
-            PostGrid(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             PostGrid(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+            ),
+            PostGrid(
+                base_url="http://localhost:5000/custom/path/",
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -661,7 +727,12 @@ class TestPostGrid:
         assert request.url == "https://myapi.com/foo"
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = PostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = PostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+        )
         assert not client.is_closed()
 
         copied = client.copy()
@@ -672,7 +743,12 @@ class TestPostGrid:
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = PostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = PostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+        )
         with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -693,7 +769,13 @@ class TestPostGrid:
 
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            PostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
+            PostGrid(
+                base_url=base_url,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+                max_retries=cast(Any, None),
+            )
 
     @pytest.mark.respx(base_url=base_url)
     def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
@@ -702,12 +784,22 @@ class TestPostGrid:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = PostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = PostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+        )
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = PostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        client = PostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=False,
+        )
 
         response = client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -735,7 +827,12 @@ class TestPostGrid:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = PostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = PostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+        )
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -745,18 +842,12 @@ class TestPostGrid:
     @mock.patch("postgrid._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/contacts").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/v1/addver/verifications").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             self.client.post(
-                "/contacts",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName"),
-                        ContactCreateWithFirstName,
-                    ),
-                ),
+                "/v1/addver/verifications",
+                body=cast(object, maybe_transform(dict(address="address"), StandardFreeformAddressInput)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -766,18 +857,12 @@ class TestPostGrid:
     @mock.patch("postgrid._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/contacts").mock(return_value=httpx.Response(500))
+        respx_mock.post("/v1/addver/verifications").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             self.client.post(
-                "/contacts",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName"),
-                        ContactCreateWithFirstName,
-                    ),
-                ),
+                "/v1/addver/verifications",
+                body=cast(object, maybe_transform(dict(address="address"), StandardFreeformAddressInput)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -808,11 +893,9 @@ class TestPostGrid:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/contacts").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/addver/verifications").mock(side_effect=retry_handler)
 
-        response = client.contacts.with_raw_response.create(
-            address_line1="addressLine1", country_code="countryCode", first_name="firstName"
-        )
+        response = client.address_verification.with_raw_response.verify(address="address")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -834,13 +917,10 @@ class TestPostGrid:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/contacts").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/addver/verifications").mock(side_effect=retry_handler)
 
-        response = client.contacts.with_raw_response.create(
-            address_line1="addressLine1",
-            country_code="countryCode",
-            first_name="firstName",
-            extra_headers={"x-stainless-retry-count": Omit()},
+        response = client.address_verification.with_raw_response.verify(
+            address="address", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -862,20 +942,22 @@ class TestPostGrid:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/contacts").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/addver/verifications").mock(side_effect=retry_handler)
 
-        response = client.contacts.with_raw_response.create(
-            address_line1="addressLine1",
-            country_code="countryCode",
-            first_name="firstName",
-            extra_headers={"x-stainless-retry-count": "42"},
+        response = client.address_verification.with_raw_response.verify(
+            address="address", extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
 
 class TestAsyncPostGrid:
-    client = AsyncPostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+    client = AsyncPostGrid(
+        base_url=base_url,
+        address_verification_api_key=address_verification_api_key,
+        print_mail_api_key=print_mail_api_key,
+        _strict_response_validation=True,
+    )
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -903,9 +985,13 @@ class TestAsyncPostGrid:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(api_key="another My API Key")
-        assert copied.api_key == "another My API Key"
-        assert self.client.api_key == "My API Key"
+        copied = self.client.copy(address_verification_api_key="another My Address Verification API Key")
+        assert copied.address_verification_api_key == "another My Address Verification API Key"
+        assert self.client.address_verification_api_key == "My Address Verification API Key"
+
+        copied = self.client.copy(print_mail_api_key="another My Print Mail API Key")
+        assert copied.print_mail_api_key == "another My Print Mail API Key"
+        assert self.client.print_mail_api_key == "My Print Mail API Key"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -925,7 +1011,11 @@ class TestAsyncPostGrid:
 
     def test_copy_default_headers(self) -> None:
         client = AsyncPostGrid(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+            default_headers={"X-Foo": "bar"},
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -959,7 +1049,11 @@ class TestAsyncPostGrid:
 
     def test_copy_default_query(self) -> None:
         client = AsyncPostGrid(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+            default_query={"foo": "bar"},
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -1084,7 +1178,11 @@ class TestAsyncPostGrid:
 
     async def test_client_timeout_option(self) -> None:
         client = AsyncPostGrid(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+            timeout=httpx.Timeout(0),
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1095,7 +1193,11 @@ class TestAsyncPostGrid:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
             client = AsyncPostGrid(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+                http_client=http_client,
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1105,7 +1207,11 @@ class TestAsyncPostGrid:
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
             client = AsyncPostGrid(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+                http_client=http_client,
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1115,7 +1221,11 @@ class TestAsyncPostGrid:
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = AsyncPostGrid(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+                http_client=http_client,
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1127,14 +1237,19 @@ class TestAsyncPostGrid:
             with httpx.Client() as http_client:
                 AsyncPostGrid(
                     base_url=base_url,
-                    api_key=api_key,
+                    address_verification_api_key=address_verification_api_key,
+                    print_mail_api_key=print_mail_api_key,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = AsyncPostGrid(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+            default_headers={"X-Foo": "bar"},
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -1142,7 +1257,8 @@ class TestAsyncPostGrid:
 
         client2 = AsyncPostGrid(
             base_url=base_url,
-            api_key=api_key,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -1154,18 +1270,48 @@ class TestAsyncPostGrid:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = AsyncPostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncPostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+        )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("X-API-Key") == api_key
+        assert request.headers.get("X-API-Key") == address_verification_api_key
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("X-API-Key") == print_mail_api_key
 
-        with pytest.raises(PostGridError):
-            with update_env(**{"POSTGRID_API_KEY": Omit()}):
-                client2 = AsyncPostGrid(base_url=base_url, api_key=None, _strict_response_validation=True)
-            _ = client2
+        with update_env(
+            **{
+                "POSTGRID_ADDRESS_VERIFICATION_API_KEY": Omit(),
+                "POSTGRID_PRINT_MAIL_API_KEY": Omit(),
+            }
+        ):
+            client2 = AsyncPostGrid(
+                base_url=base_url,
+                address_verification_api_key=None,
+                print_mail_api_key=None,
+                _strict_response_validation=True,
+            )
+
+        with pytest.raises(
+            TypeError,
+            match="Could not resolve authentication method. Expected either address_verification_api_key or print_mail_api_key to be set. Or for one of the `X-API-Key` or `X-API-Key` headers to be explicitly omitted",
+        ):
+            client2._build_request(FinalRequestOptions(method="get", url="/foo"))
+
+        request2 = client2._build_request(FinalRequestOptions(method="get", url="/foo", headers={"X-API-Key": Omit()}))
+        assert request2.headers.get("X-API-Key") is None
+        request2 = client2._build_request(FinalRequestOptions(method="get", url="/foo", headers={"X-API-Key": Omit()}))
+        assert request2.headers.get("X-API-Key") is None
 
     def test_default_query_option(self) -> None:
         client = AsyncPostGrid(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+            default_query={"query_param": "bar"},
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -1364,40 +1510,12 @@ class TestAsyncPostGrid:
         assert isinstance(response, Model)
         assert response.foo == 2
 
-    @pytest.mark.respx(base_url=base_url)
-    async def test_idempotency_header_options(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/foo").mock(return_value=httpx.Response(200, json={}))
-
-        response = await self.client.post("/foo", cast_to=httpx.Response)
-
-        header = response.request.headers.get("Idempotency-Key")
-        assert header is not None
-        assert header.startswith("stainless-python-retry")
-
-        # explicit header
-        response = await self.client.post(
-            "/foo",
-            cast_to=httpx.Response,
-            options=make_request_options(extra_headers={"Idempotency-Key": "custom-key"}),
-        )
-        assert response.request.headers.get("Idempotency-Key") == "custom-key"
-
-        response = await self.client.post(
-            "/foo",
-            cast_to=httpx.Response,
-            options=make_request_options(extra_headers={"idempotency-key": "custom-key"}),
-        )
-        assert response.request.headers.get("Idempotency-Key") == "custom-key"
-
-        # custom argument
-        response = await self.client.post(
-            "/foo", cast_to=httpx.Response, options=make_request_options(idempotency_key="custom-key")
-        )
-        assert response.request.headers.get("Idempotency-Key") == "custom-key"
-
     def test_base_url_setter(self) -> None:
         client = AsyncPostGrid(
-            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
+            base_url="https://example.com/from_init",
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
         )
         assert client.base_url == "https://example.com/from_init/"
 
@@ -1406,19 +1524,27 @@ class TestAsyncPostGrid:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(POSTGRID_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncPostGrid(api_key=api_key, _strict_response_validation=True)
+        with update_env(POST_GRID_BASE_URL="http://localhost:5000/from/env"):
+            client = AsyncPostGrid(
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+            )
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
             AsyncPostGrid(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/",
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
             ),
             AsyncPostGrid(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1439,11 +1565,15 @@ class TestAsyncPostGrid:
         "client",
         [
             AsyncPostGrid(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/",
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
             ),
             AsyncPostGrid(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1464,11 +1594,15 @@ class TestAsyncPostGrid:
         "client",
         [
             AsyncPostGrid(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/",
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
             ),
             AsyncPostGrid(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1486,7 +1620,12 @@ class TestAsyncPostGrid:
         assert request.url == "https://myapi.com/foo"
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncPostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncPostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+        )
         assert not client.is_closed()
 
         copied = client.copy()
@@ -1498,7 +1637,12 @@ class TestAsyncPostGrid:
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncPostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncPostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+        )
         async with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -1521,7 +1665,11 @@ class TestAsyncPostGrid:
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             AsyncPostGrid(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
+                base_url=base_url,
+                address_verification_api_key=address_verification_api_key,
+                print_mail_api_key=print_mail_api_key,
+                _strict_response_validation=True,
+                max_retries=cast(Any, None),
             )
 
     @pytest.mark.respx(base_url=base_url)
@@ -1532,12 +1680,22 @@ class TestAsyncPostGrid:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncPostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = AsyncPostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+        )
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncPostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        client = AsyncPostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=False,
+        )
 
         response = await client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1566,7 +1724,12 @@ class TestAsyncPostGrid:
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncPostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncPostGrid(
+            base_url=base_url,
+            address_verification_api_key=address_verification_api_key,
+            print_mail_api_key=print_mail_api_key,
+            _strict_response_validation=True,
+        )
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -1576,18 +1739,12 @@ class TestAsyncPostGrid:
     @mock.patch("postgrid._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/contacts").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/v1/addver/verifications").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             await self.client.post(
-                "/contacts",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName"),
-                        ContactCreateWithFirstName,
-                    ),
-                ),
+                "/v1/addver/verifications",
+                body=cast(object, maybe_transform(dict(address="address"), StandardFreeformAddressInput)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1597,18 +1754,12 @@ class TestAsyncPostGrid:
     @mock.patch("postgrid._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/contacts").mock(return_value=httpx.Response(500))
+        respx_mock.post("/v1/addver/verifications").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             await self.client.post(
-                "/contacts",
-                body=cast(
-                    object,
-                    maybe_transform(
-                        dict(address_line1="addressLine1", country_code="countryCode", first_name="firstName"),
-                        ContactCreateWithFirstName,
-                    ),
-                ),
+                "/v1/addver/verifications",
+                body=cast(object, maybe_transform(dict(address="address"), StandardFreeformAddressInput)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1640,11 +1791,9 @@ class TestAsyncPostGrid:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/contacts").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/addver/verifications").mock(side_effect=retry_handler)
 
-        response = await client.contacts.with_raw_response.create(
-            address_line1="addressLine1", country_code="countryCode", first_name="firstName"
-        )
+        response = await client.address_verification.with_raw_response.verify(address="address")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1667,13 +1816,10 @@ class TestAsyncPostGrid:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/contacts").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/addver/verifications").mock(side_effect=retry_handler)
 
-        response = await client.contacts.with_raw_response.create(
-            address_line1="addressLine1",
-            country_code="countryCode",
-            first_name="firstName",
-            extra_headers={"x-stainless-retry-count": Omit()},
+        response = await client.address_verification.with_raw_response.verify(
+            address="address", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -1696,13 +1842,10 @@ class TestAsyncPostGrid:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/contacts").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/addver/verifications").mock(side_effect=retry_handler)
 
-        response = await client.contacts.with_raw_response.create(
-            address_line1="addressLine1",
-            country_code="countryCode",
-            first_name="firstName",
-            extra_headers={"x-stainless-retry-count": "42"},
+        response = await client.address_verification.with_raw_response.verify(
+            address="address", extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"

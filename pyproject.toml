@@ -1,11 +1,11 @@
 [project]
 name = "postgrid"
 version = "0.0.1-alpha.0"
-description = "The official Python library for the postgrid API"
+description = "The official Python library for the PostGrid API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "PostGrid", email = "support@postgrid.com" },
+{ name = "Post Grid", email = "support@postgrid.com" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",

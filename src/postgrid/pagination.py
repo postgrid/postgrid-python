@@ -7,12 +7,12 @@ from pydantic import Field as FieldInfo
 
 from ._base_client import BasePage, PageInfo, BaseSyncPage, BaseAsyncPage
 
-__all__ = ["SyncList", "AsyncList"]
+__all__ = ["SyncSkipLimit", "AsyncSkipLimit"]
 
 _T = TypeVar("_T")
 
 
-class SyncList(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
+class SyncSkipLimit(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
     data: List[_T]
     total_count: Optional[int] = FieldInfo(alias="totalCount", default=None)
 
@@ -42,7 +42,7 @@ class SyncList(BaseSyncPage[_T], BasePage[_T], Generic[_T]):
         return None
 
 
-class AsyncList(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
+class AsyncSkipLimit(BaseAsyncPage[_T], BasePage[_T], Generic[_T]):
     data: List[_T]
     total_count: Optional[int] = FieldInfo(alias="totalCount", default=None)
 

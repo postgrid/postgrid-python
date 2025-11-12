@@ -13,6 +13,7 @@ from ._qs import Querystring
 from ._types import (
     NOT_GIVEN,
     Omit,
+    Headers,
     Timeout,
     NotGiven,
     Transport,
@@ -24,15 +25,15 @@ from ._utils import (
     get_async_library,
 )
 from ._version import __version__
-from .resources import letters, contacts, postcards, templates, bank_accounts
+from .resources import address_verification, intl_address_verification
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import PostGridError, APIStatusError
+from ._exceptions import APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.cheques import cheques
+from .resources.print_mail import print_mail
 
 __all__ = [
     "Timeout",
@@ -47,22 +48,21 @@ __all__ = [
 
 
 class PostGrid(SyncAPIClient):
-    contacts: contacts.ContactsResource
-    templates: templates.TemplatesResource
-    bank_accounts: bank_accounts.BankAccountsResource
-    cheques: cheques.ChequesResource
-    letters: letters.LettersResource
-    postcards: postcards.PostcardsResource
+    address_verification: address_verification.AddressVerificationResource
+    intl_address_verification: intl_address_verification.IntlAddressVerificationResource
+    print_mail: print_mail.PrintMailResource
     with_raw_response: PostGridWithRawResponse
     with_streaming_response: PostGridWithStreamedResponse
 
     # client options
-    api_key: str
+    address_verification_api_key: str | None
+    print_mail_api_key: str | None
 
     def __init__(
         self,
         *,
-        api_key: str | None = None,
+        address_verification_api_key: str | None = None,
+        print_mail_api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -82,22 +82,24 @@ class PostGrid(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous postgrid client instance.
+        """Construct a new synchronous PostGrid client instance.
 
-        This automatically infers the `api_key` argument from the `POSTGRID_API_KEY` environment variable if it is not provided.
+        This automatically infers the following arguments from their corresponding environment variables if they are not provided:
+        - `address_verification_api_key` from `POSTGRID_ADDRESS_VERIFICATION_API_KEY`
+        - `print_mail_api_key` from `POSTGRID_PRINT_MAIL_API_KEY`
         """
-        if api_key is None:
-            api_key = os.environ.get("POSTGRID_API_KEY")
-        if api_key is None:
-            raise PostGridError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the POSTGRID_API_KEY environment variable"
-            )
-        self.api_key = api_key
+        if address_verification_api_key is None:
+            address_verification_api_key = os.environ.get("POSTGRID_ADDRESS_VERIFICATION_API_KEY")
+        self.address_verification_api_key = address_verification_api_key
+
+        if print_mail_api_key is None:
+            print_mail_api_key = os.environ.get("POSTGRID_PRINT_MAIL_API_KEY")
+        self.print_mail_api_key = print_mail_api_key
 
         if base_url is None:
-            base_url = os.environ.get("POSTGRID_BASE_URL")
+            base_url = os.environ.get("POST_GRID_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.postgrid.com/print-mail/v1"
+            base_url = f"https://api.postgrid.com"
 
         super().__init__(
             version=__version__,
@@ -110,14 +112,9 @@ class PostGrid(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self._idempotency_header = "Idempotency-Key"
-
-        self.contacts = contacts.ContactsResource(self)
-        self.templates = templates.TemplatesResource(self)
-        self.bank_accounts = bank_accounts.BankAccountsResource(self)
-        self.cheques = cheques.ChequesResource(self)
-        self.letters = letters.LettersResource(self)
-        self.postcards = postcards.PostcardsResource(self)
+        self.address_verification = address_verification.AddressVerificationResource(self)
+        self.intl_address_verification = intl_address_verification.IntlAddressVerificationResource(self)
+        self.print_mail = print_mail.PrintMailResource(self)
         self.with_raw_response = PostGridWithRawResponse(self)
         self.with_streaming_response = PostGridWithStreamedResponse(self)
 
@@ -129,8 +126,25 @@ class PostGrid(SyncAPIClient):
     @property
     @override
     def auth_headers(self) -> dict[str, str]:
-        api_key = self.api_key
-        return {"X-API-Key": api_key}
+        if self._address_verification_api_key_auth:
+            return self._address_verification_api_key_auth
+        if self._print_mail_api_key_auth:
+            return self._print_mail_api_key_auth
+        return {}
+
+    @property
+    def _address_verification_api_key_auth(self) -> dict[str, str]:
+        address_verification_api_key = self.address_verification_api_key
+        if address_verification_api_key is None:
+            return {}
+        return {"X-API-Key": address_verification_api_key}
+
+    @property
+    def _print_mail_api_key_auth(self) -> dict[str, str]:
+        print_mail_api_key = self.print_mail_api_key
+        if print_mail_api_key is None:
+            return {}
+        return {"X-API-Key": print_mail_api_key}
 
     @property
     @override
@@ -141,10 +155,27 @@ class PostGrid(SyncAPIClient):
             **self._custom_headers,
         }
 
+    @override
+    def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
+        if self.address_verification_api_key and headers.get("X-API-Key"):
+            return
+        if isinstance(custom_headers.get("X-API-Key"), Omit):
+            return
+
+        if self.print_mail_api_key and headers.get("X-API-Key"):
+            return
+        if isinstance(custom_headers.get("X-API-Key"), Omit):
+            return
+
+        raise TypeError(
+            '"Could not resolve authentication method. Expected either address_verification_api_key or print_mail_api_key to be set. Or for one of the `X-API-Key` or `X-API-Key` headers to be explicitly omitted"'
+        )
+
     def copy(
         self,
         *,
-        api_key: str | None = None,
+        address_verification_api_key: str | None = None,
+        print_mail_api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -178,7 +209,8 @@ class PostGrid(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
+            address_verification_api_key=address_verification_api_key or self.address_verification_api_key,
+            print_mail_api_key=print_mail_api_key or self.print_mail_api_key,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -227,22 +259,21 @@ class PostGrid(SyncAPIClient):
 
 
 class AsyncPostGrid(AsyncAPIClient):
-    contacts: contacts.AsyncContactsResource
-    templates: templates.AsyncTemplatesResource
-    bank_accounts: bank_accounts.AsyncBankAccountsResource
-    cheques: cheques.AsyncChequesResource
-    letters: letters.AsyncLettersResource
-    postcards: postcards.AsyncPostcardsResource
+    address_verification: address_verification.AsyncAddressVerificationResource
+    intl_address_verification: intl_address_verification.AsyncIntlAddressVerificationResource
+    print_mail: print_mail.AsyncPrintMailResource
     with_raw_response: AsyncPostGridWithRawResponse
     with_streaming_response: AsyncPostGridWithStreamedResponse
 
     # client options
-    api_key: str
+    address_verification_api_key: str | None
+    print_mail_api_key: str | None
 
     def __init__(
         self,
         *,
-        api_key: str | None = None,
+        address_verification_api_key: str | None = None,
+        print_mail_api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -262,22 +293,24 @@ class AsyncPostGrid(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async postgrid client instance.
+        """Construct a new async PostGrid client instance.
 
-        This automatically infers the `api_key` argument from the `POSTGRID_API_KEY` environment variable if it is not provided.
+        This automatically infers the following arguments from their corresponding environment variables if they are not provided:
+        - `address_verification_api_key` from `POSTGRID_ADDRESS_VERIFICATION_API_KEY`
+        - `print_mail_api_key` from `POSTGRID_PRINT_MAIL_API_KEY`
         """
-        if api_key is None:
-            api_key = os.environ.get("POSTGRID_API_KEY")
-        if api_key is None:
-            raise PostGridError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the POSTGRID_API_KEY environment variable"
-            )
-        self.api_key = api_key
+        if address_verification_api_key is None:
+            address_verification_api_key = os.environ.get("POSTGRID_ADDRESS_VERIFICATION_API_KEY")
+        self.address_verification_api_key = address_verification_api_key
+
+        if print_mail_api_key is None:
+            print_mail_api_key = os.environ.get("POSTGRID_PRINT_MAIL_API_KEY")
+        self.print_mail_api_key = print_mail_api_key
 
         if base_url is None:
-            base_url = os.environ.get("POSTGRID_BASE_URL")
+            base_url = os.environ.get("POST_GRID_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.postgrid.com/print-mail/v1"
+            base_url = f"https://api.postgrid.com"
 
         super().__init__(
             version=__version__,
@@ -290,14 +323,9 @@ class AsyncPostGrid(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self._idempotency_header = "Idempotency-Key"
-
-        self.contacts = contacts.AsyncContactsResource(self)
-        self.templates = templates.AsyncTemplatesResource(self)
-        self.bank_accounts = bank_accounts.AsyncBankAccountsResource(self)
-        self.cheques = cheques.AsyncChequesResource(self)
-        self.letters = letters.AsyncLettersResource(self)
-        self.postcards = postcards.AsyncPostcardsResource(self)
+        self.address_verification = address_verification.AsyncAddressVerificationResource(self)
+        self.intl_address_verification = intl_address_verification.AsyncIntlAddressVerificationResource(self)
+        self.print_mail = print_mail.AsyncPrintMailResource(self)
         self.with_raw_response = AsyncPostGridWithRawResponse(self)
         self.with_streaming_response = AsyncPostGridWithStreamedResponse(self)
 
@@ -309,8 +337,25 @@ class AsyncPostGrid(AsyncAPIClient):
     @property
     @override
     def auth_headers(self) -> dict[str, str]:
-        api_key = self.api_key
-        return {"X-API-Key": api_key}
+        if self._address_verification_api_key_auth:
+            return self._address_verification_api_key_auth
+        if self._print_mail_api_key_auth:
+            return self._print_mail_api_key_auth
+        return {}
+
+    @property
+    def _address_verification_api_key_auth(self) -> dict[str, str]:
+        address_verification_api_key = self.address_verification_api_key
+        if address_verification_api_key is None:
+            return {}
+        return {"X-API-Key": address_verification_api_key}
+
+    @property
+    def _print_mail_api_key_auth(self) -> dict[str, str]:
+        print_mail_api_key = self.print_mail_api_key
+        if print_mail_api_key is None:
+            return {}
+        return {"X-API-Key": print_mail_api_key}
 
     @property
     @override
@@ -321,10 +366,27 @@ class AsyncPostGrid(AsyncAPIClient):
             **self._custom_headers,
         }
 
+    @override
+    def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
+        if self.address_verification_api_key and headers.get("X-API-Key"):
+            return
+        if isinstance(custom_headers.get("X-API-Key"), Omit):
+            return
+
+        if self.print_mail_api_key and headers.get("X-API-Key"):
+            return
+        if isinstance(custom_headers.get("X-API-Key"), Omit):
+            return
+
+        raise TypeError(
+            '"Could not resolve authentication method. Expected either address_verification_api_key or print_mail_api_key to be set. Or for one of the `X-API-Key` or `X-API-Key` headers to be explicitly omitted"'
+        )
+
     def copy(
         self,
         *,
-        api_key: str | None = None,
+        address_verification_api_key: str | None = None,
+        print_mail_api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -358,7 +420,8 @@ class AsyncPostGrid(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
+            address_verification_api_key=address_verification_api_key or self.address_verification_api_key,
+            print_mail_api_key=print_mail_api_key or self.print_mail_api_key,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -408,42 +471,48 @@ class AsyncPostGrid(AsyncAPIClient):
 
 class PostGridWithRawResponse:
     def __init__(self, client: PostGrid) -> None:
-        self.contacts = contacts.ContactsResourceWithRawResponse(client.contacts)
-        self.templates = templates.TemplatesResourceWithRawResponse(client.templates)
-        self.bank_accounts = bank_accounts.BankAccountsResourceWithRawResponse(client.bank_accounts)
-        self.cheques = cheques.ChequesResourceWithRawResponse(client.cheques)
-        self.letters = letters.LettersResourceWithRawResponse(client.letters)
-        self.postcards = postcards.PostcardsResourceWithRawResponse(client.postcards)
+        self.address_verification = address_verification.AddressVerificationResourceWithRawResponse(
+            client.address_verification
+        )
+        self.intl_address_verification = intl_address_verification.IntlAddressVerificationResourceWithRawResponse(
+            client.intl_address_verification
+        )
+        self.print_mail = print_mail.PrintMailResourceWithRawResponse(client.print_mail)
 
 
 class AsyncPostGridWithRawResponse:
     def __init__(self, client: AsyncPostGrid) -> None:
-        self.contacts = contacts.AsyncContactsResourceWithRawResponse(client.contacts)
-        self.templates = templates.AsyncTemplatesResourceWithRawResponse(client.templates)
-        self.bank_accounts = bank_accounts.AsyncBankAccountsResourceWithRawResponse(client.bank_accounts)
-        self.cheques = cheques.AsyncChequesResourceWithRawResponse(client.cheques)
-        self.letters = letters.AsyncLettersResourceWithRawResponse(client.letters)
-        self.postcards = postcards.AsyncPostcardsResourceWithRawResponse(client.postcards)
+        self.address_verification = address_verification.AsyncAddressVerificationResourceWithRawResponse(
+            client.address_verification
+        )
+        self.intl_address_verification = intl_address_verification.AsyncIntlAddressVerificationResourceWithRawResponse(
+            client.intl_address_verification
+        )
+        self.print_mail = print_mail.AsyncPrintMailResourceWithRawResponse(client.print_mail)
 
 
 class PostGridWithStreamedResponse:
     def __init__(self, client: PostGrid) -> None:
-        self.contacts = contacts.ContactsResourceWithStreamingResponse(client.contacts)
-        self.templates = templates.TemplatesResourceWithStreamingResponse(client.templates)
-        self.bank_accounts = bank_accounts.BankAccountsResourceWithStreamingResponse(client.bank_accounts)
-        self.cheques = cheques.ChequesResourceWithStreamingResponse(client.cheques)
-        self.letters = letters.LettersResourceWithStreamingResponse(client.letters)
-        self.postcards = postcards.PostcardsResourceWithStreamingResponse(client.postcards)
+        self.address_verification = address_verification.AddressVerificationResourceWithStreamingResponse(
+            client.address_verification
+        )
+        self.intl_address_verification = intl_address_verification.IntlAddressVerificationResourceWithStreamingResponse(
+            client.intl_address_verification
+        )
+        self.print_mail = print_mail.PrintMailResourceWithStreamingResponse(client.print_mail)
 
 
 class AsyncPostGridWithStreamedResponse:
     def __init__(self, client: AsyncPostGrid) -> None:
-        self.contacts = contacts.AsyncContactsResourceWithStreamingResponse(client.contacts)
-        self.templates = templates.AsyncTemplatesResourceWithStreamingResponse(client.templates)
-        self.bank_accounts = bank_accounts.AsyncBankAccountsResourceWithStreamingResponse(client.bank_accounts)
-        self.cheques = cheques.AsyncChequesResourceWithStreamingResponse(client.cheques)
-        self.letters = letters.AsyncLettersResourceWithStreamingResponse(client.letters)
-        self.postcards = postcards.AsyncPostcardsResourceWithStreamingResponse(client.postcards)
+        self.address_verification = address_verification.AsyncAddressVerificationResourceWithStreamingResponse(
+            client.address_verification
+        )
+        self.intl_address_verification = (
+            intl_address_verification.AsyncIntlAddressVerificationResourceWithStreamingResponse(
+                client.intl_address_verification
+            )
+        )
+        self.print_mail = print_mail.AsyncPrintMailResourceWithStreamingResponse(client.print_mail)
 
 
 Client = PostGrid

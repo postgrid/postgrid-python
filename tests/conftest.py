@@ -28,7 +28,8 @@ def pytest_collection_modifyitems(items: list[pytest.Function]) -> None:
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-api_key = "My API Key"
+address_verification_api_key = "My Address Verification API Key"
+print_mail_api_key = "My Print Mail API Key"
 
 
 @pytest.fixture(scope="session")
@@ -37,7 +38,12 @@ def client(request: FixtureRequest) -> Iterator[PostGrid]:
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with PostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
+    with PostGrid(
+        base_url=base_url,
+        address_verification_api_key=address_verification_api_key,
+        print_mail_api_key=print_mail_api_key,
+        _strict_response_validation=strict,
+    ) as client:
         yield client
 
 
@@ -47,5 +53,10 @@ async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncPostGrid]:
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    async with AsyncPostGrid(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
+    async with AsyncPostGrid(
+        base_url=base_url,
+        address_verification_api_key=address_verification_api_key,
+        print_mail_api_key=print_mail_api_key,
+        _strict_response_validation=strict,
+    ) as client:
         yield client
