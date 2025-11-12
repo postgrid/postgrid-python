@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from typing import List
 from typing_extensions import TypedDict
+
+from ...._types import SequenceNotStr
 
 __all__ = ["SelfMailerRetrieveParams"]
 
 
 class SelfMailerRetrieveParams(TypedDict, total=False):
-    expand: List[str]
+    expand: SequenceNotStr[str]
     """Optional list of related resources to expand in the response."""

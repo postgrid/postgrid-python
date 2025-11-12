@@ -2,15 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 import httpx
 
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ...._utils import (
-    maybe_transform,
-    async_maybe_transform,
-)
+from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
+from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -61,20 +58,20 @@ class SelfMailersResource(SyncAPIResource):
         self,
         *,
         size: SelfMailerSize,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        inside_template: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        outside_template: str | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        inside_template: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        outside_template: str | Omit = omit,
+        pdf: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailerProfile:
         """Creates a new Self-Mailer Profile.
 
@@ -139,13 +136,13 @@ class SelfMailersResource(SyncAPIResource):
         self,
         id: str,
         *,
-        expand: List[str] | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailerProfile:
         """
         Retrieves the details of a specific Self-Mailer Profile.
@@ -180,20 +177,20 @@ class SelfMailersResource(SyncAPIResource):
         id: str,
         *,
         size: SelfMailerSize,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        inside_template: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        outside_template: str | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        inside_template: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        outside_template: str | Omit = omit,
+        pdf: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailerProfile:
         """Updates specific fields of an existing Self-Mailer Profile.
 
@@ -258,15 +255,15 @@ class SelfMailersResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[SelfMailerProfile]:
         """
         Retrieves a list of Self-Mailer Profiles.
@@ -315,7 +312,7 @@ class SelfMailersResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailerDeleteResponse:
         """
         Deletes a Self-Mailer Profile.
@@ -364,20 +361,20 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         self,
         *,
         size: SelfMailerSize,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        inside_template: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        outside_template: str | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        inside_template: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        outside_template: str | Omit = omit,
+        pdf: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailerProfile:
         """Creates a new Self-Mailer Profile.
 
@@ -442,13 +439,13 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        expand: List[str] | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailerProfile:
         """
         Retrieves the details of a specific Self-Mailer Profile.
@@ -485,20 +482,20 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         id: str,
         *,
         size: SelfMailerSize,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        inside_template: str | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
-        outside_template: str | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        inside_template: str | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
+        outside_template: str | Omit = omit,
+        pdf: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailerProfile:
         """Updates specific fields of an existing Self-Mailer Profile.
 
@@ -563,15 +560,15 @@ class AsyncSelfMailersResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[SelfMailerProfile, AsyncSkipLimit[SelfMailerProfile]]:
         """
         Retrieves a list of Self-Mailer Profiles.
@@ -620,7 +617,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SelfMailerDeleteResponse:
         """
         Deletes a Self-Mailer Profile.

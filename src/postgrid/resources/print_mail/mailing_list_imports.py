@@ -6,12 +6,8 @@ from typing import Dict, Optional
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import (
-    maybe_transform,
-    strip_not_given,
-    async_maybe_transform,
-)
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._utils import maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -61,18 +57,18 @@ class MailingListImportsResource(SyncAPIResource):
         file: str,
         file_type: FileType,
         receiver_address_mapping: Dict[str, str],
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        receiver_merge_variable_mapping: Dict[str, str] | NotGiven = NOT_GIVEN,
-        sender_address_mapping: Dict[str, str] | NotGiven = NOT_GIVEN,
-        sender_merge_variable_mapping: Dict[str, str] | NotGiven = NOT_GIVEN,
-        idempotency_key: str | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        receiver_merge_variable_mapping: Dict[str, str] | Omit = omit,
+        sender_address_mapping: Dict[str, str] | Omit = omit,
+        sender_merge_variable_mapping: Dict[str, str] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListImportResponse:
         """
         Create a new mailing list import.
@@ -138,7 +134,7 @@ class MailingListImportsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListImportResponse:
         """
         Retrieve a specific mailing list import by its ID.
@@ -166,14 +162,14 @@ class MailingListImportsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListImportResponse:
         """
         Update an existing mailing list import.
@@ -213,15 +209,15 @@ class MailingListImportsResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[MailingListImportResponse]:
         """
         Retrieve a list of mailing list imports.
@@ -273,7 +269,7 @@ class MailingListImportsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListImportDeleteResponse:
         """
         Delete a mailing list import.
@@ -327,18 +323,18 @@ class AsyncMailingListImportsResource(AsyncAPIResource):
         file: str,
         file_type: FileType,
         receiver_address_mapping: Dict[str, str],
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        receiver_merge_variable_mapping: Dict[str, str] | NotGiven = NOT_GIVEN,
-        sender_address_mapping: Dict[str, str] | NotGiven = NOT_GIVEN,
-        sender_merge_variable_mapping: Dict[str, str] | NotGiven = NOT_GIVEN,
-        idempotency_key: str | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        receiver_merge_variable_mapping: Dict[str, str] | Omit = omit,
+        sender_address_mapping: Dict[str, str] | Omit = omit,
+        sender_merge_variable_mapping: Dict[str, str] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListImportResponse:
         """
         Create a new mailing list import.
@@ -404,7 +400,7 @@ class AsyncMailingListImportsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListImportResponse:
         """
         Retrieve a specific mailing list import by its ID.
@@ -432,14 +428,14 @@ class AsyncMailingListImportsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
+        description: Optional[str] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListImportResponse:
         """
         Update an existing mailing list import.
@@ -479,15 +475,15 @@ class AsyncMailingListImportsResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[MailingListImportResponse, AsyncSkipLimit[MailingListImportResponse]]:
         """
         Retrieve a list of mailing list imports.
@@ -539,7 +535,7 @@ class AsyncMailingListImportsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> MailingListImportDeleteResponse:
         """
         Delete a mailing list import.

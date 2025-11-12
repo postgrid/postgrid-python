@@ -22,13 +22,13 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestMailingLists:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create(self, client: PostGrid) -> None:
         mailing_list = client.print_mail.mailing_lists.create()
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: PostGrid) -> None:
         mailing_list = client.print_mail.mailing_lists.create(
@@ -38,7 +38,7 @@ class TestMailingLists:
         )
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: PostGrid) -> None:
         response = client.print_mail.mailing_lists.with_raw_response.create()
@@ -48,7 +48,7 @@ class TestMailingLists:
         mailing_list = response.parse()
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: PostGrid) -> None:
         with client.print_mail.mailing_lists.with_streaming_response.create() as response:
@@ -60,7 +60,7 @@ class TestMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: PostGrid) -> None:
         mailing_list = client.print_mail.mailing_lists.retrieve(
@@ -68,7 +68,7 @@ class TestMailingLists:
         )
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: PostGrid) -> None:
         response = client.print_mail.mailing_lists.with_raw_response.retrieve(
@@ -80,7 +80,7 @@ class TestMailingLists:
         mailing_list = response.parse()
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: PostGrid) -> None:
         with client.print_mail.mailing_lists.with_streaming_response.retrieve(
@@ -94,7 +94,7 @@ class TestMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -102,7 +102,7 @@ class TestMailingLists:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update(self, client: PostGrid) -> None:
         mailing_list = client.print_mail.mailing_lists.update(
@@ -110,7 +110,7 @@ class TestMailingLists:
         )
         assert_matches_type(MailingListUpdate, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: PostGrid) -> None:
         mailing_list = client.print_mail.mailing_lists.update(
@@ -120,7 +120,7 @@ class TestMailingLists:
         )
         assert_matches_type(MailingListUpdate, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: PostGrid) -> None:
         response = client.print_mail.mailing_lists.with_raw_response.update(
@@ -132,7 +132,7 @@ class TestMailingLists:
         mailing_list = response.parse()
         assert_matches_type(MailingListUpdate, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: PostGrid) -> None:
         with client.print_mail.mailing_lists.with_streaming_response.update(
@@ -146,7 +146,7 @@ class TestMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_update(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -154,13 +154,13 @@ class TestMailingLists:
                 id="",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list(self, client: PostGrid) -> None:
         mailing_list = client.print_mail.mailing_lists.list()
         assert_matches_type(SyncSkipLimit[MailingList], mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: PostGrid) -> None:
         mailing_list = client.print_mail.mailing_lists.list(
@@ -170,7 +170,7 @@ class TestMailingLists:
         )
         assert_matches_type(SyncSkipLimit[MailingList], mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: PostGrid) -> None:
         response = client.print_mail.mailing_lists.with_raw_response.list()
@@ -180,7 +180,7 @@ class TestMailingLists:
         mailing_list = response.parse()
         assert_matches_type(SyncSkipLimit[MailingList], mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: PostGrid) -> None:
         with client.print_mail.mailing_lists.with_streaming_response.list() as response:
@@ -192,7 +192,7 @@ class TestMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_delete(self, client: PostGrid) -> None:
         mailing_list = client.print_mail.mailing_lists.delete(
@@ -200,7 +200,7 @@ class TestMailingLists:
         )
         assert_matches_type(MailingListDeleteResponse, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: PostGrid) -> None:
         response = client.print_mail.mailing_lists.with_raw_response.delete(
@@ -212,7 +212,7 @@ class TestMailingLists:
         mailing_list = response.parse()
         assert_matches_type(MailingListDeleteResponse, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: PostGrid) -> None:
         with client.print_mail.mailing_lists.with_streaming_response.delete(
@@ -226,7 +226,7 @@ class TestMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -234,7 +234,7 @@ class TestMailingLists:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_jobs(self, client: PostGrid) -> None:
         mailing_list = client.print_mail.mailing_lists.jobs(
@@ -242,7 +242,7 @@ class TestMailingLists:
         )
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_jobs_with_all_params(self, client: PostGrid) -> None:
         mailing_list = client.print_mail.mailing_lists.jobs(
@@ -254,7 +254,7 @@ class TestMailingLists:
         )
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_jobs(self, client: PostGrid) -> None:
         response = client.print_mail.mailing_lists.with_raw_response.jobs(
@@ -266,7 +266,7 @@ class TestMailingLists:
         mailing_list = response.parse()
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_jobs(self, client: PostGrid) -> None:
         with client.print_mail.mailing_lists.with_streaming_response.jobs(
@@ -280,7 +280,7 @@ class TestMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_jobs(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -290,15 +290,17 @@ class TestMailingLists:
 
 
 class TestAsyncMailingLists:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
+    )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncPostGrid) -> None:
         mailing_list = await async_client.print_mail.mailing_lists.create()
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncPostGrid) -> None:
         mailing_list = await async_client.print_mail.mailing_lists.create(
@@ -308,7 +310,7 @@ class TestAsyncMailingLists:
         )
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.mailing_lists.with_raw_response.create()
@@ -318,7 +320,7 @@ class TestAsyncMailingLists:
         mailing_list = await response.parse()
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.mailing_lists.with_streaming_response.create() as response:
@@ -330,7 +332,7 @@ class TestAsyncMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncPostGrid) -> None:
         mailing_list = await async_client.print_mail.mailing_lists.retrieve(
@@ -338,7 +340,7 @@ class TestAsyncMailingLists:
         )
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.mailing_lists.with_raw_response.retrieve(
@@ -350,7 +352,7 @@ class TestAsyncMailingLists:
         mailing_list = await response.parse()
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.mailing_lists.with_streaming_response.retrieve(
@@ -364,7 +366,7 @@ class TestAsyncMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -372,7 +374,7 @@ class TestAsyncMailingLists:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncPostGrid) -> None:
         mailing_list = await async_client.print_mail.mailing_lists.update(
@@ -380,7 +382,7 @@ class TestAsyncMailingLists:
         )
         assert_matches_type(MailingListUpdate, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncPostGrid) -> None:
         mailing_list = await async_client.print_mail.mailing_lists.update(
@@ -390,7 +392,7 @@ class TestAsyncMailingLists:
         )
         assert_matches_type(MailingListUpdate, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.mailing_lists.with_raw_response.update(
@@ -402,7 +404,7 @@ class TestAsyncMailingLists:
         mailing_list = await response.parse()
         assert_matches_type(MailingListUpdate, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.mailing_lists.with_streaming_response.update(
@@ -416,7 +418,7 @@ class TestAsyncMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -424,13 +426,13 @@ class TestAsyncMailingLists:
                 id="",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncPostGrid) -> None:
         mailing_list = await async_client.print_mail.mailing_lists.list()
         assert_matches_type(AsyncSkipLimit[MailingList], mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncPostGrid) -> None:
         mailing_list = await async_client.print_mail.mailing_lists.list(
@@ -440,7 +442,7 @@ class TestAsyncMailingLists:
         )
         assert_matches_type(AsyncSkipLimit[MailingList], mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.mailing_lists.with_raw_response.list()
@@ -450,7 +452,7 @@ class TestAsyncMailingLists:
         mailing_list = await response.parse()
         assert_matches_type(AsyncSkipLimit[MailingList], mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.mailing_lists.with_streaming_response.list() as response:
@@ -462,7 +464,7 @@ class TestAsyncMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncPostGrid) -> None:
         mailing_list = await async_client.print_mail.mailing_lists.delete(
@@ -470,7 +472,7 @@ class TestAsyncMailingLists:
         )
         assert_matches_type(MailingListDeleteResponse, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.mailing_lists.with_raw_response.delete(
@@ -482,7 +484,7 @@ class TestAsyncMailingLists:
         mailing_list = await response.parse()
         assert_matches_type(MailingListDeleteResponse, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.mailing_lists.with_streaming_response.delete(
@@ -496,7 +498,7 @@ class TestAsyncMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -504,7 +506,7 @@ class TestAsyncMailingLists:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_jobs(self, async_client: AsyncPostGrid) -> None:
         mailing_list = await async_client.print_mail.mailing_lists.jobs(
@@ -512,7 +514,7 @@ class TestAsyncMailingLists:
         )
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_jobs_with_all_params(self, async_client: AsyncPostGrid) -> None:
         mailing_list = await async_client.print_mail.mailing_lists.jobs(
@@ -524,7 +526,7 @@ class TestAsyncMailingLists:
         )
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_jobs(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.mailing_lists.with_raw_response.jobs(
@@ -536,7 +538,7 @@ class TestAsyncMailingLists:
         mailing_list = await response.parse()
         assert_matches_type(MailingList, mailing_list, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_jobs(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.mailing_lists.with_streaming_response.jobs(
@@ -550,7 +552,7 @@ class TestAsyncMailingLists:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_jobs(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):

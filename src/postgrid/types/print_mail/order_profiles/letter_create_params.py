@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
+from ...._types import SequenceNotStr
 from ...._utils import PropertyInfo
 from ..letter_size import LetterSize
 from ..address_placement import AddressPlacement
@@ -18,7 +19,7 @@ class LetterCreateParams(TypedDict, total=False):
     size: Required[LetterSize]
     """Enum representing the supported letter sizes."""
 
-    expand: List[str]
+    expand: SequenceNotStr[str]
     """Optional list of related resources to expand in the response."""
 
     address_placement: Annotated[AddressPlacement, PropertyInfo(alias="addressPlacement")]

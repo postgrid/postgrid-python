@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from typing import List
 from typing_extensions import Required, Annotated, TypedDict
 
+from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
 
 __all__ = ["ReportSampleParams"]
@@ -17,7 +17,7 @@ class ReportSampleParams(TypedDict, total=False):
     limit: int
     """Maximum number of rows to return in the sample."""
 
-    params: List[str]
+    params: SequenceNotStr[str]
     """
     Optional parameters to bind to the SQL query (e.g., for placeholders like ? or
     $1).

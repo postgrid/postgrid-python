@@ -2,22 +2,22 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Optional
+from typing import Dict, Union, Optional
 
 import httpx
 
 from ...._types import (
-    NOT_GIVEN,
     Body,
+    Omit,
     Query,
     Headers,
     NotGiven,
+    SequenceNotStr,
     Base64FileInput,
+    omit,
+    not_given,
 )
-from ...._utils import (
-    maybe_transform,
-    async_maybe_transform,
-)
+from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -71,23 +71,23 @@ class ChequesResource(SyncAPIResource):
         *,
         bank_account: str,
         size: ChequeSize,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        currency_code: CurrencyCode | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        letter_pdf: Union[str, Base64FileInput] | NotGiven = NOT_GIVEN,
-        letter_template: str | NotGiven = NOT_GIVEN,
-        logo: Optional[str] | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        memo: Optional[str] | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        message: Optional[str] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        currency_code: CurrencyCode | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        letter_pdf: Union[str, Base64FileInput] | Omit = omit,
+        letter_template: str | Omit = omit,
+        logo: Optional[str] | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        memo: Optional[str] | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        message: Optional[str] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChequeProfile:
         """Creates a new Cheque Profile.
 
@@ -168,13 +168,13 @@ class ChequesResource(SyncAPIResource):
         self,
         id: str,
         *,
-        expand: List[str] | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChequeProfile:
         """
         Retrieves the details of a specific Cheque Profile.
@@ -210,23 +210,23 @@ class ChequesResource(SyncAPIResource):
         *,
         bank_account: str,
         size: ChequeSize,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        currency_code: CurrencyCode | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        letter_pdf: Union[str, Base64FileInput] | NotGiven = NOT_GIVEN,
-        letter_template: str | NotGiven = NOT_GIVEN,
-        logo: Optional[str] | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        memo: Optional[str] | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        message: Optional[str] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        currency_code: CurrencyCode | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        letter_pdf: Union[str, Base64FileInput] | Omit = omit,
+        letter_template: str | Omit = omit,
+        logo: Optional[str] | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        memo: Optional[str] | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        message: Optional[str] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChequeProfile:
         """Updates specific fields of an existing Cheque Profile.
 
@@ -306,15 +306,15 @@ class ChequesResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[ChequeListResponse]:
         """
         Retrieves a list of Cheque Profiles.
@@ -363,7 +363,7 @@ class ChequesResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChequeDeleteResponse:
         """
         Deletes a Cheque Profile.
@@ -413,23 +413,23 @@ class AsyncChequesResource(AsyncAPIResource):
         *,
         bank_account: str,
         size: ChequeSize,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        currency_code: CurrencyCode | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        letter_pdf: Union[str, Base64FileInput] | NotGiven = NOT_GIVEN,
-        letter_template: str | NotGiven = NOT_GIVEN,
-        logo: Optional[str] | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        memo: Optional[str] | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        message: Optional[str] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        currency_code: CurrencyCode | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        letter_pdf: Union[str, Base64FileInput] | Omit = omit,
+        letter_template: str | Omit = omit,
+        logo: Optional[str] | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        memo: Optional[str] | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        message: Optional[str] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChequeProfile:
         """Creates a new Cheque Profile.
 
@@ -510,13 +510,13 @@ class AsyncChequesResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        expand: List[str] | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChequeProfile:
         """
         Retrieves the details of a specific Cheque Profile.
@@ -552,23 +552,23 @@ class AsyncChequesResource(AsyncAPIResource):
         *,
         bank_account: str,
         size: ChequeSize,
-        expand: List[str] | NotGiven = NOT_GIVEN,
-        currency_code: CurrencyCode | NotGiven = NOT_GIVEN,
-        description: Optional[str] | NotGiven = NOT_GIVEN,
-        letter_pdf: Union[str, Base64FileInput] | NotGiven = NOT_GIVEN,
-        letter_template: str | NotGiven = NOT_GIVEN,
-        logo: Optional[str] | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        memo: Optional[str] | NotGiven = NOT_GIVEN,
-        merge_variables: Optional[Dict[str, object]] | NotGiven = NOT_GIVEN,
-        message: Optional[str] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, str]] | NotGiven = NOT_GIVEN,
+        expand: SequenceNotStr[str] | Omit = omit,
+        currency_code: CurrencyCode | Omit = omit,
+        description: Optional[str] | Omit = omit,
+        letter_pdf: Union[str, Base64FileInput] | Omit = omit,
+        letter_template: str | Omit = omit,
+        logo: Optional[str] | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        memo: Optional[str] | Omit = omit,
+        merge_variables: Optional[Dict[str, object]] | Omit = omit,
+        message: Optional[str] | Omit = omit,
+        metadata: Optional[Dict[str, str]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChequeProfile:
         """Updates specific fields of an existing Cheque Profile.
 
@@ -648,15 +648,15 @@ class AsyncChequesResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[ChequeListResponse, AsyncSkipLimit[ChequeListResponse]]:
         """
         Retrieves a list of Cheque Profiles.
@@ -705,7 +705,7 @@ class AsyncChequesResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ChequeDeleteResponse:
         """
         Deletes a Cheque Profile.

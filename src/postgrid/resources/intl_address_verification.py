@@ -7,12 +7,8 @@ from typing_extensions import overload
 import httpx
 
 from ..types import intl_address_verification_verify_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import (
-    required_args,
-    maybe_transform,
-    async_maybe_transform,
-)
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -52,15 +48,15 @@ class IntlAddressVerificationResource(SyncAPIResource):
         self,
         *,
         address: intl_address_verification_verify_params.StructuredAddressInputAddress,
-        geo_data: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geo_data: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> IntlAddressVerificationVerifyResponse:
         """
         Verify and standardize an international address.
@@ -86,15 +82,15 @@ class IntlAddressVerificationResource(SyncAPIResource):
         self,
         *,
         address: str,
-        geo_data: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geo_data: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> IntlAddressVerificationVerifyResponse:
         """
         Verify and standardize an international address.
@@ -122,15 +118,15 @@ class IntlAddressVerificationResource(SyncAPIResource):
         self,
         *,
         address: intl_address_verification_verify_params.StructuredAddressInputAddress | str,
-        geo_data: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geo_data: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> IntlAddressVerificationVerifyResponse:
         return self._post(
             "/v1/intl_addver/verifications",
@@ -180,15 +176,15 @@ class AsyncIntlAddressVerificationResource(AsyncAPIResource):
         self,
         *,
         address: intl_address_verification_verify_params.StructuredAddressInputAddress,
-        geo_data: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geo_data: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> IntlAddressVerificationVerifyResponse:
         """
         Verify and standardize an international address.
@@ -214,15 +210,15 @@ class AsyncIntlAddressVerificationResource(AsyncAPIResource):
         self,
         *,
         address: str,
-        geo_data: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geo_data: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> IntlAddressVerificationVerifyResponse:
         """
         Verify and standardize an international address.
@@ -250,15 +246,15 @@ class AsyncIntlAddressVerificationResource(AsyncAPIResource):
         self,
         *,
         address: intl_address_verification_verify_params.StructuredAddressInputAddress | str,
-        geo_data: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geo_data: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> IntlAddressVerificationVerifyResponse:
         return await self._post(
             "/v1/intl_addver/verifications",

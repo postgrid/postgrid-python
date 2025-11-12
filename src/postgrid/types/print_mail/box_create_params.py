@@ -72,7 +72,7 @@ ChequeFrom: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWith
 ChequeTo: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
 
 
-class Cheque(BoxChequeBaseParam):
+class Cheque(BoxChequeBaseParam, total=False):
     to: Required[ChequeTo]
 
 

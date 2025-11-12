@@ -8,19 +8,8 @@ from typing_extensions import overload
 
 import httpx
 
-from ..._types import (
-    NOT_GIVEN,
-    Body,
-    Query,
-    Headers,
-    NotGiven,
-    Base64FileInput,
-)
-from ..._utils import (
-    required_args,
-    maybe_transform,
-    async_maybe_transform,
-)
+from ..._types import Body, Omit, Query, Headers, NotGiven, Base64FileInput, omit, not_given
+from ..._utils import required_args, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -69,18 +58,18 @@ class PostcardsResource(SyncAPIResource):
         front_html: str,
         size: PostcardSize,
         to: postcard_create_params.PostcardCreateWithHTMLTo,
-        description: str | NotGiven = NOT_GIVEN,
-        from_: postcard_create_params.PostcardCreateWithHTMLFrom | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        from_: postcard_create_params.PostcardCreateWithHTMLFrom | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """Create a postcard.
 
@@ -147,7 +136,7 @@ class PostcardsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """Create a postcard.
 
@@ -183,18 +172,18 @@ class PostcardsResource(SyncAPIResource):
         pdf: str,
         size: PostcardSize,
         to: postcard_create_params.PostcardCreateWithPdfurlTo,
-        description: str | NotGiven = NOT_GIVEN,
-        from_: postcard_create_params.PostcardCreateWithPdfurlFrom | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        from_: postcard_create_params.PostcardCreateWithPdfurlFrom | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """Create a postcard.
 
@@ -254,18 +243,18 @@ class PostcardsResource(SyncAPIResource):
         pdf: Union[str, Base64FileInput],
         size: PostcardSize,
         to: postcard_create_params.PostcardCreateWithPdfFileTo,
-        description: str | NotGiven = NOT_GIVEN,
-        from_: postcard_create_params.PostcardCreateWithPdfFileFrom | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        from_: postcard_create_params.PostcardCreateWithPdfFileFrom | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """Create a postcard.
 
@@ -324,25 +313,31 @@ class PostcardsResource(SyncAPIResource):
     def create(
         self,
         *,
-        back_html: str | NotGiven = NOT_GIVEN,
-        front_html: str | NotGiven = NOT_GIVEN,
-        size: PostcardSize | NotGiven = NOT_GIVEN,
-        to: postcard_create_params.PostcardCreateWithHTMLTo | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        from_: postcard_create_params.PostcardCreateWithHTMLFrom | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
-        back_template: str | NotGiven = NOT_GIVEN,
-        front_template: str | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
+        back_html: str | Omit = omit,
+        front_html: str | Omit = omit,
+        size: PostcardSize | Omit = omit,
+        to: postcard_create_params.PostcardCreateWithHTMLTo
+        | postcard_create_params.PostcardCreateWithPdfurlTo
+        | postcard_create_params.PostcardCreateWithPdfFileTo
+        | Omit = omit,
+        description: str | Omit = omit,
+        from_: postcard_create_params.PostcardCreateWithHTMLFrom
+        | postcard_create_params.PostcardCreateWithPdfurlFrom
+        | postcard_create_params.PostcardCreateWithPdfFileFrom
+        | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        back_template: str | Omit = omit,
+        front_template: str | Omit = omit,
+        pdf: str | Union[str, Base64FileInput] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         return self._post(
             "/print-mail/v1/postcards",
@@ -379,7 +374,7 @@ class PostcardsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """
         Retrieve a postcard by ID.
@@ -406,15 +401,15 @@ class PostcardsResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[Postcard]:
         """
         Get a list of postcards.
@@ -463,7 +458,7 @@ class PostcardsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """Cancel a postcard by ID.
 
@@ -497,7 +492,7 @@ class PostcardsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PostcardRetrieveURLResponse:
         """
         Retrieve a postcard preview URL.
@@ -555,18 +550,18 @@ class AsyncPostcardsResource(AsyncAPIResource):
         front_html: str,
         size: PostcardSize,
         to: postcard_create_params.PostcardCreateWithHTMLTo,
-        description: str | NotGiven = NOT_GIVEN,
-        from_: postcard_create_params.PostcardCreateWithHTMLFrom | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        from_: postcard_create_params.PostcardCreateWithHTMLFrom | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """Create a postcard.
 
@@ -633,7 +628,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """Create a postcard.
 
@@ -669,18 +664,18 @@ class AsyncPostcardsResource(AsyncAPIResource):
         pdf: str,
         size: PostcardSize,
         to: postcard_create_params.PostcardCreateWithPdfurlTo,
-        description: str | NotGiven = NOT_GIVEN,
-        from_: postcard_create_params.PostcardCreateWithPdfurlFrom | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        from_: postcard_create_params.PostcardCreateWithPdfurlFrom | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """Create a postcard.
 
@@ -740,18 +735,18 @@ class AsyncPostcardsResource(AsyncAPIResource):
         pdf: Union[str, Base64FileInput],
         size: PostcardSize,
         to: postcard_create_params.PostcardCreateWithPdfFileTo,
-        description: str | NotGiven = NOT_GIVEN,
-        from_: postcard_create_params.PostcardCreateWithPdfFileFrom | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
+        description: str | Omit = omit,
+        from_: postcard_create_params.PostcardCreateWithPdfFileFrom | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """Create a postcard.
 
@@ -810,25 +805,31 @@ class AsyncPostcardsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        back_html: str | NotGiven = NOT_GIVEN,
-        front_html: str | NotGiven = NOT_GIVEN,
-        size: PostcardSize | NotGiven = NOT_GIVEN,
-        to: postcard_create_params.PostcardCreateWithHTMLTo | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        from_: postcard_create_params.PostcardCreateWithHTMLFrom | NotGiven = NOT_GIVEN,
-        mailing_class: OrderMailingClass | NotGiven = NOT_GIVEN,
-        merge_variables: Dict[str, object] | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        send_date: Union[str, datetime] | NotGiven = NOT_GIVEN,
-        back_template: str | NotGiven = NOT_GIVEN,
-        front_template: str | NotGiven = NOT_GIVEN,
-        pdf: str | NotGiven = NOT_GIVEN,
+        back_html: str | Omit = omit,
+        front_html: str | Omit = omit,
+        size: PostcardSize | Omit = omit,
+        to: postcard_create_params.PostcardCreateWithHTMLTo
+        | postcard_create_params.PostcardCreateWithPdfurlTo
+        | postcard_create_params.PostcardCreateWithPdfFileTo
+        | Omit = omit,
+        description: str | Omit = omit,
+        from_: postcard_create_params.PostcardCreateWithHTMLFrom
+        | postcard_create_params.PostcardCreateWithPdfurlFrom
+        | postcard_create_params.PostcardCreateWithPdfFileFrom
+        | Omit = omit,
+        mailing_class: OrderMailingClass | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        back_template: str | Omit = omit,
+        front_template: str | Omit = omit,
+        pdf: str | Union[str, Base64FileInput] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         return await self._post(
             "/print-mail/v1/postcards",
@@ -865,7 +866,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """
         Retrieve a postcard by ID.
@@ -892,15 +893,15 @@ class AsyncPostcardsResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[Postcard, AsyncSkipLimit[Postcard]]:
         """
         Get a list of postcards.
@@ -949,7 +950,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Postcard:
         """Cancel a postcard by ID.
 
@@ -983,7 +984,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> PostcardRetrieveURLResponse:
         """
         Retrieve a postcard preview URL.

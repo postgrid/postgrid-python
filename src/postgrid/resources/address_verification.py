@@ -7,12 +7,8 @@ from typing_extensions import overload
 import httpx
 
 from ..types import address_verification_verify_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import (
-    required_args,
-    maybe_transform,
-    async_maybe_transform,
-)
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._utils import required_args, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -52,15 +48,15 @@ class AddressVerificationResource(SyncAPIResource):
         self,
         *,
         address: str,
-        geocode: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geocode: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AddressVerificationVerifyResponse:
         """1.
 
@@ -93,15 +89,15 @@ class AddressVerificationResource(SyncAPIResource):
         self,
         *,
         address: address_verification_verify_params.StandardStructuredAddressInputAddress,
-        geocode: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geocode: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AddressVerificationVerifyResponse:
         """1.
 
@@ -132,15 +128,15 @@ class AddressVerificationResource(SyncAPIResource):
         self,
         *,
         address: str | address_verification_verify_params.StandardStructuredAddressInputAddress,
-        geocode: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geocode: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AddressVerificationVerifyResponse:
         return self._post(
             "/v1/addver/verifications",
@@ -190,15 +186,15 @@ class AsyncAddressVerificationResource(AsyncAPIResource):
         self,
         *,
         address: str,
-        geocode: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geocode: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AddressVerificationVerifyResponse:
         """1.
 
@@ -231,15 +227,15 @@ class AsyncAddressVerificationResource(AsyncAPIResource):
         self,
         *,
         address: address_verification_verify_params.StandardStructuredAddressInputAddress,
-        geocode: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geocode: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AddressVerificationVerifyResponse:
         """1.
 
@@ -270,15 +266,15 @@ class AsyncAddressVerificationResource(AsyncAPIResource):
         self,
         *,
         address: str | address_verification_verify_params.StandardStructuredAddressInputAddress,
-        geocode: bool | NotGiven = NOT_GIVEN,
-        include_details: bool | NotGiven = NOT_GIVEN,
-        proper_case: bool | NotGiven = NOT_GIVEN,
+        geocode: bool | Omit = omit,
+        include_details: bool | Omit = omit,
+        proper_case: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AddressVerificationVerifyResponse:
         return await self._post(
             "/v1/addver/verifications",

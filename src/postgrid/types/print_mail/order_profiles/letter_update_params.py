@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 from typing_extensions import Literal, Annotated, TypedDict
 
+from ...._types import SequenceNotStr
 from ...._utils import PropertyInfo
 from ..address_placement import AddressPlacement
 from ..attached_pdf_param import AttachedPdfParam
@@ -14,7 +15,7 @@ __all__ = ["LetterUpdateParams"]
 
 
 class LetterUpdateParams(TypedDict, total=False):
-    expand: List[str]
+    expand: SequenceNotStr[str]
     """Optional list of related resources to expand in the response."""
 
     address_placement: Annotated[AddressPlacement, PropertyInfo(alias="addressPlacement")]

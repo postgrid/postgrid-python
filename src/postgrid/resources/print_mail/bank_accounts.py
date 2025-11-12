@@ -7,19 +7,8 @@ from typing_extensions import overload
 
 import httpx
 
-from ..._types import (
-    NOT_GIVEN,
-    Body,
-    Query,
-    Headers,
-    NotGiven,
-    Base64FileInput,
-)
-from ..._utils import (
-    required_args,
-    maybe_transform,
-    async_maybe_transform,
-)
+from ..._types import Body, Omit, Query, Headers, NotGiven, Base64FileInput, omit, not_given
+from ..._utils import required_args, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -66,20 +55,20 @@ class BankAccountsResource(SyncAPIResource):
         bank_country_code: BankAccountCountryCode,
         bank_name: str,
         signature_text: str,
-        bank_primary_line: str | NotGiven = NOT_GIVEN,
-        bank_secondary_line: str | NotGiven = NOT_GIVEN,
-        ca_designation_number: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        route_number: str | NotGiven = NOT_GIVEN,
-        routing_number: str | NotGiven = NOT_GIVEN,
-        transit_number: str | NotGiven = NOT_GIVEN,
+        bank_primary_line: str | Omit = omit,
+        bank_secondary_line: str | Omit = omit,
+        ca_designation_number: str | Omit = omit,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        route_number: str | Omit = omit,
+        routing_number: str | Omit = omit,
+        transit_number: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccount:
         """Create a bank account.
 
@@ -136,20 +125,20 @@ class BankAccountsResource(SyncAPIResource):
         bank_country_code: BankAccountCountryCode,
         bank_name: str,
         signature_image: str,
-        bank_primary_line: str | NotGiven = NOT_GIVEN,
-        bank_secondary_line: str | NotGiven = NOT_GIVEN,
-        ca_designation_number: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        route_number: str | NotGiven = NOT_GIVEN,
-        routing_number: str | NotGiven = NOT_GIVEN,
-        transit_number: str | NotGiven = NOT_GIVEN,
+        bank_primary_line: str | Omit = omit,
+        bank_secondary_line: str | Omit = omit,
+        ca_designation_number: str | Omit = omit,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        route_number: str | Omit = omit,
+        routing_number: str | Omit = omit,
+        transit_number: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccount:
         """Create a bank account.
 
@@ -207,20 +196,20 @@ class BankAccountsResource(SyncAPIResource):
         bank_country_code: BankAccountCountryCode,
         bank_name: str,
         signature_image: Union[str, Base64FileInput],
-        bank_primary_line: str | NotGiven = NOT_GIVEN,
-        bank_secondary_line: str | NotGiven = NOT_GIVEN,
-        ca_designation_number: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        route_number: str | NotGiven = NOT_GIVEN,
-        routing_number: str | NotGiven = NOT_GIVEN,
-        transit_number: str | NotGiven = NOT_GIVEN,
+        bank_primary_line: str | Omit = omit,
+        bank_secondary_line: str | Omit = omit,
+        ca_designation_number: str | Omit = omit,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        route_number: str | Omit = omit,
+        routing_number: str | Omit = omit,
+        transit_number: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccount:
         """Create a bank account.
 
@@ -280,22 +269,22 @@ class BankAccountsResource(SyncAPIResource):
         account_number: str,
         bank_country_code: BankAccountCountryCode,
         bank_name: str,
-        signature_text: str | NotGiven = NOT_GIVEN,
-        bank_primary_line: str | NotGiven = NOT_GIVEN,
-        bank_secondary_line: str | NotGiven = NOT_GIVEN,
-        ca_designation_number: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        route_number: str | NotGiven = NOT_GIVEN,
-        routing_number: str | NotGiven = NOT_GIVEN,
-        transit_number: str | NotGiven = NOT_GIVEN,
-        signature_image: str | NotGiven = NOT_GIVEN,
+        signature_text: str | Omit = omit,
+        bank_primary_line: str | Omit = omit,
+        bank_secondary_line: str | Omit = omit,
+        ca_designation_number: str | Omit = omit,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        route_number: str | Omit = omit,
+        routing_number: str | Omit = omit,
+        transit_number: str | Omit = omit,
+        signature_image: str | Union[str, Base64FileInput] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccount:
         return self._post(
             "/print-mail/v1/bank_accounts",
@@ -332,7 +321,7 @@ class BankAccountsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccount:
         """
         Retrieve a bank account by ID.
@@ -359,15 +348,15 @@ class BankAccountsResource(SyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncSkipLimit[BankAccount]:
         """
         Get a list of bank accounts.
@@ -416,7 +405,7 @@ class BankAccountsResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccountDeleteResponse:
         """Delete a bank account by ID.
 
@@ -470,20 +459,20 @@ class AsyncBankAccountsResource(AsyncAPIResource):
         bank_country_code: BankAccountCountryCode,
         bank_name: str,
         signature_text: str,
-        bank_primary_line: str | NotGiven = NOT_GIVEN,
-        bank_secondary_line: str | NotGiven = NOT_GIVEN,
-        ca_designation_number: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        route_number: str | NotGiven = NOT_GIVEN,
-        routing_number: str | NotGiven = NOT_GIVEN,
-        transit_number: str | NotGiven = NOT_GIVEN,
+        bank_primary_line: str | Omit = omit,
+        bank_secondary_line: str | Omit = omit,
+        ca_designation_number: str | Omit = omit,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        route_number: str | Omit = omit,
+        routing_number: str | Omit = omit,
+        transit_number: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccount:
         """Create a bank account.
 
@@ -540,20 +529,20 @@ class AsyncBankAccountsResource(AsyncAPIResource):
         bank_country_code: BankAccountCountryCode,
         bank_name: str,
         signature_image: str,
-        bank_primary_line: str | NotGiven = NOT_GIVEN,
-        bank_secondary_line: str | NotGiven = NOT_GIVEN,
-        ca_designation_number: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        route_number: str | NotGiven = NOT_GIVEN,
-        routing_number: str | NotGiven = NOT_GIVEN,
-        transit_number: str | NotGiven = NOT_GIVEN,
+        bank_primary_line: str | Omit = omit,
+        bank_secondary_line: str | Omit = omit,
+        ca_designation_number: str | Omit = omit,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        route_number: str | Omit = omit,
+        routing_number: str | Omit = omit,
+        transit_number: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccount:
         """Create a bank account.
 
@@ -611,20 +600,20 @@ class AsyncBankAccountsResource(AsyncAPIResource):
         bank_country_code: BankAccountCountryCode,
         bank_name: str,
         signature_image: Union[str, Base64FileInput],
-        bank_primary_line: str | NotGiven = NOT_GIVEN,
-        bank_secondary_line: str | NotGiven = NOT_GIVEN,
-        ca_designation_number: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        route_number: str | NotGiven = NOT_GIVEN,
-        routing_number: str | NotGiven = NOT_GIVEN,
-        transit_number: str | NotGiven = NOT_GIVEN,
+        bank_primary_line: str | Omit = omit,
+        bank_secondary_line: str | Omit = omit,
+        ca_designation_number: str | Omit = omit,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        route_number: str | Omit = omit,
+        routing_number: str | Omit = omit,
+        transit_number: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccount:
         """Create a bank account.
 
@@ -684,22 +673,22 @@ class AsyncBankAccountsResource(AsyncAPIResource):
         account_number: str,
         bank_country_code: BankAccountCountryCode,
         bank_name: str,
-        signature_text: str | NotGiven = NOT_GIVEN,
-        bank_primary_line: str | NotGiven = NOT_GIVEN,
-        bank_secondary_line: str | NotGiven = NOT_GIVEN,
-        ca_designation_number: str | NotGiven = NOT_GIVEN,
-        description: str | NotGiven = NOT_GIVEN,
-        metadata: Dict[str, object] | NotGiven = NOT_GIVEN,
-        route_number: str | NotGiven = NOT_GIVEN,
-        routing_number: str | NotGiven = NOT_GIVEN,
-        transit_number: str | NotGiven = NOT_GIVEN,
-        signature_image: str | NotGiven = NOT_GIVEN,
+        signature_text: str | Omit = omit,
+        bank_primary_line: str | Omit = omit,
+        bank_secondary_line: str | Omit = omit,
+        ca_designation_number: str | Omit = omit,
+        description: str | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        route_number: str | Omit = omit,
+        routing_number: str | Omit = omit,
+        transit_number: str | Omit = omit,
+        signature_image: str | Union[str, Base64FileInput] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccount:
         return await self._post(
             "/print-mail/v1/bank_accounts",
@@ -736,7 +725,7 @@ class AsyncBankAccountsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccount:
         """
         Retrieve a bank account by ID.
@@ -763,15 +752,15 @@ class AsyncBankAccountsResource(AsyncAPIResource):
     def list(
         self,
         *,
-        limit: int | NotGiven = NOT_GIVEN,
-        search: str | NotGiven = NOT_GIVEN,
-        skip: int | NotGiven = NOT_GIVEN,
+        limit: int | Omit = omit,
+        search: str | Omit = omit,
+        skip: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[BankAccount, AsyncSkipLimit[BankAccount]]:
         """
         Get a list of bank accounts.
@@ -820,7 +809,7 @@ class AsyncBankAccountsResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BankAccountDeleteResponse:
         """Delete a bank account by ID.
 

@@ -17,7 +17,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestIntlAddressVerification:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_verify_overload_1(self, client: PostGrid) -> None:
         intl_address_verification = client.intl_address_verification.verify(
@@ -30,7 +30,7 @@ class TestIntlAddressVerification:
         )
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_verify_with_all_params_overload_1(self, client: PostGrid) -> None:
         intl_address_verification = client.intl_address_verification.verify(
@@ -50,7 +50,7 @@ class TestIntlAddressVerification:
         )
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_verify_overload_1(self, client: PostGrid) -> None:
         response = client.intl_address_verification.with_raw_response.verify(
@@ -67,7 +67,7 @@ class TestIntlAddressVerification:
         intl_address_verification = response.parse()
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_verify_overload_1(self, client: PostGrid) -> None:
         with client.intl_address_verification.with_streaming_response.verify(
@@ -86,7 +86,7 @@ class TestIntlAddressVerification:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_verify_overload_2(self, client: PostGrid) -> None:
         intl_address_verification = client.intl_address_verification.verify(
@@ -94,7 +94,7 @@ class TestIntlAddressVerification:
         )
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_verify_with_all_params_overload_2(self, client: PostGrid) -> None:
         intl_address_verification = client.intl_address_verification.verify(
@@ -105,7 +105,7 @@ class TestIntlAddressVerification:
         )
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_verify_overload_2(self, client: PostGrid) -> None:
         response = client.intl_address_verification.with_raw_response.verify(
@@ -117,7 +117,7 @@ class TestIntlAddressVerification:
         intl_address_verification = response.parse()
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_verify_overload_2(self, client: PostGrid) -> None:
         with client.intl_address_verification.with_streaming_response.verify(
@@ -133,9 +133,11 @@ class TestIntlAddressVerification:
 
 
 class TestAsyncIntlAddressVerification:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
+    )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_verify_overload_1(self, async_client: AsyncPostGrid) -> None:
         intl_address_verification = await async_client.intl_address_verification.verify(
@@ -148,7 +150,7 @@ class TestAsyncIntlAddressVerification:
         )
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_verify_with_all_params_overload_1(self, async_client: AsyncPostGrid) -> None:
         intl_address_verification = await async_client.intl_address_verification.verify(
@@ -168,7 +170,7 @@ class TestAsyncIntlAddressVerification:
         )
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_verify_overload_1(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.intl_address_verification.with_raw_response.verify(
@@ -185,7 +187,7 @@ class TestAsyncIntlAddressVerification:
         intl_address_verification = await response.parse()
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_verify_overload_1(self, async_client: AsyncPostGrid) -> None:
         async with async_client.intl_address_verification.with_streaming_response.verify(
@@ -204,7 +206,7 @@ class TestAsyncIntlAddressVerification:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_verify_overload_2(self, async_client: AsyncPostGrid) -> None:
         intl_address_verification = await async_client.intl_address_verification.verify(
@@ -212,7 +214,7 @@ class TestAsyncIntlAddressVerification:
         )
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_verify_with_all_params_overload_2(self, async_client: AsyncPostGrid) -> None:
         intl_address_verification = await async_client.intl_address_verification.verify(
@@ -223,7 +225,7 @@ class TestAsyncIntlAddressVerification:
         )
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_verify_overload_2(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.intl_address_verification.with_raw_response.verify(
@@ -235,7 +237,7 @@ class TestAsyncIntlAddressVerification:
         intl_address_verification = await response.parse()
         assert_matches_type(IntlAddressVerificationVerifyResponse, intl_address_verification, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_verify_overload_2(self, async_client: AsyncPostGrid) -> None:
         async with async_client.intl_address_verification.with_streaming_response.verify(

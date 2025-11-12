@@ -18,7 +18,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestContacts:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_overload_1(self, client: PostGrid) -> None:
         contact = client.print_mail.contacts.create(
@@ -28,7 +28,7 @@ class TestContacts:
         )
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_1(self, client: PostGrid) -> None:
         contact = client.print_mail.contacts.create(
@@ -51,7 +51,7 @@ class TestContacts:
         )
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create_overload_1(self, client: PostGrid) -> None:
         response = client.print_mail.contacts.with_raw_response.create(
@@ -65,7 +65,7 @@ class TestContacts:
         contact = response.parse()
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_1(self, client: PostGrid) -> None:
         with client.print_mail.contacts.with_streaming_response.create(
@@ -81,7 +81,7 @@ class TestContacts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_overload_2(self, client: PostGrid) -> None:
         contact = client.print_mail.contacts.create(
@@ -91,7 +91,7 @@ class TestContacts:
         )
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_2(self, client: PostGrid) -> None:
         contact = client.print_mail.contacts.create(
@@ -114,7 +114,7 @@ class TestContacts:
         )
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create_overload_2(self, client: PostGrid) -> None:
         response = client.print_mail.contacts.with_raw_response.create(
@@ -128,7 +128,7 @@ class TestContacts:
         contact = response.parse()
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_2(self, client: PostGrid) -> None:
         with client.print_mail.contacts.with_streaming_response.create(
@@ -144,7 +144,7 @@ class TestContacts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: PostGrid) -> None:
         contact = client.print_mail.contacts.retrieve(
@@ -152,7 +152,7 @@ class TestContacts:
         )
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: PostGrid) -> None:
         response = client.print_mail.contacts.with_raw_response.retrieve(
@@ -164,7 +164,7 @@ class TestContacts:
         contact = response.parse()
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: PostGrid) -> None:
         with client.print_mail.contacts.with_streaming_response.retrieve(
@@ -178,7 +178,7 @@ class TestContacts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -186,13 +186,13 @@ class TestContacts:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list(self, client: PostGrid) -> None:
         contact = client.print_mail.contacts.list()
         assert_matches_type(SyncSkipLimit[Contact], contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: PostGrid) -> None:
         contact = client.print_mail.contacts.list(
@@ -202,7 +202,7 @@ class TestContacts:
         )
         assert_matches_type(SyncSkipLimit[Contact], contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: PostGrid) -> None:
         response = client.print_mail.contacts.with_raw_response.list()
@@ -212,7 +212,7 @@ class TestContacts:
         contact = response.parse()
         assert_matches_type(SyncSkipLimit[Contact], contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: PostGrid) -> None:
         with client.print_mail.contacts.with_streaming_response.list() as response:
@@ -224,7 +224,7 @@ class TestContacts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_delete(self, client: PostGrid) -> None:
         contact = client.print_mail.contacts.delete(
@@ -232,7 +232,7 @@ class TestContacts:
         )
         assert_matches_type(ContactDeleteResponse, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: PostGrid) -> None:
         response = client.print_mail.contacts.with_raw_response.delete(
@@ -244,7 +244,7 @@ class TestContacts:
         contact = response.parse()
         assert_matches_type(ContactDeleteResponse, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: PostGrid) -> None:
         with client.print_mail.contacts.with_streaming_response.delete(
@@ -258,7 +258,7 @@ class TestContacts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -268,9 +268,11 @@ class TestContacts:
 
 
 class TestAsyncContacts:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
+    )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_overload_1(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.print_mail.contacts.create(
@@ -280,7 +282,7 @@ class TestAsyncContacts:
         )
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_1(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.print_mail.contacts.create(
@@ -303,7 +305,7 @@ class TestAsyncContacts:
         )
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_1(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.contacts.with_raw_response.create(
@@ -317,7 +319,7 @@ class TestAsyncContacts:
         contact = await response.parse()
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_1(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.contacts.with_streaming_response.create(
@@ -333,7 +335,7 @@ class TestAsyncContacts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.print_mail.contacts.create(
@@ -343,7 +345,7 @@ class TestAsyncContacts:
         )
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_2(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.print_mail.contacts.create(
@@ -366,7 +368,7 @@ class TestAsyncContacts:
         )
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.contacts.with_raw_response.create(
@@ -380,7 +382,7 @@ class TestAsyncContacts:
         contact = await response.parse()
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.contacts.with_streaming_response.create(
@@ -396,7 +398,7 @@ class TestAsyncContacts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.print_mail.contacts.retrieve(
@@ -404,7 +406,7 @@ class TestAsyncContacts:
         )
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.contacts.with_raw_response.retrieve(
@@ -416,7 +418,7 @@ class TestAsyncContacts:
         contact = await response.parse()
         assert_matches_type(Contact, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.contacts.with_streaming_response.retrieve(
@@ -430,7 +432,7 @@ class TestAsyncContacts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -438,13 +440,13 @@ class TestAsyncContacts:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.print_mail.contacts.list()
         assert_matches_type(AsyncSkipLimit[Contact], contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.print_mail.contacts.list(
@@ -454,7 +456,7 @@ class TestAsyncContacts:
         )
         assert_matches_type(AsyncSkipLimit[Contact], contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.contacts.with_raw_response.list()
@@ -464,7 +466,7 @@ class TestAsyncContacts:
         contact = await response.parse()
         assert_matches_type(AsyncSkipLimit[Contact], contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.contacts.with_streaming_response.list() as response:
@@ -476,7 +478,7 @@ class TestAsyncContacts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncPostGrid) -> None:
         contact = await async_client.print_mail.contacts.delete(
@@ -484,7 +486,7 @@ class TestAsyncContacts:
         )
         assert_matches_type(ContactDeleteResponse, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.contacts.with_raw_response.delete(
@@ -496,7 +498,7 @@ class TestAsyncContacts:
         contact = await response.parse()
         assert_matches_type(ContactDeleteResponse, contact, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.contacts.with_streaming_response.delete(
@@ -510,7 +512,7 @@ class TestAsyncContacts:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):

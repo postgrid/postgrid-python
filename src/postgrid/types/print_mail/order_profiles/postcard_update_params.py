@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 from typing_extensions import Annotated, TypedDict
 
+from ...._types import SequenceNotStr
 from ...._utils import PropertyInfo
 from ..order_mailing_class import OrderMailingClass
 
@@ -12,7 +13,7 @@ __all__ = ["PostcardUpdateParams"]
 
 
 class PostcardUpdateParams(TypedDict, total=False):
-    expand: List[str]
+    expand: SequenceNotStr[str]
     """Optional list of related resources to expand in the response."""
 
     back_template: Annotated[str, PropertyInfo(alias="backTemplate")]
