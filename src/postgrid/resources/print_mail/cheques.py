@@ -20,11 +20,10 @@ from ..._response import (
 )
 from ...pagination import SyncSkipLimit, AsyncSkipLimit
 from ..._base_client import AsyncPaginator, make_request_options
-from ...types.print_mail import ChequeSize, OrderMailingClass, cheque_list_params, cheque_create_params
+from ...types.print_mail import ChequeSize, cheque_list_params, cheque_create_params
 from ...types.print_mail.cheque import Cheque
 from ...types.print_mail.cheque_size import ChequeSize
 from ...types.print_mail.digital_only_param import DigitalOnlyParam
-from ...types.print_mail.order_mailing_class import OrderMailingClass
 from ...types.print_mail.cheque_retrieve_url_response import ChequeRetrieveURLResponse
 
 __all__ = ["ChequesResource", "AsyncChequesResource"]
@@ -62,7 +61,35 @@ class ChequesResource(SyncAPIResource):
         digital_only: DigitalOnlyParam | Omit = omit,
         envelope: Union[Literal["standard"], str] | Omit = omit,
         logo_url: str | Omit = omit,
-        mailing_class: OrderMailingClass | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
         memo: str | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         message: str | Omit = omit,
@@ -428,7 +455,35 @@ class AsyncChequesResource(AsyncAPIResource):
         digital_only: DigitalOnlyParam | Omit = omit,
         envelope: Union[Literal["standard"], str] | Omit = omit,
         logo_url: str | Omit = omit,
-        mailing_class: OrderMailingClass | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
         memo: str | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         message: str | Omit = omit,

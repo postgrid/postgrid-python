@@ -45,28 +45,6 @@ Methods:
 - <code title="get /print-mail/v1/bank_accounts">client.print_mail.bank_accounts.<a href="./src/postgrid/resources/print_mail/bank_accounts.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/bank_account_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/bank_account.py">SyncSkipLimit[BankAccount]</a></code>
 - <code title="delete /print-mail/v1/bank_accounts/{id}">client.print_mail.bank_accounts.<a href="./src/postgrid/resources/print_mail/bank_accounts.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/bank_account_delete_response.py">BankAccountDeleteResponse</a></code>
 
-## Boxes
-
-Types:
-
-```python
-from postgrid.types.print_mail import (
-    Box,
-    BoxChequeBase,
-    Cancellation,
-    OrderImbStatus,
-    OrderMailingClass,
-    OrderStatus,
-)
-```
-
-Methods:
-
-- <code title="post /print-mail/v1/boxes">client.print_mail.boxes.<a href="./src/postgrid/resources/print_mail/boxes.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/box_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/box.py">Box</a></code>
-- <code title="get /print-mail/v1/boxes/{id}">client.print_mail.boxes.<a href="./src/postgrid/resources/print_mail/boxes.py">retrieve</a>(id) -> <a href="./src/postgrid/types/print_mail/box.py">Box</a></code>
-- <code title="get /print-mail/v1/boxes">client.print_mail.boxes.<a href="./src/postgrid/resources/print_mail/boxes.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/box_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/box.py">SyncSkipLimit[Box]</a></code>
-- <code title="delete /print-mail/v1/boxes/{id}">client.print_mail.boxes.<a href="./src/postgrid/resources/print_mail/boxes.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/box.py">Box</a></code>
-
 ## Campaigns
 
 Types:

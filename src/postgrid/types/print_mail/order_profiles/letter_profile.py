@@ -11,7 +11,6 @@ from ...._models import BaseModel
 from ..letter_size import LetterSize
 from ..attached_pdf import AttachedPdf
 from ..address_placement import AddressPlacement
-from ..order_mailing_class import OrderMailingClass
 
 __all__ = ["LetterProfile"]
 
@@ -53,7 +52,36 @@ class LetterProfile(BaseModel):
     envelope: Optional[str] = None
     """ID of a custom envelope to use."""
 
-    mailing_class: Optional[OrderMailingClass] = FieldInfo(alias="mailingClass", default=None)
+    mailing_class: Optional[
+        Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+    ] = FieldInfo(alias="mailingClass", default=None)
     """Mailing class."""
 
     merge_variables: Optional[Dict[str, builtins.object]] = FieldInfo(alias="mergeVariables", default=None)

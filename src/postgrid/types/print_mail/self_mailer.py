@@ -9,13 +9,20 @@ from pydantic import Field as FieldInfo
 
 from .contact import Contact
 from ..._models import BaseModel
-from .cancellation import Cancellation
-from .order_status import OrderStatus
-from .order_imb_status import OrderImbStatus
-from .order_mailing_class import OrderMailingClass
 from .order_profiles.self_mailer_size import SelfMailerSize
 
-__all__ = ["SelfMailer"]
+__all__ = ["SelfMailer", "Cancellation"]
+
+
+class Cancellation(BaseModel):
+    reason: Literal["user_initiated", "invalid_content", "invalid_order_mailing_class"]
+    """The reason for the cancellation."""
+
+    cancelled_by_user: Optional[str] = FieldInfo(alias="cancelledByUser", default=None)
+    """The user ID who cancelled the order."""
+
+    note: Optional[str] = None
+    """An optional note provided by the user who cancelled the order."""
 
 
 class SelfMailer(BaseModel):
@@ -31,7 +38,34 @@ class SelfMailer(BaseModel):
     live: bool
     """`true` if this is a live mode resource else `false`."""
 
-    mailing_class: OrderMailingClass = FieldInfo(alias="mailingClass")
+    mailing_class: Literal[
+        "first_class",
+        "standard_class",
+        "express",
+        "certified",
+        "certified_return_receipt",
+        "registered",
+        "usps_first_class",
+        "usps_standard_class",
+        "usps_eddm",
+        "usps_express_2_day",
+        "usps_express_3_day",
+        "usps_first_class_certified",
+        "usps_first_class_certified_return_receipt",
+        "usps_first_class_registered",
+        "usps_express_3_day_signature_confirmation",
+        "usps_express_3_day_certified",
+        "usps_express_3_day_certified_return_receipt",
+        "ca_post_lettermail",
+        "ca_post_personalized",
+        "ca_post_neighbourhood_mail",
+        "ups_express_overnight",
+        "ups_express_2_day",
+        "ups_express_3_day",
+        "royal_mail_first_class",
+        "royal_mail_second_class",
+        "au_post_second_class",
+    ] = FieldInfo(alias="mailingClass")
     """The mailing class of this order.
 
     This determines the speed and cost of delivery. See `OrderMailingClass` for more
@@ -52,7 +86,7 @@ class SelfMailer(BaseModel):
     size: SelfMailerSize
     """Enum representing the supported self-mailer sizes."""
 
-    status: OrderStatus
+    status: Literal["ready", "printing", "processed_for_delivery", "completed", "cancelled"]
     """See `OrderStatus` for more details on the status of this order."""
 
     to: Contact
@@ -82,7 +116,9 @@ class SelfMailer(BaseModel):
     See `imbStatus` for more details.
     """
 
-    imb_status: Optional[OrderImbStatus] = FieldInfo(alias="imbStatus", default=None)
+    imb_status: Optional[Literal["entered_mail_stream", "out_for_delivery", "returned_to_sender"]] = FieldInfo(
+        alias="imbStatus", default=None
+    )
     """The Intelligent Mail Barcode (IMB) status of this order.
 
     Only populated for US-printed and US-destined orders. This is the most detailed

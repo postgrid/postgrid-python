@@ -1,13 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .boxes import (
-    BoxesResource,
-    AsyncBoxesResource,
-    BoxesResourceWithRawResponse,
-    AsyncBoxesResourceWithRawResponse,
-    BoxesResourceWithStreamingResponse,
-    AsyncBoxesResourceWithStreamingResponse,
-)
 from .cheques import (
     ChequesResource,
     AsyncChequesResource,
@@ -128,12 +120,6 @@ __all__ = [
     "AsyncBankAccountsResourceWithRawResponse",
     "BankAccountsResourceWithStreamingResponse",
     "AsyncBankAccountsResourceWithStreamingResponse",
-    "BoxesResource",
-    "AsyncBoxesResource",
-    "BoxesResourceWithRawResponse",
-    "AsyncBoxesResourceWithRawResponse",
-    "BoxesResourceWithStreamingResponse",
-    "AsyncBoxesResourceWithStreamingResponse",
     "CampaignsResource",
     "AsyncCampaignsResource",
     "CampaignsResourceWithRawResponse",
