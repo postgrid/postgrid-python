@@ -15,7 +15,7 @@ The REST API documentation can be found on [docs.postgrid.com](https://docs.post
 
 ```sh
 # install from PyPI
-pip install --pre postgrid-python
+pip install postgrid-python
 ```
 
 ## Usage
@@ -83,7 +83,7 @@ You can enable this by installing `aiohttp`:
 
 ```sh
 # install from PyPI
-pip install --pre postgrid-python[aiohttp]
+pip install postgrid-python[aiohttp]
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
