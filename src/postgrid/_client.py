@@ -115,6 +115,19 @@ class PostGrid(SyncAPIClient):
         self.with_raw_response = PostGridWithRawResponse(self)
         self.with_streaming_response = PostGridWithStreamedResponse(self)
 
+    @override
+    def _prepare_request(
+        self,
+        request: httpx.Request,  # noqa: ARG002
+    ) -> None:
+        # Update API key header based on URL of request
+        if 'print-mail' in request.url:
+            request.headers['x-api-key'] = self.print_mail_api_key
+        else:
+            request.headers['x-api-key'] = self.address_verification_api_key
+
+        return None
+
     @property
     @override
     def qs(self) -> Querystring:
@@ -321,6 +334,19 @@ class AsyncPostGrid(AsyncAPIClient):
         self.print_mail = print_mail.AsyncPrintMailResource(self)
         self.with_raw_response = AsyncPostGridWithRawResponse(self)
         self.with_streaming_response = AsyncPostGridWithStreamedResponse(self)
+
+    @override
+    async def _prepare_request(
+        self,
+        request: httpx.Request,  # noqa: ARG002
+    ) -> None:
+        # Update API key header based on URL of request
+        if 'print-mail' in request.url:
+            request.headers['x-api-key'] = self.print_mail_api_key
+        else:
+            request.headers['x-api-key'] = self.address_verification_api_key
+
+        return None
 
     @property
     @override
