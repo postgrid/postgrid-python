@@ -122,8 +122,9 @@ class PostGrid(SyncAPIClient):
     ) -> None:
         # Update API key header based on URL of request
         if 'print-mail' in request.url.path:
-            request.headers['x-api-key'] = self.print_mail_api_key
-        else:
+            if self.print_mail_api_key:
+                request.headers['x-api-key'] = self.print_mail_api_key
+        elif self.address_verification_api_key:
             request.headers['x-api-key'] = self.address_verification_api_key
 
         return None
@@ -342,8 +343,9 @@ class AsyncPostGrid(AsyncAPIClient):
     ) -> None:
         # Update API key header based on URL of request
         if 'print-mail' in request.url.path:
-            request.headers['x-api-key'] = self.print_mail_api_key
-        else:
+            if self.print_mail_api_key:
+                request.headers['x-api-key'] = self.print_mail_api_key
+        elif self.address_verification_api_key:
             request.headers['x-api-key'] = self.address_verification_api_key
 
         return None
