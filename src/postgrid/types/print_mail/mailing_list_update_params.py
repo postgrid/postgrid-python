@@ -1,0 +1,19 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+from typing import Dict
+from typing_extensions import TypedDict
+
+__all__ = ["MailingListUpdateParams"]
+
+
+class MailingListUpdateParams(TypedDict, total=False):
+    description: str
+    """An optional string describing this resource.
+
+    Will be visible in the API and the dashboard.
+    """
+
+    metadata: Dict[str, object]
+    """See the section on Metadata."""
