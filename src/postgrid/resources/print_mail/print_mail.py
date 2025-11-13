@@ -2,14 +2,6 @@
 
 from __future__ import annotations
 
-from .boxes import (
-    BoxesResource,
-    AsyncBoxesResource,
-    BoxesResourceWithRawResponse,
-    AsyncBoxesResourceWithRawResponse,
-    BoxesResourceWithStreamingResponse,
-    AsyncBoxesResourceWithStreamingResponse,
-)
 from .cheques import (
     ChequesResource,
     AsyncChequesResource,
@@ -126,10 +118,6 @@ class PrintMailResource(SyncAPIResource):
         return BankAccountsResource(self._client)
 
     @cached_property
-    def boxes(self) -> BoxesResource:
-        return BoxesResource(self._client)
-
-    @cached_property
     def campaigns(self) -> CampaignsResource:
         return CampaignsResource(self._client)
 
@@ -201,10 +189,6 @@ class AsyncPrintMailResource(AsyncAPIResource):
     @cached_property
     def bank_accounts(self) -> AsyncBankAccountsResource:
         return AsyncBankAccountsResource(self._client)
-
-    @cached_property
-    def boxes(self) -> AsyncBoxesResource:
-        return AsyncBoxesResource(self._client)
 
     @cached_property
     def campaigns(self) -> AsyncCampaignsResource:
@@ -283,10 +267,6 @@ class PrintMailResourceWithRawResponse:
         return BankAccountsResourceWithRawResponse(self._print_mail.bank_accounts)
 
     @cached_property
-    def boxes(self) -> BoxesResourceWithRawResponse:
-        return BoxesResourceWithRawResponse(self._print_mail.boxes)
-
-    @cached_property
     def campaigns(self) -> CampaignsResourceWithRawResponse:
         return CampaignsResourceWithRawResponse(self._print_mail.campaigns)
 
@@ -342,10 +322,6 @@ class AsyncPrintMailResourceWithRawResponse:
     @cached_property
     def bank_accounts(self) -> AsyncBankAccountsResourceWithRawResponse:
         return AsyncBankAccountsResourceWithRawResponse(self._print_mail.bank_accounts)
-
-    @cached_property
-    def boxes(self) -> AsyncBoxesResourceWithRawResponse:
-        return AsyncBoxesResourceWithRawResponse(self._print_mail.boxes)
 
     @cached_property
     def campaigns(self) -> AsyncCampaignsResourceWithRawResponse:
@@ -405,10 +381,6 @@ class PrintMailResourceWithStreamingResponse:
         return BankAccountsResourceWithStreamingResponse(self._print_mail.bank_accounts)
 
     @cached_property
-    def boxes(self) -> BoxesResourceWithStreamingResponse:
-        return BoxesResourceWithStreamingResponse(self._print_mail.boxes)
-
-    @cached_property
     def campaigns(self) -> CampaignsResourceWithStreamingResponse:
         return CampaignsResourceWithStreamingResponse(self._print_mail.campaigns)
 
@@ -464,10 +436,6 @@ class AsyncPrintMailResourceWithStreamingResponse:
     @cached_property
     def bank_accounts(self) -> AsyncBankAccountsResourceWithStreamingResponse:
         return AsyncBankAccountsResourceWithStreamingResponse(self._print_mail.bank_accounts)
-
-    @cached_property
-    def boxes(self) -> AsyncBoxesResourceWithStreamingResponse:
-        return AsyncBoxesResourceWithStreamingResponse(self._print_mail.boxes)
 
     @cached_property
     def campaigns(self) -> AsyncCampaignsResourceWithStreamingResponse:

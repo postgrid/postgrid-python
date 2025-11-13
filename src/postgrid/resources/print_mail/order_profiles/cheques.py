@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -28,7 +29,7 @@ from ...._response import (
 )
 from ....pagination import SyncSkipLimit, AsyncSkipLimit
 from ...._base_client import AsyncPaginator, make_request_options
-from ....types.print_mail import ChequeSize, OrderMailingClass
+from ....types.print_mail import ChequeSize
 from ....types.print_mail.cheque_size import ChequeSize
 from ....types.print_mail.order_profiles import (
     CurrencyCode,
@@ -37,7 +38,6 @@ from ....types.print_mail.order_profiles import (
     cheque_update_params,
     cheque_retrieve_params,
 )
-from ....types.print_mail.order_mailing_class import OrderMailingClass
 from ....types.print_mail.order_profiles.currency_code import CurrencyCode
 from ....types.print_mail.order_profiles.cheque_profile import ChequeProfile
 from ....types.print_mail.order_profiles.cheque_list_response import ChequeListResponse
@@ -77,7 +77,35 @@ class ChequesResource(SyncAPIResource):
         letter_pdf: Union[str, Base64FileInput] | Omit = omit,
         letter_template: str | Omit = omit,
         logo: Optional[str] | Omit = omit,
-        mailing_class: OrderMailingClass | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
         memo: Optional[str] | Omit = omit,
         merge_variables: Optional[Dict[str, object]] | Omit = omit,
         message: Optional[str] | Omit = omit,
@@ -216,7 +244,35 @@ class ChequesResource(SyncAPIResource):
         letter_pdf: Union[str, Base64FileInput] | Omit = omit,
         letter_template: str | Omit = omit,
         logo: Optional[str] | Omit = omit,
-        mailing_class: OrderMailingClass | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
         memo: Optional[str] | Omit = omit,
         merge_variables: Optional[Dict[str, object]] | Omit = omit,
         message: Optional[str] | Omit = omit,
@@ -419,7 +475,35 @@ class AsyncChequesResource(AsyncAPIResource):
         letter_pdf: Union[str, Base64FileInput] | Omit = omit,
         letter_template: str | Omit = omit,
         logo: Optional[str] | Omit = omit,
-        mailing_class: OrderMailingClass | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
         memo: Optional[str] | Omit = omit,
         merge_variables: Optional[Dict[str, object]] | Omit = omit,
         message: Optional[str] | Omit = omit,
@@ -558,7 +642,35 @@ class AsyncChequesResource(AsyncAPIResource):
         letter_pdf: Union[str, Base64FileInput] | Omit = omit,
         letter_template: str | Omit = omit,
         logo: Optional[str] | Omit = omit,
-        mailing_class: OrderMailingClass | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
         memo: Optional[str] | Omit = omit,
         merge_variables: Optional[Dict[str, object]] | Omit = omit,
         message: Optional[str] | Omit = omit,

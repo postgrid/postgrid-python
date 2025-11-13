@@ -11,7 +11,6 @@ from .letter_size import LetterSize
 from .address_placement import AddressPlacement
 from .attached_pdf_param import AttachedPdfParam
 from .plastic_card_param import PlasticCardParam
-from .order_mailing_class import OrderMailingClass
 from ..contact_create_with_first_name_param import ContactCreateWithFirstNameParam
 from ..contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
 
@@ -73,7 +72,37 @@ class LetterCreateWithHTML(TypedDict, total=False):
     envelope.
     """
 
-    mailing_class: Annotated[OrderMailingClass, PropertyInfo(alias="mailingClass")]
+    mailing_class: Annotated[
+        Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ],
+        PropertyInfo(alias="mailingClass"),
+    ]
     """The mailing class of this order.
 
     If not provided, automatically set to `first_class`.
@@ -169,7 +198,37 @@ class LetterCreateWithPdf(TypedDict, total=False):
     envelope.
     """
 
-    mailing_class: Annotated[OrderMailingClass, PropertyInfo(alias="mailingClass")]
+    mailing_class: Annotated[
+        Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ],
+        PropertyInfo(alias="mailingClass"),
+    ]
     """The mailing class of this order.
 
     If not provided, automatically set to `first_class`.

@@ -3,13 +3,12 @@
 from __future__ import annotations
 
 from typing import Dict, Union, Optional
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from ...._types import SequenceNotStr, Base64FileInput
 from ...._utils import PropertyInfo
 from ..cheque_size import ChequeSize
 from .currency_code import CurrencyCode
-from ..order_mailing_class import OrderMailingClass
 
 __all__ = ["ChequeCreateParams"]
 
@@ -48,7 +47,37 @@ class ChequeCreateParams(TypedDict, total=False):
     Set to `null` to remove during update.
     """
 
-    mailing_class: Annotated[OrderMailingClass, PropertyInfo(alias="mailingClass")]
+    mailing_class: Annotated[
+        Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ],
+        PropertyInfo(alias="mailingClass"),
+    ]
     """Mailing class.
 
     Generally must be first class (or equivalent for destination country) for
