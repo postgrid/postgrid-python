@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.1 (2025-11-22)
+
+Full Changelog: [v2.0.0...v2.0.1](https://github.com/postgrid/postgrid-python/compare/v2.0.0...v2.0.1)
+
+### Chores
+
+* add Python 3.14 classifier and testing ([7e2917a](https://github.com/postgrid/postgrid-python/commit/7e2917a5dec82c83534abca2719438830bed406e))
+
 ## 2.0.0 (2025-11-13)
 
 Full Changelog: [v0.0.1-alpha.0...v2.0.0](https://github.com/postgrid/postgrid-python/compare/v0.0.1-alpha.0...v2.0.0)
