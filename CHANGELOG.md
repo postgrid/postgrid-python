@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.0.2 (2025-11-28)
+
+Full Changelog: [v2.0.1...v2.0.2](https://github.com/postgrid/postgrid-python/compare/v2.0.1...v2.0.2)
+
+### Bug Fixes
+
+* ensure streams are always closed ([c965753](https://github.com/postgrid/postgrid-python/commit/c9657539f5012e08de7808d23cec1519ce05ce97))
+
+
+### Chores
+
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([258650e](https://github.com/postgrid/postgrid-python/commit/258650e3f215923b814f96d396e4baa2164fa3ca))
+
 ## 2.0.1 (2025-11-22)
 
 Full Changelog: [v2.0.0...v2.0.1](https://github.com/postgrid/postgrid-python/compare/v2.0.0...v2.0.1)
