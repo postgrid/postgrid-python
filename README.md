@@ -89,6 +89,7 @@ pip install postgrid-python[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
+import os
 import asyncio
 from postgrid import DefaultAioHttpClient
 from postgrid import AsyncPostGrid
@@ -96,7 +97,9 @@ from postgrid import AsyncPostGrid
 
 async def main() -> None:
     async with AsyncPostGrid(
-        print_mail_api_key="My Print Mail API Key",
+        print_mail_api_key=os.environ.get(
+            "POSTGRID_PRINT_MAIL_API_KEY"
+        ),  # This is the default and can be omitted
         http_client=DefaultAioHttpClient(),
     ) as client:
         contact = await client.print_mail.contacts.create(
