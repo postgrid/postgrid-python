@@ -8,6 +8,8 @@ __all__ = ["VerificationStatusCount"]
 
 
 class VerificationStatusCount(BaseModel):
+    """Count of contact verification statuses."""
+
     corrected_count: int = FieldInfo(alias="correctedCount")
     """Number of contacts that were corrected during verification."""
 

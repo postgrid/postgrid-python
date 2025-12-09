@@ -13,6 +13,10 @@ __all__ = ["AddressVerificationVerifyResponse", "Data", "DataDetails", "DataGeoc
 
 
 class DataDetails(BaseModel):
+    """
+    If you supply `includeDetails=true` as a query parameter, we will also populate an additional `details` field that follows the [Address Details](https://avdocs.postgrid.com/#address-details) schema.
+    """
+
     box_id: Optional[str] = FieldInfo(alias="boxID", default=None)
     """PO Box ID"""
 
@@ -158,12 +162,22 @@ class DataDetails(BaseModel):
 
 
 class DataGeocodeResultLocation(BaseModel):
+    """Object that contains `lat`, `lng` properties with number values"""
+
     lat: float
 
     lng: float
 
 
 class DataGeocodeResult(BaseModel):
+    """
+    If the `geocode=true` query parameter is supplied, the response will include a geocodeResult
+    which follows the [Geocoding](https://avdocs.postgrid.com/#geocoding) schema.  You can request
+    this feature be enabled by emailing `support@postgrid.com`. This includes our verification, batch
+    verification, suggestions, and POST /completions endpoint. Note that you must supply country when
+    geocoding to get the result successfully.
+    """
+
     accuracy: float
     """
     A real number from 0.00 to 1.00 which represents an

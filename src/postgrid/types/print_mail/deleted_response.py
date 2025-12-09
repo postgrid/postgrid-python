@@ -8,6 +8,8 @@ __all__ = ["DeletedResponse"]
 
 
 class DeletedResponse(BaseModel):
+    """Generic response for delete operations."""
+
     id: str
     """The ID of the deleted resource."""
 

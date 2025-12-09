@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.0.3 (2025-12-09)
+
+Full Changelog: [v2.0.2...v2.0.3](https://github.com/postgrid/postgrid-python/compare/v2.0.2...v2.0.3)
+
+### Bug Fixes
+
+* **types:** allow pyright to infer TypedDict types within SequenceNotStr ([da4eda9](https://github.com/postgrid/postgrid-python/commit/da4eda9cfa2f8713841e9668e01efc7e2e09a420))
+
+
+### Chores
+
+* add missing docstrings ([3b3c572](https://github.com/postgrid/postgrid-python/commit/3b3c5722c15adddc6b388b05007cbc277559dc33))
+
 ## 2.0.2 (2025-12-03)
 
 Full Changelog: [v2.0.1...v2.0.2](https://github.com/postgrid/postgrid-python/compare/v2.0.1...v2.0.2)

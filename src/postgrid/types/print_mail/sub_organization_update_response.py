@@ -13,6 +13,8 @@ __all__ = ["SubOrganizationUpdateResponse", "User", "UserAPIKey"]
 
 
 class UserAPIKey(BaseModel):
+    """An API key."""
+
     value: str
     """The value of the API key."""
 
@@ -24,6 +26,8 @@ class UserAPIKey(BaseModel):
 
 
 class User(BaseModel):
+    """The user object."""
+
     id: str
     """A unique ID prefixed with `user_`."""
 

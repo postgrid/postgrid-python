@@ -12,6 +12,8 @@ __all__ = ["MailingList", "Error"]
 
 
 class Error(BaseModel):
+    """Details of a specific error encountered during processing."""
+
     message: str
     """A human-readable message describing the error."""
 
@@ -22,6 +24,8 @@ class Error(BaseModel):
 
 
 class MailingList(BaseModel):
+    """Represents a mailing list."""
+
     id: str
     """A unique ID prefixed with mailing*list*"""
 
