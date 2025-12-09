@@ -11,6 +11,8 @@ __all__ = ["PlasticCard", "DoubleSided", "SingleSided"]
 
 
 class DoubleSided(BaseModel):
+    """Model representing a double-sided plastic card."""
+
     back_html: Optional[str] = FieldInfo(alias="backHTML", default=None)
     """The HTML content for the back side of the double-sided plastic card."""
 
@@ -31,6 +33,8 @@ class DoubleSided(BaseModel):
 
 
 class SingleSided(BaseModel):
+    """Model representing a single-sided plastic card."""
+
     html: Optional[str] = None
     """The HTML content for the single-sided plastic card.
 
@@ -48,6 +52,8 @@ class SingleSided(BaseModel):
 
 
 class PlasticCard(BaseModel):
+    """Model representing a plastic card."""
+
     size: Literal["standard"]
     """Enum representing the size of the plastic card."""
 

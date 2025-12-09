@@ -8,6 +8,8 @@ __all__ = ["MailingListUpdate"]
 
 
 class MailingListUpdate(BaseModel):
+    """Parameters for updating an existing mailing list."""
+
     description: Optional[str] = None
     """An optional string describing this resource.
 

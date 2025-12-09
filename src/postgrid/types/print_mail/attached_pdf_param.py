@@ -8,6 +8,8 @@ __all__ = ["AttachedPdfParam"]
 
 
 class AttachedPdfParam(TypedDict, total=False):
+    """Model representing an attached PDF."""
+
     file: Required[str]
     """The file (multipart form upload) or URL pointing to a PDF for the attached PDF."""
 

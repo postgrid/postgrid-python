@@ -10,6 +10,8 @@ __all__ = ["PlasticCardParam", "DoubleSided", "SingleSided"]
 
 
 class DoubleSided(TypedDict, total=False):
+    """Model representing a double-sided plastic card."""
+
     back_html: Annotated[str, PropertyInfo(alias="backHTML")]
     """The HTML content for the back side of the double-sided plastic card."""
 
@@ -30,6 +32,8 @@ class DoubleSided(TypedDict, total=False):
 
 
 class SingleSided(TypedDict, total=False):
+    """Model representing a single-sided plastic card."""
+
     html: str
     """The HTML content for the single-sided plastic card.
 
@@ -47,6 +51,8 @@ class SingleSided(TypedDict, total=False):
 
 
 class PlasticCardParam(TypedDict, total=False):
+    """Model representing a plastic card."""
+
     size: Required[Literal["standard"]]
     """Enum representing the size of the plastic card."""
 

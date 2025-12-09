@@ -10,6 +10,8 @@ __all__ = ["Errors"]
 
 
 class Errors(BaseModel):
+    """Errors encountered during address verification."""
+
     city: Optional[List[str]] = None
     """Errors related to the city."""
 

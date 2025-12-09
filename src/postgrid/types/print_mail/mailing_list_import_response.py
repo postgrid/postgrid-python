@@ -14,6 +14,8 @@ __all__ = ["MailingListImportResponse", "Error", "File", "Note"]
 
 
 class Error(BaseModel):
+    """Details of a specific error encountered during import processing."""
+
     message: str
     """A human-readable message describing the error."""
 
@@ -24,6 +26,8 @@ class Error(BaseModel):
 
 
 class File(BaseModel):
+    """The file object your controller returns: all the mappings plus a signed URL."""
+
     file_type: FileType = FieldInfo(alias="fileType")
     """Type of file supported for mailing list imports."""
 
@@ -65,6 +69,8 @@ class File(BaseModel):
 
 
 class Note(BaseModel):
+    """Details about a note in the import process."""
+
     message: str
     """A human-readable message describing the note."""
 
@@ -73,6 +79,8 @@ class Note(BaseModel):
 
 
 class MailingListImportResponse(BaseModel):
+    """Read-only view of a MailingListImport"""
+
     id: str
     """A unique ID prefixed with mailing*list_import*"""
 

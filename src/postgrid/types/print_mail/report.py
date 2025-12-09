@@ -12,6 +12,8 @@ __all__ = ["Report"]
 
 
 class Report(BaseModel):
+    """Represents a saved Report definition."""
+
     id: str
     """Unique identifier for the report."""
 
