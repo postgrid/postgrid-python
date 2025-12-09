@@ -14,6 +14,8 @@ __all__ = ["SelfMailerProfile"]
 
 
 class SelfMailerProfile(BaseModel):
+    """Represents a Self-Mailer Profile resource."""
+
     id: str
     """Unique identifier for the order profile."""
 

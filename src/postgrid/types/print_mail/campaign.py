@@ -12,6 +12,8 @@ __all__ = ["Campaign", "Error"]
 
 
 class Error(BaseModel):
+    """Details of a specific error encountered during campaign processing."""
+
     message: str
     """A human-readable message describing the error."""
 
@@ -20,6 +22,8 @@ class Error(BaseModel):
 
 
 class Campaign(BaseModel):
+    """Represents a bulk mail campaign."""
+
     id: str
     """A unique ID prefixed with campaign\\__"""
 

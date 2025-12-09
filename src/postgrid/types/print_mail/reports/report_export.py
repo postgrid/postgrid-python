@@ -12,6 +12,8 @@ __all__ = ["ReportExport", "Report"]
 
 
 class Report(BaseModel):
+    """Details of the report this export was generated from."""
+
     id: str
     """The ID of the report."""
 
@@ -20,6 +22,8 @@ class Report(BaseModel):
 
 
 class ReportExport(BaseModel):
+    """Represents a report export job and its results."""
+
     id: str
     """Unique identifier for the report export."""
 

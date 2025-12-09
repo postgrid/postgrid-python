@@ -11,6 +11,8 @@ __all__ = ["SubOrganization"]
 
 
 class SubOrganization(BaseModel):
+    """The Sub-Organization object."""
+
     id: str
     """A unique ID prefixed with `sub_org_`."""
 

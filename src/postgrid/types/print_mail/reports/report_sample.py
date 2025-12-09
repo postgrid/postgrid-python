@@ -8,6 +8,8 @@ __all__ = ["ReportSample"]
 
 
 class ReportSample(BaseModel):
+    """Represents the result of a report sample query."""
+
     id: str
     """Unique identifier for the sample query result."""
 

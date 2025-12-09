@@ -13,6 +13,10 @@ __all__ = ["IntlAddressVerificationVerifyResponse", "Data", "DataDetails", "Data
 
 
 class DataDetails(BaseModel):
+    """
+    Additional details about the verified address, such as premise, thoroughfare, and locality.
+    """
+
     building: Optional[str] = None
     """The building name or number."""
 
@@ -114,6 +118,8 @@ class DataDetails(BaseModel):
 
 
 class DataGeoData(BaseModel):
+    """Geocoding result for the verified address."""
+
     geo_accuracy: Optional[str] = FieldInfo(alias="geoAccuracy", default=None)
     """The geocode accuracy."""
 
@@ -125,6 +131,8 @@ class DataGeoData(BaseModel):
 
 
 class DataSummary(BaseModel):
+    """A summary of the verification process and match levels."""
+
     context_identification_match_level: Optional[str] = FieldInfo(alias="contextIdentificationMatchLevel", default=None)
     """Context identification match level."""
 
@@ -158,6 +166,8 @@ class DataSummary(BaseModel):
 
 
 class Data(BaseModel):
+    """The result of a verified international address."""
+
     city: str
     """The city or locality."""
 

@@ -16,6 +16,11 @@ __all__ = ["Cheque", "Cancellation"]
 
 
 class Cancellation(BaseModel):
+    """The cancellation details of this order.
+
+    Populated if the order has been cancelled.
+    """
+
     reason: Literal["user_initiated", "invalid_content", "invalid_order_mailing_class"]
     """The reason for the cancellation."""
 

@@ -13,6 +13,8 @@ __all__ = ["SubOrganizationRetrieveUsersResponse", "SubOrganizationRetrieveUsers
 
 
 class SubOrganizationRetrieveUsersResponseItem(BaseModel):
+    """The user object."""
+
     id: str
     """A unique ID prefixed with `user_`."""
 
