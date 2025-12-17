@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 from typing_extensions import Self, override
 
 import httpx
@@ -21,8 +21,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import address_verification, intl_address_verification
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -30,7 +30,15 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.print_mail import print_mail
+
+if TYPE_CHECKING:
+    from .resources import print_mail, address_verification, intl_address_verification
+    from .resources.address_verification import AddressVerificationResource, AsyncAddressVerificationResource
+    from .resources.print_mail.print_mail import PrintMailResource, AsyncPrintMailResource
+    from .resources.intl_address_verification import (
+        IntlAddressVerificationResource,
+        AsyncIntlAddressVerificationResource,
+    )
 
 __all__ = [
     "Timeout",
@@ -45,12 +53,6 @@ __all__ = [
 
 
 class PostGrid(SyncAPIClient):
-    address_verification: address_verification.AddressVerificationResource
-    intl_address_verification: intl_address_verification.IntlAddressVerificationResource
-    print_mail: print_mail.PrintMailResource
-    with_raw_response: PostGridWithRawResponse
-    with_streaming_response: PostGridWithStreamedResponse
-
     # client options
     address_verification_api_key: str | None
     print_mail_api_key: str | None
@@ -109,11 +111,31 @@ class PostGrid(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.address_verification = address_verification.AddressVerificationResource(self)
-        self.intl_address_verification = intl_address_verification.IntlAddressVerificationResource(self)
-        self.print_mail = print_mail.PrintMailResource(self)
-        self.with_raw_response = PostGridWithRawResponse(self)
-        self.with_streaming_response = PostGridWithStreamedResponse(self)
+    @cached_property
+    def address_verification(self) -> AddressVerificationResource:
+        from .resources.address_verification import AddressVerificationResource
+
+        return AddressVerificationResource(self)
+
+    @cached_property
+    def intl_address_verification(self) -> IntlAddressVerificationResource:
+        from .resources.intl_address_verification import IntlAddressVerificationResource
+
+        return IntlAddressVerificationResource(self)
+
+    @cached_property
+    def print_mail(self) -> PrintMailResource:
+        from .resources.print_mail import PrintMailResource
+
+        return PrintMailResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> PostGridWithRawResponse:
+        return PostGridWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> PostGridWithStreamedResponse:
+        return PostGridWithStreamedResponse(self)
 
     @override
     def _prepare_request(
@@ -266,12 +288,6 @@ class PostGrid(SyncAPIClient):
 
 
 class AsyncPostGrid(AsyncAPIClient):
-    address_verification: address_verification.AsyncAddressVerificationResource
-    intl_address_verification: intl_address_verification.AsyncIntlAddressVerificationResource
-    print_mail: print_mail.AsyncPrintMailResource
-    with_raw_response: AsyncPostGridWithRawResponse
-    with_streaming_response: AsyncPostGridWithStreamedResponse
-
     # client options
     address_verification_api_key: str | None
     print_mail_api_key: str | None
@@ -330,11 +346,31 @@ class AsyncPostGrid(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.address_verification = address_verification.AsyncAddressVerificationResource(self)
-        self.intl_address_verification = intl_address_verification.AsyncIntlAddressVerificationResource(self)
-        self.print_mail = print_mail.AsyncPrintMailResource(self)
-        self.with_raw_response = AsyncPostGridWithRawResponse(self)
-        self.with_streaming_response = AsyncPostGridWithStreamedResponse(self)
+    @cached_property
+    def address_verification(self) -> AsyncAddressVerificationResource:
+        from .resources.address_verification import AsyncAddressVerificationResource
+
+        return AsyncAddressVerificationResource(self)
+
+    @cached_property
+    def intl_address_verification(self) -> AsyncIntlAddressVerificationResource:
+        from .resources.intl_address_verification import AsyncIntlAddressVerificationResource
+
+        return AsyncIntlAddressVerificationResource(self)
+
+    @cached_property
+    def print_mail(self) -> AsyncPrintMailResource:
+        from .resources.print_mail import AsyncPrintMailResource
+
+        return AsyncPrintMailResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncPostGridWithRawResponse:
+        return AsyncPostGridWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncPostGridWithStreamedResponse:
+        return AsyncPostGridWithStreamedResponse(self)
 
     @override
     async def _prepare_request(
@@ -487,49 +523,109 @@ class AsyncPostGrid(AsyncAPIClient):
 
 
 class PostGridWithRawResponse:
+    _client: PostGrid
+
     def __init__(self, client: PostGrid) -> None:
-        self.address_verification = address_verification.AddressVerificationResourceWithRawResponse(
-            client.address_verification
-        )
-        self.intl_address_verification = intl_address_verification.IntlAddressVerificationResourceWithRawResponse(
-            client.intl_address_verification
-        )
-        self.print_mail = print_mail.PrintMailResourceWithRawResponse(client.print_mail)
+        self._client = client
+
+    @cached_property
+    def address_verification(self) -> address_verification.AddressVerificationResourceWithRawResponse:
+        from .resources.address_verification import AddressVerificationResourceWithRawResponse
+
+        return AddressVerificationResourceWithRawResponse(self._client.address_verification)
+
+    @cached_property
+    def intl_address_verification(self) -> intl_address_verification.IntlAddressVerificationResourceWithRawResponse:
+        from .resources.intl_address_verification import IntlAddressVerificationResourceWithRawResponse
+
+        return IntlAddressVerificationResourceWithRawResponse(self._client.intl_address_verification)
+
+    @cached_property
+    def print_mail(self) -> print_mail.PrintMailResourceWithRawResponse:
+        from .resources.print_mail import PrintMailResourceWithRawResponse
+
+        return PrintMailResourceWithRawResponse(self._client.print_mail)
 
 
 class AsyncPostGridWithRawResponse:
+    _client: AsyncPostGrid
+
     def __init__(self, client: AsyncPostGrid) -> None:
-        self.address_verification = address_verification.AsyncAddressVerificationResourceWithRawResponse(
-            client.address_verification
-        )
-        self.intl_address_verification = intl_address_verification.AsyncIntlAddressVerificationResourceWithRawResponse(
-            client.intl_address_verification
-        )
-        self.print_mail = print_mail.AsyncPrintMailResourceWithRawResponse(client.print_mail)
+        self._client = client
+
+    @cached_property
+    def address_verification(self) -> address_verification.AsyncAddressVerificationResourceWithRawResponse:
+        from .resources.address_verification import AsyncAddressVerificationResourceWithRawResponse
+
+        return AsyncAddressVerificationResourceWithRawResponse(self._client.address_verification)
+
+    @cached_property
+    def intl_address_verification(
+        self,
+    ) -> intl_address_verification.AsyncIntlAddressVerificationResourceWithRawResponse:
+        from .resources.intl_address_verification import AsyncIntlAddressVerificationResourceWithRawResponse
+
+        return AsyncIntlAddressVerificationResourceWithRawResponse(self._client.intl_address_verification)
+
+    @cached_property
+    def print_mail(self) -> print_mail.AsyncPrintMailResourceWithRawResponse:
+        from .resources.print_mail import AsyncPrintMailResourceWithRawResponse
+
+        return AsyncPrintMailResourceWithRawResponse(self._client.print_mail)
 
 
 class PostGridWithStreamedResponse:
+    _client: PostGrid
+
     def __init__(self, client: PostGrid) -> None:
-        self.address_verification = address_verification.AddressVerificationResourceWithStreamingResponse(
-            client.address_verification
-        )
-        self.intl_address_verification = intl_address_verification.IntlAddressVerificationResourceWithStreamingResponse(
-            client.intl_address_verification
-        )
-        self.print_mail = print_mail.PrintMailResourceWithStreamingResponse(client.print_mail)
+        self._client = client
+
+    @cached_property
+    def address_verification(self) -> address_verification.AddressVerificationResourceWithStreamingResponse:
+        from .resources.address_verification import AddressVerificationResourceWithStreamingResponse
+
+        return AddressVerificationResourceWithStreamingResponse(self._client.address_verification)
+
+    @cached_property
+    def intl_address_verification(
+        self,
+    ) -> intl_address_verification.IntlAddressVerificationResourceWithStreamingResponse:
+        from .resources.intl_address_verification import IntlAddressVerificationResourceWithStreamingResponse
+
+        return IntlAddressVerificationResourceWithStreamingResponse(self._client.intl_address_verification)
+
+    @cached_property
+    def print_mail(self) -> print_mail.PrintMailResourceWithStreamingResponse:
+        from .resources.print_mail import PrintMailResourceWithStreamingResponse
+
+        return PrintMailResourceWithStreamingResponse(self._client.print_mail)
 
 
 class AsyncPostGridWithStreamedResponse:
+    _client: AsyncPostGrid
+
     def __init__(self, client: AsyncPostGrid) -> None:
-        self.address_verification = address_verification.AsyncAddressVerificationResourceWithStreamingResponse(
-            client.address_verification
-        )
-        self.intl_address_verification = (
-            intl_address_verification.AsyncIntlAddressVerificationResourceWithStreamingResponse(
-                client.intl_address_verification
-            )
-        )
-        self.print_mail = print_mail.AsyncPrintMailResourceWithStreamingResponse(client.print_mail)
+        self._client = client
+
+    @cached_property
+    def address_verification(self) -> address_verification.AsyncAddressVerificationResourceWithStreamingResponse:
+        from .resources.address_verification import AsyncAddressVerificationResourceWithStreamingResponse
+
+        return AsyncAddressVerificationResourceWithStreamingResponse(self._client.address_verification)
+
+    @cached_property
+    def intl_address_verification(
+        self,
+    ) -> intl_address_verification.AsyncIntlAddressVerificationResourceWithStreamingResponse:
+        from .resources.intl_address_verification import AsyncIntlAddressVerificationResourceWithStreamingResponse
+
+        return AsyncIntlAddressVerificationResourceWithStreamingResponse(self._client.intl_address_verification)
+
+    @cached_property
+    def print_mail(self) -> print_mail.AsyncPrintMailResourceWithStreamingResponse:
+        from .resources.print_mail import AsyncPrintMailResourceWithStreamingResponse
+
+        return AsyncPrintMailResourceWithStreamingResponse(self._client.print_mail)
 
 
 Client = PostGrid
