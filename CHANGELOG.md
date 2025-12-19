@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.0.4 (2025-12-19)
+
+Full Changelog: [v2.0.3...v2.0.4](https://github.com/postgrid/postgrid-python/compare/v2.0.3...v2.0.4)
+
+### Bug Fixes
+
+* use async_to_httpx_files in patch method ([a3b137a](https://github.com/postgrid/postgrid-python/commit/a3b137ae1ab33697009d7b508a8d22f7349b9dec))
+
+
+### Chores
+
+* **internal:** add `--fix` argument to lint script ([e8d9998](https://github.com/postgrid/postgrid-python/commit/e8d9998a7bc735ebb82e4071f479b6d811746abd))
+* **internal:** add missing files argument to base client ([6dbed91](https://github.com/postgrid/postgrid-python/commit/6dbed918a54c190cda4e2b7c1c8b56867bde3562))
+* speedup initial import ([32fb2cc](https://github.com/postgrid/postgrid-python/commit/32fb2cceb7859e77a4840e4f45bc782123aa0359))
+
 ## 2.0.3 (2025-12-09)
 
 Full Changelog: [v2.0.2...v2.0.3](https://github.com/postgrid/postgrid-python/compare/v2.0.2...v2.0.3)
