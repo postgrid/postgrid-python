@@ -172,14 +172,7 @@ class PostGrid(SyncAPIClient):
 
     @override
     def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
-        if self.address_verification_api_key and headers.get("X-API-Key"):
-            return
-        if isinstance(custom_headers.get("X-API-Key"), Omit):
-            return
-
-        if self.print_mail_api_key and headers.get("X-API-Key"):
-            return
-        if isinstance(custom_headers.get("X-API-Key"), Omit):
+        if headers.get("X-API-Key") or isinstance(custom_headers.get("X-API-Key"), Omit):
             return
 
         raise TypeError(
@@ -393,14 +386,7 @@ class AsyncPostGrid(AsyncAPIClient):
 
     @override
     def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
-        if self.address_verification_api_key and headers.get("X-API-Key"):
-            return
-        if isinstance(custom_headers.get("X-API-Key"), Omit):
-            return
-
-        if self.print_mail_api_key and headers.get("X-API-Key"):
-            return
-        if isinstance(custom_headers.get("X-API-Key"), Omit):
+        if headers.get("X-API-Key") or isinstance(custom_headers.get("X-API-Key"), Omit):
             return
 
         raise TypeError(
