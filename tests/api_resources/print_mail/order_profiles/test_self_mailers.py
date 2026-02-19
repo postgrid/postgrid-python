@@ -21,7 +21,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestSelfMailers:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: PostGrid) -> None:
         self_mailer = client.print_mail.order_profiles.self_mailers.create(
@@ -29,7 +29,7 @@ class TestSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: PostGrid) -> None:
         self_mailer = client.print_mail.order_profiles.self_mailers.create(
@@ -45,7 +45,7 @@ class TestSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: PostGrid) -> None:
         response = client.print_mail.order_profiles.self_mailers.with_raw_response.create(
@@ -57,7 +57,7 @@ class TestSelfMailers:
         self_mailer = response.parse()
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: PostGrid) -> None:
         with client.print_mail.order_profiles.self_mailers.with_streaming_response.create(
@@ -71,7 +71,7 @@ class TestSelfMailers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: PostGrid) -> None:
         self_mailer = client.print_mail.order_profiles.self_mailers.retrieve(
@@ -79,7 +79,7 @@ class TestSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve_with_all_params(self, client: PostGrid) -> None:
         self_mailer = client.print_mail.order_profiles.self_mailers.retrieve(
@@ -88,7 +88,7 @@ class TestSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: PostGrid) -> None:
         response = client.print_mail.order_profiles.self_mailers.with_raw_response.retrieve(
@@ -100,7 +100,7 @@ class TestSelfMailers:
         self_mailer = response.parse()
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: PostGrid) -> None:
         with client.print_mail.order_profiles.self_mailers.with_streaming_response.retrieve(
@@ -114,7 +114,7 @@ class TestSelfMailers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -122,7 +122,7 @@ class TestSelfMailers:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: PostGrid) -> None:
         self_mailer = client.print_mail.order_profiles.self_mailers.update(
@@ -131,7 +131,7 @@ class TestSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: PostGrid) -> None:
         self_mailer = client.print_mail.order_profiles.self_mailers.update(
@@ -148,7 +148,7 @@ class TestSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: PostGrid) -> None:
         response = client.print_mail.order_profiles.self_mailers.with_raw_response.update(
@@ -161,7 +161,7 @@ class TestSelfMailers:
         self_mailer = response.parse()
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: PostGrid) -> None:
         with client.print_mail.order_profiles.self_mailers.with_streaming_response.update(
@@ -176,7 +176,7 @@ class TestSelfMailers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -185,13 +185,13 @@ class TestSelfMailers:
                 size="8.5x11_bifold",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: PostGrid) -> None:
         self_mailer = client.print_mail.order_profiles.self_mailers.list()
         assert_matches_type(SyncSkipLimit[SelfMailerProfile], self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: PostGrid) -> None:
         self_mailer = client.print_mail.order_profiles.self_mailers.list(
@@ -201,7 +201,7 @@ class TestSelfMailers:
         )
         assert_matches_type(SyncSkipLimit[SelfMailerProfile], self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: PostGrid) -> None:
         response = client.print_mail.order_profiles.self_mailers.with_raw_response.list()
@@ -211,7 +211,7 @@ class TestSelfMailers:
         self_mailer = response.parse()
         assert_matches_type(SyncSkipLimit[SelfMailerProfile], self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: PostGrid) -> None:
         with client.print_mail.order_profiles.self_mailers.with_streaming_response.list() as response:
@@ -223,7 +223,7 @@ class TestSelfMailers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: PostGrid) -> None:
         self_mailer = client.print_mail.order_profiles.self_mailers.delete(
@@ -231,7 +231,7 @@ class TestSelfMailers:
         )
         assert_matches_type(SelfMailerDeleteResponse, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: PostGrid) -> None:
         response = client.print_mail.order_profiles.self_mailers.with_raw_response.delete(
@@ -243,7 +243,7 @@ class TestSelfMailers:
         self_mailer = response.parse()
         assert_matches_type(SelfMailerDeleteResponse, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: PostGrid) -> None:
         with client.print_mail.order_profiles.self_mailers.with_streaming_response.delete(
@@ -257,7 +257,7 @@ class TestSelfMailers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -271,7 +271,7 @@ class TestAsyncSelfMailers:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncPostGrid) -> None:
         self_mailer = await async_client.print_mail.order_profiles.self_mailers.create(
@@ -279,7 +279,7 @@ class TestAsyncSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncPostGrid) -> None:
         self_mailer = await async_client.print_mail.order_profiles.self_mailers.create(
@@ -295,7 +295,7 @@ class TestAsyncSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.order_profiles.self_mailers.with_raw_response.create(
@@ -307,7 +307,7 @@ class TestAsyncSelfMailers:
         self_mailer = await response.parse()
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.order_profiles.self_mailers.with_streaming_response.create(
@@ -321,7 +321,7 @@ class TestAsyncSelfMailers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncPostGrid) -> None:
         self_mailer = await async_client.print_mail.order_profiles.self_mailers.retrieve(
@@ -329,7 +329,7 @@ class TestAsyncSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncPostGrid) -> None:
         self_mailer = await async_client.print_mail.order_profiles.self_mailers.retrieve(
@@ -338,7 +338,7 @@ class TestAsyncSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.order_profiles.self_mailers.with_raw_response.retrieve(
@@ -350,7 +350,7 @@ class TestAsyncSelfMailers:
         self_mailer = await response.parse()
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.order_profiles.self_mailers.with_streaming_response.retrieve(
@@ -364,7 +364,7 @@ class TestAsyncSelfMailers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -372,7 +372,7 @@ class TestAsyncSelfMailers:
                 id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncPostGrid) -> None:
         self_mailer = await async_client.print_mail.order_profiles.self_mailers.update(
@@ -381,7 +381,7 @@ class TestAsyncSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncPostGrid) -> None:
         self_mailer = await async_client.print_mail.order_profiles.self_mailers.update(
@@ -398,7 +398,7 @@ class TestAsyncSelfMailers:
         )
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.order_profiles.self_mailers.with_raw_response.update(
@@ -411,7 +411,7 @@ class TestAsyncSelfMailers:
         self_mailer = await response.parse()
         assert_matches_type(SelfMailerProfile, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.order_profiles.self_mailers.with_streaming_response.update(
@@ -426,7 +426,7 @@ class TestAsyncSelfMailers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -435,13 +435,13 @@ class TestAsyncSelfMailers:
                 size="8.5x11_bifold",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncPostGrid) -> None:
         self_mailer = await async_client.print_mail.order_profiles.self_mailers.list()
         assert_matches_type(AsyncSkipLimit[SelfMailerProfile], self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncPostGrid) -> None:
         self_mailer = await async_client.print_mail.order_profiles.self_mailers.list(
@@ -451,7 +451,7 @@ class TestAsyncSelfMailers:
         )
         assert_matches_type(AsyncSkipLimit[SelfMailerProfile], self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.order_profiles.self_mailers.with_raw_response.list()
@@ -461,7 +461,7 @@ class TestAsyncSelfMailers:
         self_mailer = await response.parse()
         assert_matches_type(AsyncSkipLimit[SelfMailerProfile], self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.order_profiles.self_mailers.with_streaming_response.list() as response:
@@ -473,7 +473,7 @@ class TestAsyncSelfMailers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncPostGrid) -> None:
         self_mailer = await async_client.print_mail.order_profiles.self_mailers.delete(
@@ -481,7 +481,7 @@ class TestAsyncSelfMailers:
         )
         assert_matches_type(SelfMailerDeleteResponse, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.order_profiles.self_mailers.with_raw_response.delete(
@@ -493,7 +493,7 @@ class TestAsyncSelfMailers:
         self_mailer = await response.parse()
         assert_matches_type(SelfMailerDeleteResponse, self_mailer, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.order_profiles.self_mailers.with_streaming_response.delete(
@@ -507,7 +507,7 @@ class TestAsyncSelfMailers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
