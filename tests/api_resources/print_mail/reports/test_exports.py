@@ -18,7 +18,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestExports:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create(self, client: PostGrid) -> None:
         export = client.print_mail.reports.exports.create(
@@ -26,7 +26,7 @@ class TestExports:
         )
         assert_matches_type(ReportExport, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: PostGrid) -> None:
         export = client.print_mail.reports.exports.create(
@@ -37,7 +37,7 @@ class TestExports:
         )
         assert_matches_type(ReportExport, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: PostGrid) -> None:
         response = client.print_mail.reports.exports.with_raw_response.create(
@@ -49,7 +49,7 @@ class TestExports:
         export = response.parse()
         assert_matches_type(ReportExport, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: PostGrid) -> None:
         with client.print_mail.reports.exports.with_streaming_response.create(
@@ -63,7 +63,7 @@ class TestExports:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_create(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `report_id` but received ''"):
@@ -71,7 +71,7 @@ class TestExports:
                 report_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: PostGrid) -> None:
         export = client.print_mail.reports.exports.retrieve(
@@ -80,7 +80,7 @@ class TestExports:
         )
         assert_matches_type(ReportExport, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: PostGrid) -> None:
         response = client.print_mail.reports.exports.with_raw_response.retrieve(
@@ -93,7 +93,7 @@ class TestExports:
         export = response.parse()
         assert_matches_type(ReportExport, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: PostGrid) -> None:
         with client.print_mail.reports.exports.with_streaming_response.retrieve(
@@ -108,7 +108,7 @@ class TestExports:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `report_id` but received ''"):
@@ -123,7 +123,7 @@ class TestExports:
                 report_id="reportID",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_delete(self, client: PostGrid) -> None:
         export = client.print_mail.reports.exports.delete(
@@ -132,7 +132,7 @@ class TestExports:
         )
         assert_matches_type(DeletedResponse, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: PostGrid) -> None:
         response = client.print_mail.reports.exports.with_raw_response.delete(
@@ -145,7 +145,7 @@ class TestExports:
         export = response.parse()
         assert_matches_type(DeletedResponse, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: PostGrid) -> None:
         with client.print_mail.reports.exports.with_streaming_response.delete(
@@ -160,7 +160,7 @@ class TestExports:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: PostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `report_id` but received ''"):
@@ -181,7 +181,7 @@ class TestAsyncExports:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create(self, async_client: AsyncPostGrid) -> None:
         export = await async_client.print_mail.reports.exports.create(
@@ -189,7 +189,7 @@ class TestAsyncExports:
         )
         assert_matches_type(ReportExport, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncPostGrid) -> None:
         export = await async_client.print_mail.reports.exports.create(
@@ -200,7 +200,7 @@ class TestAsyncExports:
         )
         assert_matches_type(ReportExport, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.reports.exports.with_raw_response.create(
@@ -212,7 +212,7 @@ class TestAsyncExports:
         export = await response.parse()
         assert_matches_type(ReportExport, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.reports.exports.with_streaming_response.create(
@@ -226,7 +226,7 @@ class TestAsyncExports:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_create(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `report_id` but received ''"):
@@ -234,7 +234,7 @@ class TestAsyncExports:
                 report_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncPostGrid) -> None:
         export = await async_client.print_mail.reports.exports.retrieve(
@@ -243,7 +243,7 @@ class TestAsyncExports:
         )
         assert_matches_type(ReportExport, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.reports.exports.with_raw_response.retrieve(
@@ -256,7 +256,7 @@ class TestAsyncExports:
         export = await response.parse()
         assert_matches_type(ReportExport, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.reports.exports.with_streaming_response.retrieve(
@@ -271,7 +271,7 @@ class TestAsyncExports:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `report_id` but received ''"):
@@ -286,7 +286,7 @@ class TestAsyncExports:
                 report_id="reportID",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncPostGrid) -> None:
         export = await async_client.print_mail.reports.exports.delete(
@@ -295,7 +295,7 @@ class TestAsyncExports:
         )
         assert_matches_type(DeletedResponse, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.reports.exports.with_raw_response.delete(
@@ -308,7 +308,7 @@ class TestAsyncExports:
         export = await response.parse()
         assert_matches_type(DeletedResponse, export, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.reports.exports.with_streaming_response.delete(
@@ -323,7 +323,7 @@ class TestAsyncExports:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `report_id` but received ''"):
