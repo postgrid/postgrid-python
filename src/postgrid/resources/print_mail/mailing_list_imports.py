@@ -32,6 +32,11 @@ __all__ = ["MailingListImportsResource", "AsyncMailingListImportsResource"]
 
 
 class MailingListImportsResource(SyncAPIResource):
+    """
+    The mailing list imports API enables you to import contact lists from files
+     and validate them for use in campaigns.
+    """
+
     @cached_property
     def with_raw_response(self) -> MailingListImportsResourceWithRawResponse:
         """
@@ -298,6 +303,11 @@ class MailingListImportsResource(SyncAPIResource):
 
 
 class AsyncMailingListImportsResource(AsyncAPIResource):
+    """
+    The mailing list imports API enables you to import contact lists from files
+     and validate them for use in campaigns.
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncMailingListImportsResourceWithRawResponse:
         """

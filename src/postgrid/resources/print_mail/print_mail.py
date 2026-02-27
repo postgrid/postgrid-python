@@ -119,6 +119,10 @@ class PrintMailResource(SyncAPIResource):
 
     @cached_property
     def campaigns(self) -> CampaignsResource:
+        """
+        The campaigns API enables you to send out large volumes of fully
+         personalized mail to a mailing list.
+        """
         return CampaignsResource(self._client)
 
     @cached_property
@@ -135,6 +139,10 @@ class PrintMailResource(SyncAPIResource):
 
     @cached_property
     def mailing_list_imports(self) -> MailingListImportsResource:
+        """
+        The mailing list imports API enables you to import contact lists from files
+         and validate them for use in campaigns.
+        """
         return MailingListImportsResource(self._client)
 
     @cached_property
@@ -151,6 +159,13 @@ class PrintMailResource(SyncAPIResource):
 
     @cached_property
     def reports(self) -> ReportsResource:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return ReportsResource(self._client)
 
     @cached_property
@@ -159,6 +174,18 @@ class PrintMailResource(SyncAPIResource):
 
     @cached_property
     def sub_organizations(self) -> SubOrganizationsResource:
+        """
+        Sub-organizations enable you to create isolated PostGrid accounts
+         ("sub-organizations") under your PostGrid account (the "parent organization").
+         Each sub-organization has fully isolated resources
+         and users, and can act independently.
+
+         This allows you to isolate different departments or even re-sell PostGrid
+         entirely.
+
+         You can request access to this feature by reaching out to
+         support@postgrid.com
+        """
         return SubOrganizationsResource(self._client)
 
     @cached_property
@@ -192,6 +219,10 @@ class AsyncPrintMailResource(AsyncAPIResource):
 
     @cached_property
     def campaigns(self) -> AsyncCampaignsResource:
+        """
+        The campaigns API enables you to send out large volumes of fully
+         personalized mail to a mailing list.
+        """
         return AsyncCampaignsResource(self._client)
 
     @cached_property
@@ -208,6 +239,10 @@ class AsyncPrintMailResource(AsyncAPIResource):
 
     @cached_property
     def mailing_list_imports(self) -> AsyncMailingListImportsResource:
+        """
+        The mailing list imports API enables you to import contact lists from files
+         and validate them for use in campaigns.
+        """
         return AsyncMailingListImportsResource(self._client)
 
     @cached_property
@@ -224,6 +259,13 @@ class AsyncPrintMailResource(AsyncAPIResource):
 
     @cached_property
     def reports(self) -> AsyncReportsResource:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return AsyncReportsResource(self._client)
 
     @cached_property
@@ -232,6 +274,18 @@ class AsyncPrintMailResource(AsyncAPIResource):
 
     @cached_property
     def sub_organizations(self) -> AsyncSubOrganizationsResource:
+        """
+        Sub-organizations enable you to create isolated PostGrid accounts
+         ("sub-organizations") under your PostGrid account (the "parent organization").
+         Each sub-organization has fully isolated resources
+         and users, and can act independently.
+
+         This allows you to isolate different departments or even re-sell PostGrid
+         entirely.
+
+         You can request access to this feature by reaching out to
+         support@postgrid.com
+        """
         return AsyncSubOrganizationsResource(self._client)
 
     @cached_property
@@ -268,6 +322,10 @@ class PrintMailResourceWithRawResponse:
 
     @cached_property
     def campaigns(self) -> CampaignsResourceWithRawResponse:
+        """
+        The campaigns API enables you to send out large volumes of fully
+         personalized mail to a mailing list.
+        """
         return CampaignsResourceWithRawResponse(self._print_mail.campaigns)
 
     @cached_property
@@ -284,6 +342,10 @@ class PrintMailResourceWithRawResponse:
 
     @cached_property
     def mailing_list_imports(self) -> MailingListImportsResourceWithRawResponse:
+        """
+        The mailing list imports API enables you to import contact lists from files
+         and validate them for use in campaigns.
+        """
         return MailingListImportsResourceWithRawResponse(self._print_mail.mailing_list_imports)
 
     @cached_property
@@ -300,6 +362,13 @@ class PrintMailResourceWithRawResponse:
 
     @cached_property
     def reports(self) -> ReportsResourceWithRawResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return ReportsResourceWithRawResponse(self._print_mail.reports)
 
     @cached_property
@@ -308,6 +377,18 @@ class PrintMailResourceWithRawResponse:
 
     @cached_property
     def sub_organizations(self) -> SubOrganizationsResourceWithRawResponse:
+        """
+        Sub-organizations enable you to create isolated PostGrid accounts
+         ("sub-organizations") under your PostGrid account (the "parent organization").
+         Each sub-organization has fully isolated resources
+         and users, and can act independently.
+
+         This allows you to isolate different departments or even re-sell PostGrid
+         entirely.
+
+         You can request access to this feature by reaching out to
+         support@postgrid.com
+        """
         return SubOrganizationsResourceWithRawResponse(self._print_mail.sub_organizations)
 
     @cached_property
@@ -325,6 +406,10 @@ class AsyncPrintMailResourceWithRawResponse:
 
     @cached_property
     def campaigns(self) -> AsyncCampaignsResourceWithRawResponse:
+        """
+        The campaigns API enables you to send out large volumes of fully
+         personalized mail to a mailing list.
+        """
         return AsyncCampaignsResourceWithRawResponse(self._print_mail.campaigns)
 
     @cached_property
@@ -341,6 +426,10 @@ class AsyncPrintMailResourceWithRawResponse:
 
     @cached_property
     def mailing_list_imports(self) -> AsyncMailingListImportsResourceWithRawResponse:
+        """
+        The mailing list imports API enables you to import contact lists from files
+         and validate them for use in campaigns.
+        """
         return AsyncMailingListImportsResourceWithRawResponse(self._print_mail.mailing_list_imports)
 
     @cached_property
@@ -357,6 +446,13 @@ class AsyncPrintMailResourceWithRawResponse:
 
     @cached_property
     def reports(self) -> AsyncReportsResourceWithRawResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return AsyncReportsResourceWithRawResponse(self._print_mail.reports)
 
     @cached_property
@@ -365,6 +461,18 @@ class AsyncPrintMailResourceWithRawResponse:
 
     @cached_property
     def sub_organizations(self) -> AsyncSubOrganizationsResourceWithRawResponse:
+        """
+        Sub-organizations enable you to create isolated PostGrid accounts
+         ("sub-organizations") under your PostGrid account (the "parent organization").
+         Each sub-organization has fully isolated resources
+         and users, and can act independently.
+
+         This allows you to isolate different departments or even re-sell PostGrid
+         entirely.
+
+         You can request access to this feature by reaching out to
+         support@postgrid.com
+        """
         return AsyncSubOrganizationsResourceWithRawResponse(self._print_mail.sub_organizations)
 
     @cached_property
@@ -382,6 +490,10 @@ class PrintMailResourceWithStreamingResponse:
 
     @cached_property
     def campaigns(self) -> CampaignsResourceWithStreamingResponse:
+        """
+        The campaigns API enables you to send out large volumes of fully
+         personalized mail to a mailing list.
+        """
         return CampaignsResourceWithStreamingResponse(self._print_mail.campaigns)
 
     @cached_property
@@ -398,6 +510,10 @@ class PrintMailResourceWithStreamingResponse:
 
     @cached_property
     def mailing_list_imports(self) -> MailingListImportsResourceWithStreamingResponse:
+        """
+        The mailing list imports API enables you to import contact lists from files
+         and validate them for use in campaigns.
+        """
         return MailingListImportsResourceWithStreamingResponse(self._print_mail.mailing_list_imports)
 
     @cached_property
@@ -414,6 +530,13 @@ class PrintMailResourceWithStreamingResponse:
 
     @cached_property
     def reports(self) -> ReportsResourceWithStreamingResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return ReportsResourceWithStreamingResponse(self._print_mail.reports)
 
     @cached_property
@@ -422,6 +545,18 @@ class PrintMailResourceWithStreamingResponse:
 
     @cached_property
     def sub_organizations(self) -> SubOrganizationsResourceWithStreamingResponse:
+        """
+        Sub-organizations enable you to create isolated PostGrid accounts
+         ("sub-organizations") under your PostGrid account (the "parent organization").
+         Each sub-organization has fully isolated resources
+         and users, and can act independently.
+
+         This allows you to isolate different departments or even re-sell PostGrid
+         entirely.
+
+         You can request access to this feature by reaching out to
+         support@postgrid.com
+        """
         return SubOrganizationsResourceWithStreamingResponse(self._print_mail.sub_organizations)
 
     @cached_property
@@ -439,6 +574,10 @@ class AsyncPrintMailResourceWithStreamingResponse:
 
     @cached_property
     def campaigns(self) -> AsyncCampaignsResourceWithStreamingResponse:
+        """
+        The campaigns API enables you to send out large volumes of fully
+         personalized mail to a mailing list.
+        """
         return AsyncCampaignsResourceWithStreamingResponse(self._print_mail.campaigns)
 
     @cached_property
@@ -455,6 +594,10 @@ class AsyncPrintMailResourceWithStreamingResponse:
 
     @cached_property
     def mailing_list_imports(self) -> AsyncMailingListImportsResourceWithStreamingResponse:
+        """
+        The mailing list imports API enables you to import contact lists from files
+         and validate them for use in campaigns.
+        """
         return AsyncMailingListImportsResourceWithStreamingResponse(self._print_mail.mailing_list_imports)
 
     @cached_property
@@ -471,6 +614,13 @@ class AsyncPrintMailResourceWithStreamingResponse:
 
     @cached_property
     def reports(self) -> AsyncReportsResourceWithStreamingResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return AsyncReportsResourceWithStreamingResponse(self._print_mail.reports)
 
     @cached_property
@@ -479,6 +629,18 @@ class AsyncPrintMailResourceWithStreamingResponse:
 
     @cached_property
     def sub_organizations(self) -> AsyncSubOrganizationsResourceWithStreamingResponse:
+        """
+        Sub-organizations enable you to create isolated PostGrid accounts
+         ("sub-organizations") under your PostGrid account (the "parent organization").
+         Each sub-organization has fully isolated resources
+         and users, and can act independently.
+
+         This allows you to isolate different departments or even re-sell PostGrid
+         entirely.
+
+         You can request access to this feature by reaching out to
+         support@postgrid.com
+        """
         return AsyncSubOrganizationsResourceWithStreamingResponse(self._print_mail.sub_organizations)
 
     @cached_property

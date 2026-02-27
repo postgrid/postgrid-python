@@ -34,6 +34,14 @@ __all__ = ["SelfMailersResource", "AsyncSelfMailersResource"]
 
 
 class SelfMailersResource(SyncAPIResource):
+    """
+    Order Profiles are reusable blueprints for creating print and mail orders (Letters, Postcards, Cheques, Self-Mailers).
+     They define common properties like size, content (via templates or uploaded PDFs), mailing class, and metadata.
+     Using profiles simplifies order creation, especially for recurring mailings or campaigns, by pre-filling many parameters.
+
+     Profiles are environment-specific (live vs. test).
+    """
+
     @cached_property
     def with_raw_response(self) -> SelfMailersResourceWithRawResponse:
         """
@@ -393,6 +401,14 @@ class SelfMailersResource(SyncAPIResource):
 
 
 class AsyncSelfMailersResource(AsyncAPIResource):
+    """
+    Order Profiles are reusable blueprints for creating print and mail orders (Letters, Postcards, Cheques, Self-Mailers).
+     They define common properties like size, content (via templates or uploaded PDFs), mailing class, and metadata.
+     Using profiles simplifies order creation, especially for recurring mailings or campaigns, by pre-filling many parameters.
+
+     Profiles are environment-specific (live vs. test).
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncSelfMailersResourceWithRawResponse:
         """

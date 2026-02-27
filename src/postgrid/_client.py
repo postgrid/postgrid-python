@@ -113,12 +113,24 @@ class PostGrid(SyncAPIClient):
 
     @cached_property
     def address_verification(self) -> AddressVerificationResource:
+        """Standard Address Verification API.
+
+        Provides endpoints to verify and standardize addresses across US and Canada,
+        supporting both structured and freeform inputs.
+
+        Note that this uses a different set of lookups than our international API.
+        """
         from .resources.address_verification import AddressVerificationResource
 
         return AddressVerificationResource(self)
 
     @cached_property
     def intl_address_verification(self) -> IntlAddressVerificationResource:
+        """International Address Verification API.
+
+        Provides endpoints to verify and standardize international addresses,
+        supporting both structured and freeform inputs.
+        """
         from .resources.intl_address_verification import IntlAddressVerificationResource
 
         return IntlAddressVerificationResource(self)
@@ -327,12 +339,24 @@ class AsyncPostGrid(AsyncAPIClient):
 
     @cached_property
     def address_verification(self) -> AsyncAddressVerificationResource:
+        """Standard Address Verification API.
+
+        Provides endpoints to verify and standardize addresses across US and Canada,
+        supporting both structured and freeform inputs.
+
+        Note that this uses a different set of lookups than our international API.
+        """
         from .resources.address_verification import AsyncAddressVerificationResource
 
         return AsyncAddressVerificationResource(self)
 
     @cached_property
     def intl_address_verification(self) -> AsyncIntlAddressVerificationResource:
+        """International Address Verification API.
+
+        Provides endpoints to verify and standardize international addresses,
+        supporting both structured and freeform inputs.
+        """
         from .resources.intl_address_verification import AsyncIntlAddressVerificationResource
 
         return AsyncIntlAddressVerificationResource(self)
@@ -488,12 +512,24 @@ class PostGridWithRawResponse:
 
     @cached_property
     def address_verification(self) -> address_verification.AddressVerificationResourceWithRawResponse:
+        """Standard Address Verification API.
+
+        Provides endpoints to verify and standardize addresses across US and Canada,
+        supporting both structured and freeform inputs.
+
+        Note that this uses a different set of lookups than our international API.
+        """
         from .resources.address_verification import AddressVerificationResourceWithRawResponse
 
         return AddressVerificationResourceWithRawResponse(self._client.address_verification)
 
     @cached_property
     def intl_address_verification(self) -> intl_address_verification.IntlAddressVerificationResourceWithRawResponse:
+        """International Address Verification API.
+
+        Provides endpoints to verify and standardize international addresses,
+        supporting both structured and freeform inputs.
+        """
         from .resources.intl_address_verification import IntlAddressVerificationResourceWithRawResponse
 
         return IntlAddressVerificationResourceWithRawResponse(self._client.intl_address_verification)
@@ -513,6 +549,13 @@ class AsyncPostGridWithRawResponse:
 
     @cached_property
     def address_verification(self) -> address_verification.AsyncAddressVerificationResourceWithRawResponse:
+        """Standard Address Verification API.
+
+        Provides endpoints to verify and standardize addresses across US and Canada,
+        supporting both structured and freeform inputs.
+
+        Note that this uses a different set of lookups than our international API.
+        """
         from .resources.address_verification import AsyncAddressVerificationResourceWithRawResponse
 
         return AsyncAddressVerificationResourceWithRawResponse(self._client.address_verification)
@@ -521,6 +564,11 @@ class AsyncPostGridWithRawResponse:
     def intl_address_verification(
         self,
     ) -> intl_address_verification.AsyncIntlAddressVerificationResourceWithRawResponse:
+        """International Address Verification API.
+
+        Provides endpoints to verify and standardize international addresses,
+        supporting both structured and freeform inputs.
+        """
         from .resources.intl_address_verification import AsyncIntlAddressVerificationResourceWithRawResponse
 
         return AsyncIntlAddressVerificationResourceWithRawResponse(self._client.intl_address_verification)
@@ -540,6 +588,13 @@ class PostGridWithStreamedResponse:
 
     @cached_property
     def address_verification(self) -> address_verification.AddressVerificationResourceWithStreamingResponse:
+        """Standard Address Verification API.
+
+        Provides endpoints to verify and standardize addresses across US and Canada,
+        supporting both structured and freeform inputs.
+
+        Note that this uses a different set of lookups than our international API.
+        """
         from .resources.address_verification import AddressVerificationResourceWithStreamingResponse
 
         return AddressVerificationResourceWithStreamingResponse(self._client.address_verification)
@@ -548,6 +603,11 @@ class PostGridWithStreamedResponse:
     def intl_address_verification(
         self,
     ) -> intl_address_verification.IntlAddressVerificationResourceWithStreamingResponse:
+        """International Address Verification API.
+
+        Provides endpoints to verify and standardize international addresses,
+        supporting both structured and freeform inputs.
+        """
         from .resources.intl_address_verification import IntlAddressVerificationResourceWithStreamingResponse
 
         return IntlAddressVerificationResourceWithStreamingResponse(self._client.intl_address_verification)
@@ -567,6 +627,13 @@ class AsyncPostGridWithStreamedResponse:
 
     @cached_property
     def address_verification(self) -> address_verification.AsyncAddressVerificationResourceWithStreamingResponse:
+        """Standard Address Verification API.
+
+        Provides endpoints to verify and standardize addresses across US and Canada,
+        supporting both structured and freeform inputs.
+
+        Note that this uses a different set of lookups than our international API.
+        """
         from .resources.address_verification import AsyncAddressVerificationResourceWithStreamingResponse
 
         return AsyncAddressVerificationResourceWithStreamingResponse(self._client.address_verification)
@@ -575,6 +642,11 @@ class AsyncPostGridWithStreamedResponse:
     def intl_address_verification(
         self,
     ) -> intl_address_verification.AsyncIntlAddressVerificationResourceWithStreamingResponse:
+        """International Address Verification API.
+
+        Provides endpoints to verify and standardize international addresses,
+        supporting both structured and freeform inputs.
+        """
         from .resources.intl_address_verification import AsyncIntlAddressVerificationResourceWithStreamingResponse
 
         return AsyncIntlAddressVerificationResourceWithStreamingResponse(self._client.intl_address_verification)
