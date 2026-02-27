@@ -32,6 +32,11 @@ __all__ = ["CampaignsResource", "AsyncCampaignsResource"]
 
 
 class CampaignsResource(SyncAPIResource):
+    """
+    The campaigns API enables you to send out large volumes of fully
+     personalized mail to a mailing list.
+    """
+
     @cached_property
     def with_raw_response(self) -> CampaignsResourceWithRawResponse:
         """
@@ -378,6 +383,11 @@ class CampaignsResource(SyncAPIResource):
 
 
 class AsyncCampaignsResource(AsyncAPIResource):
+    """
+    The campaigns API enables you to send out large volumes of fully
+     personalized mail to a mailing list.
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncCampaignsResourceWithRawResponse:
         """

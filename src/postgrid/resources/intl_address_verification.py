@@ -24,6 +24,12 @@ __all__ = ["IntlAddressVerificationResource", "AsyncIntlAddressVerificationResou
 
 
 class IntlAddressVerificationResource(SyncAPIResource):
+    """International Address Verification API.
+
+    Provides endpoints to verify and standardize international addresses,
+    supporting both structured and freeform inputs.
+    """
+
     @cached_property
     def with_raw_response(self) -> IntlAddressVerificationResourceWithRawResponse:
         """
@@ -152,6 +158,12 @@ class IntlAddressVerificationResource(SyncAPIResource):
 
 
 class AsyncIntlAddressVerificationResource(AsyncAPIResource):
+    """International Address Verification API.
+
+    Provides endpoints to verify and standardize international addresses,
+    supporting both structured and freeform inputs.
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncIntlAddressVerificationResourceWithRawResponse:
         """
