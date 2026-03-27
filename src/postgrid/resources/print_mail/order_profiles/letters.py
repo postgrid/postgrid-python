@@ -8,7 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
+from ...._utils import path_template, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -36,6 +36,14 @@ __all__ = ["LettersResource", "AsyncLettersResource"]
 
 
 class LettersResource(SyncAPIResource):
+    """
+    Order Profiles are reusable blueprints for creating print and mail orders (Letters, Postcards, Cheques, Self-Mailers).
+     They define common properties like size, content (via templates or uploaded PDFs), mailing class, and metadata.
+     Using profiles simplifies order creation, especially for recurring mailings or campaigns, by pre-filling many parameters.
+
+     Profiles are environment-specific (live vs. test).
+    """
+
     @cached_property
     def with_raw_response(self) -> LettersResourceWithRawResponse:
         """
@@ -213,7 +221,7 @@ class LettersResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/print-mail/v1/order_profiles/letters/{id}",
+            path_template("/print-mail/v1/order_profiles/letters/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -323,7 +331,7 @@ class LettersResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/print-mail/v1/order_profiles/letters/{id}",
+            path_template("/print-mail/v1/order_profiles/letters/{id}", id=id),
             body=maybe_transform(
                 {
                     "address_placement": address_placement,
@@ -433,7 +441,7 @@ class LettersResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._delete(
-            f"/print-mail/v1/order_profiles/letters/{id}",
+            path_template("/print-mail/v1/order_profiles/letters/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -442,6 +450,14 @@ class LettersResource(SyncAPIResource):
 
 
 class AsyncLettersResource(AsyncAPIResource):
+    """
+    Order Profiles are reusable blueprints for creating print and mail orders (Letters, Postcards, Cheques, Self-Mailers).
+     They define common properties like size, content (via templates or uploaded PDFs), mailing class, and metadata.
+     Using profiles simplifies order creation, especially for recurring mailings or campaigns, by pre-filling many parameters.
+
+     Profiles are environment-specific (live vs. test).
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncLettersResourceWithRawResponse:
         """
@@ -619,7 +635,7 @@ class AsyncLettersResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/print-mail/v1/order_profiles/letters/{id}",
+            path_template("/print-mail/v1/order_profiles/letters/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -729,7 +745,7 @@ class AsyncLettersResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/print-mail/v1/order_profiles/letters/{id}",
+            path_template("/print-mail/v1/order_profiles/letters/{id}", id=id),
             body=await async_maybe_transform(
                 {
                     "address_placement": address_placement,
@@ -839,7 +855,7 @@ class AsyncLettersResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._delete(
-            f"/print-mail/v1/order_profiles/letters/{id}",
+            path_template("/print-mail/v1/order_profiles/letters/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

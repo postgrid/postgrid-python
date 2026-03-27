@@ -24,6 +24,14 @@ __all__ = ["AddressVerificationResource", "AsyncAddressVerificationResource"]
 
 
 class AddressVerificationResource(SyncAPIResource):
+    """Standard Address Verification API.
+
+    Provides endpoints to verify and standardize addresses across US and Canada,
+    supporting both structured and freeform inputs.
+
+    Note that this uses a different set of lookups than our international API.
+    """
+
     @cached_property
     def with_raw_response(self) -> AddressVerificationResourceWithRawResponse:
         """
@@ -162,6 +170,14 @@ class AddressVerificationResource(SyncAPIResource):
 
 
 class AsyncAddressVerificationResource(AsyncAPIResource):
+    """Standard Address Verification API.
+
+    Provides endpoints to verify and standardize addresses across US and Canada,
+    supporting both structured and freeform inputs.
+
+    Note that this uses a different set of lookups than our international API.
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncAddressVerificationResourceWithRawResponse:
         """

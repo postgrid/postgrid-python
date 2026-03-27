@@ -5,7 +5,7 @@ from __future__ import annotations
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
+from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -29,6 +29,19 @@ __all__ = ["SubOrganizationsResource", "AsyncSubOrganizationsResource"]
 
 
 class SubOrganizationsResource(SyncAPIResource):
+    """
+    Sub-organizations enable you to create isolated PostGrid accounts
+     ("sub-organizations") under your PostGrid account (the "parent organization").
+     Each sub-organization has fully isolated resources
+     and users, and can act independently.
+
+     This allows you to isolate different departments or even re-sell PostGrid
+     entirely.
+
+     You can request access to this feature by reaching out to
+     support@postgrid.com
+    """
+
     @cached_property
     def with_raw_response(self) -> SubOrganizationsResourceWithRawResponse:
         """
@@ -74,7 +87,7 @@ class SubOrganizationsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/print-mail/v1/sub_organizations/{id}",
+            path_template("/print-mail/v1/sub_organizations/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -228,7 +241,7 @@ class SubOrganizationsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/print-mail/v1/sub_organizations/{id}/users",
+            path_template("/print-mail/v1/sub_organizations/{id}/users", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -248,6 +261,19 @@ class SubOrganizationsResource(SyncAPIResource):
 
 
 class AsyncSubOrganizationsResource(AsyncAPIResource):
+    """
+    Sub-organizations enable you to create isolated PostGrid accounts
+     ("sub-organizations") under your PostGrid account (the "parent organization").
+     Each sub-organization has fully isolated resources
+     and users, and can act independently.
+
+     This allows you to isolate different departments or even re-sell PostGrid
+     entirely.
+
+     You can request access to this feature by reaching out to
+     support@postgrid.com
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncSubOrganizationsResourceWithRawResponse:
         """
@@ -293,7 +319,7 @@ class AsyncSubOrganizationsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/print-mail/v1/sub_organizations/{id}",
+            path_template("/print-mail/v1/sub_organizations/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -447,7 +473,7 @@ class AsyncSubOrganizationsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/print-mail/v1/sub_organizations/{id}/users",
+            path_template("/print-mail/v1/sub_organizations/{id}/users", id=id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

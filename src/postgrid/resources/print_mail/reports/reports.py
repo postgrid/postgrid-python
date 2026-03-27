@@ -23,7 +23,7 @@ from .samples import (
     AsyncSamplesResourceWithStreamingResponse,
 )
 from ...._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from ...._utils import maybe_transform, async_maybe_transform
+from ...._utils import path_template, maybe_transform, async_maybe_transform
 from ...._compat import cached_property
 from ...._resource import SyncAPIResource, AsyncAPIResource
 from ...._response import (
@@ -43,12 +43,34 @@ __all__ = ["ReportsResource", "AsyncReportsResource"]
 
 
 class ReportsResource(SyncAPIResource):
+    """
+    The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+     Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+     Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+     You can request access to this to this feature by reaching out to support@postgrid.com
+    """
+
     @cached_property
     def samples(self) -> SamplesResource:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return SamplesResource(self._client)
 
     @cached_property
     def exports(self) -> ExportsResource:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return ExportsResource(self._client)
 
     @cached_property
@@ -148,7 +170,7 @@ class ReportsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get(
-            f"/print-mail/v1/reports/{id}",
+            path_template("/print-mail/v1/reports/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -192,7 +214,7 @@ class ReportsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            f"/print-mail/v1/reports/{id}",
+            path_template("/print-mail/v1/reports/{id}", id=id),
             body=maybe_transform(
                 {
                     "description": description,
@@ -286,7 +308,7 @@ class ReportsResource(SyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._delete(
-            f"/print-mail/v1/reports/{id}",
+            path_template("/print-mail/v1/reports/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -345,12 +367,34 @@ class ReportsResource(SyncAPIResource):
 
 
 class AsyncReportsResource(AsyncAPIResource):
+    """
+    The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+     Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+     Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+     You can request access to this to this feature by reaching out to support@postgrid.com
+    """
+
     @cached_property
     def samples(self) -> AsyncSamplesResource:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return AsyncSamplesResource(self._client)
 
     @cached_property
     def exports(self) -> AsyncExportsResource:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return AsyncExportsResource(self._client)
 
     @cached_property
@@ -450,7 +494,7 @@ class AsyncReportsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._get(
-            f"/print-mail/v1/reports/{id}",
+            path_template("/print-mail/v1/reports/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -494,7 +538,7 @@ class AsyncReportsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            f"/print-mail/v1/reports/{id}",
+            path_template("/print-mail/v1/reports/{id}", id=id),
             body=await async_maybe_transform(
                 {
                     "description": description,
@@ -588,7 +632,7 @@ class AsyncReportsResource(AsyncAPIResource):
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._delete(
-            f"/print-mail/v1/reports/{id}",
+            path_template("/print-mail/v1/reports/{id}", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -671,10 +715,24 @@ class ReportsResourceWithRawResponse:
 
     @cached_property
     def samples(self) -> SamplesResourceWithRawResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return SamplesResourceWithRawResponse(self._reports.samples)
 
     @cached_property
     def exports(self) -> ExportsResourceWithRawResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return ExportsResourceWithRawResponse(self._reports.exports)
 
 
@@ -703,10 +761,24 @@ class AsyncReportsResourceWithRawResponse:
 
     @cached_property
     def samples(self) -> AsyncSamplesResourceWithRawResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return AsyncSamplesResourceWithRawResponse(self._reports.samples)
 
     @cached_property
     def exports(self) -> AsyncExportsResourceWithRawResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return AsyncExportsResourceWithRawResponse(self._reports.exports)
 
 
@@ -735,10 +807,24 @@ class ReportsResourceWithStreamingResponse:
 
     @cached_property
     def samples(self) -> SamplesResourceWithStreamingResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return SamplesResourceWithStreamingResponse(self._reports.samples)
 
     @cached_property
     def exports(self) -> ExportsResourceWithStreamingResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return ExportsResourceWithStreamingResponse(self._reports.exports)
 
 
@@ -767,8 +853,22 @@ class AsyncReportsResourceWithStreamingResponse:
 
     @cached_property
     def samples(self) -> AsyncSamplesResourceWithStreamingResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return AsyncSamplesResourceWithStreamingResponse(self._reports.samples)
 
     @cached_property
     def exports(self) -> AsyncExportsResourceWithStreamingResponse:
+        """
+        The reports API lets you run SQL queries against a data lake with all of your PostGrid data. You can use this to run ad-hoc SQL queries or save them as reports. You can bulk export data from these reports to fit all of your reporting needs.
+         Note that the data this API provides may be up to 2 hours behind your current PostGrid environment.
+         Your test and live data lakes are fully segregated, so you'll need a live API key to run queries against your live data.
+
+         You can request access to this to this feature by reaching out to support@postgrid.com
+        """
         return AsyncExportsResourceWithStreamingResponse(self._reports.exports)

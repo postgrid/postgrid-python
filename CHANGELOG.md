@@ -1,5 +1,47 @@
 # Changelog
 
+## 2.1.0 (2026-03-26)
+
+Full Changelog: [v2.0.3...v2.1.0](https://github.com/postgrid/postgrid-python/compare/v2.0.3...v2.1.0)
+
+### Features
+
+* **client:** add custom JSON encoder for extended type support ([7daf14d](https://github.com/postgrid/postgrid-python/commit/7daf14d1ea87c9036961bbcc15399e90ed118cbb))
+* **client:** add support for binary request streaming ([9c92b6a](https://github.com/postgrid/postgrid-python/commit/9c92b6a0f2411b015adf447dffa582836bc1ac4a))
+* **internal:** implement indices array format for query and form serialization ([796fd65](https://github.com/postgrid/postgrid-python/commit/796fd65720ecce3553f7adbcef50ac1f85c14291))
+
+
+### Bug Fixes
+
+* **client:** loosen auth header validation ([af955ca](https://github.com/postgrid/postgrid-python/commit/af955ca7182b4f032d6d9c10faf060668fa43248))
+* **deps:** bump minimum typing-extensions version ([aa94631](https://github.com/postgrid/postgrid-python/commit/aa94631c7c4fd65cff55b9d86263aa1926dd4f75))
+* **pydantic:** do not pass `by_alias` unless set ([6f9b35c](https://github.com/postgrid/postgrid-python/commit/6f9b35c003e312b228ba36b527a09671b0700039))
+* sanitize endpoint path params ([b59444c](https://github.com/postgrid/postgrid-python/commit/b59444c1ceb05ede740db7dd87eec8e2a7478de1))
+* use async_to_httpx_files in patch method ([a3b137a](https://github.com/postgrid/postgrid-python/commit/a3b137ae1ab33697009d7b508a8d22f7349b9dec))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([7538d3d](https://github.com/postgrid/postgrid-python/commit/7538d3d8a3b9e34a00b9c8b4ad1db5a81224f287))
+* **ci:** skip uploading artifacts on stainless-internal branches ([a64ce59](https://github.com/postgrid/postgrid-python/commit/a64ce5957d66b86e6d14bdcf4ed29eb12f5d559c))
+* **ci:** upgrade `actions/github-script` ([e2ea5fd](https://github.com/postgrid/postgrid-python/commit/e2ea5fdecfc467358d53198d37f153ea7f7bf0cf))
+* **docs:** add missing descriptions ([9dd7392](https://github.com/postgrid/postgrid-python/commit/9dd73922effb1185e3ef1a21cf0118f1b1319384))
+* format all `api.md` files ([0a364e2](https://github.com/postgrid/postgrid-python/commit/0a364e28d4d8c4039925ead02608bcc66f6253f8))
+* **internal:** add `--fix` argument to lint script ([e8d9998](https://github.com/postgrid/postgrid-python/commit/e8d9998a7bc735ebb82e4071f479b6d811746abd))
+* **internal:** add missing files argument to base client ([6dbed91](https://github.com/postgrid/postgrid-python/commit/6dbed918a54c190cda4e2b7c1c8b56867bde3562))
+* **internal:** add request options to SSE classes ([986b89d](https://github.com/postgrid/postgrid-python/commit/986b89d9ed6752401d1a0a2caa05a74b3fc805ff))
+* **internal:** bump dependencies ([53cb8a0](https://github.com/postgrid/postgrid-python/commit/53cb8a03ab0c3d88881b7c2acdde5288f8511f7e))
+* **internal:** codegen related update ([eb02a83](https://github.com/postgrid/postgrid-python/commit/eb02a837ede94d5440593cb9c921c6e47ae5a0ab))
+* **internal:** fix lint error on Python 3.14 ([8a7fe14](https://github.com/postgrid/postgrid-python/commit/8a7fe146bf634f2fab49203e50eca29f43f3f1c3))
+* **internal:** make `test_proxy_environment_variables` more resilient ([b33f0fb](https://github.com/postgrid/postgrid-python/commit/b33f0fb4114274c85f1c0441f17bde2de3500180))
+* **internal:** make `test_proxy_environment_variables` more resilient to env ([d60d095](https://github.com/postgrid/postgrid-python/commit/d60d09529bdcb3df50effb16c004a04c5ab76e8c))
+* **internal:** remove mock server code ([961b979](https://github.com/postgrid/postgrid-python/commit/961b979236edcd88d3c3f2b03f1033940b188bd2))
+* **internal:** tweak CI branches ([e723bef](https://github.com/postgrid/postgrid-python/commit/e723befd334a20b5f8b02322edfb84dd19c46337))
+* **internal:** update `actions/checkout` version ([0d17288](https://github.com/postgrid/postgrid-python/commit/0d1728886ee999032574dd9877bc85c84930bc3b))
+* **internal:** update gitignore ([3e89493](https://github.com/postgrid/postgrid-python/commit/3e89493903b49b783cd2157928455b1b161043f4))
+* speedup initial import ([32fb2cc](https://github.com/postgrid/postgrid-python/commit/32fb2cceb7859e77a4840e4f45bc782123aa0359))
+* update mock server docs ([168a3b8](https://github.com/postgrid/postgrid-python/commit/168a3b8c77755038a1fefd557d71ad49f753a360))
+
 ## 2.0.3 (2025-12-09)
 
 Full Changelog: [v2.0.2...v2.0.3](https://github.com/postgrid/postgrid-python/compare/v2.0.2...v2.0.3)
