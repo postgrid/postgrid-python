@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.1.1 (2026-04-10)
+
+Full Changelog: [v2.1.0...v2.1.1](https://github.com/postgrid/postgrid-python/compare/v2.1.0...v2.1.1)
+
+### Bug Fixes
+
+* **client:** preserve hardcoded query params when merging with user params ([a88e2b2](https://github.com/postgrid/postgrid-python/commit/a88e2b213e628430a0a608c0d0df0af9f09ab2da))
+* ensure file data are only sent as 1 parameter ([499ccd8](https://github.com/postgrid/postgrid-python/commit/499ccd837cacd93138b3edab75b95ebfe33742e2))
+
 ## 2.1.0 (2026-03-26)
 
 Full Changelog: [v2.0.3...v2.1.0](https://github.com/postgrid/postgrid-python/compare/v2.0.3...v2.1.0)
