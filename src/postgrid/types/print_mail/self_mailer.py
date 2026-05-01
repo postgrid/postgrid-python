@@ -9,7 +9,6 @@ from pydantic import Field as FieldInfo
 
 from .contact import Contact
 from ..._models import BaseModel
-from .order_profiles.self_mailer_size import SelfMailerSize
 
 __all__ = ["SelfMailer", "Cancellation"]
 
@@ -88,7 +87,7 @@ class SelfMailer(BaseModel):
     `printing` on Wednesday at midnight eastern time.
     """
 
-    size: SelfMailerSize
+    size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"]
     """Enum representing the supported self-mailer sizes."""
 
     status: Literal["ready", "printing", "processed_for_delivery", "completed", "cancelled"]

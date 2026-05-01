@@ -60,14 +60,15 @@ class CampaignsResource(SyncAPIResource):
         self,
         *,
         mailing_list: str,
-        cheque_profile: str | Omit = omit,
+        cheque: campaign_create_params.Cheque | Omit = omit,
         default_sender_contact: str | Omit = omit,
         description: str | Omit = omit,
-        letter_profile: str | Omit = omit,
+        letter: campaign_create_params.Letter | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
-        postcard_profile: str | Omit = omit,
-        self_mailer_profile: str | Omit = omit,
+        postcard: campaign_create_params.Postcard | Omit = omit,
+        self_mailer: campaign_create_params.SelfMailer | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        snap_pack: campaign_create_params.SnapPack | Omit = omit,
         idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -79,14 +80,18 @@ class CampaignsResource(SyncAPIResource):
         """
         Create a new campaign.
 
-        A campaign links a mailing list with a specific mail piece profile (letter,
-        postcard, cheque, or self-mailer) to send bulk mail. Upon creation, the campaign
-        enters the `drafting` status while assets are validated.
+        A campaign links a mailing list with a specific mail piece configuration
+        (letter, postcard, cheque, self-mailer, or snap pack) to send bulk mail. Only
+        one collateral type can be set per campaign.
+
+        Upon creation, the campaign enters the `drafting` status while assets are
+        validated.
 
         Args:
           mailing_list: The ID of the mailing list associated with this campaign.
 
-          cheque_profile: The ID of the cheque profile used for this campaign, if applicable.
+          cheque: Inline cheque configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           default_sender_contact: The ID of the default sender contact to use for orders if not specified per
               recipient.
@@ -94,15 +99,21 @@ class CampaignsResource(SyncAPIResource):
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
 
-          letter_profile: The ID of the letter profile used for this campaign, if applicable.
+          letter: Inline letter configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           metadata: See the section on Metadata.
 
-          postcard_profile: The ID of the postcard profile used for this campaign, if applicable.
+          postcard: Inline postcard configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
-          self_mailer_profile: The ID of the self-mailer profile used for this campaign, if applicable.
+          self_mailer: Inline self-mailer configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           send_date: The scheduled date and time for the campaign to be sent.
+
+          snap_pack: Inline snap pack configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           extra_headers: Send extra headers
 
@@ -118,14 +129,15 @@ class CampaignsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "mailing_list": mailing_list,
-                    "cheque_profile": cheque_profile,
+                    "cheque": cheque,
                     "default_sender_contact": default_sender_contact,
                     "description": description,
-                    "letter_profile": letter_profile,
+                    "letter": letter,
                     "metadata": metadata,
-                    "postcard_profile": postcard_profile,
-                    "self_mailer_profile": self_mailer_profile,
+                    "postcard": postcard,
+                    "self_mailer": self_mailer,
                     "send_date": send_date,
+                    "snap_pack": snap_pack,
                 },
                 campaign_create_params.CampaignCreateParams,
             ),
@@ -172,14 +184,15 @@ class CampaignsResource(SyncAPIResource):
         self,
         id: str,
         *,
-        cheque_profile: Optional[str] | Omit = omit,
+        cheque: Optional[campaign_update_params.Cheque] | Omit = omit,
         default_sender_contact: Optional[str] | Omit = omit,
         description: Optional[str] | Omit = omit,
-        letter_profile: Optional[str] | Omit = omit,
+        letter: Optional[campaign_update_params.Letter] | Omit = omit,
         mailing_list: str | Omit = omit,
         metadata: Optional[Dict[str, str]] | Omit = omit,
-        postcard_profile: Optional[str] | Omit = omit,
-        self_mailer_profile: Optional[str] | Omit = omit,
+        postcard: Optional[campaign_update_params.Postcard] | Omit = omit,
+        self_mailer: Optional[campaign_update_params.SelfMailer] | Omit = omit,
+        snap_pack: Optional[campaign_update_params.SnapPack] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -195,27 +208,30 @@ class CampaignsResource(SyncAPIResource):
         `drafting`.
 
         Args:
-          cheque_profile: The ID of the cheque profile to use. Setting this will remove other profile
-              types. Set to `null` to remove.
+          cheque: Inline cheque configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           default_sender_contact: The ID of the default sender contact. Set to `null` to remove.
 
           description: An optional description for the campaign. Set to `null` to remove the existing
               description.
 
-          letter_profile: The ID of the letter profile to use. Setting this will remove other profile
-              types. Set to `null` to remove.
+          letter: Inline letter configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           mailing_list: The ID of the mailing list to associate with this campaign.
 
           metadata: Optional key-value data associated with the campaign. Set to `null` to remove
               existing metadata.
 
-          postcard_profile: The ID of the postcard profile to use. Setting this will remove other profile
-              types. Set to `null` to remove.
+          postcard: Inline postcard configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
-          self_mailer_profile: The ID of the self-mailer profile to use. Setting this will remove other profile
-              types. Set to `null` to remove.
+          self_mailer: Inline self-mailer configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
+
+          snap_pack: Inline snap pack configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           extra_headers: Send extra headers
 
@@ -231,14 +247,15 @@ class CampaignsResource(SyncAPIResource):
             path_template("/print-mail/v1/campaigns/{id}", id=id),
             body=maybe_transform(
                 {
-                    "cheque_profile": cheque_profile,
+                    "cheque": cheque,
                     "default_sender_contact": default_sender_contact,
                     "description": description,
-                    "letter_profile": letter_profile,
+                    "letter": letter,
                     "mailing_list": mailing_list,
                     "metadata": metadata,
-                    "postcard_profile": postcard_profile,
-                    "self_mailer_profile": self_mailer_profile,
+                    "postcard": postcard,
+                    "self_mailer": self_mailer,
+                    "snap_pack": snap_pack,
                 },
                 campaign_update_params.CampaignUpdateParams,
             ),
@@ -411,14 +428,15 @@ class AsyncCampaignsResource(AsyncAPIResource):
         self,
         *,
         mailing_list: str,
-        cheque_profile: str | Omit = omit,
+        cheque: campaign_create_params.Cheque | Omit = omit,
         default_sender_contact: str | Omit = omit,
         description: str | Omit = omit,
-        letter_profile: str | Omit = omit,
+        letter: campaign_create_params.Letter | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
-        postcard_profile: str | Omit = omit,
-        self_mailer_profile: str | Omit = omit,
+        postcard: campaign_create_params.Postcard | Omit = omit,
+        self_mailer: campaign_create_params.SelfMailer | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        snap_pack: campaign_create_params.SnapPack | Omit = omit,
         idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -430,14 +448,18 @@ class AsyncCampaignsResource(AsyncAPIResource):
         """
         Create a new campaign.
 
-        A campaign links a mailing list with a specific mail piece profile (letter,
-        postcard, cheque, or self-mailer) to send bulk mail. Upon creation, the campaign
-        enters the `drafting` status while assets are validated.
+        A campaign links a mailing list with a specific mail piece configuration
+        (letter, postcard, cheque, self-mailer, or snap pack) to send bulk mail. Only
+        one collateral type can be set per campaign.
+
+        Upon creation, the campaign enters the `drafting` status while assets are
+        validated.
 
         Args:
           mailing_list: The ID of the mailing list associated with this campaign.
 
-          cheque_profile: The ID of the cheque profile used for this campaign, if applicable.
+          cheque: Inline cheque configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           default_sender_contact: The ID of the default sender contact to use for orders if not specified per
               recipient.
@@ -445,15 +467,21 @@ class AsyncCampaignsResource(AsyncAPIResource):
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
 
-          letter_profile: The ID of the letter profile used for this campaign, if applicable.
+          letter: Inline letter configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           metadata: See the section on Metadata.
 
-          postcard_profile: The ID of the postcard profile used for this campaign, if applicable.
+          postcard: Inline postcard configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
-          self_mailer_profile: The ID of the self-mailer profile used for this campaign, if applicable.
+          self_mailer: Inline self-mailer configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           send_date: The scheduled date and time for the campaign to be sent.
+
+          snap_pack: Inline snap pack configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           extra_headers: Send extra headers
 
@@ -469,14 +497,15 @@ class AsyncCampaignsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "mailing_list": mailing_list,
-                    "cheque_profile": cheque_profile,
+                    "cheque": cheque,
                     "default_sender_contact": default_sender_contact,
                     "description": description,
-                    "letter_profile": letter_profile,
+                    "letter": letter,
                     "metadata": metadata,
-                    "postcard_profile": postcard_profile,
-                    "self_mailer_profile": self_mailer_profile,
+                    "postcard": postcard,
+                    "self_mailer": self_mailer,
                     "send_date": send_date,
+                    "snap_pack": snap_pack,
                 },
                 campaign_create_params.CampaignCreateParams,
             ),
@@ -523,14 +552,15 @@ class AsyncCampaignsResource(AsyncAPIResource):
         self,
         id: str,
         *,
-        cheque_profile: Optional[str] | Omit = omit,
+        cheque: Optional[campaign_update_params.Cheque] | Omit = omit,
         default_sender_contact: Optional[str] | Omit = omit,
         description: Optional[str] | Omit = omit,
-        letter_profile: Optional[str] | Omit = omit,
+        letter: Optional[campaign_update_params.Letter] | Omit = omit,
         mailing_list: str | Omit = omit,
         metadata: Optional[Dict[str, str]] | Omit = omit,
-        postcard_profile: Optional[str] | Omit = omit,
-        self_mailer_profile: Optional[str] | Omit = omit,
+        postcard: Optional[campaign_update_params.Postcard] | Omit = omit,
+        self_mailer: Optional[campaign_update_params.SelfMailer] | Omit = omit,
+        snap_pack: Optional[campaign_update_params.SnapPack] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -546,27 +576,30 @@ class AsyncCampaignsResource(AsyncAPIResource):
         `drafting`.
 
         Args:
-          cheque_profile: The ID of the cheque profile to use. Setting this will remove other profile
-              types. Set to `null` to remove.
+          cheque: Inline cheque configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           default_sender_contact: The ID of the default sender contact. Set to `null` to remove.
 
           description: An optional description for the campaign. Set to `null` to remove the existing
               description.
 
-          letter_profile: The ID of the letter profile to use. Setting this will remove other profile
-              types. Set to `null` to remove.
+          letter: Inline letter configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           mailing_list: The ID of the mailing list to associate with this campaign.
 
           metadata: Optional key-value data associated with the campaign. Set to `null` to remove
               existing metadata.
 
-          postcard_profile: The ID of the postcard profile to use. Setting this will remove other profile
-              types. Set to `null` to remove.
+          postcard: Inline postcard configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
-          self_mailer_profile: The ID of the self-mailer profile to use. Setting this will remove other profile
-              types. Set to `null` to remove.
+          self_mailer: Inline self-mailer configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
+
+          snap_pack: Inline snap pack configuration for a campaign. All fields are optional since
+              campaigns may be in a partial state during drafting.
 
           extra_headers: Send extra headers
 
@@ -582,14 +615,15 @@ class AsyncCampaignsResource(AsyncAPIResource):
             path_template("/print-mail/v1/campaigns/{id}", id=id),
             body=await async_maybe_transform(
                 {
-                    "cheque_profile": cheque_profile,
+                    "cheque": cheque,
                     "default_sender_contact": default_sender_contact,
                     "description": description,
-                    "letter_profile": letter_profile,
+                    "letter": letter,
                     "mailing_list": mailing_list,
                     "metadata": metadata,
-                    "postcard_profile": postcard_profile,
-                    "self_mailer_profile": self_mailer_profile,
+                    "postcard": postcard,
+                    "self_mailer": self_mailer,
+                    "snap_pack": snap_pack,
                 },
                 campaign_update_params.CampaignUpdateParams,
             ),

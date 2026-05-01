@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
-from typing_extensions import Literal
+from typing import List, Union, Optional
+from typing_extensions import Literal, TypeAlias
 
 from pydantic import Field as FieldInfo
 
@@ -9,10 +9,175 @@ from .errors import Errors
 from .status import Status
 from .._models import BaseModel
 
-__all__ = ["AddressVerificationVerifyResponse", "Data", "DataDetails", "DataGeocodeResult", "DataGeocodeResultLocation"]
+__all__ = [
+    "AddressVerificationAutocompleteResponse",
+    "Data",
+    "DataCompletedAddressItem",
+    "DataCompletedAddressItemAddress",
+    "DataCompletedAddressItemGeocodeResult",
+    "DataCompletedAddressItemGeocodeResultLocation",
+    "DataUnionMember1",
+    "DataUnionMember1Address",
+    "DataUnionMember1GeocodeResult",
+    "DataUnionMember1GeocodeResultLocation",
+    "DataStandardVerifiedAddress",
+    "DataStandardVerifiedAddressDetails",
+    "DataStandardVerifiedAddressGeocodeResult",
+    "DataStandardVerifiedAddressGeocodeResultLocation",
+]
 
 
-class DataDetails(BaseModel):
+class DataCompletedAddressItemAddress(BaseModel):
+    """The resolved address components."""
+
+    address: str
+    """The first line of the address."""
+
+    address2: Optional[str] = None
+    """The second line of the address."""
+
+    city: Optional[str] = None
+    """The city."""
+
+    country: Optional[str] = None
+    """The ISO 2-letter country code."""
+
+    pc: Optional[str] = None
+    """The postal code."""
+
+    prov: Optional[str] = None
+    """The province or state abbreviation."""
+
+
+class DataCompletedAddressItemGeocodeResultLocation(BaseModel):
+    """Object that contains `lat`, `lng` properties with number values"""
+
+    lat: float
+
+    lng: float
+
+
+class DataCompletedAddressItemGeocodeResult(BaseModel):
+    """Geocoding result.
+
+    Only present when `geocode=true` is supplied and an `index` is specified.
+    """
+
+    accuracy: float
+    """
+    A real number from 0.00 to 1.00 which represents an
+    [accuracy score](https://avdocs.postgrid.com/#accuracy-score)
+    """
+
+    accuracy_type: Literal[
+        "rooftop",
+        "point",
+        "range_interpolation",
+        "nearest_rooftop_match",
+        "intersection",
+        "street_center",
+        "place",
+        "state",
+    ] = FieldInfo(alias="accuracyType")
+    """
+    A string representing the
+    [accuracy type](https://avdocs.postgrid.com/#accuracy-type)
+    """
+
+    location: DataCompletedAddressItemGeocodeResultLocation
+    """Object that contains `lat`, `lng` properties with number values"""
+
+
+class DataCompletedAddressItem(BaseModel):
+    address: DataCompletedAddressItemAddress
+    """The resolved address components."""
+
+    errors: Optional[Errors] = None
+    """Errors encountered during address verification."""
+
+    geocode_result: Optional[DataCompletedAddressItemGeocodeResult] = FieldInfo(alias="geocodeResult", default=None)
+    """Geocoding result.
+
+    Only present when `geocode=true` is supplied and an `index` is specified.
+    """
+
+
+class DataUnionMember1Address(BaseModel):
+    """The resolved address components."""
+
+    address: str
+    """The first line of the address."""
+
+    address2: Optional[str] = None
+    """The second line of the address."""
+
+    city: Optional[str] = None
+    """The city."""
+
+    country: Optional[str] = None
+    """The ISO 2-letter country code."""
+
+    pc: Optional[str] = None
+    """The postal code."""
+
+    prov: Optional[str] = None
+    """The province or state abbreviation."""
+
+
+class DataUnionMember1GeocodeResultLocation(BaseModel):
+    """Object that contains `lat`, `lng` properties with number values"""
+
+    lat: float
+
+    lng: float
+
+
+class DataUnionMember1GeocodeResult(BaseModel):
+    """Geocoding result.
+
+    Only present when `geocode=true` is supplied and an `index` is specified.
+    """
+
+    accuracy: float
+    """
+    A real number from 0.00 to 1.00 which represents an
+    [accuracy score](https://avdocs.postgrid.com/#accuracy-score)
+    """
+
+    accuracy_type: Literal[
+        "rooftop",
+        "point",
+        "range_interpolation",
+        "nearest_rooftop_match",
+        "intersection",
+        "street_center",
+        "place",
+        "state",
+    ] = FieldInfo(alias="accuracyType")
+    """
+    A string representing the
+    [accuracy type](https://avdocs.postgrid.com/#accuracy-type)
+    """
+
+    location: DataUnionMember1GeocodeResultLocation
+    """Object that contains `lat`, `lng` properties with number values"""
+
+
+class DataUnionMember1(BaseModel):
+    address: DataUnionMember1Address
+    """The resolved address components."""
+
+    errors: Optional[Errors] = None
+    """Errors encountered during address verification."""
+
+    geocode_result: Optional[DataUnionMember1GeocodeResult] = FieldInfo(alias="geocodeResult", default=None)
+    """Geocoding result.
+
+    Only present when `geocode=true` is supplied and an `index` is specified.
+    """
+
+
+class DataStandardVerifiedAddressDetails(BaseModel):
     """
     If you supply `includeDetails=true` as a query parameter, we will also populate an additional `details` field that follows the [Address Details](https://avdocs.postgrid.com/#address-details) schema.
     """
@@ -167,7 +332,7 @@ class DataDetails(BaseModel):
     """Indicates that the address is vacant according to the USPS (US address only)"""
 
 
-class DataGeocodeResultLocation(BaseModel):
+class DataStandardVerifiedAddressGeocodeResultLocation(BaseModel):
     """Object that contains `lat`, `lng` properties with number values"""
 
     lat: float
@@ -175,7 +340,7 @@ class DataGeocodeResultLocation(BaseModel):
     lng: float
 
 
-class DataGeocodeResult(BaseModel):
+class DataStandardVerifiedAddressGeocodeResult(BaseModel):
     """
     If the `geocode=true` query parameter is supplied, the response will include a geocodeResult
     which follows the [Geocoding](https://avdocs.postgrid.com/#geocoding) schema.  You can request
@@ -205,11 +370,11 @@ class DataGeocodeResult(BaseModel):
     [accuracy type](https://avdocs.postgrid.com/#accuracy-type)
     """
 
-    location: DataGeocodeResultLocation
+    location: DataStandardVerifiedAddressGeocodeResultLocation
     """Object that contains `lat`, `lng` properties with number values"""
 
 
-class Data(BaseModel):
+class DataStandardVerifiedAddress(BaseModel):
     city: str
     """The city name of the address."""
 
@@ -228,7 +393,7 @@ class Data(BaseModel):
     country_name: Optional[str] = FieldInfo(alias="countryName", default=None)
     """The country name of the address."""
 
-    details: Optional[DataDetails] = None
+    details: Optional[DataStandardVerifiedAddressDetails] = None
     """
     If you supply `includeDetails=true` as a query parameter, we will also populate
     an additional `details` field that follows the
@@ -241,7 +406,7 @@ class Data(BaseModel):
     firm_name: Optional[str] = FieldInfo(alias="firmName", default=None)
     """The firm name of the address."""
 
-    geocode_result: Optional[DataGeocodeResult] = FieldInfo(alias="geocodeResult", default=None)
+    geocode_result: Optional[DataStandardVerifiedAddressGeocodeResult] = FieldInfo(alias="geocodeResult", default=None)
     """
     If the `geocode=true` query parameter is supplied, the response will include a
     geocodeResult which follows the
@@ -264,7 +429,10 @@ class Data(BaseModel):
     """The zip plus 4 code of the address."""
 
 
-class AddressVerificationVerifyResponse(BaseModel):
+Data: TypeAlias = Union[DataCompletedAddressItem, List[DataUnionMember1], DataStandardVerifiedAddress]
+
+
+class AddressVerificationAutocompleteResponse(BaseModel):
     data: Data
 
     message: str

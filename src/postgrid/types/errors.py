@@ -24,5 +24,8 @@ class Errors(BaseModel):
     line2: Optional[List[str]] = None
     """Errors related to the second address line."""
 
+    postal_or_zip: Optional[List[str]] = FieldInfo(alias="postalOrZip", default=None)
+    """Errors related to the postal or ZIP code."""
+
     province_or_state: Optional[List[str]] = FieldInfo(alias="provinceOrState", default=None)
     """Errors related to the province or state."""

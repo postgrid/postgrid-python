@@ -22,8 +22,6 @@ from ...pagination import SyncSkipLimit, AsyncSkipLimit
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.print_mail import postcard_list_params, postcard_create_params
 from ...types.print_mail.postcard import Postcard
-from ...types.print_mail.order_profiles import PostcardSize
-from ...types.print_mail.order_profiles.postcard_size import PostcardSize
 from ...types.print_mail.postcard_retrieve_url_response import PostcardRetrieveURLResponse
 
 __all__ = ["PostcardsResource", "AsyncPostcardsResource"]
@@ -55,7 +53,7 @@ class PostcardsResource(SyncAPIResource):
         *,
         back_html: str,
         front_html: str,
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithHTMLTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithHTMLFrom | Omit = omit,
@@ -90,6 +88,7 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -138,6 +137,9 @@ class PostcardsResource(SyncAPIResource):
               PDFs uploaded with the order.
 
           metadata: See the section on Metadata.
+
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
 
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
@@ -197,7 +199,7 @@ class PostcardsResource(SyncAPIResource):
         self,
         *,
         pdf: str,
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithPdfurlTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithPdfurlFrom | Omit = omit,
@@ -232,6 +234,7 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -278,6 +281,9 @@ class PostcardsResource(SyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
+
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
 
@@ -296,7 +302,7 @@ class PostcardsResource(SyncAPIResource):
         self,
         *,
         pdf: Union[str, Base64FileInput],
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithPdfFileTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithPdfFileFrom | Omit = omit,
@@ -331,6 +337,7 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -377,6 +384,9 @@ class PostcardsResource(SyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
+
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
 
@@ -398,7 +408,7 @@ class PostcardsResource(SyncAPIResource):
         *,
         back_html: str | Omit = omit,
         front_html: str | Omit = omit,
-        size: PostcardSize | Omit = omit,
+        size: Literal["6x4", "9x6", "11x6"] | Omit = omit,
         to: postcard_create_params.PostcardCreateWithHTMLTo
         | postcard_create_params.PostcardCreateWithPdfurlTo
         | postcard_create_params.PostcardCreateWithPdfFileTo
@@ -439,6 +449,7 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         back_template: str | Omit = omit,
         front_template: str | Omit = omit,
@@ -463,6 +474,7 @@ class PostcardsResource(SyncAPIResource):
                     "mailing_class": mailing_class,
                     "merge_variables": merge_variables,
                     "metadata": metadata,
+                    "paper": paper,
                     "send_date": send_date,
                     "back_template": back_template,
                     "front_template": front_template,
@@ -659,7 +671,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         *,
         back_html: str,
         front_html: str,
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithHTMLTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithHTMLFrom | Omit = omit,
@@ -694,6 +706,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -742,6 +755,9 @@ class AsyncPostcardsResource(AsyncAPIResource):
               PDFs uploaded with the order.
 
           metadata: See the section on Metadata.
+
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
 
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
@@ -801,7 +817,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         self,
         *,
         pdf: str,
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithPdfurlTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithPdfurlFrom | Omit = omit,
@@ -836,6 +852,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -882,6 +899,9 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
+
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
 
@@ -900,7 +920,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         self,
         *,
         pdf: Union[str, Base64FileInput],
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithPdfFileTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithPdfFileFrom | Omit = omit,
@@ -935,6 +955,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -981,6 +1002,9 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
+
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
 
@@ -1002,7 +1026,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         *,
         back_html: str | Omit = omit,
         front_html: str | Omit = omit,
-        size: PostcardSize | Omit = omit,
+        size: Literal["6x4", "9x6", "11x6"] | Omit = omit,
         to: postcard_create_params.PostcardCreateWithHTMLTo
         | postcard_create_params.PostcardCreateWithPdfurlTo
         | postcard_create_params.PostcardCreateWithPdfFileTo
@@ -1043,6 +1067,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         back_template: str | Omit = omit,
         front_template: str | Omit = omit,
@@ -1067,6 +1092,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
                     "mailing_class": mailing_class,
                     "merge_variables": merge_variables,
                     "metadata": metadata,
+                    "paper": paper,
                     "send_date": send_date,
                     "back_template": back_template,
                     "front_template": front_template,

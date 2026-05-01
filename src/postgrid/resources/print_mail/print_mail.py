@@ -100,14 +100,6 @@ from .mailing_list_imports import (
     MailingListImportsResourceWithStreamingResponse,
     AsyncMailingListImportsResourceWithStreamingResponse,
 )
-from .order_profiles.order_profiles import (
-    OrderProfilesResource,
-    AsyncOrderProfilesResource,
-    OrderProfilesResourceWithRawResponse,
-    AsyncOrderProfilesResourceWithRawResponse,
-    OrderProfilesResourceWithStreamingResponse,
-    AsyncOrderProfilesResourceWithStreamingResponse,
-)
 
 __all__ = ["PrintMailResource", "AsyncPrintMailResource"]
 
@@ -150,10 +142,6 @@ class PrintMailResource(SyncAPIResource):
         return MailingListsResource(self._client)
 
     @cached_property
-    def order_profiles(self) -> OrderProfilesResource:
-        return OrderProfilesResource(self._client)
-
-    @cached_property
     def postcards(self) -> PostcardsResource:
         return PostcardsResource(self._client)
 
@@ -174,18 +162,6 @@ class PrintMailResource(SyncAPIResource):
 
     @cached_property
     def sub_organizations(self) -> SubOrganizationsResource:
-        """
-        Sub-organizations enable you to create isolated PostGrid accounts
-         ("sub-organizations") under your PostGrid account (the "parent organization").
-         Each sub-organization has fully isolated resources
-         and users, and can act independently.
-
-         This allows you to isolate different departments or even re-sell PostGrid
-         entirely.
-
-         You can request access to this feature by reaching out to
-         support@postgrid.com
-        """
         return SubOrganizationsResource(self._client)
 
     @cached_property
@@ -250,10 +226,6 @@ class AsyncPrintMailResource(AsyncAPIResource):
         return AsyncMailingListsResource(self._client)
 
     @cached_property
-    def order_profiles(self) -> AsyncOrderProfilesResource:
-        return AsyncOrderProfilesResource(self._client)
-
-    @cached_property
     def postcards(self) -> AsyncPostcardsResource:
         return AsyncPostcardsResource(self._client)
 
@@ -274,18 +246,6 @@ class AsyncPrintMailResource(AsyncAPIResource):
 
     @cached_property
     def sub_organizations(self) -> AsyncSubOrganizationsResource:
-        """
-        Sub-organizations enable you to create isolated PostGrid accounts
-         ("sub-organizations") under your PostGrid account (the "parent organization").
-         Each sub-organization has fully isolated resources
-         and users, and can act independently.
-
-         This allows you to isolate different departments or even re-sell PostGrid
-         entirely.
-
-         You can request access to this feature by reaching out to
-         support@postgrid.com
-        """
         return AsyncSubOrganizationsResource(self._client)
 
     @cached_property
@@ -353,10 +313,6 @@ class PrintMailResourceWithRawResponse:
         return MailingListsResourceWithRawResponse(self._print_mail.mailing_lists)
 
     @cached_property
-    def order_profiles(self) -> OrderProfilesResourceWithRawResponse:
-        return OrderProfilesResourceWithRawResponse(self._print_mail.order_profiles)
-
-    @cached_property
     def postcards(self) -> PostcardsResourceWithRawResponse:
         return PostcardsResourceWithRawResponse(self._print_mail.postcards)
 
@@ -377,18 +333,6 @@ class PrintMailResourceWithRawResponse:
 
     @cached_property
     def sub_organizations(self) -> SubOrganizationsResourceWithRawResponse:
-        """
-        Sub-organizations enable you to create isolated PostGrid accounts
-         ("sub-organizations") under your PostGrid account (the "parent organization").
-         Each sub-organization has fully isolated resources
-         and users, and can act independently.
-
-         This allows you to isolate different departments or even re-sell PostGrid
-         entirely.
-
-         You can request access to this feature by reaching out to
-         support@postgrid.com
-        """
         return SubOrganizationsResourceWithRawResponse(self._print_mail.sub_organizations)
 
     @cached_property
@@ -437,10 +381,6 @@ class AsyncPrintMailResourceWithRawResponse:
         return AsyncMailingListsResourceWithRawResponse(self._print_mail.mailing_lists)
 
     @cached_property
-    def order_profiles(self) -> AsyncOrderProfilesResourceWithRawResponse:
-        return AsyncOrderProfilesResourceWithRawResponse(self._print_mail.order_profiles)
-
-    @cached_property
     def postcards(self) -> AsyncPostcardsResourceWithRawResponse:
         return AsyncPostcardsResourceWithRawResponse(self._print_mail.postcards)
 
@@ -461,18 +401,6 @@ class AsyncPrintMailResourceWithRawResponse:
 
     @cached_property
     def sub_organizations(self) -> AsyncSubOrganizationsResourceWithRawResponse:
-        """
-        Sub-organizations enable you to create isolated PostGrid accounts
-         ("sub-organizations") under your PostGrid account (the "parent organization").
-         Each sub-organization has fully isolated resources
-         and users, and can act independently.
-
-         This allows you to isolate different departments or even re-sell PostGrid
-         entirely.
-
-         You can request access to this feature by reaching out to
-         support@postgrid.com
-        """
         return AsyncSubOrganizationsResourceWithRawResponse(self._print_mail.sub_organizations)
 
     @cached_property
@@ -521,10 +449,6 @@ class PrintMailResourceWithStreamingResponse:
         return MailingListsResourceWithStreamingResponse(self._print_mail.mailing_lists)
 
     @cached_property
-    def order_profiles(self) -> OrderProfilesResourceWithStreamingResponse:
-        return OrderProfilesResourceWithStreamingResponse(self._print_mail.order_profiles)
-
-    @cached_property
     def postcards(self) -> PostcardsResourceWithStreamingResponse:
         return PostcardsResourceWithStreamingResponse(self._print_mail.postcards)
 
@@ -545,18 +469,6 @@ class PrintMailResourceWithStreamingResponse:
 
     @cached_property
     def sub_organizations(self) -> SubOrganizationsResourceWithStreamingResponse:
-        """
-        Sub-organizations enable you to create isolated PostGrid accounts
-         ("sub-organizations") under your PostGrid account (the "parent organization").
-         Each sub-organization has fully isolated resources
-         and users, and can act independently.
-
-         This allows you to isolate different departments or even re-sell PostGrid
-         entirely.
-
-         You can request access to this feature by reaching out to
-         support@postgrid.com
-        """
         return SubOrganizationsResourceWithStreamingResponse(self._print_mail.sub_organizations)
 
     @cached_property
@@ -605,10 +517,6 @@ class AsyncPrintMailResourceWithStreamingResponse:
         return AsyncMailingListsResourceWithStreamingResponse(self._print_mail.mailing_lists)
 
     @cached_property
-    def order_profiles(self) -> AsyncOrderProfilesResourceWithStreamingResponse:
-        return AsyncOrderProfilesResourceWithStreamingResponse(self._print_mail.order_profiles)
-
-    @cached_property
     def postcards(self) -> AsyncPostcardsResourceWithStreamingResponse:
         return AsyncPostcardsResourceWithStreamingResponse(self._print_mail.postcards)
 
@@ -629,18 +537,6 @@ class AsyncPrintMailResourceWithStreamingResponse:
 
     @cached_property
     def sub_organizations(self) -> AsyncSubOrganizationsResourceWithStreamingResponse:
-        """
-        Sub-organizations enable you to create isolated PostGrid accounts
-         ("sub-organizations") under your PostGrid account (the "parent organization").
-         Each sub-organization has fully isolated resources
-         and users, and can act independently.
-
-         This allows you to isolate different departments or even re-sell PostGrid
-         entirely.
-
-         You can request access to this feature by reaching out to
-         support@postgrid.com
-        """
         return AsyncSubOrganizationsResourceWithStreamingResponse(self._print_mail.sub_organizations)
 
     @cached_property

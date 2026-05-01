@@ -22,8 +22,6 @@ from ...pagination import SyncSkipLimit, AsyncSkipLimit
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.print_mail import self_mailer_list_params, self_mailer_create_params
 from ...types.print_mail.self_mailer import SelfMailer
-from ...types.print_mail.order_profiles import SelfMailerSize
-from ...types.print_mail.order_profiles.self_mailer_size import SelfMailerSize
 from ...types.print_mail.self_mailer_retrieve_url_response import SelfMailerRetrieveURLResponse
 
 __all__ = ["SelfMailersResource", "AsyncSelfMailersResource"]
@@ -56,7 +54,7 @@ class SelfMailersResource(SyncAPIResource):
         from_: self_mailer_create_params.SelfMailerCreateWithHTMLFrom,
         inside_html: str,
         outside_html: str,
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -197,7 +195,7 @@ class SelfMailersResource(SyncAPIResource):
         *,
         from_: self_mailer_create_params.SelfMailerCreateWithPdfurlFrom,
         pdf: str,
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithPdfurlTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -296,7 +294,7 @@ class SelfMailersResource(SyncAPIResource):
         *,
         from_: self_mailer_create_params.SelfMailerCreateWithPdfFileFrom,
         pdf: Union[str, Base64FileInput],
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithPdfFileTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -402,7 +400,7 @@ class SelfMailersResource(SyncAPIResource):
         | Omit = omit,
         inside_html: str | Omit = omit,
         outside_html: str | Omit = omit,
-        size: SelfMailerSize | Omit = omit,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"] | Omit = omit,
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo
         | self_mailer_create_params.SelfMailerCreateWithPdfurlTo
         | self_mailer_create_params.SelfMailerCreateWithPdfFileTo
@@ -660,7 +658,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         from_: self_mailer_create_params.SelfMailerCreateWithHTMLFrom,
         inside_html: str,
         outside_html: str,
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -801,7 +799,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         *,
         from_: self_mailer_create_params.SelfMailerCreateWithPdfurlFrom,
         pdf: str,
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithPdfurlTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -900,7 +898,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         *,
         from_: self_mailer_create_params.SelfMailerCreateWithPdfFileFrom,
         pdf: Union[str, Base64FileInput],
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithPdfFileTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -1006,7 +1004,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         | Omit = omit,
         inside_html: str | Omit = omit,
         outside_html: str | Omit = omit,
-        size: SelfMailerSize | Omit = omit,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"] | Omit = omit,
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo
         | self_mailer_create_params.SelfMailerCreateWithPdfurlTo
         | self_mailer_create_params.SelfMailerCreateWithPdfFileTo

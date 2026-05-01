@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -9,10 +9,18 @@ from .errors import Errors
 from .status import Status
 from .._models import BaseModel
 
-__all__ = ["AddressVerificationVerifyResponse", "Data", "DataDetails", "DataGeocodeResult", "DataGeocodeResultLocation"]
+__all__ = [
+    "AddressVerificationBatchVerificationResponse",
+    "Data",
+    "DataResult",
+    "DataResultVerifiedAddress",
+    "DataResultVerifiedAddressDetails",
+    "DataResultVerifiedAddressGeocodeResult",
+    "DataResultVerifiedAddressGeocodeResultLocation",
+]
 
 
-class DataDetails(BaseModel):
+class DataResultVerifiedAddressDetails(BaseModel):
     """
     If you supply `includeDetails=true` as a query parameter, we will also populate an additional `details` field that follows the [Address Details](https://avdocs.postgrid.com/#address-details) schema.
     """
@@ -167,7 +175,7 @@ class DataDetails(BaseModel):
     """Indicates that the address is vacant according to the USPS (US address only)"""
 
 
-class DataGeocodeResultLocation(BaseModel):
+class DataResultVerifiedAddressGeocodeResultLocation(BaseModel):
     """Object that contains `lat`, `lng` properties with number values"""
 
     lat: float
@@ -175,7 +183,7 @@ class DataGeocodeResultLocation(BaseModel):
     lng: float
 
 
-class DataGeocodeResult(BaseModel):
+class DataResultVerifiedAddressGeocodeResult(BaseModel):
     """
     If the `geocode=true` query parameter is supplied, the response will include a geocodeResult
     which follows the [Geocoding](https://avdocs.postgrid.com/#geocoding) schema.  You can request
@@ -205,11 +213,13 @@ class DataGeocodeResult(BaseModel):
     [accuracy type](https://avdocs.postgrid.com/#accuracy-type)
     """
 
-    location: DataGeocodeResultLocation
+    location: DataResultVerifiedAddressGeocodeResultLocation
     """Object that contains `lat`, `lng` properties with number values"""
 
 
-class Data(BaseModel):
+class DataResultVerifiedAddress(BaseModel):
+    """The verified address result. Present when verification succeeded."""
+
     city: str
     """The city name of the address."""
 
@@ -228,7 +238,7 @@ class Data(BaseModel):
     country_name: Optional[str] = FieldInfo(alias="countryName", default=None)
     """The country name of the address."""
 
-    details: Optional[DataDetails] = None
+    details: Optional[DataResultVerifiedAddressDetails] = None
     """
     If you supply `includeDetails=true` as a query parameter, we will also populate
     an additional `details` field that follows the
@@ -241,7 +251,7 @@ class Data(BaseModel):
     firm_name: Optional[str] = FieldInfo(alias="firmName", default=None)
     """The firm name of the address."""
 
-    geocode_result: Optional[DataGeocodeResult] = FieldInfo(alias="geocodeResult", default=None)
+    geocode_result: Optional[DataResultVerifiedAddressGeocodeResult] = FieldInfo(alias="geocodeResult", default=None)
     """
     If the `geocode=true` query parameter is supplied, the response will include a
     geocodeResult which follows the
@@ -264,7 +274,19 @@ class Data(BaseModel):
     """The zip plus 4 code of the address."""
 
 
-class AddressVerificationVerifyResponse(BaseModel):
+class DataResult(BaseModel):
+    error: Optional[str] = None
+    """An error message for this address. Present when verification failed."""
+
+    verified_address: Optional[DataResultVerifiedAddress] = FieldInfo(alias="verifiedAddress", default=None)
+    """The verified address result. Present when verification succeeded."""
+
+
+class Data(BaseModel):
+    results: List[DataResult]
+
+
+class AddressVerificationBatchVerificationResponse(BaseModel):
     data: Data
 
     message: str
