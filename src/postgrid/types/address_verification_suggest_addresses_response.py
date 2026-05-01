@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -9,7 +9,13 @@ from .errors import Errors
 from .status import Status
 from .._models import BaseModel
 
-__all__ = ["AddressVerificationVerifyResponse", "Data", "DataDetails", "DataGeocodeResult", "DataGeocodeResultLocation"]
+__all__ = [
+    "AddressVerificationSuggestAddressesResponse",
+    "Data",
+    "DataDetails",
+    "DataGeocodeResult",
+    "DataGeocodeResultLocation",
+]
 
 
 class DataDetails(BaseModel):
@@ -264,8 +270,8 @@ class Data(BaseModel):
     """The zip plus 4 code of the address."""
 
 
-class AddressVerificationVerifyResponse(BaseModel):
-    data: Data
+class AddressVerificationSuggestAddressesResponse(BaseModel):
+    data: List[Data]
 
     message: str
 

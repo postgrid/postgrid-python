@@ -9,7 +9,6 @@ from pydantic import Field as FieldInfo
 
 from .contact import Contact
 from ..._models import BaseModel
-from .order_profiles.postcard_size import PostcardSize
 
 __all__ = ["Postcard", "Cancellation"]
 
@@ -85,7 +84,7 @@ class Postcard(BaseModel):
     `printing` on Wednesday at midnight eastern time.
     """
 
-    size: PostcardSize
+    size: Literal["6x4", "9x6", "11x6"]
     """Enum representing the supported postcard sizes."""
 
     status: Literal["ready", "printing", "processed_for_delivery", "completed", "cancelled"]
@@ -146,6 +145,12 @@ class Postcard(BaseModel):
 
     metadata: Optional[Dict[str, builtins.object]] = None
     """See the section on Metadata."""
+
+    paper: Optional[str] = None
+    """Premium paper identifier.
+
+    Use "standard" for regular stock or a premium*paper*\\** ID.
+    """
 
     tracking_number: Optional[str] = FieldInfo(alias="trackingNumber", default=None)
     """The tracking number of this order.

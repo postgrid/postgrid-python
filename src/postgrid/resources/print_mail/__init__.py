@@ -88,14 +88,6 @@ from .mailing_lists import (
     MailingListsResourceWithStreamingResponse,
     AsyncMailingListsResourceWithStreamingResponse,
 )
-from .order_profiles import (
-    OrderProfilesResource,
-    AsyncOrderProfilesResource,
-    OrderProfilesResourceWithRawResponse,
-    AsyncOrderProfilesResourceWithRawResponse,
-    OrderProfilesResourceWithStreamingResponse,
-    AsyncOrderProfilesResourceWithStreamingResponse,
-)
 from .sub_organizations import (
     SubOrganizationsResource,
     AsyncSubOrganizationsResource,
@@ -156,12 +148,6 @@ __all__ = [
     "AsyncMailingListsResourceWithRawResponse",
     "MailingListsResourceWithStreamingResponse",
     "AsyncMailingListsResourceWithStreamingResponse",
-    "OrderProfilesResource",
-    "AsyncOrderProfilesResource",
-    "OrderProfilesResourceWithRawResponse",
-    "AsyncOrderProfilesResourceWithRawResponse",
-    "OrderProfilesResourceWithStreamingResponse",
-    "AsyncOrderProfilesResourceWithStreamingResponse",
     "PostcardsResource",
     "AsyncPostcardsResource",
     "PostcardsResourceWithRawResponse",

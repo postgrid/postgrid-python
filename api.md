@@ -3,11 +3,31 @@
 Types:
 
 ```python
-from postgrid.types import Errors, Status, AddressVerificationVerifyResponse
+from postgrid.types import (
+    Errors,
+    Status,
+    AddressVerificationAutocompleteResponse,
+    AddressVerificationBatchVerificationResponse,
+    AddressVerificationGetAutocompletePreviewsResponse,
+    AddressVerificationGetLookupInfoResponse,
+    AddressVerificationLookupCityOrStateFromPostalOrZipCodeResponse,
+    AddressVerificationLookupZipCodeFromCityOrStateResponse,
+    AddressVerificationParseAnAddressResponse,
+    AddressVerificationSuggestAddressesResponse,
+    AddressVerificationVerifyResponse,
+)
 ```
 
 Methods:
 
+- <code title="post /v1/addver/completions">client.address_verification.<a href="./src/postgrid/resources/address_verification.py">autocomplete</a>(\*\*<a href="src/postgrid/types/address_verification_autocomplete_params.py">params</a>) -> <a href="./src/postgrid/types/address_verification_autocomplete_response.py">AddressVerificationAutocompleteResponse</a></code>
+- <code title="post /v1/addver/verifications/batch">client.address_verification.<a href="./src/postgrid/resources/address_verification.py">batch_verification</a>(\*\*<a href="src/postgrid/types/address_verification_batch_verification_params.py">params</a>) -> <a href="./src/postgrid/types/address_verification_batch_verification_response.py">AddressVerificationBatchVerificationResponse</a></code>
+- <code title="get /v1/addver/completions">client.address_verification.<a href="./src/postgrid/resources/address_verification.py">get_autocomplete_previews</a>(\*\*<a href="src/postgrid/types/address_verification_get_autocomplete_previews_params.py">params</a>) -> <a href="./src/postgrid/types/address_verification_get_autocomplete_previews_response.py">AddressVerificationGetAutocompletePreviewsResponse</a></code>
+- <code title="get /v1/addver/">client.address_verification.<a href="./src/postgrid/resources/address_verification.py">get_lookup_info</a>() -> <a href="./src/postgrid/types/address_verification_get_lookup_info_response.py">AddressVerificationGetLookupInfoResponse</a></code>
+- <code title="post /v1/addver/city_states">client.address_verification.<a href="./src/postgrid/resources/address_verification.py">lookup_city_or_state_from_postal_or_zip_code</a>(\*\*<a href="src/postgrid/types/address_verification_lookup_city_or_state_from_postal_or_zip_code_params.py">params</a>) -> <a href="./src/postgrid/types/address_verification_lookup_city_or_state_from_postal_or_zip_code_response.py">AddressVerificationLookupCityOrStateFromPostalOrZipCodeResponse</a></code>
+- <code title="post /v1/addver/zip_codes">client.address_verification.<a href="./src/postgrid/resources/address_verification.py">lookup_zip_code_from_city_or_state</a>(\*\*<a href="src/postgrid/types/address_verification_lookup_zip_code_from_city_or_state_params.py">params</a>) -> <a href="./src/postgrid/types/address_verification_lookup_zip_code_from_city_or_state_response.py">AddressVerificationLookupZipCodeFromCityOrStateResponse</a></code>
+- <code title="post /v1/addver/parses">client.address_verification.<a href="./src/postgrid/resources/address_verification.py">parse_an_address</a>(\*\*<a href="src/postgrid/types/address_verification_parse_an_address_params.py">params</a>) -> <a href="./src/postgrid/types/address_verification_parse_an_address_response.py">AddressVerificationParseAnAddressResponse</a></code>
+- <code title="post /v1/addver/suggestions">client.address_verification.<a href="./src/postgrid/resources/address_verification.py">suggest_addresses</a>(\*\*<a href="src/postgrid/types/address_verification_suggest_addresses_params.py">params</a>) -> <a href="./src/postgrid/types/address_verification_suggest_addresses_response.py">AddressVerificationSuggestAddressesResponse</a></code>
 - <code title="post /v1/addver/verifications">client.address_verification.<a href="./src/postgrid/resources/address_verification.py">verify</a>(\*\*<a href="src/postgrid/types/address_verification_verify_params.py">params</a>) -> <a href="./src/postgrid/types/address_verification_verify_response.py">AddressVerificationVerifyResponse</a></code>
 
 # IntlAddressVerification
@@ -15,11 +35,21 @@ Methods:
 Types:
 
 ```python
-from postgrid.types import IntlAddressVerificationVerifyResponse
+from postgrid.types import (
+    IntlAddressVerificationAutocompleteResponse,
+    IntlAddressVerificationBatchVerificationResponse,
+    IntlAddressVerificationGetAutocompleteAdvancedPreviewsResponse,
+    IntlAddressVerificationGetAutocompletePreviewsResponse,
+    IntlAddressVerificationVerifyResponse,
+)
 ```
 
 Methods:
 
+- <code title="post /v1/intl_addver/completions">client.intl_address_verification.<a href="./src/postgrid/resources/intl_address_verification.py">autocomplete</a>(\*\*<a href="src/postgrid/types/intl_address_verification_autocomplete_params.py">params</a>) -> <a href="./src/postgrid/types/intl_address_verification_autocomplete_response.py">IntlAddressVerificationAutocompleteResponse</a></code>
+- <code title="post /v1/intl_addver/verifications/batch">client.intl_address_verification.<a href="./src/postgrid/resources/intl_address_verification.py">batch_verification</a>(\*\*<a href="src/postgrid/types/intl_address_verification_batch_verification_params.py">params</a>) -> <a href="./src/postgrid/types/intl_address_verification_batch_verification_response.py">IntlAddressVerificationBatchVerificationResponse</a></code>
+- <code title="get /v1/intl_addver/completions">client.intl_address_verification.<a href="./src/postgrid/resources/intl_address_verification.py">get_autocomplete_advanced_previews</a>(\*\*<a href="src/postgrid/types/intl_address_verification_get_autocomplete_advanced_previews_params.py">params</a>) -> <a href="./src/postgrid/types/intl_address_verification_get_autocomplete_advanced_previews_response.py">IntlAddressVerificationGetAutocompleteAdvancedPreviewsResponse</a></code>
+- <code title="get /v1/intl_addver/completions">client.intl_address_verification.<a href="./src/postgrid/resources/intl_address_verification.py">get_autocomplete_previews</a>(\*\*<a href="src/postgrid/types/intl_address_verification_get_autocomplete_previews_params.py">params</a>) -> <a href="./src/postgrid/types/intl_address_verification_get_autocomplete_previews_response.py">IntlAddressVerificationGetAutocompletePreviewsResponse</a></code>
 - <code title="post /v1/intl_addver/verifications">client.intl_address_verification.<a href="./src/postgrid/resources/intl_address_verification.py">verify</a>(\*\*<a href="src/postgrid/types/intl_address_verification_verify_params.py">params</a>) -> <a href="./src/postgrid/types/intl_address_verification_verify_response.py">IntlAddressVerificationVerifyResponse</a></code>
 
 # PrintMail
@@ -154,85 +184,6 @@ Methods:
 - <code title="get /print-mail/v1/mailing_lists">client.print_mail.mailing_lists.<a href="./src/postgrid/resources/print_mail/mailing_lists.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/mailing_list_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/mailing_list.py">SyncSkipLimit[MailingList]</a></code>
 - <code title="delete /print-mail/v1/mailing_lists/{id}">client.print_mail.mailing_lists.<a href="./src/postgrid/resources/print_mail/mailing_lists.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/mailing_list_delete_response.py">MailingListDeleteResponse</a></code>
 - <code title="post /print-mail/v1/mailing_lists/{id}/jobs">client.print_mail.mailing_lists.<a href="./src/postgrid/resources/print_mail/mailing_lists.py">jobs</a>(id, \*\*<a href="src/postgrid/types/print_mail/mailing_list_jobs_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/mailing_list.py">MailingList</a></code>
-
-## OrderProfiles
-
-### Cheques
-
-Types:
-
-```python
-from postgrid.types.print_mail.order_profiles import (
-    ChequeProfile,
-    CurrencyCode,
-    ChequeListResponse,
-    ChequeDeleteResponse,
-)
-```
-
-Methods:
-
-- <code title="post /print-mail/v1/order_profiles/cheques">client.print_mail.order_profiles.cheques.<a href="./src/postgrid/resources/print_mail/order_profiles/cheques.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/order_profiles/cheque_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/cheque_profile.py">ChequeProfile</a></code>
-- <code title="get /print-mail/v1/order_profiles/cheques/{id}">client.print_mail.order_profiles.cheques.<a href="./src/postgrid/resources/print_mail/order_profiles/cheques.py">retrieve</a>(id, \*\*<a href="src/postgrid/types/print_mail/order_profiles/cheque_retrieve_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/cheque_profile.py">ChequeProfile</a></code>
-- <code title="post /print-mail/v1/order_profiles/cheques/{id}">client.print_mail.order_profiles.cheques.<a href="./src/postgrid/resources/print_mail/order_profiles/cheques.py">update</a>(id, \*\*<a href="src/postgrid/types/print_mail/order_profiles/cheque_update_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/cheque_profile.py">ChequeProfile</a></code>
-- <code title="get /print-mail/v1/order_profiles/cheques">client.print_mail.order_profiles.cheques.<a href="./src/postgrid/resources/print_mail/order_profiles/cheques.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/order_profiles/cheque_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/cheque_list_response.py">SyncSkipLimit[ChequeListResponse]</a></code>
-- <code title="delete /print-mail/v1/order_profiles/cheques/{id}">client.print_mail.order_profiles.cheques.<a href="./src/postgrid/resources/print_mail/order_profiles/cheques.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/order_profiles/cheque_delete_response.py">ChequeDeleteResponse</a></code>
-
-### Letters
-
-Types:
-
-```python
-from postgrid.types.print_mail.order_profiles import LetterProfile, LetterDeleteResponse
-```
-
-Methods:
-
-- <code title="post /print-mail/v1/order_profiles/letters">client.print_mail.order_profiles.letters.<a href="./src/postgrid/resources/print_mail/order_profiles/letters.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/order_profiles/letter_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/letter_profile.py">LetterProfile</a></code>
-- <code title="get /print-mail/v1/order_profiles/letters/{id}">client.print_mail.order_profiles.letters.<a href="./src/postgrid/resources/print_mail/order_profiles/letters.py">retrieve</a>(id, \*\*<a href="src/postgrid/types/print_mail/order_profiles/letter_retrieve_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/letter_profile.py">LetterProfile</a></code>
-- <code title="post /print-mail/v1/order_profiles/letters/{id}">client.print_mail.order_profiles.letters.<a href="./src/postgrid/resources/print_mail/order_profiles/letters.py">update</a>(id, \*\*<a href="src/postgrid/types/print_mail/order_profiles/letter_update_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/letter_profile.py">LetterProfile</a></code>
-- <code title="get /print-mail/v1/order_profiles/letters">client.print_mail.order_profiles.letters.<a href="./src/postgrid/resources/print_mail/order_profiles/letters.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/order_profiles/letter_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/letter_profile.py">SyncSkipLimit[LetterProfile]</a></code>
-- <code title="delete /print-mail/v1/order_profiles/letters/{id}">client.print_mail.order_profiles.letters.<a href="./src/postgrid/resources/print_mail/order_profiles/letters.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/order_profiles/letter_delete_response.py">LetterDeleteResponse</a></code>
-
-### Postcards
-
-Types:
-
-```python
-from postgrid.types.print_mail.order_profiles import (
-    PostcardProfile,
-    PostcardSize,
-    PostcardDeleteResponse,
-)
-```
-
-Methods:
-
-- <code title="post /print-mail/v1/order_profiles/postcards">client.print_mail.order_profiles.postcards.<a href="./src/postgrid/resources/print_mail/order_profiles/postcards.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/order_profiles/postcard_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/postcard_profile.py">PostcardProfile</a></code>
-- <code title="get /print-mail/v1/order_profiles/postcards/{id}">client.print_mail.order_profiles.postcards.<a href="./src/postgrid/resources/print_mail/order_profiles/postcards.py">retrieve</a>(id, \*\*<a href="src/postgrid/types/print_mail/order_profiles/postcard_retrieve_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/postcard_profile.py">PostcardProfile</a></code>
-- <code title="post /print-mail/v1/order_profiles/postcards/{id}">client.print_mail.order_profiles.postcards.<a href="./src/postgrid/resources/print_mail/order_profiles/postcards.py">update</a>(id, \*\*<a href="src/postgrid/types/print_mail/order_profiles/postcard_update_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/postcard_profile.py">PostcardProfile</a></code>
-- <code title="get /print-mail/v1/order_profiles/postcards">client.print_mail.order_profiles.postcards.<a href="./src/postgrid/resources/print_mail/order_profiles/postcards.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/order_profiles/postcard_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/postcard_profile.py">SyncSkipLimit[PostcardProfile]</a></code>
-- <code title="delete /print-mail/v1/order_profiles/postcards/{id}">client.print_mail.order_profiles.postcards.<a href="./src/postgrid/resources/print_mail/order_profiles/postcards.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/order_profiles/postcard_delete_response.py">PostcardDeleteResponse</a></code>
-
-### SelfMailers
-
-Types:
-
-```python
-from postgrid.types.print_mail.order_profiles import (
-    SelfMailerProfile,
-    SelfMailerSize,
-    SelfMailerDeleteResponse,
-)
-```
-
-Methods:
-
-- <code title="post /print-mail/v1/order_profiles/self_mailers">client.print_mail.order_profiles.self_mailers.<a href="./src/postgrid/resources/print_mail/order_profiles/self_mailers.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/order_profiles/self_mailer_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/self_mailer_profile.py">SelfMailerProfile</a></code>
-- <code title="get /print-mail/v1/order_profiles/self_mailers/{id}">client.print_mail.order_profiles.self_mailers.<a href="./src/postgrid/resources/print_mail/order_profiles/self_mailers.py">retrieve</a>(id, \*\*<a href="src/postgrid/types/print_mail/order_profiles/self_mailer_retrieve_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/self_mailer_profile.py">SelfMailerProfile</a></code>
-- <code title="post /print-mail/v1/order_profiles/self_mailers/{id}">client.print_mail.order_profiles.self_mailers.<a href="./src/postgrid/resources/print_mail/order_profiles/self_mailers.py">update</a>(id, \*\*<a href="src/postgrid/types/print_mail/order_profiles/self_mailer_update_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/self_mailer_profile.py">SelfMailerProfile</a></code>
-- <code title="get /print-mail/v1/order_profiles/self_mailers">client.print_mail.order_profiles.self_mailers.<a href="./src/postgrid/resources/print_mail/order_profiles/self_mailers.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/order_profiles/self_mailer_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/order_profiles/self_mailer_profile.py">SyncSkipLimit[SelfMailerProfile]</a></code>
-- <code title="delete /print-mail/v1/order_profiles/self_mailers/{id}">client.print_mail.order_profiles.self_mailers.<a href="./src/postgrid/resources/print_mail/order_profiles/self_mailers.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/order_profiles/self_mailer_delete_response.py">SelfMailerDeleteResponse</a></code>
 
 ## Postcards
 

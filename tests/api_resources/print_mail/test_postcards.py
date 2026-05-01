@@ -84,6 +84,7 @@ class TestPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
+            paper="premium_paper_L6fw2k_N_j",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
@@ -225,6 +226,7 @@ class TestPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
+            paper="premium_paper_L6fw2k_N_j",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
@@ -327,6 +329,7 @@ class TestPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
+            paper="premium_paper_L6fw2k_N_j",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
@@ -601,6 +604,7 @@ class TestAsyncPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
+            paper="premium_paper_L6fw2k_N_j",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
@@ -742,6 +746,7 @@ class TestAsyncPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
+            paper="premium_paper_L6fw2k_N_j",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
@@ -844,6 +849,7 @@ class TestAsyncPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
+            paper="premium_paper_L6fw2k_N_j",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
