@@ -496,6 +496,94 @@ class TestPostcards:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_cancel(self, client: PostGrid) -> None:
+        postcard = client.print_mail.postcards.cancel(
+            id="id",
+            note="Cancelling this postcard",
+        )
+        assert_matches_type(Postcard, postcard, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_cancel(self, client: PostGrid) -> None:
+        response = client.print_mail.postcards.with_raw_response.cancel(
+            id="id",
+            note="Cancelling this postcard",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        postcard = response.parse()
+        assert_matches_type(Postcard, postcard, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_cancel(self, client: PostGrid) -> None:
+        with client.print_mail.postcards.with_streaming_response.cancel(
+            id="id",
+            note="Cancelling this postcard",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            postcard = response.parse()
+            assert_matches_type(Postcard, postcard, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_cancel(self, client: PostGrid) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.print_mail.postcards.with_raw_response.cancel(
+                id="",
+                note="Cancelling this postcard",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_progress(self, client: PostGrid) -> None:
+        postcard = client.print_mail.postcards.progress(
+            "id",
+        )
+        assert_matches_type(Postcard, postcard, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_progress(self, client: PostGrid) -> None:
+        response = client.print_mail.postcards.with_raw_response.progress(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        postcard = response.parse()
+        assert_matches_type(Postcard, postcard, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_progress(self, client: PostGrid) -> None:
+        with client.print_mail.postcards.with_streaming_response.progress(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            postcard = response.parse()
+            assert_matches_type(Postcard, postcard, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_progress(self, client: PostGrid) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.print_mail.postcards.with_raw_response.progress(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_retrieve_url(self, client: PostGrid) -> None:
         postcard = client.print_mail.postcards.retrieve_url(
             "id",
@@ -1011,6 +1099,94 @@ class TestAsyncPostcards:
     async def test_path_params_delete(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.print_mail.postcards.with_raw_response.delete(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_cancel(self, async_client: AsyncPostGrid) -> None:
+        postcard = await async_client.print_mail.postcards.cancel(
+            id="id",
+            note="Cancelling this postcard",
+        )
+        assert_matches_type(Postcard, postcard, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_cancel(self, async_client: AsyncPostGrid) -> None:
+        response = await async_client.print_mail.postcards.with_raw_response.cancel(
+            id="id",
+            note="Cancelling this postcard",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        postcard = await response.parse()
+        assert_matches_type(Postcard, postcard, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_cancel(self, async_client: AsyncPostGrid) -> None:
+        async with async_client.print_mail.postcards.with_streaming_response.cancel(
+            id="id",
+            note="Cancelling this postcard",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            postcard = await response.parse()
+            assert_matches_type(Postcard, postcard, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_cancel(self, async_client: AsyncPostGrid) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.print_mail.postcards.with_raw_response.cancel(
+                id="",
+                note="Cancelling this postcard",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_progress(self, async_client: AsyncPostGrid) -> None:
+        postcard = await async_client.print_mail.postcards.progress(
+            "id",
+        )
+        assert_matches_type(Postcard, postcard, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_progress(self, async_client: AsyncPostGrid) -> None:
+        response = await async_client.print_mail.postcards.with_raw_response.progress(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        postcard = await response.parse()
+        assert_matches_type(Postcard, postcard, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_progress(self, async_client: AsyncPostGrid) -> None:
+        async with async_client.print_mail.postcards.with_streaming_response.progress(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            postcard = await response.parse()
+            assert_matches_type(Postcard, postcard, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_progress(self, async_client: AsyncPostGrid) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.print_mail.postcards.with_raw_response.progress(
                 "",
             )
 

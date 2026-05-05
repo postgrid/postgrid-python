@@ -20,7 +20,7 @@ from ..._response import (
 )
 from ...pagination import SyncSkipLimit, AsyncSkipLimit
 from ..._base_client import AsyncPaginator, make_request_options
-from ...types.print_mail import ChequeSize, cheque_list_params, cheque_create_params
+from ...types.print_mail import ChequeSize, cheque_list_params, cheque_cancel_params, cheque_create_params
 from ...types.print_mail.cheque import Cheque
 from ...types.print_mail.cheque_size import ChequeSize
 from ...types.print_mail.digital_only_param import DigitalOnlyParam
@@ -341,6 +341,82 @@ class ChequesResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._delete(
             path_template("/print-mail/v1/cheques/{id}", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Cheque,
+        )
+
+    def cancel(
+        self,
+        id: str,
+        *,
+        note: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Cheque:
+        """Cancel a cheque by ID with a note.
+
+        Note that this operation cannot be undone and
+        that only cheques with a status of `ready` can be cancelled.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            path_template("/print-mail/v1/cheques/{id}/cancellation", id=id),
+            body=maybe_transform({"note": note}, cheque_cancel_params.ChequeCancelParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Cheque,
+        )
+
+    def progress(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Cheque:
+        """Progresses a cheque's `status` to the next stage.
+
+        This is only available in test
+        mode and can be used to simulate how a live order would progress through the
+        different statuses.
+
+        Note: this will fail with an `invalid_progression_error` if the status is one of
+        `completed` or `cancelled`.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            path_template("/print-mail/v1/cheques/{id}/progressions", id=id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -741,6 +817,82 @@ class AsyncChequesResource(AsyncAPIResource):
             cast_to=Cheque,
         )
 
+    async def cancel(
+        self,
+        id: str,
+        *,
+        note: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Cheque:
+        """Cancel a cheque by ID with a note.
+
+        Note that this operation cannot be undone and
+        that only cheques with a status of `ready` can be cancelled.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            path_template("/print-mail/v1/cheques/{id}/cancellation", id=id),
+            body=await async_maybe_transform({"note": note}, cheque_cancel_params.ChequeCancelParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Cheque,
+        )
+
+    async def progress(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Cheque:
+        """Progresses a cheque's `status` to the next stage.
+
+        This is only available in test
+        mode and can be used to simulate how a live order would progress through the
+        different statuses.
+
+        Note: this will fail with an `invalid_progression_error` if the status is one of
+        `completed` or `cancelled`.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            path_template("/print-mail/v1/cheques/{id}/progressions", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Cheque,
+        )
+
     async def retrieve_url(
         self,
         id: str,
@@ -833,6 +985,12 @@ class ChequesResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             cheques.delete,
         )
+        self.cancel = to_raw_response_wrapper(
+            cheques.cancel,
+        )
+        self.progress = to_raw_response_wrapper(
+            cheques.progress,
+        )
         self.retrieve_url = to_raw_response_wrapper(
             cheques.retrieve_url,
         )
@@ -856,6 +1014,12 @@ class AsyncChequesResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             cheques.delete,
+        )
+        self.cancel = async_to_raw_response_wrapper(
+            cheques.cancel,
+        )
+        self.progress = async_to_raw_response_wrapper(
+            cheques.progress,
         )
         self.retrieve_url = async_to_raw_response_wrapper(
             cheques.retrieve_url,
@@ -881,6 +1045,12 @@ class ChequesResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             cheques.delete,
         )
+        self.cancel = to_streamed_response_wrapper(
+            cheques.cancel,
+        )
+        self.progress = to_streamed_response_wrapper(
+            cheques.progress,
+        )
         self.retrieve_url = to_streamed_response_wrapper(
             cheques.retrieve_url,
         )
@@ -904,6 +1074,12 @@ class AsyncChequesResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             cheques.delete,
+        )
+        self.cancel = async_to_streamed_response_wrapper(
+            cheques.cancel,
+        )
+        self.progress = async_to_streamed_response_wrapper(
+            cheques.progress,
         )
         self.retrieve_url = async_to_streamed_response_wrapper(
             cheques.retrieve_url,

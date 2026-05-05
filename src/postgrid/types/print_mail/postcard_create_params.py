@@ -8,8 +8,8 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from ..._types import Base64FileInput
 from ..._utils import PropertyInfo
-from ..contact_create_with_first_name_param import ContactCreateWithFirstNameParam
-from ..contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
+from .contact_create_with_first_name_param import ContactCreateWithFirstNameParam
+from .contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
 
 __all__ = [
     "PostcardCreateParams",
