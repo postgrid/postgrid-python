@@ -32,6 +32,11 @@ __all__ = ["MailingListsResource", "AsyncMailingListsResource"]
 
 
 class MailingListsResource(SyncAPIResource):
+    """
+    The mailing lists API enables you to manage collections of contacts
+     that can be used for bulk mail campaigns.
+    """
+
     @cached_property
     def with_raw_response(self) -> MailingListsResourceWithRawResponse:
         """
@@ -338,6 +343,11 @@ class MailingListsResource(SyncAPIResource):
 
 
 class AsyncMailingListsResource(AsyncAPIResource):
+    """
+    The mailing lists API enables you to manage collections of contacts
+     that can be used for bulk mail campaigns.
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncMailingListsResourceWithRawResponse:
         """

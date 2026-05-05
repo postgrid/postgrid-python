@@ -9,8 +9,8 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 from ..._utils import PropertyInfo
 from .cheque_size import ChequeSize
 from .digital_only_param import DigitalOnlyParam
-from ..contact_create_with_first_name_param import ContactCreateWithFirstNameParam
-from ..contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
+from .contact_create_with_first_name_param import ContactCreateWithFirstNameParam
+from .contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
 
 __all__ = ["ChequeCreateParams", "From", "To", "RedirectTo"]
 
