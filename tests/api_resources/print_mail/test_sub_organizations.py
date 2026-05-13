@@ -12,7 +12,7 @@ from tests.utils import assert_matches_type
 from postgrid.pagination import SyncSkipLimit, AsyncSkipLimit
 from postgrid.types.print_mail import (
     SubOrganization,
-    SubOrganizationUpdateResponse,
+    SubOrganizationCreateResponse,
     SubOrganizationRetrieveUsersResponse,
 )
 
@@ -21,6 +21,65 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 class TestSubOrganizations:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_create(self, client: PostGrid) -> None:
+        sub_organization = client.print_mail.sub_organizations.create(
+            country_code="CA",
+            email="suborg@postgrid.com",
+            name="Calvin",
+            organization_name="PostGrid",
+            password="very-strong-password",
+        )
+        assert_matches_type(SubOrganizationCreateResponse, sub_organization, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params(self, client: PostGrid) -> None:
+        sub_organization = client.print_mail.sub_organizations.create(
+            country_code="CA",
+            email="suborg@postgrid.com",
+            name="Calvin",
+            organization_name="PostGrid",
+            password="very-strong-password",
+            phone_number="9059059059",
+        )
+        assert_matches_type(SubOrganizationCreateResponse, sub_organization, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_create(self, client: PostGrid) -> None:
+        response = client.print_mail.sub_organizations.with_raw_response.create(
+            country_code="CA",
+            email="suborg@postgrid.com",
+            name="Calvin",
+            organization_name="PostGrid",
+            password="very-strong-password",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        sub_organization = response.parse()
+        assert_matches_type(SubOrganizationCreateResponse, sub_organization, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_create(self, client: PostGrid) -> None:
+        with client.print_mail.sub_organizations.with_streaming_response.create(
+            country_code="CA",
+            email="suborg@postgrid.com",
+            name="Calvin",
+            organization_name="PostGrid",
+            password="very-strong-password",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            sub_organization = response.parse()
+            assert_matches_type(SubOrganizationCreateResponse, sub_organization, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -63,65 +122,6 @@ class TestSubOrganizations:
             client.print_mail.sub_organizations.with_raw_response.retrieve(
                 "",
             )
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_update(self, client: PostGrid) -> None:
-        sub_organization = client.print_mail.sub_organizations.update(
-            country_code="CA",
-            email="suborg@postgrid.com",
-            name="Calvin",
-            organization_name="PostGrid",
-            password="very-strong-password",
-        )
-        assert_matches_type(SubOrganizationUpdateResponse, sub_organization, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_update_with_all_params(self, client: PostGrid) -> None:
-        sub_organization = client.print_mail.sub_organizations.update(
-            country_code="CA",
-            email="suborg@postgrid.com",
-            name="Calvin",
-            organization_name="PostGrid",
-            password="very-strong-password",
-            phone_number="9059059059",
-        )
-        assert_matches_type(SubOrganizationUpdateResponse, sub_organization, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_raw_response_update(self, client: PostGrid) -> None:
-        response = client.print_mail.sub_organizations.with_raw_response.update(
-            country_code="CA",
-            email="suborg@postgrid.com",
-            name="Calvin",
-            organization_name="PostGrid",
-            password="very-strong-password",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        sub_organization = response.parse()
-        assert_matches_type(SubOrganizationUpdateResponse, sub_organization, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_streaming_response_update(self, client: PostGrid) -> None:
-        with client.print_mail.sub_organizations.with_streaming_response.update(
-            country_code="CA",
-            email="suborg@postgrid.com",
-            name="Calvin",
-            organization_name="PostGrid",
-            password="very-strong-password",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            sub_organization = response.parse()
-            assert_matches_type(SubOrganizationUpdateResponse, sub_organization, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -222,6 +222,65 @@ class TestAsyncSubOrganizations:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    async def test_method_create(self, async_client: AsyncPostGrid) -> None:
+        sub_organization = await async_client.print_mail.sub_organizations.create(
+            country_code="CA",
+            email="suborg@postgrid.com",
+            name="Calvin",
+            organization_name="PostGrid",
+            password="very-strong-password",
+        )
+        assert_matches_type(SubOrganizationCreateResponse, sub_organization, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params(self, async_client: AsyncPostGrid) -> None:
+        sub_organization = await async_client.print_mail.sub_organizations.create(
+            country_code="CA",
+            email="suborg@postgrid.com",
+            name="Calvin",
+            organization_name="PostGrid",
+            password="very-strong-password",
+            phone_number="9059059059",
+        )
+        assert_matches_type(SubOrganizationCreateResponse, sub_organization, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_create(self, async_client: AsyncPostGrid) -> None:
+        response = await async_client.print_mail.sub_organizations.with_raw_response.create(
+            country_code="CA",
+            email="suborg@postgrid.com",
+            name="Calvin",
+            organization_name="PostGrid",
+            password="very-strong-password",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        sub_organization = await response.parse()
+        assert_matches_type(SubOrganizationCreateResponse, sub_organization, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_create(self, async_client: AsyncPostGrid) -> None:
+        async with async_client.print_mail.sub_organizations.with_streaming_response.create(
+            country_code="CA",
+            email="suborg@postgrid.com",
+            name="Calvin",
+            organization_name="PostGrid",
+            password="very-strong-password",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            sub_organization = await response.parse()
+            assert_matches_type(SubOrganizationCreateResponse, sub_organization, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     async def test_method_retrieve(self, async_client: AsyncPostGrid) -> None:
         sub_organization = await async_client.print_mail.sub_organizations.retrieve(
             "id",
@@ -261,65 +320,6 @@ class TestAsyncSubOrganizations:
             await async_client.print_mail.sub_organizations.with_raw_response.retrieve(
                 "",
             )
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_update(self, async_client: AsyncPostGrid) -> None:
-        sub_organization = await async_client.print_mail.sub_organizations.update(
-            country_code="CA",
-            email="suborg@postgrid.com",
-            name="Calvin",
-            organization_name="PostGrid",
-            password="very-strong-password",
-        )
-        assert_matches_type(SubOrganizationUpdateResponse, sub_organization, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncPostGrid) -> None:
-        sub_organization = await async_client.print_mail.sub_organizations.update(
-            country_code="CA",
-            email="suborg@postgrid.com",
-            name="Calvin",
-            organization_name="PostGrid",
-            password="very-strong-password",
-            phone_number="9059059059",
-        )
-        assert_matches_type(SubOrganizationUpdateResponse, sub_organization, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_raw_response_update(self, async_client: AsyncPostGrid) -> None:
-        response = await async_client.print_mail.sub_organizations.with_raw_response.update(
-            country_code="CA",
-            email="suborg@postgrid.com",
-            name="Calvin",
-            organization_name="PostGrid",
-            password="very-strong-password",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        sub_organization = await response.parse()
-        assert_matches_type(SubOrganizationUpdateResponse, sub_organization, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncPostGrid) -> None:
-        async with async_client.print_mail.sub_organizations.with_streaming_response.update(
-            country_code="CA",
-            email="suborg@postgrid.com",
-            name="Calvin",
-            organization_name="PostGrid",
-            password="very-strong-password",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            sub_organization = await response.parse()
-            assert_matches_type(SubOrganizationUpdateResponse, sub_organization, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize

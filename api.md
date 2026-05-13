@@ -315,15 +315,15 @@ Types:
 from postgrid.types.print_mail import (
     EmailPreferences,
     SubOrganization,
-    SubOrganizationUpdateResponse,
+    SubOrganizationCreateResponse,
     SubOrganizationRetrieveUsersResponse,
 )
 ```
 
 Methods:
 
+- <code title="post /print-mail/v1/sub_organizations">client.print_mail.sub_organizations.<a href="./src/postgrid/resources/print_mail/sub_organizations.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/sub_organization_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/sub_organization_create_response.py">SubOrganizationCreateResponse</a></code>
 - <code title="get /print-mail/v1/sub_organizations/{id}">client.print_mail.sub_organizations.<a href="./src/postgrid/resources/print_mail/sub_organizations.py">retrieve</a>(id) -> <a href="./src/postgrid/types/print_mail/sub_organization.py">SubOrganization</a></code>
-- <code title="post /print-mail/v1/sub_organizations">client.print_mail.sub_organizations.<a href="./src/postgrid/resources/print_mail/sub_organizations.py">update</a>(\*\*<a href="src/postgrid/types/print_mail/sub_organization_update_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/sub_organization_update_response.py">SubOrganizationUpdateResponse</a></code>
 - <code title="get /print-mail/v1/sub_organizations">client.print_mail.sub_organizations.<a href="./src/postgrid/resources/print_mail/sub_organizations.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/sub_organization_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/sub_organization.py">SyncSkipLimit[SubOrganization]</a></code>
 - <code title="get /print-mail/v1/sub_organizations/{id}/users">client.print_mail.sub_organizations.<a href="./src/postgrid/resources/print_mail/sub_organizations.py">retrieve_users</a>(id, \*\*<a href="src/postgrid/types/print_mail/sub_organization_retrieve_users_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/sub_organization_retrieve_users_response.py">SubOrganizationRetrieveUsersResponse</a></code>
 
