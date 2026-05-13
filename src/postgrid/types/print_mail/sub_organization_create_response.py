@@ -9,7 +9,7 @@ from ..._models import BaseModel
 from .sub_organization import SubOrganization
 from .email_preferences import EmailPreferences
 
-__all__ = ["SubOrganizationUpdateResponse", "User", "UserAPIKey"]
+__all__ = ["SubOrganizationCreateResponse", "User", "UserAPIKey"]
 
 
 class UserAPIKey(BaseModel):
@@ -69,7 +69,7 @@ class User(BaseModel):
     """
 
 
-class SubOrganizationUpdateResponse(BaseModel):
+class SubOrganizationCreateResponse(BaseModel):
     sub_organization: SubOrganization = FieldInfo(alias="subOrganization")
     """The Sub-Organization object."""
 

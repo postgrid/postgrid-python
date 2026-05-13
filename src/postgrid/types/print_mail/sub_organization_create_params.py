@@ -6,10 +6,10 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = ["SubOrganizationUpdateParams"]
+__all__ = ["SubOrganizationCreateParams"]
 
 
-class SubOrganizationUpdateParams(TypedDict, total=False):
+class SubOrganizationCreateParams(TypedDict, total=False):
     country_code: Required[Annotated[str, PropertyInfo(alias="countryCode")]]
     """The country code of the sub-organization."""
 
