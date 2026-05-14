@@ -11,8 +11,8 @@ from .letter_size import LetterSize
 from .address_placement import AddressPlacement
 from .attached_pdf_param import AttachedPdfParam
 from .plastic_card_param import PlasticCardParam
-from ..contact_create_with_first_name_param import ContactCreateWithFirstNameParam
-from ..contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
+from .contact_create_with_first_name_param import ContactCreateWithFirstNameParam
+from .contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
 
 __all__ = [
     "LetterCreateParams",

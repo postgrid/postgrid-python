@@ -20,10 +20,8 @@ from ..._response import (
 )
 from ...pagination import SyncSkipLimit, AsyncSkipLimit
 from ..._base_client import AsyncPaginator, make_request_options
-from ...types.print_mail import postcard_list_params, postcard_create_params
+from ...types.print_mail import postcard_list_params, postcard_cancel_params, postcard_create_params
 from ...types.print_mail.postcard import Postcard
-from ...types.print_mail.order_profiles import PostcardSize
-from ...types.print_mail.order_profiles.postcard_size import PostcardSize
 from ...types.print_mail.postcard_retrieve_url_response import PostcardRetrieveURLResponse
 
 __all__ = ["PostcardsResource", "AsyncPostcardsResource"]
@@ -55,7 +53,7 @@ class PostcardsResource(SyncAPIResource):
         *,
         back_html: str,
         front_html: str,
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithHTMLTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithHTMLFrom | Omit = omit,
@@ -90,6 +88,7 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -138,6 +137,9 @@ class PostcardsResource(SyncAPIResource):
               PDFs uploaded with the order.
 
           metadata: See the section on Metadata.
+
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
 
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
@@ -197,7 +199,7 @@ class PostcardsResource(SyncAPIResource):
         self,
         *,
         pdf: str,
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithPdfurlTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithPdfurlFrom | Omit = omit,
@@ -232,6 +234,7 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -278,6 +281,9 @@ class PostcardsResource(SyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
+
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
 
@@ -296,7 +302,7 @@ class PostcardsResource(SyncAPIResource):
         self,
         *,
         pdf: Union[str, Base64FileInput],
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithPdfFileTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithPdfFileFrom | Omit = omit,
@@ -331,6 +337,7 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -377,6 +384,9 @@ class PostcardsResource(SyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
+
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
 
@@ -398,7 +408,7 @@ class PostcardsResource(SyncAPIResource):
         *,
         back_html: str | Omit = omit,
         front_html: str | Omit = omit,
-        size: PostcardSize | Omit = omit,
+        size: Literal["6x4", "9x6", "11x6"] | Omit = omit,
         to: postcard_create_params.PostcardCreateWithHTMLTo
         | postcard_create_params.PostcardCreateWithPdfurlTo
         | postcard_create_params.PostcardCreateWithPdfFileTo
@@ -439,6 +449,7 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         back_template: str | Omit = omit,
         front_template: str | Omit = omit,
@@ -463,6 +474,7 @@ class PostcardsResource(SyncAPIResource):
                     "mailing_class": mailing_class,
                     "merge_variables": merge_variables,
                     "metadata": metadata,
+                    "paper": paper,
                     "send_date": send_date,
                     "back_template": back_template,
                     "front_template": front_template,
@@ -594,6 +606,82 @@ class PostcardsResource(SyncAPIResource):
             cast_to=Postcard,
         )
 
+    def cancel(
+        self,
+        id: str,
+        *,
+        note: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Postcard:
+        """Cancel a postcard by ID with a note.
+
+        Note that this operation cannot be undone
+        and that only postcards with a status of `ready` can be cancelled.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            path_template("/print-mail/v1/postcards/{id}/cancellation", id=id),
+            body=maybe_transform({"note": note}, postcard_cancel_params.PostcardCancelParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Postcard,
+        )
+
+    def progress(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Postcard:
+        """Progresses a postcard's `status` to the next stage.
+
+        This is only available in
+        test mode and can be used to simulate how a live order would progress through
+        the different statuses.
+
+        Note: this will fail with an `invalid_progression_error` if the status is one of
+        `completed` or `cancelled`.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            path_template("/print-mail/v1/postcards/{id}/progressions", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Postcard,
+        )
+
     def retrieve_url(
         self,
         id: str,
@@ -659,7 +747,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         *,
         back_html: str,
         front_html: str,
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithHTMLTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithHTMLFrom | Omit = omit,
@@ -694,6 +782,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -742,6 +831,9 @@ class AsyncPostcardsResource(AsyncAPIResource):
               PDFs uploaded with the order.
 
           metadata: See the section on Metadata.
+
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
 
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
@@ -801,7 +893,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         self,
         *,
         pdf: str,
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithPdfurlTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithPdfurlFrom | Omit = omit,
@@ -836,6 +928,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -882,6 +975,9 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
+
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
 
@@ -900,7 +996,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         self,
         *,
         pdf: Union[str, Base64FileInput],
-        size: PostcardSize,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithPdfFileTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithPdfFileFrom | Omit = omit,
@@ -935,6 +1031,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -981,6 +1078,9 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
+              ID.
+
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
 
@@ -1002,7 +1102,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         *,
         back_html: str | Omit = omit,
         front_html: str | Omit = omit,
-        size: PostcardSize | Omit = omit,
+        size: Literal["6x4", "9x6", "11x6"] | Omit = omit,
         to: postcard_create_params.PostcardCreateWithHTMLTo
         | postcard_create_params.PostcardCreateWithPdfurlTo
         | postcard_create_params.PostcardCreateWithPdfFileTo
@@ -1043,6 +1143,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         back_template: str | Omit = omit,
         front_template: str | Omit = omit,
@@ -1067,6 +1168,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
                     "mailing_class": mailing_class,
                     "merge_variables": merge_variables,
                     "metadata": metadata,
+                    "paper": paper,
                     "send_date": send_date,
                     "back_template": back_template,
                     "front_template": front_template,
@@ -1198,6 +1300,82 @@ class AsyncPostcardsResource(AsyncAPIResource):
             cast_to=Postcard,
         )
 
+    async def cancel(
+        self,
+        id: str,
+        *,
+        note: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Postcard:
+        """Cancel a postcard by ID with a note.
+
+        Note that this operation cannot be undone
+        and that only postcards with a status of `ready` can be cancelled.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            path_template("/print-mail/v1/postcards/{id}/cancellation", id=id),
+            body=await async_maybe_transform({"note": note}, postcard_cancel_params.PostcardCancelParams),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Postcard,
+        )
+
+    async def progress(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> Postcard:
+        """Progresses a postcard's `status` to the next stage.
+
+        This is only available in
+        test mode and can be used to simulate how a live order would progress through
+        the different statuses.
+
+        Note: this will fail with an `invalid_progression_error` if the status is one of
+        `completed` or `cancelled`.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            path_template("/print-mail/v1/postcards/{id}/progressions", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=Postcard,
+        )
+
     async def retrieve_url(
         self,
         id: str,
@@ -1253,6 +1431,12 @@ class PostcardsResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             postcards.delete,
         )
+        self.cancel = to_raw_response_wrapper(
+            postcards.cancel,
+        )
+        self.progress = to_raw_response_wrapper(
+            postcards.progress,
+        )
         self.retrieve_url = to_raw_response_wrapper(
             postcards.retrieve_url,
         )
@@ -1273,6 +1457,12 @@ class AsyncPostcardsResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             postcards.delete,
+        )
+        self.cancel = async_to_raw_response_wrapper(
+            postcards.cancel,
+        )
+        self.progress = async_to_raw_response_wrapper(
+            postcards.progress,
         )
         self.retrieve_url = async_to_raw_response_wrapper(
             postcards.retrieve_url,
@@ -1295,6 +1485,12 @@ class PostcardsResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             postcards.delete,
         )
+        self.cancel = to_streamed_response_wrapper(
+            postcards.cancel,
+        )
+        self.progress = to_streamed_response_wrapper(
+            postcards.progress,
+        )
         self.retrieve_url = to_streamed_response_wrapper(
             postcards.retrieve_url,
         )
@@ -1315,6 +1511,12 @@ class AsyncPostcardsResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             postcards.delete,
+        )
+        self.cancel = async_to_streamed_response_wrapper(
+            postcards.cancel,
+        )
+        self.progress = async_to_streamed_response_wrapper(
+            postcards.progress,
         )
         self.retrieve_url = async_to_streamed_response_wrapper(
             postcards.retrieve_url,

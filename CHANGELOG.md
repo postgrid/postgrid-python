@@ -1,5 +1,34 @@
 # Changelog
 
+## 2.2.0 (2026-05-13)
+
+Full Changelog: [v2.1.1...v2.2.0](https://github.com/postgrid/postgrid-python/compare/v2.1.1...v2.2.0)
+
+### Features
+
+* **api:** Generate OpenAPI spec from master, Complete AV endpoints, Deprecate order profiles ([e077d42](https://github.com/postgrid/postgrid-python/commit/e077d42c1fa32be25d6b458d0095c4a94a008ad1))
+* **api:** sheikh's updates ([bdc7fef](https://github.com/postgrid/postgrid-python/commit/bdc7fef6407b6906f7289f302a1281bc76730297))
+* **internal/types:** support eagerly validating pydantic iterators ([2124510](https://github.com/postgrid/postgrid-python/commit/2124510f8373868ec16a60ffdccd6f5d47e7ad17))
+* support setting headers via env ([e690d3e](https://github.com/postgrid/postgrid-python/commit/e690d3eea529e14db8ef172128b126e9c62a0bfa))
+* Testing new GHA workflow ([aa4a426](https://github.com/postgrid/postgrid-python/commit/aa4a42689f6e30a8c6566ef225f198a149ceb3d6))
+
+
+### Bug Fixes
+
+* **client:** add missing f-string prefix in file type error message ([459beb6](https://github.com/postgrid/postgrid-python/commit/459beb65a1c41126dd02d19cabf529c45c8e531c))
+* use correct field name format for multipart file arrays ([4662cc7](https://github.com/postgrid/postgrid-python/commit/4662cc7a36251fb808df1ac04ee5bbecfeaf9ebb))
+
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([ad870fb](https://github.com/postgrid/postgrid-python/commit/ad870fb8a30f20b4193f7eed5a96755a9a656228))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([e3ae215](https://github.com/postgrid/postgrid-python/commit/e3ae21534f0e6048dd59631aa02c04d5c1f3a681))
+* **internal:** reformat pyproject.toml ([872adb3](https://github.com/postgrid/postgrid-python/commit/872adb3468462b205c3619f1de65cf163f982ad3))
+
 ## 2.1.1 (2026-04-10)
 
 Full Changelog: [v2.1.0...v2.1.1](https://github.com/postgrid/postgrid-python/compare/v2.1.0...v2.1.1)

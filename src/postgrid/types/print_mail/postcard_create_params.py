@@ -8,9 +8,8 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from ..._types import Base64FileInput
 from ..._utils import PropertyInfo
-from .order_profiles.postcard_size import PostcardSize
-from ..contact_create_with_first_name_param import ContactCreateWithFirstNameParam
-from ..contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
+from .contact_create_with_first_name_param import ContactCreateWithFirstNameParam
+from .contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
 
 __all__ = [
     "PostcardCreateParams",
@@ -40,7 +39,7 @@ class PostcardCreateWithHTML(TypedDict, total=False):
     You can supply _either_ this or `frontTemplate` but not both.
     """
 
-    size: Required[PostcardSize]
+    size: Required[Literal["6x4", "9x6", "11x6"]]
     """Enum representing the supported postcard sizes."""
 
     to: Required[PostcardCreateWithHTMLTo]
@@ -111,6 +110,12 @@ class PostcardCreateWithHTML(TypedDict, total=False):
     metadata: Dict[str, object]
     """See the section on Metadata."""
 
+    paper: str
+    """Premium paper identifier.
+
+    Use "standard" for regular stock or a premium*paper*\\** ID.
+    """
+
     send_date: Annotated[Union[str, datetime], PropertyInfo(alias="sendDate", format="iso8601")]
     """This order will transition from `ready` to `printing` on the day after this
     date.
@@ -146,7 +151,7 @@ class PostcardCreateWithPdfurl(TypedDict, total=False):
     (where the address will be stamped on).
     """
 
-    size: Required[PostcardSize]
+    size: Required[Literal["6x4", "9x6", "11x6"]]
     """Enum representing the supported postcard sizes."""
 
     to: Required[PostcardCreateWithPdfurlTo]
@@ -217,6 +222,12 @@ class PostcardCreateWithPdfurl(TypedDict, total=False):
     metadata: Dict[str, object]
     """See the section on Metadata."""
 
+    paper: str
+    """Premium paper identifier.
+
+    Use "standard" for regular stock or a premium*paper*\\** ID.
+    """
+
     send_date: Annotated[Union[str, datetime], PropertyInfo(alias="sendDate", format="iso8601")]
     """This order will transition from `ready` to `printing` on the day after this
     date.
@@ -238,7 +249,7 @@ class PostcardCreateWithPdfFile(TypedDict, total=False):
     (where the address will be stamped on).
     """
 
-    size: Required[PostcardSize]
+    size: Required[Literal["6x4", "9x6", "11x6"]]
     """Enum representing the supported postcard sizes."""
 
     to: Required[PostcardCreateWithPdfFileTo]
@@ -308,6 +319,12 @@ class PostcardCreateWithPdfFile(TypedDict, total=False):
 
     metadata: Dict[str, object]
     """See the section on Metadata."""
+
+    paper: str
+    """Premium paper identifier.
+
+    Use "standard" for regular stock or a premium*paper*\\** ID.
+    """
 
     send_date: Annotated[Union[str, datetime], PropertyInfo(alias="sendDate", format="iso8601")]
     """This order will transition from `ready` to `printing` on the day after this

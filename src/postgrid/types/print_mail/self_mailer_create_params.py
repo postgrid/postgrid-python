@@ -8,9 +8,8 @@ from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from ..._types import Base64FileInput
 from ..._utils import PropertyInfo
-from .order_profiles.self_mailer_size import SelfMailerSize
-from ..contact_create_with_first_name_param import ContactCreateWithFirstNameParam
-from ..contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
+from .contact_create_with_first_name_param import ContactCreateWithFirstNameParam
+from .contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
 
 __all__ = [
     "SelfMailerCreateParams",
@@ -46,7 +45,7 @@ class SelfMailerCreateWithHTML(TypedDict, total=False):
     You can supply _either_ this or `outsideTemplate` but not both.
     """
 
-    size: Required[SelfMailerSize]
+    size: Required[Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"]]
     """Enum representing the supported self-mailer sizes."""
 
     to: Required[SelfMailerCreateWithHTMLTo]
@@ -151,7 +150,7 @@ class SelfMailerCreateWithPdfurl(TypedDict, total=False):
     outside (where the address will be stamped on).
     """
 
-    size: Required[SelfMailerSize]
+    size: Required[Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"]]
     """Enum representing the supported self-mailer sizes."""
 
     to: Required[SelfMailerCreateWithPdfurlTo]
@@ -244,7 +243,7 @@ class SelfMailerCreateWithPdfFile(TypedDict, total=False):
     outside (where the address will be stamped on).
     """
 
-    size: Required[SelfMailerSize]
+    size: Required[Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"]]
     """Enum representing the supported self-mailer sizes."""
 
     to: Required[SelfMailerCreateWithPdfFileTo]

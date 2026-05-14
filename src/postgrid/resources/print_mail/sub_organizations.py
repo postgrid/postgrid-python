@@ -18,11 +18,11 @@ from ...pagination import SyncSkipLimit, AsyncSkipLimit
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.print_mail import (
     sub_organization_list_params,
-    sub_organization_update_params,
+    sub_organization_create_params,
     sub_organization_retrieve_users_params,
 )
 from ...types.print_mail.sub_organization import SubOrganization
-from ...types.print_mail.sub_organization_update_response import SubOrganizationUpdateResponse
+from ...types.print_mail.sub_organization_create_response import SubOrganizationCreateResponse
 from ...types.print_mail.sub_organization_retrieve_users_response import SubOrganizationRetrieveUsersResponse
 
 __all__ = ["SubOrganizationsResource", "AsyncSubOrganizationsResource"]
@@ -61,40 +61,7 @@ class SubOrganizationsResource(SyncAPIResource):
         """
         return SubOrganizationsResourceWithStreamingResponse(self)
 
-    def retrieve(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SubOrganization:
-        """
-        Get a sub-organization.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._get(
-            path_template("/print-mail/v1/sub_organizations/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=SubOrganization,
-        )
-
-    def update(
+    def create(
         self,
         *,
         country_code: str,
@@ -109,7 +76,7 @@ class SubOrganizationsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SubOrganizationUpdateResponse:
+    ) -> SubOrganizationCreateResponse:
         """
         When creating a user through the API, the verifiedEmail field will automatically
         be set to true. However, if public signups are used, the email will need to be
@@ -147,12 +114,45 @@ class SubOrganizationsResource(SyncAPIResource):
                     "password": password,
                     "phone_number": phone_number,
                 },
-                sub_organization_update_params.SubOrganizationUpdateParams,
+                sub_organization_create_params.SubOrganizationCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SubOrganizationUpdateResponse,
+            cast_to=SubOrganizationCreateResponse,
+        )
+
+    def retrieve(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SubOrganization:
+        """
+        Get a sub-organization.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._get(
+            path_template("/print-mail/v1/sub_organizations/{id}", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SubOrganization,
         )
 
     def list(
@@ -293,40 +293,7 @@ class AsyncSubOrganizationsResource(AsyncAPIResource):
         """
         return AsyncSubOrganizationsResourceWithStreamingResponse(self)
 
-    async def retrieve(
-        self,
-        id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SubOrganization:
-        """
-        Get a sub-organization.
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._get(
-            path_template("/print-mail/v1/sub_organizations/{id}", id=id),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=SubOrganization,
-        )
-
-    async def update(
+    async def create(
         self,
         *,
         country_code: str,
@@ -341,7 +308,7 @@ class AsyncSubOrganizationsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SubOrganizationUpdateResponse:
+    ) -> SubOrganizationCreateResponse:
         """
         When creating a user through the API, the verifiedEmail field will automatically
         be set to true. However, if public signups are used, the email will need to be
@@ -379,12 +346,45 @@ class AsyncSubOrganizationsResource(AsyncAPIResource):
                     "password": password,
                     "phone_number": phone_number,
                 },
-                sub_organization_update_params.SubOrganizationUpdateParams,
+                sub_organization_create_params.SubOrganizationCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SubOrganizationUpdateResponse,
+            cast_to=SubOrganizationCreateResponse,
+        )
+
+    async def retrieve(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SubOrganization:
+        """
+        Get a sub-organization.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._get(
+            path_template("/print-mail/v1/sub_organizations/{id}", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SubOrganization,
         )
 
     def list(
@@ -496,11 +496,11 @@ class SubOrganizationsResourceWithRawResponse:
     def __init__(self, sub_organizations: SubOrganizationsResource) -> None:
         self._sub_organizations = sub_organizations
 
+        self.create = to_raw_response_wrapper(
+            sub_organizations.create,
+        )
         self.retrieve = to_raw_response_wrapper(
             sub_organizations.retrieve,
-        )
-        self.update = to_raw_response_wrapper(
-            sub_organizations.update,
         )
         self.list = to_raw_response_wrapper(
             sub_organizations.list,
@@ -514,11 +514,11 @@ class AsyncSubOrganizationsResourceWithRawResponse:
     def __init__(self, sub_organizations: AsyncSubOrganizationsResource) -> None:
         self._sub_organizations = sub_organizations
 
+        self.create = async_to_raw_response_wrapper(
+            sub_organizations.create,
+        )
         self.retrieve = async_to_raw_response_wrapper(
             sub_organizations.retrieve,
-        )
-        self.update = async_to_raw_response_wrapper(
-            sub_organizations.update,
         )
         self.list = async_to_raw_response_wrapper(
             sub_organizations.list,
@@ -532,11 +532,11 @@ class SubOrganizationsResourceWithStreamingResponse:
     def __init__(self, sub_organizations: SubOrganizationsResource) -> None:
         self._sub_organizations = sub_organizations
 
+        self.create = to_streamed_response_wrapper(
+            sub_organizations.create,
+        )
         self.retrieve = to_streamed_response_wrapper(
             sub_organizations.retrieve,
-        )
-        self.update = to_streamed_response_wrapper(
-            sub_organizations.update,
         )
         self.list = to_streamed_response_wrapper(
             sub_organizations.list,
@@ -550,11 +550,11 @@ class AsyncSubOrganizationsResourceWithStreamingResponse:
     def __init__(self, sub_organizations: AsyncSubOrganizationsResource) -> None:
         self._sub_organizations = sub_organizations
 
+        self.create = async_to_streamed_response_wrapper(
+            sub_organizations.create,
+        )
         self.retrieve = async_to_streamed_response_wrapper(
             sub_organizations.retrieve,
-        )
-        self.update = async_to_streamed_response_wrapper(
-            sub_organizations.update,
         )
         self.list = async_to_streamed_response_wrapper(
             sub_organizations.list,

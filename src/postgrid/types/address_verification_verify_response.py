@@ -77,6 +77,9 @@ class DataDetails(BaseModel):
     us_census_cmsa: Optional[str] = FieldInfo(alias="usCensusCMSA", default=None)
     """US Census consolidated metropolitan statistical area"""
 
+    us_census_fips: Optional[str] = FieldInfo(alias="usCensusFIPS", default=None)
+    """US Census FIPS code (US address only)"""
+
     us_census_ma: Optional[str] = FieldInfo(alias="usCensusMA", default=None)
     """US Census metropolitan area"""
 
@@ -147,6 +150,9 @@ class DataDetails(BaseModel):
 
     us_mailings_suite_link_return_code: Optional[str] = FieldInfo(alias="usMailingsSuiteLinkReturnCode", default=None)
     """See [USPS DPV](https://avdocs.postgrid.com/#usps-dpv)"""
+
+    us_postnet_barcode: Optional[str] = FieldInfo(alias="usPostnetBarcode", default=None)
+    """PostNet barcode for the address (US address only)"""
 
     us_state_legislative_lower: Optional[str] = FieldInfo(alias="usStateLegislativeLower", default=None)
     """Lower legislative district for the US address"""
@@ -247,6 +253,9 @@ class Data(BaseModel):
 
     line2: Optional[str] = None
     """The second line of the address."""
+
+    province_or_state_name: Optional[str] = FieldInfo(alias="provinceOrStateName", default=None)
+    """The full name of the province or state."""
 
     status: Optional[Status] = None
     """The verification status of an address."""

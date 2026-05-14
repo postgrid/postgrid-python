@@ -22,8 +22,6 @@ from ...pagination import SyncSkipLimit, AsyncSkipLimit
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.print_mail import self_mailer_list_params, self_mailer_create_params
 from ...types.print_mail.self_mailer import SelfMailer
-from ...types.print_mail.order_profiles import SelfMailerSize
-from ...types.print_mail.order_profiles.self_mailer_size import SelfMailerSize
 from ...types.print_mail.self_mailer_retrieve_url_response import SelfMailerRetrieveURLResponse
 
 __all__ = ["SelfMailersResource", "AsyncSelfMailersResource"]
@@ -56,7 +54,7 @@ class SelfMailersResource(SyncAPIResource):
         from_: self_mailer_create_params.SelfMailerCreateWithHTMLFrom,
         inside_html: str,
         outside_html: str,
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -197,7 +195,7 @@ class SelfMailersResource(SyncAPIResource):
         *,
         from_: self_mailer_create_params.SelfMailerCreateWithPdfurlFrom,
         pdf: str,
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithPdfurlTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -296,7 +294,7 @@ class SelfMailersResource(SyncAPIResource):
         *,
         from_: self_mailer_create_params.SelfMailerCreateWithPdfFileFrom,
         pdf: Union[str, Base64FileInput],
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithPdfFileTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -402,7 +400,7 @@ class SelfMailersResource(SyncAPIResource):
         | Omit = omit,
         inside_html: str | Omit = omit,
         outside_html: str | Omit = omit,
-        size: SelfMailerSize | Omit = omit,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"] | Omit = omit,
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo
         | self_mailer_create_params.SelfMailerCreateWithPdfurlTo
         | self_mailer_create_params.SelfMailerCreateWithPdfFileTo
@@ -594,6 +592,45 @@ class SelfMailersResource(SyncAPIResource):
             cast_to=SelfMailer,
         )
 
+    def progress(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SelfMailer:
+        """Progresses a self-mailer's `status` to the next stage.
+
+        This is only available in
+        test mode and can be used to simulate how a live order would progress through
+        the different statuses.
+
+        Note: this will fail with an `invalid_progression_error` if the status is one of
+        `completed` or `cancelled`.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return self._post(
+            path_template("/print-mail/v1/self_mailers/{id}/progressions", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SelfMailer,
+        )
+
     def retrieve_url(
         self,
         id: str,
@@ -660,7 +697,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         from_: self_mailer_create_params.SelfMailerCreateWithHTMLFrom,
         inside_html: str,
         outside_html: str,
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -801,7 +838,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         *,
         from_: self_mailer_create_params.SelfMailerCreateWithPdfurlFrom,
         pdf: str,
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithPdfurlTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -900,7 +937,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         *,
         from_: self_mailer_create_params.SelfMailerCreateWithPdfFileFrom,
         pdf: Union[str, Base64FileInput],
-        size: SelfMailerSize,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithPdfFileTo,
         description: str | Omit = omit,
         mailing_class: Literal[
@@ -1006,7 +1043,7 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         | Omit = omit,
         inside_html: str | Omit = omit,
         outside_html: str | Omit = omit,
-        size: SelfMailerSize | Omit = omit,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"] | Omit = omit,
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo
         | self_mailer_create_params.SelfMailerCreateWithPdfurlTo
         | self_mailer_create_params.SelfMailerCreateWithPdfFileTo
@@ -1198,6 +1235,45 @@ class AsyncSelfMailersResource(AsyncAPIResource):
             cast_to=SelfMailer,
         )
 
+    async def progress(
+        self,
+        id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SelfMailer:
+        """Progresses a self-mailer's `status` to the next stage.
+
+        This is only available in
+        test mode and can be used to simulate how a live order would progress through
+        the different statuses.
+
+        Note: this will fail with an `invalid_progression_error` if the status is one of
+        `completed` or `cancelled`.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        return await self._post(
+            path_template("/print-mail/v1/self_mailers/{id}/progressions", id=id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SelfMailer,
+        )
+
     async def retrieve_url(
         self,
         id: str,
@@ -1253,6 +1329,9 @@ class SelfMailersResourceWithRawResponse:
         self.delete = to_raw_response_wrapper(
             self_mailers.delete,
         )
+        self.progress = to_raw_response_wrapper(
+            self_mailers.progress,
+        )
         self.retrieve_url = to_raw_response_wrapper(
             self_mailers.retrieve_url,
         )
@@ -1273,6 +1352,9 @@ class AsyncSelfMailersResourceWithRawResponse:
         )
         self.delete = async_to_raw_response_wrapper(
             self_mailers.delete,
+        )
+        self.progress = async_to_raw_response_wrapper(
+            self_mailers.progress,
         )
         self.retrieve_url = async_to_raw_response_wrapper(
             self_mailers.retrieve_url,
@@ -1295,6 +1377,9 @@ class SelfMailersResourceWithStreamingResponse:
         self.delete = to_streamed_response_wrapper(
             self_mailers.delete,
         )
+        self.progress = to_streamed_response_wrapper(
+            self_mailers.progress,
+        )
         self.retrieve_url = to_streamed_response_wrapper(
             self_mailers.retrieve_url,
         )
@@ -1315,6 +1400,9 @@ class AsyncSelfMailersResourceWithStreamingResponse:
         )
         self.delete = async_to_streamed_response_wrapper(
             self_mailers.delete,
+        )
+        self.progress = async_to_streamed_response_wrapper(
+            self_mailers.progress,
         )
         self.retrieve_url = async_to_streamed_response_wrapper(
             self_mailers.retrieve_url,

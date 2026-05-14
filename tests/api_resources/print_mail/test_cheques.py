@@ -231,6 +231,94 @@ class TestCheques:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_cancel(self, client: PostGrid) -> None:
+        cheque = client.print_mail.cheques.cancel(
+            id="id",
+            note="Cancelling this cheque",
+        )
+        assert_matches_type(Cheque, cheque, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_cancel(self, client: PostGrid) -> None:
+        response = client.print_mail.cheques.with_raw_response.cancel(
+            id="id",
+            note="Cancelling this cheque",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        cheque = response.parse()
+        assert_matches_type(Cheque, cheque, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_cancel(self, client: PostGrid) -> None:
+        with client.print_mail.cheques.with_streaming_response.cancel(
+            id="id",
+            note="Cancelling this cheque",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            cheque = response.parse()
+            assert_matches_type(Cheque, cheque, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_cancel(self, client: PostGrid) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.print_mail.cheques.with_raw_response.cancel(
+                id="",
+                note="Cancelling this cheque",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_progress(self, client: PostGrid) -> None:
+        cheque = client.print_mail.cheques.progress(
+            "id",
+        )
+        assert_matches_type(Cheque, cheque, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_progress(self, client: PostGrid) -> None:
+        response = client.print_mail.cheques.with_raw_response.progress(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        cheque = response.parse()
+        assert_matches_type(Cheque, cheque, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_progress(self, client: PostGrid) -> None:
+        with client.print_mail.cheques.with_streaming_response.progress(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            cheque = response.parse()
+            assert_matches_type(Cheque, cheque, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_progress(self, client: PostGrid) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            client.print_mail.cheques.with_raw_response.progress(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_retrieve_url(self, client: PostGrid) -> None:
         cheque = client.print_mail.cheques.retrieve_url(
             "id",
@@ -523,6 +611,94 @@ class TestAsyncCheques:
     async def test_path_params_delete(self, async_client: AsyncPostGrid) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
             await async_client.print_mail.cheques.with_raw_response.delete(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_cancel(self, async_client: AsyncPostGrid) -> None:
+        cheque = await async_client.print_mail.cheques.cancel(
+            id="id",
+            note="Cancelling this cheque",
+        )
+        assert_matches_type(Cheque, cheque, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_cancel(self, async_client: AsyncPostGrid) -> None:
+        response = await async_client.print_mail.cheques.with_raw_response.cancel(
+            id="id",
+            note="Cancelling this cheque",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        cheque = await response.parse()
+        assert_matches_type(Cheque, cheque, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_cancel(self, async_client: AsyncPostGrid) -> None:
+        async with async_client.print_mail.cheques.with_streaming_response.cancel(
+            id="id",
+            note="Cancelling this cheque",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            cheque = await response.parse()
+            assert_matches_type(Cheque, cheque, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_cancel(self, async_client: AsyncPostGrid) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.print_mail.cheques.with_raw_response.cancel(
+                id="",
+                note="Cancelling this cheque",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_progress(self, async_client: AsyncPostGrid) -> None:
+        cheque = await async_client.print_mail.cheques.progress(
+            "id",
+        )
+        assert_matches_type(Cheque, cheque, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_progress(self, async_client: AsyncPostGrid) -> None:
+        response = await async_client.print_mail.cheques.with_raw_response.progress(
+            "id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        cheque = await response.parse()
+        assert_matches_type(Cheque, cheque, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_progress(self, async_client: AsyncPostGrid) -> None:
+        async with async_client.print_mail.cheques.with_streaming_response.progress(
+            "id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            cheque = await response.parse()
+            assert_matches_type(Cheque, cheque, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_progress(self, async_client: AsyncPostGrid) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+            await async_client.print_mail.cheques.with_raw_response.progress(
                 "",
             )
 
