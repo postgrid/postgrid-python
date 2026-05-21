@@ -93,6 +93,7 @@ class TestLetters:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
+            paper="standard",
             perforated_page=1,
             plastic_card={
                 "size": "standard",
@@ -165,7 +166,93 @@ class TestLetters:
     @parametrize
     def test_method_create_overload_2(self, client: PostGrid) -> None:
         letter = client.print_mail.letters.create(
+            from_={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
             template="template",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
+        )
+        assert_matches_type(Letter, letter, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params_overload_2(self, client: PostGrid) -> None:
+        letter = client.print_mail.letters.create(
+            from_={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+                "address_line2": "addressLine2",
+                "city": "city",
+                "company_name": "companyName",
+                "description": "description",
+                "email": "email",
+                "force_verified_status": True,
+                "job_title": "jobTitle",
+                "last_name": "lastName",
+                "metadata": {"foo": "bar"},
+                "phone_number": "phoneNumber",
+                "postal_or_zip": "postalOrZip",
+                "province_or_state": "provinceOrState",
+                "skip_verification": True,
+            },
+            template="template",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+                "address_line2": "addressLine2",
+                "city": "city",
+                "company_name": "companyName",
+                "description": "description",
+                "email": "email",
+                "force_verified_status": True,
+                "job_title": "jobTitle",
+                "last_name": "lastName",
+                "metadata": {"foo": "bar"},
+                "phone_number": "phoneNumber",
+                "postal_or_zip": "postalOrZip",
+                "province_or_state": "provinceOrState",
+                "skip_verification": True,
+            },
+            address_placement="top_first_page",
+            attached_pdf={
+                "file": "https://example.com",
+                "placement": "before_template",
+            },
+            color=True,
+            description="description",
+            double_sided=True,
+            envelope="envelope",
+            mailing_class="first_class",
+            merge_variables={"foo": "bar"},
+            metadata={"foo": "bar"},
+            paper="standard",
+            perforated_page=1,
+            plastic_card={
+                "size": "standard",
+                "double_sided": {
+                    "back_html": "backHTML",
+                    "back_template": "backTemplate",
+                    "front_html": "frontHTML",
+                    "front_template": "frontTemplate",
+                    "pdf": "https://example.com",
+                },
+                "single_sided": {
+                    "html": "html",
+                    "pdf": "https://example.com",
+                    "template": "template",
+                },
+            },
+            return_envelope="returnEnvelope",
+            send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            size="us_letter",
         )
         assert_matches_type(Letter, letter, path=["response"])
 
@@ -173,7 +260,17 @@ class TestLetters:
     @parametrize
     def test_raw_response_create_overload_2(self, client: PostGrid) -> None:
         response = client.print_mail.letters.with_raw_response.create(
+            from_={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
             template="template",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
         )
 
         assert response.is_closed is True
@@ -185,7 +282,17 @@ class TestLetters:
     @parametrize
     def test_streaming_response_create_overload_2(self, client: PostGrid) -> None:
         with client.print_mail.letters.with_streaming_response.create(
+            from_={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
             template="template",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -266,6 +373,7 @@ class TestLetters:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
+            paper="standard",
             perforated_page=1,
             plastic_card={
                 "size": "standard",
@@ -663,6 +771,7 @@ class TestAsyncLetters:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
+            paper="standard",
             perforated_page=1,
             plastic_card={
                 "size": "standard",
@@ -735,7 +844,93 @@ class TestAsyncLetters:
     @parametrize
     async def test_method_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         letter = await async_client.print_mail.letters.create(
+            from_={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
             template="template",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
+        )
+        assert_matches_type(Letter, letter, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncPostGrid) -> None:
+        letter = await async_client.print_mail.letters.create(
+            from_={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+                "address_line2": "addressLine2",
+                "city": "city",
+                "company_name": "companyName",
+                "description": "description",
+                "email": "email",
+                "force_verified_status": True,
+                "job_title": "jobTitle",
+                "last_name": "lastName",
+                "metadata": {"foo": "bar"},
+                "phone_number": "phoneNumber",
+                "postal_or_zip": "postalOrZip",
+                "province_or_state": "provinceOrState",
+                "skip_verification": True,
+            },
+            template="template",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+                "address_line2": "addressLine2",
+                "city": "city",
+                "company_name": "companyName",
+                "description": "description",
+                "email": "email",
+                "force_verified_status": True,
+                "job_title": "jobTitle",
+                "last_name": "lastName",
+                "metadata": {"foo": "bar"},
+                "phone_number": "phoneNumber",
+                "postal_or_zip": "postalOrZip",
+                "province_or_state": "provinceOrState",
+                "skip_verification": True,
+            },
+            address_placement="top_first_page",
+            attached_pdf={
+                "file": "https://example.com",
+                "placement": "before_template",
+            },
+            color=True,
+            description="description",
+            double_sided=True,
+            envelope="envelope",
+            mailing_class="first_class",
+            merge_variables={"foo": "bar"},
+            metadata={"foo": "bar"},
+            paper="standard",
+            perforated_page=1,
+            plastic_card={
+                "size": "standard",
+                "double_sided": {
+                    "back_html": "backHTML",
+                    "back_template": "backTemplate",
+                    "front_html": "frontHTML",
+                    "front_template": "frontTemplate",
+                    "pdf": "https://example.com",
+                },
+                "single_sided": {
+                    "html": "html",
+                    "pdf": "https://example.com",
+                    "template": "template",
+                },
+            },
+            return_envelope="returnEnvelope",
+            send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            size="us_letter",
         )
         assert_matches_type(Letter, letter, path=["response"])
 
@@ -743,7 +938,17 @@ class TestAsyncLetters:
     @parametrize
     async def test_raw_response_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.letters.with_raw_response.create(
+            from_={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
             template="template",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
         )
 
         assert response.is_closed is True
@@ -755,7 +960,17 @@ class TestAsyncLetters:
     @parametrize
     async def test_streaming_response_create_overload_2(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.letters.with_streaming_response.create(
+            from_={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
             template="template",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -836,6 +1051,7 @@ class TestAsyncLetters:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
+            paper="standard",
             perforated_page=1,
             plastic_card={
                 "size": "standard",

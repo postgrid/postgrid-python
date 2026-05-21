@@ -153,8 +153,44 @@ class SelfMailersResource(SyncAPIResource):
     def create(
         self,
         *,
+        from_: self_mailer_create_params.SelfMailerCreateWithTemplateFrom,
         inside_template: str,
         outside_template: str,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
+        to: self_mailer_create_params.SelfMailerCreateWithTemplateTo,
+        description: str | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -173,11 +209,37 @@ class SelfMailersResource(SyncAPIResource):
         - Upload the aforementioned PDF file via a multipart form upload request
 
         Args:
+          from_: The contact information of the sender. You can pass contact information inline
+              here just like you can for the `to`.
+
           inside_template: The template ID for the inside of the self-mailer. You can supply _either_ this
               or `insideHTML` but not both.
 
           outside_template: The template ID for the outside of the self-mailer. You can supply _either_ this
               or `outsideHTML` but not both.
+
+          size: Enum representing the supported self-mailer sizes.
+
+          to: The recipient of this order. You can either supply the contact information
+              inline here or provide a contact ID. PostGrid will automatically deduplicate
+              contacts regardless of whether you provide the information inline here or call
+              the contact creation endpoint.
+
+          description: An optional string describing this resource. Will be visible in the API and the
+              dashboard.
+
+          mailing_class: The mailing class of this order. If not provided, automatically set to
+              `first_class`.
+
+          merge_variables: These will be merged with the variables in the template or HTML you create this
+              order with. The keys in this object should match the variable names in the
+              template _exactly_ as they are case-sensitive. Note that these _do not_ apply to
+              PDFs uploaded with the order.
+
+          metadata: See the section on Metadata.
+
+          send_date: This order will transition from `ready` to `printing` on the day after this
+              date. You can use this parameter to schedule orders for a future date.
 
           extra_headers: Send extra headers
 
@@ -388,23 +450,23 @@ class SelfMailersResource(SyncAPIResource):
 
     @required_args(
         ["from_", "inside_html", "outside_html", "size", "to"],
-        ["inside_template", "outside_template"],
+        ["from_", "inside_template", "outside_template", "size", "to"],
         ["from_", "pdf", "size", "to"],
     )
     def create(
         self,
         *,
         from_: self_mailer_create_params.SelfMailerCreateWithHTMLFrom
+        | self_mailer_create_params.SelfMailerCreateWithTemplateFrom
         | self_mailer_create_params.SelfMailerCreateWithPdfurlFrom
-        | self_mailer_create_params.SelfMailerCreateWithPdfFileFrom
-        | Omit = omit,
+        | self_mailer_create_params.SelfMailerCreateWithPdfFileFrom,
         inside_html: str | Omit = omit,
         outside_html: str | Omit = omit,
-        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"] | Omit = omit,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo
+        | self_mailer_create_params.SelfMailerCreateWithTemplateTo
         | self_mailer_create_params.SelfMailerCreateWithPdfurlTo
-        | self_mailer_create_params.SelfMailerCreateWithPdfFileTo
-        | Omit = omit,
+        | self_mailer_create_params.SelfMailerCreateWithPdfFileTo,
         description: str | Omit = omit,
         mailing_class: Literal[
             "first_class",
@@ -796,8 +858,44 @@ class AsyncSelfMailersResource(AsyncAPIResource):
     async def create(
         self,
         *,
+        from_: self_mailer_create_params.SelfMailerCreateWithTemplateFrom,
         inside_template: str,
         outside_template: str,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
+        to: self_mailer_create_params.SelfMailerCreateWithTemplateTo,
+        description: str | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -816,11 +914,37 @@ class AsyncSelfMailersResource(AsyncAPIResource):
         - Upload the aforementioned PDF file via a multipart form upload request
 
         Args:
+          from_: The contact information of the sender. You can pass contact information inline
+              here just like you can for the `to`.
+
           inside_template: The template ID for the inside of the self-mailer. You can supply _either_ this
               or `insideHTML` but not both.
 
           outside_template: The template ID for the outside of the self-mailer. You can supply _either_ this
               or `outsideHTML` but not both.
+
+          size: Enum representing the supported self-mailer sizes.
+
+          to: The recipient of this order. You can either supply the contact information
+              inline here or provide a contact ID. PostGrid will automatically deduplicate
+              contacts regardless of whether you provide the information inline here or call
+              the contact creation endpoint.
+
+          description: An optional string describing this resource. Will be visible in the API and the
+              dashboard.
+
+          mailing_class: The mailing class of this order. If not provided, automatically set to
+              `first_class`.
+
+          merge_variables: These will be merged with the variables in the template or HTML you create this
+              order with. The keys in this object should match the variable names in the
+              template _exactly_ as they are case-sensitive. Note that these _do not_ apply to
+              PDFs uploaded with the order.
+
+          metadata: See the section on Metadata.
+
+          send_date: This order will transition from `ready` to `printing` on the day after this
+              date. You can use this parameter to schedule orders for a future date.
 
           extra_headers: Send extra headers
 
@@ -1031,23 +1155,23 @@ class AsyncSelfMailersResource(AsyncAPIResource):
 
     @required_args(
         ["from_", "inside_html", "outside_html", "size", "to"],
-        ["inside_template", "outside_template"],
+        ["from_", "inside_template", "outside_template", "size", "to"],
         ["from_", "pdf", "size", "to"],
     )
     async def create(
         self,
         *,
         from_: self_mailer_create_params.SelfMailerCreateWithHTMLFrom
+        | self_mailer_create_params.SelfMailerCreateWithTemplateFrom
         | self_mailer_create_params.SelfMailerCreateWithPdfurlFrom
-        | self_mailer_create_params.SelfMailerCreateWithPdfFileFrom
-        | Omit = omit,
+        | self_mailer_create_params.SelfMailerCreateWithPdfFileFrom,
         inside_html: str | Omit = omit,
         outside_html: str | Omit = omit,
-        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"] | Omit = omit,
+        size: Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"],
         to: self_mailer_create_params.SelfMailerCreateWithHTMLTo
+        | self_mailer_create_params.SelfMailerCreateWithTemplateTo
         | self_mailer_create_params.SelfMailerCreateWithPdfurlTo
-        | self_mailer_create_params.SelfMailerCreateWithPdfFileTo
-        | Omit = omit,
+        | self_mailer_create_params.SelfMailerCreateWithPdfFileTo,
         description: str | Omit = omit,
         mailing_class: Literal[
             "first_class",

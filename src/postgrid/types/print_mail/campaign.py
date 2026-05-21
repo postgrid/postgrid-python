@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Union, Optional
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -181,6 +181,16 @@ class Letter(BaseModel):
     metadata: Optional[Dict[str, str]] = None
     """Optional key-value metadata."""
 
+    paper: Union[
+        Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"],
+        str,
+        None,
+    ] = None
+    """Premium paper selection ("standard" or a premium paper ID).
+
+    If omitted, org default is used when configured; otherwise "standard".
+    """
+
     perforated_page: Optional[Literal[1]] = FieldInfo(alias="perforatedPage", default=None)
     """Which page number should be perforated (if any)."""
 
@@ -250,10 +260,20 @@ class Postcard(BaseModel):
     metadata: Optional[Dict[str, str]] = None
     """Optional key-value metadata."""
 
-    paper: Optional[str] = None
-    """Premium paper identifier.
+    paper: Union[
+        Literal[
+            "standard",
+            "premium_paper_heavy_1_glossy",
+            "premium_paper_postcard_uv_glossy_ss",
+            "premium_paper_postcard_uv_glossy_ss_120lb",
+            "premium_paper_postcard_satin_ds",
+        ],
+        str,
+        None,
+    ] = None
+    """Premium paper selection ("standard" or a premium paper ID).
 
-    Use "standard" for regular stock or a premium*paper*\\** ID.
+    If omitted, org default is used when configured; otherwise "standard".
     """
 
     size: Optional[Literal["6x4", "9x6", "11x6"]] = None

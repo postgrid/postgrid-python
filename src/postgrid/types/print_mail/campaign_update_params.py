@@ -232,6 +232,14 @@ class Letter(TypedDict, total=False):
     metadata: Dict[str, str]
     """Optional key-value metadata."""
 
+    paper: Union[
+        Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"], str
+    ]
+    """Premium paper selection ("standard" or a premium paper ID).
+
+    If omitted, org default is used when configured; otherwise "standard".
+    """
+
     pdf: str
     """A PDF file or URL for the letter content. Cannot be used with `template`."""
 
@@ -302,10 +310,19 @@ class Postcard(TypedDict, total=False):
     metadata: Dict[str, str]
     """Optional key-value metadata."""
 
-    paper: str
-    """Premium paper identifier.
+    paper: Union[
+        Literal[
+            "standard",
+            "premium_paper_heavy_1_glossy",
+            "premium_paper_postcard_uv_glossy_ss",
+            "premium_paper_postcard_uv_glossy_ss_120lb",
+            "premium_paper_postcard_satin_ds",
+        ],
+        str,
+    ]
+    """Premium paper selection ("standard" or a premium paper ID).
 
-    Use "standard" for regular stock or a premium*paper*\\** ID.
+    If omitted, org default is used when configured; otherwise "standard".
     """
 
     pdf: str
