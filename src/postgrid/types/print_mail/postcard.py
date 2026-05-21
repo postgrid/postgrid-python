@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import builtins
-from typing import Dict, Optional
+from typing import Dict, Union, Optional
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -146,10 +146,30 @@ class Postcard(BaseModel):
     metadata: Optional[Dict[str, builtins.object]] = None
     """See the section on Metadata."""
 
-    paper: Optional[str] = None
-    """Premium paper identifier.
+    paper: Union[
+        Literal[
+            "standard",
+            "premium_paper_heavy_1_glossy",
+            "premium_paper_postcard_uv_glossy_ss",
+            "premium_paper_postcard_uv_glossy_ss_120lb",
+            "premium_paper_postcard_satin_ds",
+        ],
+        str,
+        None,
+    ] = None
+    """Premium paper selection used for this postcard.
 
-    Use "standard" for regular stock or a premium*paper*\\** ID.
+    Available values include:
+
+    - `standard`
+    - `premium_paper_heavy_1_glossy`
+    - `premium_paper_postcard_uv_glossy_ss`
+    - `premium_paper_postcard_uv_glossy_ss_120lb`
+    - `premium_paper_postcard_satin_ds`
+
+    Not all premium paper options are enabled for all organizations. If omitted, the
+    organization default postcard paper is used when configured; otherwise
+    `standard`.
     """
 
     tracking_number: Optional[str] = FieldInfo(alias="trackingNumber", default=None)

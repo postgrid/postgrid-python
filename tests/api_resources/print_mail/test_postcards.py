@@ -84,7 +84,7 @@ class TestPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
-            paper="premium_paper_L6fw2k_N_j",
+            paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
@@ -135,6 +135,64 @@ class TestPostcards:
         postcard = client.print_mail.postcards.create(
             back_template="backTemplate",
             front_template="frontTemplate",
+            size="6x4",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
+        )
+        assert_matches_type(Postcard, postcard, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_create_with_all_params_overload_2(self, client: PostGrid) -> None:
+        postcard = client.print_mail.postcards.create(
+            back_template="backTemplate",
+            front_template="frontTemplate",
+            size="6x4",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+                "address_line2": "addressLine2",
+                "city": "city",
+                "company_name": "companyName",
+                "description": "description",
+                "email": "email",
+                "force_verified_status": True,
+                "job_title": "jobTitle",
+                "last_name": "lastName",
+                "metadata": {"foo": "bar"},
+                "phone_number": "phoneNumber",
+                "postal_or_zip": "postalOrZip",
+                "province_or_state": "provinceOrState",
+                "skip_verification": True,
+            },
+            description="description",
+            from_={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+                "address_line2": "addressLine2",
+                "city": "city",
+                "company_name": "companyName",
+                "description": "description",
+                "email": "email",
+                "force_verified_status": True,
+                "job_title": "jobTitle",
+                "last_name": "lastName",
+                "metadata": {"foo": "bar"},
+                "phone_number": "phoneNumber",
+                "postal_or_zip": "postalOrZip",
+                "province_or_state": "provinceOrState",
+                "skip_verification": True,
+            },
+            mailing_class="first_class",
+            merge_variables={"foo": "bar"},
+            metadata={"foo": "bar"},
+            paper="standard",
+            send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
 
@@ -144,6 +202,12 @@ class TestPostcards:
         response = client.print_mail.postcards.with_raw_response.create(
             back_template="backTemplate",
             front_template="frontTemplate",
+            size="6x4",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
         )
 
         assert response.is_closed is True
@@ -157,6 +221,12 @@ class TestPostcards:
         with client.print_mail.postcards.with_streaming_response.create(
             back_template="backTemplate",
             front_template="frontTemplate",
+            size="6x4",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -226,7 +296,7 @@ class TestPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
-            paper="premium_paper_L6fw2k_N_j",
+            paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
@@ -329,7 +399,7 @@ class TestPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
-            paper="premium_paper_L6fw2k_N_j",
+            paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
@@ -692,7 +762,7 @@ class TestAsyncPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
-            paper="premium_paper_L6fw2k_N_j",
+            paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
@@ -743,6 +813,64 @@ class TestAsyncPostcards:
         postcard = await async_client.print_mail.postcards.create(
             back_template="backTemplate",
             front_template="frontTemplate",
+            size="6x4",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
+        )
+        assert_matches_type(Postcard, postcard, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncPostGrid) -> None:
+        postcard = await async_client.print_mail.postcards.create(
+            back_template="backTemplate",
+            front_template="frontTemplate",
+            size="6x4",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+                "address_line2": "addressLine2",
+                "city": "city",
+                "company_name": "companyName",
+                "description": "description",
+                "email": "email",
+                "force_verified_status": True,
+                "job_title": "jobTitle",
+                "last_name": "lastName",
+                "metadata": {"foo": "bar"},
+                "phone_number": "phoneNumber",
+                "postal_or_zip": "postalOrZip",
+                "province_or_state": "provinceOrState",
+                "skip_verification": True,
+            },
+            description="description",
+            from_={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+                "address_line2": "addressLine2",
+                "city": "city",
+                "company_name": "companyName",
+                "description": "description",
+                "email": "email",
+                "force_verified_status": True,
+                "job_title": "jobTitle",
+                "last_name": "lastName",
+                "metadata": {"foo": "bar"},
+                "phone_number": "phoneNumber",
+                "postal_or_zip": "postalOrZip",
+                "province_or_state": "provinceOrState",
+                "skip_verification": True,
+            },
+            mailing_class="first_class",
+            merge_variables={"foo": "bar"},
+            metadata={"foo": "bar"},
+            paper="standard",
+            send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
 
@@ -752,6 +880,12 @@ class TestAsyncPostcards:
         response = await async_client.print_mail.postcards.with_raw_response.create(
             back_template="backTemplate",
             front_template="frontTemplate",
+            size="6x4",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
         )
 
         assert response.is_closed is True
@@ -765,6 +899,12 @@ class TestAsyncPostcards:
         async with async_client.print_mail.postcards.with_streaming_response.create(
             back_template="backTemplate",
             front_template="frontTemplate",
+            size="6x4",
+            to={
+                "address_line1": "addressLine1",
+                "country_code": "countryCode",
+                "first_name": "firstName",
+            },
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -834,7 +974,7 @@ class TestAsyncPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
-            paper="premium_paper_L6fw2k_N_j",
+            paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])
@@ -937,7 +1077,7 @@ class TestAsyncPostcards:
             mailing_class="first_class",
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
-            paper="premium_paper_L6fw2k_N_j",
+            paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
         )
         assert_matches_type(Postcard, postcard, path=["response"])

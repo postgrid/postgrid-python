@@ -101,6 +101,11 @@ class LettersResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: Union[
+            Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"],
+            str,
+        ]
+        | Omit = omit,
         perforated_page: Literal[1] | Omit = omit,
         plastic_card: PlasticCardParam | Omit = omit,
         return_envelope: str | Omit = omit,
@@ -158,6 +163,17 @@ class LettersResource(SyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper selection used for this letter.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_letter_standard_white_70lb`
+              - `premium_paper_letter_standard_white_80lb`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default letter paper is used when configured; otherwise `standard`.
+
           perforated_page: If specified, indicates which letter page is perforated. Currently, only the
               first page can be perforated.
 
@@ -184,7 +200,56 @@ class LettersResource(SyncAPIResource):
     def create(
         self,
         *,
+        from_: letter_create_params.LetterCreateWithTemplateFrom,
         template: str,
+        to: letter_create_params.LetterCreateWithTemplateTo,
+        address_placement: AddressPlacement | Omit = omit,
+        attached_pdf: AttachedPdfParam | Omit = omit,
+        color: bool | Omit = omit,
+        description: str | Omit = omit,
+        double_sided: bool | Omit = omit,
+        envelope: str | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        paper: Union[
+            Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"],
+            str,
+        ]
+        | Omit = omit,
+        perforated_page: Literal[1] | Omit = omit,
+        plastic_card: PlasticCardParam | Omit = omit,
+        return_envelope: str | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        size: LetterSize | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -202,8 +267,63 @@ class LettersResource(SyncAPIResource):
         - Upload the aforementioned PDF file via a multipart form upload request
 
         Args:
+          from_: The contact information of the sender. You can pass contact information inline
+              here just like you can for the `to`.
+
           template: The template ID for the letter. You can supply _either_ this or `html` but not
               both.
+
+          to: The recipient of this order. You can either supply the contact information
+              inline here or provide a contact ID. PostGrid will automatically deduplicate
+              contacts regardless of whether you provide the information inline here or call
+              the contact creation endpoint.
+
+          address_placement: Enum representing the placement of the address on the letter.
+
+          attached_pdf: Model representing an attached PDF.
+
+          color: Indicates if the letter is in color.
+
+          description: An optional string describing this resource. Will be visible in the API and the
+              dashboard.
+
+          double_sided: Indicates if the letter is double-sided.
+
+          envelope: The envelope (ID) for the letter. You can either specify a custom envelope ID or
+              use the default `standard` envelope.
+
+          mailing_class: The mailing class of this order. If not provided, automatically set to
+              `first_class`.
+
+          merge_variables: These will be merged with the variables in the template or HTML you create this
+              order with. The keys in this object should match the variable names in the
+              template _exactly_ as they are case-sensitive. Note that these _do not_ apply to
+              PDFs uploaded with the order.
+
+          metadata: See the section on Metadata.
+
+          paper: Premium paper selection used for this letter.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_letter_standard_white_70lb`
+              - `premium_paper_letter_standard_white_80lb`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default letter paper is used when configured; otherwise `standard`.
+
+          perforated_page: If specified, indicates which letter page is perforated. Currently, only the
+              first page can be perforated.
+
+          plastic_card: Model representing a plastic card.
+
+          return_envelope: The return envelope (ID) sent out with the letter, if any.
+
+          send_date: This order will transition from `ready` to `printing` on the day after this
+              date. You can use this parameter to schedule orders for a future date.
+
+          size: Enum representing the supported letter sizes.
 
           extra_headers: Send extra headers
 
@@ -259,6 +379,11 @@ class LettersResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: Union[
+            Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"],
+            str,
+        ]
+        | Omit = omit,
         perforated_page: Literal[1] | Omit = omit,
         plastic_card: PlasticCardParam | Omit = omit,
         return_envelope: str | Omit = omit,
@@ -315,6 +440,17 @@ class LettersResource(SyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper selection used for this letter.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_letter_standard_white_70lb`
+              - `premium_paper_letter_standard_white_80lb`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default letter paper is used when configured; otherwise `standard`.
+
           perforated_page: If specified, indicates which letter page is perforated. Currently, only the
               first page can be perforated.
 
@@ -337,15 +473,17 @@ class LettersResource(SyncAPIResource):
         """
         ...
 
-    @required_args(["from_", "html", "to"], ["template"], ["from_", "pdf", "to"])
+    @required_args(["from_", "html", "to"], ["from_", "template", "to"], ["from_", "pdf", "to"])
     def create(
         self,
         *,
         from_: letter_create_params.LetterCreateWithHTMLFrom
-        | letter_create_params.LetterCreateWithPdfFrom
-        | Omit = omit,
+        | letter_create_params.LetterCreateWithTemplateFrom
+        | letter_create_params.LetterCreateWithPdfFrom,
         html: str | Omit = omit,
-        to: letter_create_params.LetterCreateWithHTMLTo | letter_create_params.LetterCreateWithPdfTo | Omit = omit,
+        to: letter_create_params.LetterCreateWithHTMLTo
+        | letter_create_params.LetterCreateWithTemplateTo
+        | letter_create_params.LetterCreateWithPdfTo,
         address_placement: AddressPlacement | Omit = omit,
         attached_pdf: AttachedPdfParam | Omit = omit,
         color: bool | Omit = omit,
@@ -383,6 +521,11 @@ class LettersResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: Union[
+            Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"],
+            str,
+        ]
+        | Omit = omit,
         perforated_page: Literal[1] | Omit = omit,
         plastic_card: PlasticCardParam | Omit = omit,
         return_envelope: str | Omit = omit,
@@ -413,6 +556,7 @@ class LettersResource(SyncAPIResource):
                     "mailing_class": mailing_class,
                     "merge_variables": merge_variables,
                     "metadata": metadata,
+                    "paper": paper,
                     "perforated_page": perforated_page,
                     "plastic_card": plastic_card,
                     "return_envelope": return_envelope,
@@ -726,6 +870,11 @@ class AsyncLettersResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: Union[
+            Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"],
+            str,
+        ]
+        | Omit = omit,
         perforated_page: Literal[1] | Omit = omit,
         plastic_card: PlasticCardParam | Omit = omit,
         return_envelope: str | Omit = omit,
@@ -783,6 +932,17 @@ class AsyncLettersResource(AsyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper selection used for this letter.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_letter_standard_white_70lb`
+              - `premium_paper_letter_standard_white_80lb`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default letter paper is used when configured; otherwise `standard`.
+
           perforated_page: If specified, indicates which letter page is perforated. Currently, only the
               first page can be perforated.
 
@@ -809,7 +969,56 @@ class AsyncLettersResource(AsyncAPIResource):
     async def create(
         self,
         *,
+        from_: letter_create_params.LetterCreateWithTemplateFrom,
         template: str,
+        to: letter_create_params.LetterCreateWithTemplateTo,
+        address_placement: AddressPlacement | Omit = omit,
+        attached_pdf: AttachedPdfParam | Omit = omit,
+        color: bool | Omit = omit,
+        description: str | Omit = omit,
+        double_sided: bool | Omit = omit,
+        envelope: str | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        paper: Union[
+            Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"],
+            str,
+        ]
+        | Omit = omit,
+        perforated_page: Literal[1] | Omit = omit,
+        plastic_card: PlasticCardParam | Omit = omit,
+        return_envelope: str | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        size: LetterSize | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -827,8 +1036,63 @@ class AsyncLettersResource(AsyncAPIResource):
         - Upload the aforementioned PDF file via a multipart form upload request
 
         Args:
+          from_: The contact information of the sender. You can pass contact information inline
+              here just like you can for the `to`.
+
           template: The template ID for the letter. You can supply _either_ this or `html` but not
               both.
+
+          to: The recipient of this order. You can either supply the contact information
+              inline here or provide a contact ID. PostGrid will automatically deduplicate
+              contacts regardless of whether you provide the information inline here or call
+              the contact creation endpoint.
+
+          address_placement: Enum representing the placement of the address on the letter.
+
+          attached_pdf: Model representing an attached PDF.
+
+          color: Indicates if the letter is in color.
+
+          description: An optional string describing this resource. Will be visible in the API and the
+              dashboard.
+
+          double_sided: Indicates if the letter is double-sided.
+
+          envelope: The envelope (ID) for the letter. You can either specify a custom envelope ID or
+              use the default `standard` envelope.
+
+          mailing_class: The mailing class of this order. If not provided, automatically set to
+              `first_class`.
+
+          merge_variables: These will be merged with the variables in the template or HTML you create this
+              order with. The keys in this object should match the variable names in the
+              template _exactly_ as they are case-sensitive. Note that these _do not_ apply to
+              PDFs uploaded with the order.
+
+          metadata: See the section on Metadata.
+
+          paper: Premium paper selection used for this letter.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_letter_standard_white_70lb`
+              - `premium_paper_letter_standard_white_80lb`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default letter paper is used when configured; otherwise `standard`.
+
+          perforated_page: If specified, indicates which letter page is perforated. Currently, only the
+              first page can be perforated.
+
+          plastic_card: Model representing a plastic card.
+
+          return_envelope: The return envelope (ID) sent out with the letter, if any.
+
+          send_date: This order will transition from `ready` to `printing` on the day after this
+              date. You can use this parameter to schedule orders for a future date.
+
+          size: Enum representing the supported letter sizes.
 
           extra_headers: Send extra headers
 
@@ -884,6 +1148,11 @@ class AsyncLettersResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: Union[
+            Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"],
+            str,
+        ]
+        | Omit = omit,
         perforated_page: Literal[1] | Omit = omit,
         plastic_card: PlasticCardParam | Omit = omit,
         return_envelope: str | Omit = omit,
@@ -940,6 +1209,17 @@ class AsyncLettersResource(AsyncAPIResource):
 
           metadata: See the section on Metadata.
 
+          paper: Premium paper selection used for this letter.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_letter_standard_white_70lb`
+              - `premium_paper_letter_standard_white_80lb`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default letter paper is used when configured; otherwise `standard`.
+
           perforated_page: If specified, indicates which letter page is perforated. Currently, only the
               first page can be perforated.
 
@@ -962,15 +1242,17 @@ class AsyncLettersResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(["from_", "html", "to"], ["template"], ["from_", "pdf", "to"])
+    @required_args(["from_", "html", "to"], ["from_", "template", "to"], ["from_", "pdf", "to"])
     async def create(
         self,
         *,
         from_: letter_create_params.LetterCreateWithHTMLFrom
-        | letter_create_params.LetterCreateWithPdfFrom
-        | Omit = omit,
+        | letter_create_params.LetterCreateWithTemplateFrom
+        | letter_create_params.LetterCreateWithPdfFrom,
         html: str | Omit = omit,
-        to: letter_create_params.LetterCreateWithHTMLTo | letter_create_params.LetterCreateWithPdfTo | Omit = omit,
+        to: letter_create_params.LetterCreateWithHTMLTo
+        | letter_create_params.LetterCreateWithTemplateTo
+        | letter_create_params.LetterCreateWithPdfTo,
         address_placement: AddressPlacement | Omit = omit,
         attached_pdf: AttachedPdfParam | Omit = omit,
         color: bool | Omit = omit,
@@ -1008,6 +1290,11 @@ class AsyncLettersResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
+        paper: Union[
+            Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"],
+            str,
+        ]
+        | Omit = omit,
         perforated_page: Literal[1] | Omit = omit,
         plastic_card: PlasticCardParam | Omit = omit,
         return_envelope: str | Omit = omit,
@@ -1038,6 +1325,7 @@ class AsyncLettersResource(AsyncAPIResource):
                     "mailing_class": mailing_class,
                     "merge_variables": merge_variables,
                     "metadata": metadata,
+                    "paper": paper,
                     "perforated_page": perforated_page,
                     "plastic_card": plastic_card,
                     "return_envelope": return_envelope,
