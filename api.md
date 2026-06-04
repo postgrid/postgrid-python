@@ -115,6 +115,35 @@ Methods:
 - <code title="delete /print-mail/v1/trackers/{id}">client.print_mail.trackers.<a href="./src/postgrid/resources/print_mail/trackers.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/tracker_delete_response.py">TrackerDeleteResponse</a></code>
 - <code title="get /print-mail/v1/trackers/{id}/visits">client.print_mail.trackers.<a href="./src/postgrid/resources/print_mail/trackers.py">retrieve_visits</a>(id, \*\*<a href="src/postgrid/types/print_mail/tracker_retrieve_visits_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/tracker_retrieve_visits_response.py">SyncSkipLimit[TrackerRetrieveVisitsResponse]</a></code>
 
+## Webhooks
+
+Types:
+
+```python
+from postgrid.types.print_mail import Webhook, WebhookInvocation, WebhookDeleteResponse
+```
+
+Methods:
+
+- <code title="post /print-mail/v1/webhooks">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/webhook_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/webhook.py">Webhook</a></code>
+- <code title="get /print-mail/v1/webhooks/{id}">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">retrieve</a>(id) -> <a href="./src/postgrid/types/print_mail/webhook.py">Webhook</a></code>
+- <code title="post /print-mail/v1/webhooks/{id}">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">update</a>(id, \*\*<a href="src/postgrid/types/print_mail/webhook_update_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/webhook.py">Webhook</a></code>
+- <code title="get /print-mail/v1/webhooks">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/webhook_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/webhook.py">SyncSkipLimit[Webhook]</a></code>
+- <code title="delete /print-mail/v1/webhooks/{id}">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/webhook_delete_response.py">WebhookDeleteResponse</a></code>
+- <code title="get /print-mail/v1/webhooks/{id}/invocations">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">list_invocations</a>(id, \*\*<a href="src/postgrid/types/print_mail/webhook_list_invocations_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/webhook_invocation.py">SyncSkipLimit[WebhookInvocation]</a></code>
+
+## Events
+
+Types:
+
+```python
+from postgrid.types.print_mail import Event
+```
+
+Methods:
+
+- <code title="get /print-mail/v1/events">client.print_mail.events.<a href="./src/postgrid/resources/print_mail/events.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/event_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/event.py">SyncSkipLimit[Event]</a></code>
+
 ## Letters
 
 Types:
