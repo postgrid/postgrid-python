@@ -10,6 +10,14 @@ from .boxes import (
     BoxesResourceWithStreamingResponse,
     AsyncBoxesResourceWithStreamingResponse,
 )
+from .events import (
+    EventsResource,
+    AsyncEventsResource,
+    EventsResourceWithRawResponse,
+    AsyncEventsResourceWithRawResponse,
+    EventsResourceWithStreamingResponse,
+    AsyncEventsResourceWithStreamingResponse,
+)
 from .cheques import (
     ChequesResource,
     AsyncChequesResource,
@@ -41,6 +49,14 @@ from .trackers import (
     AsyncTrackersResourceWithRawResponse,
     TrackersResourceWithStreamingResponse,
     AsyncTrackersResourceWithStreamingResponse,
+)
+from .webhooks import (
+    WebhooksResource,
+    AsyncWebhooksResource,
+    WebhooksResourceWithRawResponse,
+    AsyncWebhooksResourceWithRawResponse,
+    WebhooksResourceWithStreamingResponse,
+    AsyncWebhooksResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
 from .campaigns import (
@@ -176,6 +192,43 @@ class PrintMailResource(SyncAPIResource):
         See the following guide for more details: https://postgrid.readme.io/reference/trackers-1
         """
         return TrackersResource(self._client)
+
+    @cached_property
+    def webhooks(self) -> WebhooksResource:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return WebhooksResource(self._client)
+
+    @cached_property
+    def events(self) -> EventsResource:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return EventsResource(self._client)
 
     @cached_property
     def letters(self) -> LettersResource:
@@ -377,6 +430,43 @@ class AsyncPrintMailResource(AsyncAPIResource):
         See the following guide for more details: https://postgrid.readme.io/reference/trackers-1
         """
         return AsyncTrackersResource(self._client)
+
+    @cached_property
+    def webhooks(self) -> AsyncWebhooksResource:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return AsyncWebhooksResource(self._client)
+
+    @cached_property
+    def events(self) -> AsyncEventsResource:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return AsyncEventsResource(self._client)
 
     @cached_property
     def letters(self) -> AsyncLettersResource:
@@ -583,6 +673,43 @@ class PrintMailResourceWithRawResponse:
         return TrackersResourceWithRawResponse(self._print_mail.trackers)
 
     @cached_property
+    def webhooks(self) -> WebhooksResourceWithRawResponse:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return WebhooksResourceWithRawResponse(self._print_mail.webhooks)
+
+    @cached_property
+    def events(self) -> EventsResourceWithRawResponse:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return EventsResourceWithRawResponse(self._print_mail.events)
+
+    @cached_property
     def letters(self) -> LettersResourceWithRawResponse:
         return LettersResourceWithRawResponse(self._print_mail.letters)
 
@@ -766,6 +893,43 @@ class AsyncPrintMailResourceWithRawResponse:
         See the following guide for more details: https://postgrid.readme.io/reference/trackers-1
         """
         return AsyncTrackersResourceWithRawResponse(self._print_mail.trackers)
+
+    @cached_property
+    def webhooks(self) -> AsyncWebhooksResourceWithRawResponse:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return AsyncWebhooksResourceWithRawResponse(self._print_mail.webhooks)
+
+    @cached_property
+    def events(self) -> AsyncEventsResourceWithRawResponse:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return AsyncEventsResourceWithRawResponse(self._print_mail.events)
 
     @cached_property
     def letters(self) -> AsyncLettersResourceWithRawResponse:
@@ -953,6 +1117,43 @@ class PrintMailResourceWithStreamingResponse:
         return TrackersResourceWithStreamingResponse(self._print_mail.trackers)
 
     @cached_property
+    def webhooks(self) -> WebhooksResourceWithStreamingResponse:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return WebhooksResourceWithStreamingResponse(self._print_mail.webhooks)
+
+    @cached_property
+    def events(self) -> EventsResourceWithStreamingResponse:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return EventsResourceWithStreamingResponse(self._print_mail.events)
+
+    @cached_property
     def letters(self) -> LettersResourceWithStreamingResponse:
         return LettersResourceWithStreamingResponse(self._print_mail.letters)
 
@@ -1136,6 +1337,43 @@ class AsyncPrintMailResourceWithStreamingResponse:
         See the following guide for more details: https://postgrid.readme.io/reference/trackers-1
         """
         return AsyncTrackersResourceWithStreamingResponse(self._print_mail.trackers)
+
+    @cached_property
+    def webhooks(self) -> AsyncWebhooksResourceWithStreamingResponse:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return AsyncWebhooksResourceWithStreamingResponse(self._print_mail.webhooks)
+
+    @cached_property
+    def events(self) -> AsyncEventsResourceWithStreamingResponse:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return AsyncEventsResourceWithStreamingResponse(self._print_mail.events)
 
     @cached_property
     def letters(self) -> AsyncLettersResourceWithStreamingResponse:

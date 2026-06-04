@@ -8,6 +8,14 @@ from .boxes import (
     BoxesResourceWithStreamingResponse,
     AsyncBoxesResourceWithStreamingResponse,
 )
+from .events import (
+    EventsResource,
+    AsyncEventsResource,
+    EventsResourceWithRawResponse,
+    AsyncEventsResourceWithRawResponse,
+    EventsResourceWithStreamingResponse,
+    AsyncEventsResourceWithStreamingResponse,
+)
 from .cheques import (
     ChequesResource,
     AsyncChequesResource,
@@ -47,6 +55,14 @@ from .trackers import (
     AsyncTrackersResourceWithRawResponse,
     TrackersResourceWithStreamingResponse,
     AsyncTrackersResourceWithStreamingResponse,
+)
+from .webhooks import (
+    WebhooksResource,
+    AsyncWebhooksResource,
+    WebhooksResourceWithRawResponse,
+    AsyncWebhooksResourceWithRawResponse,
+    WebhooksResourceWithStreamingResponse,
+    AsyncWebhooksResourceWithStreamingResponse,
 )
 from .campaigns import (
     CampaignsResource,
@@ -172,6 +188,18 @@ __all__ = [
     "AsyncTrackersResourceWithRawResponse",
     "TrackersResourceWithStreamingResponse",
     "AsyncTrackersResourceWithStreamingResponse",
+    "WebhooksResource",
+    "AsyncWebhooksResource",
+    "WebhooksResourceWithRawResponse",
+    "AsyncWebhooksResourceWithRawResponse",
+    "WebhooksResourceWithStreamingResponse",
+    "AsyncWebhooksResourceWithStreamingResponse",
+    "EventsResource",
+    "AsyncEventsResource",
+    "EventsResourceWithRawResponse",
+    "AsyncEventsResourceWithRawResponse",
+    "EventsResourceWithStreamingResponse",
+    "AsyncEventsResourceWithStreamingResponse",
     "LettersResource",
     "AsyncLettersResource",
     "LettersResourceWithRawResponse",
