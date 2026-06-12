@@ -8,7 +8,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NotGiven, Base64FileInput, omit, not_given
 from ..._utils import path_template, maybe_transform, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -30,6 +30,8 @@ __all__ = ["ChequesResource", "AsyncChequesResource"]
 
 
 class ChequesResource(SyncAPIResource):
+    """Create and manage cheque orders."""
+
     @cached_property
     def with_raw_response(self) -> ChequesResourceWithRawResponse:
         """
@@ -60,7 +62,11 @@ class ChequesResource(SyncAPIResource):
         description: str | Omit = omit,
         digital_only: DigitalOnlyParam | Omit = omit,
         envelope: Union[Literal["standard"], str] | Omit = omit,
-        logo_url: str | Omit = omit,
+        letter_html: str | Omit = omit,
+        letter_pdf: Union[str, Base64FileInput] | Omit = omit,
+        letter_settings: cheque_create_params.LetterSettings | Omit = omit,
+        letter_template: str | Omit = omit,
+        logo: str | Omit = omit,
         mailing_class: Literal[
             "first_class",
             "standard_class",
@@ -96,6 +102,7 @@ class ChequesResource(SyncAPIResource):
         metadata: Dict[str, object] | Omit = omit,
         number: int | Omit = omit,
         redirect_to: cheque_create_params.RedirectTo | Omit = omit,
+        return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: ChequeSize | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -112,7 +119,9 @@ class ChequesResource(SyncAPIResource):
 
         If you would like to create a digitalOnly cheque, the digitalOnly object with
         the watermark will need to be passed in. Feature is available on request, e-mail
-        support@postgrid.com for access.
+        support@postgrid.com for access. Digital-only cheques are not sent out — they
+        are created with a `cancelled` status and a cancellation reason of
+        `digital_only`.
 
         Example request body:
 
@@ -157,7 +166,18 @@ class ChequesResource(SyncAPIResource):
           envelope: The envelope of the cheque. If a custom envelope ID is not specified, defaults
               to `standard`.
 
-          logo_url: An optional logo URL for the cheque. This will be placed next to the recipient
+          letter_html: The raw HTML content for a letter attached to the cheque, if any. You can supply
+              _either_ this, `letterTemplate`, or `letterPDF`, but not more than one.
+
+          letter_pdf: A URL pointing to a PDF for the letter attached to the cheque, or the PDF file
+              itself when uploaded via a multipart form request. You can supply _either_ this,
+              `letterHTML`, or `letterTemplate`, but not more than one.
+
+          letter_settings: Settings for a letter attached to a cheque.
+
+          letter_template: A Template ID for the letter attached to the cheque, if any.
+
+          logo: An optional logo URL for the cheque. This will be placed next to the recipient
               address at the top left corner of the cheque. This needs to be a public link to
               an image file (e.g. a PNG or JPEG file).
 
@@ -185,6 +205,9 @@ class ChequesResource(SyncAPIResource):
               mail it forward to the final recipient yourself. One use case for this is
               signing cheques at your office before mailing them out yourself.
 
+          return_envelope: The return envelope (ID) sent out with the cheque, if any. Note that you must
+              first order return envelopes using the Return Envelopes API.
+
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
 
@@ -210,7 +233,11 @@ class ChequesResource(SyncAPIResource):
                     "description": description,
                     "digital_only": digital_only,
                     "envelope": envelope,
-                    "logo_url": logo_url,
+                    "letter_html": letter_html,
+                    "letter_pdf": letter_pdf,
+                    "letter_settings": letter_settings,
+                    "letter_template": letter_template,
+                    "logo": logo,
                     "mailing_class": mailing_class,
                     "memo": memo,
                     "merge_variables": merge_variables,
@@ -218,6 +245,7 @@ class ChequesResource(SyncAPIResource):
                     "metadata": metadata,
                     "number": number,
                     "redirect_to": redirect_to,
+                    "return_envelope": return_envelope,
                     "send_date": send_date,
                     "size": size,
                 },
@@ -500,6 +528,8 @@ class ChequesResource(SyncAPIResource):
 
 
 class AsyncChequesResource(AsyncAPIResource):
+    """Create and manage cheque orders."""
+
     @cached_property
     def with_raw_response(self) -> AsyncChequesResourceWithRawResponse:
         """
@@ -530,7 +560,11 @@ class AsyncChequesResource(AsyncAPIResource):
         description: str | Omit = omit,
         digital_only: DigitalOnlyParam | Omit = omit,
         envelope: Union[Literal["standard"], str] | Omit = omit,
-        logo_url: str | Omit = omit,
+        letter_html: str | Omit = omit,
+        letter_pdf: Union[str, Base64FileInput] | Omit = omit,
+        letter_settings: cheque_create_params.LetterSettings | Omit = omit,
+        letter_template: str | Omit = omit,
+        logo: str | Omit = omit,
         mailing_class: Literal[
             "first_class",
             "standard_class",
@@ -566,6 +600,7 @@ class AsyncChequesResource(AsyncAPIResource):
         metadata: Dict[str, object] | Omit = omit,
         number: int | Omit = omit,
         redirect_to: cheque_create_params.RedirectTo | Omit = omit,
+        return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: ChequeSize | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -582,7 +617,9 @@ class AsyncChequesResource(AsyncAPIResource):
 
         If you would like to create a digitalOnly cheque, the digitalOnly object with
         the watermark will need to be passed in. Feature is available on request, e-mail
-        support@postgrid.com for access.
+        support@postgrid.com for access. Digital-only cheques are not sent out — they
+        are created with a `cancelled` status and a cancellation reason of
+        `digital_only`.
 
         Example request body:
 
@@ -627,7 +664,18 @@ class AsyncChequesResource(AsyncAPIResource):
           envelope: The envelope of the cheque. If a custom envelope ID is not specified, defaults
               to `standard`.
 
-          logo_url: An optional logo URL for the cheque. This will be placed next to the recipient
+          letter_html: The raw HTML content for a letter attached to the cheque, if any. You can supply
+              _either_ this, `letterTemplate`, or `letterPDF`, but not more than one.
+
+          letter_pdf: A URL pointing to a PDF for the letter attached to the cheque, or the PDF file
+              itself when uploaded via a multipart form request. You can supply _either_ this,
+              `letterHTML`, or `letterTemplate`, but not more than one.
+
+          letter_settings: Settings for a letter attached to a cheque.
+
+          letter_template: A Template ID for the letter attached to the cheque, if any.
+
+          logo: An optional logo URL for the cheque. This will be placed next to the recipient
               address at the top left corner of the cheque. This needs to be a public link to
               an image file (e.g. a PNG or JPEG file).
 
@@ -655,6 +703,9 @@ class AsyncChequesResource(AsyncAPIResource):
               mail it forward to the final recipient yourself. One use case for this is
               signing cheques at your office before mailing them out yourself.
 
+          return_envelope: The return envelope (ID) sent out with the cheque, if any. Note that you must
+              first order return envelopes using the Return Envelopes API.
+
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
 
@@ -680,7 +731,11 @@ class AsyncChequesResource(AsyncAPIResource):
                     "description": description,
                     "digital_only": digital_only,
                     "envelope": envelope,
-                    "logo_url": logo_url,
+                    "letter_html": letter_html,
+                    "letter_pdf": letter_pdf,
+                    "letter_settings": letter_settings,
+                    "letter_template": letter_template,
+                    "logo": logo,
                     "mailing_class": mailing_class,
                     "memo": memo,
                     "merge_variables": merge_variables,
@@ -688,6 +743,7 @@ class AsyncChequesResource(AsyncAPIResource):
                     "metadata": metadata,
                     "number": number,
                     "redirect_to": redirect_to,
+                    "return_envelope": return_envelope,
                     "send_date": send_date,
                     "size": size,
                 },

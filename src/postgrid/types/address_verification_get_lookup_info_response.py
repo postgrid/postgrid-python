@@ -17,6 +17,9 @@ class Data(BaseModel):
     indicates an unlimited plan.
     """
 
+    subscribed: bool
+    """Whether the organization is on a paid (subscribed) plan."""
+
     used: int
     """The number of lookups consumed in the current billing period."""
 

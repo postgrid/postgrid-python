@@ -168,7 +168,23 @@ class Cheque(BaseModel):
     through. Only populated when an `imbStatus` is present.
     """
 
-    logo_url: Optional[str] = FieldInfo(alias="logoURL", default=None)
+    letter_html: Optional[str] = FieldInfo(alias="letterHTML", default=None)
+    """The raw HTML content for a letter attached to the cheque, if any.
+
+    You can supply _either_ this, `letterTemplate`, or `letterPDF`, but not more
+    than one.
+    """
+
+    letter_template: Optional[str] = FieldInfo(alias="letterTemplate", default=None)
+    """A Template ID for the letter attached to the cheque, if any."""
+
+    letter_uploaded_pdf: Optional[str] = FieldInfo(alias="letterUploadedPDF", default=None)
+    """
+    A signed URL pointing to the original PDF of the letter attached to the cheque,
+    if any.
+    """
+
+    logo: Optional[str] = None
     """An optional logo URL for the cheque.
 
     This will be placed next to the recipient address at the top left corner of the
@@ -199,6 +215,12 @@ class Cheque(BaseModel):
     If you don't provide this, it will automatically be set to an incrementing
     number starting from 1 across your entire account, ensuring that every cheque
     has a unique number.
+    """
+
+    return_envelope: Optional[str] = FieldInfo(alias="returnEnvelope", default=None)
+    """The return envelope (ID) sent out with the cheque, if any.
+
+    Note that you must first order return envelopes using the Return Envelopes API.
     """
 
     tracking_number: Optional[str] = FieldInfo(alias="trackingNumber", default=None)

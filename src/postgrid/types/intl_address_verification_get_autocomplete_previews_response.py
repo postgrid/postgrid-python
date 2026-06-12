@@ -17,9 +17,9 @@ class Data(BaseModel):
     id: Optional[str] = None
     """The unique identifier for this result.
 
-    Pass this to `POST /completions` to retrieve the full address. If the `type` is
-    `Container`, pass it as the `container` parameter to `GET /completions` to drill
-    down further.
+    If the result is a fully resolvable address (`type` is `Address`), pass this to
+    `POST /completions` to retrieve the full address. Otherwise, pass it as the
+    `container` query parameter to `GET /completions` to drill down further.
     """
 
     description: Optional[str] = None

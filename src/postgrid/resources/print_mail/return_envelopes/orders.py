@@ -2,61 +2,71 @@
 
 from __future__ import annotations
 
-from typing import Dict
+from typing import Dict, List
+from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
-from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
+from ...._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ...._utils import path_template, maybe_transform, async_maybe_transform
+from ...._compat import cached_property
+from ...._resource import SyncAPIResource, AsyncAPIResource
+from ...._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...pagination import SyncSkipLimit, AsyncSkipLimit
-from ..._base_client import AsyncPaginator, make_request_options
-from ...types.print_mail import template_list_params, template_create_params, template_update_params
-from ...types.print_mail.template import Template
-from ...types.print_mail.template_delete_response import TemplateDeleteResponse
+from ....pagination import SyncSkipLimit, AsyncSkipLimit
+from ...._base_client import AsyncPaginator, make_request_options
+from ....types.print_mail.return_envelopes import (
+    order_list_params,
+    order_cancel_params,
+    order_create_params,
+    order_retrieve_params,
+)
+from ....types.print_mail.return_envelopes.return_envelope_order import ReturnEnvelopeOrder
 
-__all__ = ["TemplatesResource", "AsyncTemplatesResource"]
+__all__ = ["OrdersResource", "AsyncOrdersResource"]
 
 
-class TemplatesResource(SyncAPIResource):
-    """Create and manage reusable HTML templates.
+class OrdersResource(SyncAPIResource):
+    """
+    You can use the return envelopes API to create and manage return envelopes.
+     These are envelopes that are sent along with your mail (if specified) and
+     allow your recipients to send mail to a particular address without having to
+     purchase their own envelopes/stamps.
 
-    A template's HTML can include
-     merge variables (e.g. `{{firstName}}`) and be referenced by ID when creating
-     letters, postcards, cheques, and self mailers.
+     Note that you must order return envelopes and wait for the order to be
+     filled before you can use them. You can manage these return envelope orders
+     via the API as well as the dashboard.
     """
 
     @cached_property
-    def with_raw_response(self) -> TemplatesResourceWithRawResponse:
+    def with_raw_response(self) -> OrdersResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/postgrid/postgrid-python#accessing-raw-response-data-eg-headers
         """
-        return TemplatesResourceWithRawResponse(self)
+        return OrdersResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> TemplatesResourceWithStreamingResponse:
+    def with_streaming_response(self) -> OrdersResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/postgrid/postgrid-python#with_streaming_response
         """
-        return TemplatesResourceWithStreamingResponse(self)
+        return OrdersResourceWithStreamingResponse(self)
 
     def create(
         self,
+        id: str,
         *,
+        quantity_ordered: int,
         description: str | Omit = omit,
-        html: str | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -64,17 +74,16 @@ class TemplatesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Template:
-        """Create a template.
+    ) -> ReturnEnvelopeOrder:
+        """Creates a batch order of return envelopes.
 
-        Note that if you want to create a template that works with
-        our template editor, you must use our dashboard.
+        The minimum order quantity is 5000.
 
         Args:
+          quantity_ordered: The quantity of return envelopes ordered. Minimum 5000.
+
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
-
-          html: The HTML content of this template.
 
           metadata: See the section on Metadata.
 
@@ -86,37 +95,45 @@ class TemplatesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._post(
-            "/print-mail/v1/templates",
+            path_template("/print-mail/v1/return_envelopes/{id}/orders", id=id),
             body=maybe_transform(
                 {
+                    "quantity_ordered": quantity_ordered,
                     "description": description,
-                    "html": html,
                     "metadata": metadata,
                 },
-                template_create_params.TemplateCreateParams,
+                order_create_params.OrderCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Template,
+            cast_to=ReturnEnvelopeOrder,
         )
 
     def retrieve(
         self,
-        id: str,
+        order_id: str,
         *,
+        id: str,
+        expand: List[Literal["returnEnvelope"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Template:
+    ) -> ReturnEnvelopeOrder:
         """
-        Retrieve a template by ID.
+        Gets a specific return envelope order by return envelope ID as `id` and return
+        envelope order ID as `orderID`.
 
         Args:
+          expand: Pass `expand[]=returnEnvelope` to expand the order's `returnEnvelope` field into
+              the full return envelope object.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -127,67 +144,23 @@ class TemplatesResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not order_id:
+            raise ValueError(f"Expected a non-empty value for `order_id` but received {order_id!r}")
         return self._get(
-            path_template("/print-mail/v1/templates/{id}", id=id),
+            path_template("/print-mail/v1/return_envelopes/{id}/orders/{order_id}", id=id, order_id=order_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"expand": expand}, order_retrieve_params.OrderRetrieveParams),
             ),
-            cast_to=Template,
-        )
-
-    def update(
-        self,
-        id: str,
-        *,
-        description: str | Omit = omit,
-        html: str | Omit = omit,
-        metadata: Dict[str, object] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Template:
-        """
-        Update a template by ID.
-
-        Args:
-          description: An optional string describing this resource. Will be visible in the API and the
-              dashboard.
-
-          html: The HTML content of this template.
-
-          metadata: See the section on Metadata.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._post(
-            path_template("/print-mail/v1/templates/{id}", id=id),
-            body=maybe_transform(
-                {
-                    "description": description,
-                    "html": html,
-                    "metadata": metadata,
-                },
-                template_update_params.TemplateUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Template,
+            cast_to=ReturnEnvelopeOrder,
         )
 
     def list(
         self,
+        id: str,
         *,
         limit: int | Omit = omit,
         search: str | Omit = omit,
@@ -198,9 +171,9 @@ class TemplatesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SyncSkipLimit[Template]:
+    ) -> SyncSkipLimit[ReturnEnvelopeOrder]:
         """
-        Get a list of templates.
+        Gets a list of orders for the return envelope by `id`.
 
         Args:
           search: You can supply any string to help narrow down the list of resources. For
@@ -217,9 +190,11 @@ class TemplatesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get_api_list(
-            "/print-mail/v1/templates",
-            page=SyncSkipLimit[Template],
+            path_template("/print-mail/v1/return_envelopes/{id}/orders", id=id),
+            page=SyncSkipLimit[ReturnEnvelopeOrder],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -231,26 +206,76 @@ class TemplatesResource(SyncAPIResource):
                         "search": search,
                         "skip": skip,
                     },
-                    template_list_params.TemplateListParams,
+                    order_list_params.OrderListParams,
                 ),
             ),
-            model=Template,
+            model=ReturnEnvelopeOrder,
         )
 
-    def delete(
+    def cancel(
         self,
-        id: str,
+        order_id: str,
         *,
+        id: str,
+        expand: List[Literal["returnEnvelope"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TemplateDeleteResponse:
-        """Delete a template by ID.
-
+    ) -> ReturnEnvelopeOrder:
+        """
+        Cancels the return envelope order by `orderID` for the return envelope by `id`.
         Note that this operation cannot be undone.
+
+        Args:
+          expand: Pass `expand[]=returnEnvelope` to expand the order's `returnEnvelope` field into
+              the full return envelope object.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not order_id:
+            raise ValueError(f"Expected a non-empty value for `order_id` but received {order_id!r}")
+        return self._delete(
+            path_template("/print-mail/v1/return_envelopes/{id}/orders/{order_id}", id=id, order_id=order_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"expand": expand}, order_cancel_params.OrderCancelParams),
+            ),
+            cast_to=ReturnEnvelopeOrder,
+        )
+
+    def fill(
+        self,
+        order_id: str,
+        *,
+        id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ReturnEnvelopeOrder:
+        """
+        Fills the return envelope order by `orderID` for the return envelope by `id`.
+        This is only available in test mode and can be used to simulate how a live order
+        would be filled.
+
+        Note: this will fail with a `return_envelope_order_cannot_fill_error` if the
+        order's status is not `placed`.
 
         Args:
           extra_headers: Send extra headers
@@ -263,47 +288,54 @@ class TemplatesResource(SyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return self._delete(
-            path_template("/print-mail/v1/templates/{id}", id=id),
+        if not order_id:
+            raise ValueError(f"Expected a non-empty value for `order_id` but received {order_id!r}")
+        return self._post(
+            path_template("/print-mail/v1/return_envelopes/{id}/orders/{order_id}/fills", id=id, order_id=order_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TemplateDeleteResponse,
+            cast_to=ReturnEnvelopeOrder,
         )
 
 
-class AsyncTemplatesResource(AsyncAPIResource):
-    """Create and manage reusable HTML templates.
+class AsyncOrdersResource(AsyncAPIResource):
+    """
+    You can use the return envelopes API to create and manage return envelopes.
+     These are envelopes that are sent along with your mail (if specified) and
+     allow your recipients to send mail to a particular address without having to
+     purchase their own envelopes/stamps.
 
-    A template's HTML can include
-     merge variables (e.g. `{{firstName}}`) and be referenced by ID when creating
-     letters, postcards, cheques, and self mailers.
+     Note that you must order return envelopes and wait for the order to be
+     filled before you can use them. You can manage these return envelope orders
+     via the API as well as the dashboard.
     """
 
     @cached_property
-    def with_raw_response(self) -> AsyncTemplatesResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncOrdersResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/postgrid/postgrid-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncTemplatesResourceWithRawResponse(self)
+        return AsyncOrdersResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncTemplatesResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncOrdersResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/postgrid/postgrid-python#with_streaming_response
         """
-        return AsyncTemplatesResourceWithStreamingResponse(self)
+        return AsyncOrdersResourceWithStreamingResponse(self)
 
     async def create(
         self,
+        id: str,
         *,
+        quantity_ordered: int,
         description: str | Omit = omit,
-        html: str | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -311,17 +343,16 @@ class AsyncTemplatesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Template:
-        """Create a template.
+    ) -> ReturnEnvelopeOrder:
+        """Creates a batch order of return envelopes.
 
-        Note that if you want to create a template that works with
-        our template editor, you must use our dashboard.
+        The minimum order quantity is 5000.
 
         Args:
+          quantity_ordered: The quantity of return envelopes ordered. Minimum 5000.
+
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
-
-          html: The HTML content of this template.
 
           metadata: See the section on Metadata.
 
@@ -333,37 +364,45 @@ class AsyncTemplatesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return await self._post(
-            "/print-mail/v1/templates",
+            path_template("/print-mail/v1/return_envelopes/{id}/orders", id=id),
             body=await async_maybe_transform(
                 {
+                    "quantity_ordered": quantity_ordered,
                     "description": description,
-                    "html": html,
                     "metadata": metadata,
                 },
-                template_create_params.TemplateCreateParams,
+                order_create_params.OrderCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Template,
+            cast_to=ReturnEnvelopeOrder,
         )
 
     async def retrieve(
         self,
-        id: str,
+        order_id: str,
         *,
+        id: str,
+        expand: List[Literal["returnEnvelope"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Template:
+    ) -> ReturnEnvelopeOrder:
         """
-        Retrieve a template by ID.
+        Gets a specific return envelope order by return envelope ID as `id` and return
+        envelope order ID as `orderID`.
 
         Args:
+          expand: Pass `expand[]=returnEnvelope` to expand the order's `returnEnvelope` field into
+              the full return envelope object.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -374,67 +413,23 @@ class AsyncTemplatesResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not order_id:
+            raise ValueError(f"Expected a non-empty value for `order_id` but received {order_id!r}")
         return await self._get(
-            path_template("/print-mail/v1/templates/{id}", id=id),
+            path_template("/print-mail/v1/return_envelopes/{id}/orders/{order_id}", id=id, order_id=order_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"expand": expand}, order_retrieve_params.OrderRetrieveParams),
             ),
-            cast_to=Template,
-        )
-
-    async def update(
-        self,
-        id: str,
-        *,
-        description: str | Omit = omit,
-        html: str | Omit = omit,
-        metadata: Dict[str, object] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Template:
-        """
-        Update a template by ID.
-
-        Args:
-          description: An optional string describing this resource. Will be visible in the API and the
-              dashboard.
-
-          html: The HTML content of this template.
-
-          metadata: See the section on Metadata.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not id:
-            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._post(
-            path_template("/print-mail/v1/templates/{id}", id=id),
-            body=await async_maybe_transform(
-                {
-                    "description": description,
-                    "html": html,
-                    "metadata": metadata,
-                },
-                template_update_params.TemplateUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Template,
+            cast_to=ReturnEnvelopeOrder,
         )
 
     def list(
         self,
+        id: str,
         *,
         limit: int | Omit = omit,
         search: str | Omit = omit,
@@ -445,9 +440,9 @@ class AsyncTemplatesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AsyncPaginator[Template, AsyncSkipLimit[Template]]:
+    ) -> AsyncPaginator[ReturnEnvelopeOrder, AsyncSkipLimit[ReturnEnvelopeOrder]]:
         """
-        Get a list of templates.
+        Gets a list of orders for the return envelope by `id`.
 
         Args:
           search: You can supply any string to help narrow down the list of resources. For
@@ -464,9 +459,11 @@ class AsyncTemplatesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
         return self._get_api_list(
-            "/print-mail/v1/templates",
-            page=AsyncSkipLimit[Template],
+            path_template("/print-mail/v1/return_envelopes/{id}/orders", id=id),
+            page=AsyncSkipLimit[ReturnEnvelopeOrder],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -478,26 +475,76 @@ class AsyncTemplatesResource(AsyncAPIResource):
                         "search": search,
                         "skip": skip,
                     },
-                    template_list_params.TemplateListParams,
+                    order_list_params.OrderListParams,
                 ),
             ),
-            model=Template,
+            model=ReturnEnvelopeOrder,
         )
 
-    async def delete(
+    async def cancel(
         self,
-        id: str,
+        order_id: str,
         *,
+        id: str,
+        expand: List[Literal["returnEnvelope"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TemplateDeleteResponse:
-        """Delete a template by ID.
-
+    ) -> ReturnEnvelopeOrder:
+        """
+        Cancels the return envelope order by `orderID` for the return envelope by `id`.
         Note that this operation cannot be undone.
+
+        Args:
+          expand: Pass `expand[]=returnEnvelope` to expand the order's `returnEnvelope` field into
+              the full return envelope object.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not id:
+            raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
+        if not order_id:
+            raise ValueError(f"Expected a non-empty value for `order_id` but received {order_id!r}")
+        return await self._delete(
+            path_template("/print-mail/v1/return_envelopes/{id}/orders/{order_id}", id=id, order_id=order_id),
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"expand": expand}, order_cancel_params.OrderCancelParams),
+            ),
+            cast_to=ReturnEnvelopeOrder,
+        )
+
+    async def fill(
+        self,
+        order_id: str,
+        *,
+        id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ReturnEnvelopeOrder:
+        """
+        Fills the return envelope order by `orderID` for the return envelope by `id`.
+        This is only available in test mode and can be used to simulate how a live order
+        would be filled.
+
+        Note: this will fail with a `return_envelope_order_cannot_fill_error` if the
+        order's status is not `placed`.
 
         Args:
           extra_headers: Send extra headers
@@ -510,94 +557,96 @@ class AsyncTemplatesResource(AsyncAPIResource):
         """
         if not id:
             raise ValueError(f"Expected a non-empty value for `id` but received {id!r}")
-        return await self._delete(
-            path_template("/print-mail/v1/templates/{id}", id=id),
+        if not order_id:
+            raise ValueError(f"Expected a non-empty value for `order_id` but received {order_id!r}")
+        return await self._post(
+            path_template("/print-mail/v1/return_envelopes/{id}/orders/{order_id}/fills", id=id, order_id=order_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TemplateDeleteResponse,
+            cast_to=ReturnEnvelopeOrder,
         )
 
 
-class TemplatesResourceWithRawResponse:
-    def __init__(self, templates: TemplatesResource) -> None:
-        self._templates = templates
+class OrdersResourceWithRawResponse:
+    def __init__(self, orders: OrdersResource) -> None:
+        self._orders = orders
 
         self.create = to_raw_response_wrapper(
-            templates.create,
+            orders.create,
         )
         self.retrieve = to_raw_response_wrapper(
-            templates.retrieve,
-        )
-        self.update = to_raw_response_wrapper(
-            templates.update,
+            orders.retrieve,
         )
         self.list = to_raw_response_wrapper(
-            templates.list,
+            orders.list,
         )
-        self.delete = to_raw_response_wrapper(
-            templates.delete,
+        self.cancel = to_raw_response_wrapper(
+            orders.cancel,
+        )
+        self.fill = to_raw_response_wrapper(
+            orders.fill,
         )
 
 
-class AsyncTemplatesResourceWithRawResponse:
-    def __init__(self, templates: AsyncTemplatesResource) -> None:
-        self._templates = templates
+class AsyncOrdersResourceWithRawResponse:
+    def __init__(self, orders: AsyncOrdersResource) -> None:
+        self._orders = orders
 
         self.create = async_to_raw_response_wrapper(
-            templates.create,
+            orders.create,
         )
         self.retrieve = async_to_raw_response_wrapper(
-            templates.retrieve,
-        )
-        self.update = async_to_raw_response_wrapper(
-            templates.update,
+            orders.retrieve,
         )
         self.list = async_to_raw_response_wrapper(
-            templates.list,
+            orders.list,
         )
-        self.delete = async_to_raw_response_wrapper(
-            templates.delete,
+        self.cancel = async_to_raw_response_wrapper(
+            orders.cancel,
+        )
+        self.fill = async_to_raw_response_wrapper(
+            orders.fill,
         )
 
 
-class TemplatesResourceWithStreamingResponse:
-    def __init__(self, templates: TemplatesResource) -> None:
-        self._templates = templates
+class OrdersResourceWithStreamingResponse:
+    def __init__(self, orders: OrdersResource) -> None:
+        self._orders = orders
 
         self.create = to_streamed_response_wrapper(
-            templates.create,
+            orders.create,
         )
         self.retrieve = to_streamed_response_wrapper(
-            templates.retrieve,
-        )
-        self.update = to_streamed_response_wrapper(
-            templates.update,
+            orders.retrieve,
         )
         self.list = to_streamed_response_wrapper(
-            templates.list,
+            orders.list,
         )
-        self.delete = to_streamed_response_wrapper(
-            templates.delete,
+        self.cancel = to_streamed_response_wrapper(
+            orders.cancel,
+        )
+        self.fill = to_streamed_response_wrapper(
+            orders.fill,
         )
 
 
-class AsyncTemplatesResourceWithStreamingResponse:
-    def __init__(self, templates: AsyncTemplatesResource) -> None:
-        self._templates = templates
+class AsyncOrdersResourceWithStreamingResponse:
+    def __init__(self, orders: AsyncOrdersResource) -> None:
+        self._orders = orders
 
         self.create = async_to_streamed_response_wrapper(
-            templates.create,
+            orders.create,
         )
         self.retrieve = async_to_streamed_response_wrapper(
-            templates.retrieve,
-        )
-        self.update = async_to_streamed_response_wrapper(
-            templates.update,
+            orders.retrieve,
         )
         self.list = async_to_streamed_response_wrapper(
-            templates.list,
+            orders.list,
         )
-        self.delete = async_to_streamed_response_wrapper(
-            templates.delete,
+        self.cancel = async_to_streamed_response_wrapper(
+            orders.cancel,
+        )
+        self.fill = async_to_streamed_response_wrapper(
+            orders.fill,
         )

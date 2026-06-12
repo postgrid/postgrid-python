@@ -9,10 +9,17 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["Contact"]
+__all__ = ["ReturnEnvelope", "To"]
 
 
-class Contact(BaseModel):
+class To(BaseModel):
+    """The contact denormalized onto a return envelope when it is created.
+
+    Unlike
+    a full contact it is not a standalone resource, so it has no `object`,
+    `live`, `createdAt`, or `updatedAt` fields.
+    """
+
     id: str
     """A unique ID prefixed with contact\\__"""
 
@@ -24,18 +31,6 @@ class Contact(BaseModel):
 
     country_code: str = FieldInfo(alias="countryCode")
     """The ISO 3611-1 country code of the contact's address."""
-
-    created_at: datetime = FieldInfo(alias="createdAt")
-    """The UTC time at which this resource was created."""
-
-    live: bool
-    """`true` if this is a live mode resource else `false`."""
-
-    object: Literal["contact"]
-    """Always `contact`."""
-
-    updated_at: datetime = FieldInfo(alias="updatedAt")
-    """The UTC time at which this resource was last updated."""
 
     address_errors: Optional[str] = FieldInfo(alias="addressErrors", default=None)
     """
@@ -76,7 +71,7 @@ class Contact(BaseModel):
     last_name: Optional[str] = FieldInfo(alias="lastName", default=None)
     """Last name of the contact."""
 
-    metadata: Optional[Dict[str, builtins.object]] = None
+    metadata: Optional[Dict[str, object]] = None
     """See the section on Metadata."""
 
     phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
@@ -100,3 +95,43 @@ class Contact(BaseModel):
     If `true`, PostGrid will skip running this contact's address through our address
     verification system.
     """
+
+
+class ReturnEnvelope(BaseModel):
+    id: str
+    """A unique ID prefixed with return*envelope*"""
+
+    available: int
+    """The number of return envelopes available to use in your orders immediately.
+
+    This increases when a return envelope order is filled and decreases as you send
+    orders which include this return envelope.
+    """
+
+    created_at: datetime = FieldInfo(alias="createdAt")
+    """The UTC time at which this resource was created."""
+
+    live: bool
+    """`true` if this is a live mode resource else `false`."""
+
+    object: Literal["return_envelope"]
+    """Always `return_envelope`."""
+
+    to: To
+    """The contact denormalized onto a return envelope when it is created.
+
+    Unlike a full contact it is not a standalone resource, so it has no `object`,
+    `live`, `createdAt`, or `updatedAt` fields.
+    """
+
+    updated_at: datetime = FieldInfo(alias="updatedAt")
+    """The UTC time at which this resource was last updated."""
+
+    description: Optional[str] = None
+    """An optional string describing this resource.
+
+    Will be visible in the API and the dashboard.
+    """
+
+    metadata: Optional[Dict[str, builtins.object]] = None
+    """See the section on Metadata."""
