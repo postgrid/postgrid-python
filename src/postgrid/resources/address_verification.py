@@ -190,11 +190,15 @@ class AddressVerificationResource(SyncAPIResource):
         be freeform or structured, matching the same input formats accepted by the
         single verification endpoint.
 
+        - Accepts up to 2,000 addresses per request.
         - Uses 1 lookup per address (plus 1 more per address if geocoding).
         - Requires a secret API key.
         - Returns results in the same order as the input addresses.
         - If an individual address fails, its result will contain an `error` field
           rather than a `verifiedAddress`.
+        - If you are not subscribed and the batch would exceed your remaining free
+          lookups, the entire batch fails (nothing is verified). Size your batch to the
+          number of lookups you have left.
 
         Args:
           addresses: Array of addresses to verify. Each item can be a freeform string or structured
@@ -312,7 +316,8 @@ class AddressVerificationResource(SyncAPIResource):
 
         Useful
         for checking how many lookups you have consumed and whether you are on a paid
-        plan.
+        plan. If you are not subscribed, any lookup past your free limit will fail — use
+        this endpoint to check your remaining lookups.
         """
         return self._get(
             "/v1/addver/",
@@ -831,11 +836,15 @@ class AsyncAddressVerificationResource(AsyncAPIResource):
         be freeform or structured, matching the same input formats accepted by the
         single verification endpoint.
 
+        - Accepts up to 2,000 addresses per request.
         - Uses 1 lookup per address (plus 1 more per address if geocoding).
         - Requires a secret API key.
         - Returns results in the same order as the input addresses.
         - If an individual address fails, its result will contain an `error` field
           rather than a `verifiedAddress`.
+        - If you are not subscribed and the batch would exceed your remaining free
+          lookups, the entire batch fails (nothing is verified). Size your batch to the
+          number of lookups you have left.
 
         Args:
           addresses: Array of addresses to verify. Each item can be a freeform string or structured
@@ -953,7 +962,8 @@ class AsyncAddressVerificationResource(AsyncAPIResource):
 
         Useful
         for checking how many lookups you have consumed and whether you are on a paid
-        plan.
+        plan. If you are not subscribed, any lookup past your free limit will fail — use
+        this endpoint to check your remaining lookups.
         """
         return await self._get(
             "/v1/addver/",

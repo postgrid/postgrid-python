@@ -128,6 +128,14 @@ from .mailing_lists import (
     MailingListsResourceWithStreamingResponse,
     AsyncMailingListsResourceWithStreamingResponse,
 )
+from .return_envelopes import (
+    ReturnEnvelopesResource,
+    AsyncReturnEnvelopesResource,
+    ReturnEnvelopesResourceWithRawResponse,
+    AsyncReturnEnvelopesResourceWithRawResponse,
+    ReturnEnvelopesResourceWithStreamingResponse,
+    AsyncReturnEnvelopesResourceWithStreamingResponse,
+)
 from .sub_organizations import (
     SubOrganizationsResource,
     AsyncSubOrganizationsResource,
@@ -230,6 +238,12 @@ __all__ = [
     "AsyncSelfMailersResourceWithRawResponse",
     "SelfMailersResourceWithStreamingResponse",
     "AsyncSelfMailersResourceWithStreamingResponse",
+    "ReturnEnvelopesResource",
+    "AsyncReturnEnvelopesResource",
+    "ReturnEnvelopesResourceWithRawResponse",
+    "AsyncReturnEnvelopesResourceWithRawResponse",
+    "ReturnEnvelopesResourceWithStreamingResponse",
+    "AsyncReturnEnvelopesResourceWithStreamingResponse",
     "CampaignsResource",
     "AsyncCampaignsResource",
     "CampaignsResourceWithRawResponse",

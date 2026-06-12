@@ -28,6 +28,8 @@ __all__ = ["SelfMailersResource", "AsyncSelfMailersResource"]
 
 
 class SelfMailersResource(SyncAPIResource):
+    """Create and manage self mailers."""
+
     @cached_property
     def with_raw_response(self) -> SelfMailersResourceWithRawResponse:
         """
@@ -733,6 +735,8 @@ class SelfMailersResource(SyncAPIResource):
 
 
 class AsyncSelfMailersResource(AsyncAPIResource):
+    """Create and manage self mailers."""
+
     @cached_property
     def with_raw_response(self) -> AsyncSelfMailersResourceWithRawResponse:
         """

@@ -4,7 +4,13 @@ from __future__ import annotations
 
 from .errors import Errors as Errors
 from .status import Status as Status
+from .addver_list import AddverList as AddverList
+from .bulk_verification_list_params import BulkVerificationListParams as BulkVerificationListParams
+from .bulk_verification_list_response import BulkVerificationListResponse as BulkVerificationListResponse
+from .bulk_verification_upload_params import BulkVerificationUploadParams as BulkVerificationUploadParams
+from .bulk_verification_upload_response import BulkVerificationUploadResponse as BulkVerificationUploadResponse
 from .address_verification_verify_params import AddressVerificationVerifyParams as AddressVerificationVerifyParams
+from .bulk_verification_retrieve_response import BulkVerificationRetrieveResponse as BulkVerificationRetrieveResponse
 from .address_verification_verify_response import AddressVerificationVerifyResponse as AddressVerificationVerifyResponse
 from .intl_address_verification_verify_params import (
     IntlAddressVerificationVerifyParams as IntlAddressVerificationVerifyParams,

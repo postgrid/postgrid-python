@@ -38,6 +38,8 @@ __all__ = ["LettersResource", "AsyncLettersResource"]
 
 
 class LettersResource(SyncAPIResource):
+    """Create and manage letter orders."""
+
     @cached_property
     def with_raw_response(self) -> LettersResourceWithRawResponse:
         """
@@ -807,6 +809,8 @@ class LettersResource(SyncAPIResource):
 
 
 class AsyncLettersResource(AsyncAPIResource):
+    """Create and manage letter orders."""
+
     @cached_property
     def with_raw_response(self) -> AsyncLettersResourceWithRawResponse:
         """

@@ -52,6 +52,25 @@ Methods:
 - <code title="get /v1/intl_addver/completions">client.intl_address_verification.<a href="./src/postgrid/resources/intl_address_verification.py">get_autocomplete_previews</a>(\*\*<a href="src/postgrid/types/intl_address_verification_get_autocomplete_previews_params.py">params</a>) -> <a href="./src/postgrid/types/intl_address_verification_get_autocomplete_previews_response.py">IntlAddressVerificationGetAutocompletePreviewsResponse</a></code>
 - <code title="post /v1/intl_addver/verifications">client.intl_address_verification.<a href="./src/postgrid/resources/intl_address_verification.py">verify</a>(\*\*<a href="src/postgrid/types/intl_address_verification_verify_params.py">params</a>) -> <a href="./src/postgrid/types/intl_address_verification_verify_response.py">IntlAddressVerificationVerifyResponse</a></code>
 
+# BulkVerification
+
+Types:
+
+```python
+from postgrid.types import (
+    AddverList,
+    BulkVerificationRetrieveResponse,
+    BulkVerificationListResponse,
+    BulkVerificationUploadResponse,
+)
+```
+
+Methods:
+
+- <code title="get /v1/addver_lists/{id}">client.bulk_verification.<a href="./src/postgrid/resources/bulk_verification.py">retrieve</a>(id) -> <a href="./src/postgrid/types/bulk_verification_retrieve_response.py">BulkVerificationRetrieveResponse</a></code>
+- <code title="get /v1/addver_lists">client.bulk_verification.<a href="./src/postgrid/resources/bulk_verification.py">list</a>(\*\*<a href="src/postgrid/types/bulk_verification_list_params.py">params</a>) -> <a href="./src/postgrid/types/bulk_verification_list_response.py">BulkVerificationListResponse</a></code>
+- <code title="post /v1/addver_lists">client.bulk_verification.<a href="./src/postgrid/resources/bulk_verification.py">upload</a>(\*\*<a href="src/postgrid/types/bulk_verification_upload_params.py">params</a>) -> <a href="./src/postgrid/types/bulk_verification_upload_response.py">BulkVerificationUploadResponse</a></code>
+
 # PrintMail
 
 ## Contacts
@@ -237,6 +256,36 @@ Methods:
 - <code title="delete /print-mail/v1/self_mailers/{id}">client.print_mail.self_mailers.<a href="./src/postgrid/resources/print_mail/self_mailers.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/self_mailer.py">SelfMailer</a></code>
 - <code title="post /print-mail/v1/self_mailers/{id}/progressions">client.print_mail.self_mailers.<a href="./src/postgrid/resources/print_mail/self_mailers.py">progress</a>(id) -> <a href="./src/postgrid/types/print_mail/self_mailer.py">SelfMailer</a></code>
 - <code title="get /print-mail/v1/self_mailers/{id}/url">client.print_mail.self_mailers.<a href="./src/postgrid/resources/print_mail/self_mailers.py">retrieve_url</a>(id) -> <a href="./src/postgrid/types/print_mail/self_mailer_retrieve_url_response.py">SelfMailerRetrieveURLResponse</a></code>
+
+## ReturnEnvelopes
+
+Types:
+
+```python
+from postgrid.types.print_mail import ReturnEnvelope
+```
+
+Methods:
+
+- <code title="post /print-mail/v1/return_envelopes">client.print_mail.return_envelopes.<a href="./src/postgrid/resources/print_mail/return_envelopes/return_envelopes.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/return_envelope_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelope.py">ReturnEnvelope</a></code>
+- <code title="get /print-mail/v1/return_envelopes/{id}">client.print_mail.return_envelopes.<a href="./src/postgrid/resources/print_mail/return_envelopes/return_envelopes.py">retrieve</a>(id) -> <a href="./src/postgrid/types/print_mail/return_envelope.py">ReturnEnvelope</a></code>
+- <code title="get /print-mail/v1/return_envelopes">client.print_mail.return_envelopes.<a href="./src/postgrid/resources/print_mail/return_envelopes/return_envelopes.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/return_envelope_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelope.py">SyncSkipLimit[ReturnEnvelope]</a></code>
+
+### Orders
+
+Types:
+
+```python
+from postgrid.types.print_mail.return_envelopes import ReturnEnvelopeOrder
+```
+
+Methods:
+
+- <code title="post /print-mail/v1/return_envelopes/{id}/orders">client.print_mail.return_envelopes.orders.<a href="./src/postgrid/resources/print_mail/return_envelopes/orders.py">create</a>(id, \*\*<a href="src/postgrid/types/print_mail/return_envelopes/order_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelopes/return_envelope_order.py">ReturnEnvelopeOrder</a></code>
+- <code title="get /print-mail/v1/return_envelopes/{id}/orders/{orderID}">client.print_mail.return_envelopes.orders.<a href="./src/postgrid/resources/print_mail/return_envelopes/orders.py">retrieve</a>(order_id, \*, id, \*\*<a href="src/postgrid/types/print_mail/return_envelopes/order_retrieve_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelopes/return_envelope_order.py">ReturnEnvelopeOrder</a></code>
+- <code title="get /print-mail/v1/return_envelopes/{id}/orders">client.print_mail.return_envelopes.orders.<a href="./src/postgrid/resources/print_mail/return_envelopes/orders.py">list</a>(id, \*\*<a href="src/postgrid/types/print_mail/return_envelopes/order_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelopes/return_envelope_order.py">SyncSkipLimit[ReturnEnvelopeOrder]</a></code>
+- <code title="delete /print-mail/v1/return_envelopes/{id}/orders/{orderID}">client.print_mail.return_envelopes.orders.<a href="./src/postgrid/resources/print_mail/return_envelopes/orders.py">cancel</a>(order_id, \*, id, \*\*<a href="src/postgrid/types/print_mail/return_envelopes/order_cancel_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelopes/return_envelope_order.py">ReturnEnvelopeOrder</a></code>
+- <code title="post /print-mail/v1/return_envelopes/{id}/orders/{orderID}/fills">client.print_mail.return_envelopes.orders.<a href="./src/postgrid/resources/print_mail/return_envelopes/orders.py">fill</a>(order_id, \*, id) -> <a href="./src/postgrid/types/print_mail/return_envelopes/return_envelope_order.py">ReturnEnvelopeOrder</a></code>
 
 ## Campaigns
 

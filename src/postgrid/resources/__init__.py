@@ -8,6 +8,14 @@ from .print_mail import (
     PrintMailResourceWithStreamingResponse,
     AsyncPrintMailResourceWithStreamingResponse,
 )
+from .bulk_verification import (
+    BulkVerificationResource,
+    AsyncBulkVerificationResource,
+    BulkVerificationResourceWithRawResponse,
+    AsyncBulkVerificationResourceWithRawResponse,
+    BulkVerificationResourceWithStreamingResponse,
+    AsyncBulkVerificationResourceWithStreamingResponse,
+)
 from .address_verification import (
     AddressVerificationResource,
     AsyncAddressVerificationResource,
@@ -38,6 +46,12 @@ __all__ = [
     "AsyncIntlAddressVerificationResourceWithRawResponse",
     "IntlAddressVerificationResourceWithStreamingResponse",
     "AsyncIntlAddressVerificationResourceWithStreamingResponse",
+    "BulkVerificationResource",
+    "AsyncBulkVerificationResource",
+    "BulkVerificationResourceWithRawResponse",
+    "AsyncBulkVerificationResourceWithRawResponse",
+    "BulkVerificationResourceWithStreamingResponse",
+    "AsyncBulkVerificationResourceWithStreamingResponse",
     "PrintMailResource",
     "AsyncPrintMailResource",
     "PrintMailResourceWithRawResponse",

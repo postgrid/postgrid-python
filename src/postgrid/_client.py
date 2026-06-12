@@ -36,7 +36,8 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import print_mail, address_verification, intl_address_verification
+    from .resources import print_mail, bulk_verification, address_verification, intl_address_verification
+    from .resources.bulk_verification import BulkVerificationResource, AsyncBulkVerificationResource
     from .resources.address_verification import AddressVerificationResource, AsyncAddressVerificationResource
     from .resources.print_mail.print_mail import PrintMailResource, AsyncPrintMailResource
     from .resources.intl_address_verification import (
@@ -147,6 +148,30 @@ class PostGrid(SyncAPIClient):
         from .resources.intl_address_verification import IntlAddressVerificationResource
 
         return IntlAddressVerificationResource(self)
+
+    @cached_property
+    def bulk_verification(self) -> BulkVerificationResource:
+        """
+        **Note: For verifying batches of addresses in real-time via JSON, please use
+         the "Batch Verify Addresses" endpoint.**
+
+         The bulk verification API allows you to submit CSV files to be processed
+         through our address verification engine. Each file can contain up to 250,000
+         addresses, and the output lines up with what is returned from our batch
+         verification API.
+
+         Note that you will be invoiced for every list that processes successfully.
+         You can pre-purchase bulk verification credits from our
+         [dashboard](https://app.postgrid.com/dashboard/upgrade) to prevent this.
+         However, these cannot be used for geocoded lists, and you must individually
+         pay for every list that you process with those flags.
+
+         **Also note that in order to access bulk geocoding you must contact**
+         [support@postgrid.com](mailto:support@postgrid.com) **to enable the feature.**
+        """
+        from .resources.bulk_verification import BulkVerificationResource
+
+        return BulkVerificationResource(self)
 
     @cached_property
     def print_mail(self) -> PrintMailResource:
@@ -398,6 +423,30 @@ class AsyncPostGrid(AsyncAPIClient):
         return AsyncIntlAddressVerificationResource(self)
 
     @cached_property
+    def bulk_verification(self) -> AsyncBulkVerificationResource:
+        """
+        **Note: For verifying batches of addresses in real-time via JSON, please use
+         the "Batch Verify Addresses" endpoint.**
+
+         The bulk verification API allows you to submit CSV files to be processed
+         through our address verification engine. Each file can contain up to 250,000
+         addresses, and the output lines up with what is returned from our batch
+         verification API.
+
+         Note that you will be invoiced for every list that processes successfully.
+         You can pre-purchase bulk verification credits from our
+         [dashboard](https://app.postgrid.com/dashboard/upgrade) to prevent this.
+         However, these cannot be used for geocoded lists, and you must individually
+         pay for every list that you process with those flags.
+
+         **Also note that in order to access bulk geocoding you must contact**
+         [support@postgrid.com](mailto:support@postgrid.com) **to enable the feature.**
+        """
+        from .resources.bulk_verification import AsyncBulkVerificationResource
+
+        return AsyncBulkVerificationResource(self)
+
+    @cached_property
     def print_mail(self) -> AsyncPrintMailResource:
         from .resources.print_mail import AsyncPrintMailResource
 
@@ -585,6 +634,30 @@ class PostGridWithRawResponse:
         return IntlAddressVerificationResourceWithRawResponse(self._client.intl_address_verification)
 
     @cached_property
+    def bulk_verification(self) -> bulk_verification.BulkVerificationResourceWithRawResponse:
+        """
+        **Note: For verifying batches of addresses in real-time via JSON, please use
+         the "Batch Verify Addresses" endpoint.**
+
+         The bulk verification API allows you to submit CSV files to be processed
+         through our address verification engine. Each file can contain up to 250,000
+         addresses, and the output lines up with what is returned from our batch
+         verification API.
+
+         Note that you will be invoiced for every list that processes successfully.
+         You can pre-purchase bulk verification credits from our
+         [dashboard](https://app.postgrid.com/dashboard/upgrade) to prevent this.
+         However, these cannot be used for geocoded lists, and you must individually
+         pay for every list that you process with those flags.
+
+         **Also note that in order to access bulk geocoding you must contact**
+         [support@postgrid.com](mailto:support@postgrid.com) **to enable the feature.**
+        """
+        from .resources.bulk_verification import BulkVerificationResourceWithRawResponse
+
+        return BulkVerificationResourceWithRawResponse(self._client.bulk_verification)
+
+    @cached_property
     def print_mail(self) -> print_mail.PrintMailResourceWithRawResponse:
         from .resources.print_mail import PrintMailResourceWithRawResponse
 
@@ -622,6 +695,30 @@ class AsyncPostGridWithRawResponse:
         from .resources.intl_address_verification import AsyncIntlAddressVerificationResourceWithRawResponse
 
         return AsyncIntlAddressVerificationResourceWithRawResponse(self._client.intl_address_verification)
+
+    @cached_property
+    def bulk_verification(self) -> bulk_verification.AsyncBulkVerificationResourceWithRawResponse:
+        """
+        **Note: For verifying batches of addresses in real-time via JSON, please use
+         the "Batch Verify Addresses" endpoint.**
+
+         The bulk verification API allows you to submit CSV files to be processed
+         through our address verification engine. Each file can contain up to 250,000
+         addresses, and the output lines up with what is returned from our batch
+         verification API.
+
+         Note that you will be invoiced for every list that processes successfully.
+         You can pre-purchase bulk verification credits from our
+         [dashboard](https://app.postgrid.com/dashboard/upgrade) to prevent this.
+         However, these cannot be used for geocoded lists, and you must individually
+         pay for every list that you process with those flags.
+
+         **Also note that in order to access bulk geocoding you must contact**
+         [support@postgrid.com](mailto:support@postgrid.com) **to enable the feature.**
+        """
+        from .resources.bulk_verification import AsyncBulkVerificationResourceWithRawResponse
+
+        return AsyncBulkVerificationResourceWithRawResponse(self._client.bulk_verification)
 
     @cached_property
     def print_mail(self) -> print_mail.AsyncPrintMailResourceWithRawResponse:
@@ -663,6 +760,30 @@ class PostGridWithStreamedResponse:
         return IntlAddressVerificationResourceWithStreamingResponse(self._client.intl_address_verification)
 
     @cached_property
+    def bulk_verification(self) -> bulk_verification.BulkVerificationResourceWithStreamingResponse:
+        """
+        **Note: For verifying batches of addresses in real-time via JSON, please use
+         the "Batch Verify Addresses" endpoint.**
+
+         The bulk verification API allows you to submit CSV files to be processed
+         through our address verification engine. Each file can contain up to 250,000
+         addresses, and the output lines up with what is returned from our batch
+         verification API.
+
+         Note that you will be invoiced for every list that processes successfully.
+         You can pre-purchase bulk verification credits from our
+         [dashboard](https://app.postgrid.com/dashboard/upgrade) to prevent this.
+         However, these cannot be used for geocoded lists, and you must individually
+         pay for every list that you process with those flags.
+
+         **Also note that in order to access bulk geocoding you must contact**
+         [support@postgrid.com](mailto:support@postgrid.com) **to enable the feature.**
+        """
+        from .resources.bulk_verification import BulkVerificationResourceWithStreamingResponse
+
+        return BulkVerificationResourceWithStreamingResponse(self._client.bulk_verification)
+
+    @cached_property
     def print_mail(self) -> print_mail.PrintMailResourceWithStreamingResponse:
         from .resources.print_mail import PrintMailResourceWithStreamingResponse
 
@@ -700,6 +821,30 @@ class AsyncPostGridWithStreamedResponse:
         from .resources.intl_address_verification import AsyncIntlAddressVerificationResourceWithStreamingResponse
 
         return AsyncIntlAddressVerificationResourceWithStreamingResponse(self._client.intl_address_verification)
+
+    @cached_property
+    def bulk_verification(self) -> bulk_verification.AsyncBulkVerificationResourceWithStreamingResponse:
+        """
+        **Note: For verifying batches of addresses in real-time via JSON, please use
+         the "Batch Verify Addresses" endpoint.**
+
+         The bulk verification API allows you to submit CSV files to be processed
+         through our address verification engine. Each file can contain up to 250,000
+         addresses, and the output lines up with what is returned from our batch
+         verification API.
+
+         Note that you will be invoiced for every list that processes successfully.
+         You can pre-purchase bulk verification credits from our
+         [dashboard](https://app.postgrid.com/dashboard/upgrade) to prevent this.
+         However, these cannot be used for geocoded lists, and you must individually
+         pay for every list that you process with those flags.
+
+         **Also note that in order to access bulk geocoding you must contact**
+         [support@postgrid.com](mailto:support@postgrid.com) **to enable the feature.**
+        """
+        from .resources.bulk_verification import AsyncBulkVerificationResourceWithStreamingResponse
+
+        return AsyncBulkVerificationResourceWithStreamingResponse(self._client.bulk_verification)
 
     @cached_property
     def print_mail(self) -> print_mail.AsyncPrintMailResourceWithStreamingResponse:

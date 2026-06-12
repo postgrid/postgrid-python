@@ -21,6 +21,7 @@ from .digital_only import DigitalOnly as DigitalOnly
 from .mailing_list import MailingList as MailingList
 from .plastic_card import PlasticCard as PlasticCard
 from .box_list_params import BoxListParams as BoxListParams
+from .return_envelope import ReturnEnvelope as ReturnEnvelope
 from .deleted_response import DeletedResponse as DeletedResponse
 from .sub_organization import SubOrganization as SubOrganization
 from .address_placement import AddressPlacement as AddressPlacement
@@ -90,6 +91,7 @@ from .verification_status_count import VerificationStatusCount as VerificationSt
 from .bank_account_create_params import BankAccountCreateParams as BankAccountCreateParams
 from .mailing_list_create_params import MailingListCreateParams as MailingListCreateParams
 from .mailing_list_update_params import MailingListUpdateParams as MailingListUpdateParams
+from .return_envelope_list_params import ReturnEnvelopeListParams as ReturnEnvelopeListParams
 from .snap_pack_retrieve_response import SnapPackRetrieveResponse as SnapPackRetrieveResponse
 from .virtual_mailbox_list_params import VirtualMailboxListParams as VirtualMailboxListParams
 from .bank_account_delete_response import BankAccountDeleteResponse as BankAccountDeleteResponse
@@ -98,6 +100,7 @@ from .letter_retrieve_url_response import LetterRetrieveURLResponse as LetterRet
 from .mailing_list_delete_response import MailingListDeleteResponse as MailingListDeleteResponse
 from .mailing_list_import_response import MailingListImportResponse as MailingListImportResponse
 from .sub_organization_list_params import SubOrganizationListParams as SubOrganizationListParams
+from .return_envelope_create_params import ReturnEnvelopeCreateParams as ReturnEnvelopeCreateParams
 from .virtual_mailbox_create_params import VirtualMailboxCreateParams as VirtualMailboxCreateParams
 from .virtual_mailbox_list_response import VirtualMailboxListResponse as VirtualMailboxListResponse
 from .postcard_retrieve_url_response import PostcardRetrieveURLResponse as PostcardRetrieveURLResponse

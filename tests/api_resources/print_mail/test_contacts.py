@@ -47,6 +47,7 @@ class TestContacts:
             phone_number="phoneNumber",
             postal_or_zip="postalOrZip",
             province_or_state="provinceOrState",
+            secret=True,
             skip_verification=True,
         )
         assert_matches_type(Contact, contact, path=["response"])
@@ -110,6 +111,7 @@ class TestContacts:
             phone_number="phoneNumber",
             postal_or_zip="postalOrZip",
             province_or_state="provinceOrState",
+            secret=True,
             skip_verification=True,
         )
         assert_matches_type(Contact, contact, path=["response"])
@@ -301,6 +303,7 @@ class TestAsyncContacts:
             phone_number="phoneNumber",
             postal_or_zip="postalOrZip",
             province_or_state="provinceOrState",
+            secret=True,
             skip_verification=True,
         )
         assert_matches_type(Contact, contact, path=["response"])
@@ -364,6 +367,7 @@ class TestAsyncContacts:
             phone_number="phoneNumber",
             postal_or_zip="postalOrZip",
             province_or_state="provinceOrState",
+            secret=True,
             skip_verification=True,
         )
         assert_matches_type(Contact, contact, path=["response"])

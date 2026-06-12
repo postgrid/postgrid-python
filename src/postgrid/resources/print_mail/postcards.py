@@ -28,6 +28,8 @@ __all__ = ["PostcardsResource", "AsyncPostcardsResource"]
 
 
 class PostcardsResource(SyncAPIResource):
+    """Create and manage postcard mailings."""
+
     @cached_property
     def with_raw_response(self) -> PostcardsResourceWithRawResponse:
         """
@@ -886,6 +888,8 @@ class PostcardsResource(SyncAPIResource):
 
 
 class AsyncPostcardsResource(AsyncAPIResource):
+    """Create and manage postcard mailings."""
+
     @cached_property
     def with_raw_response(self) -> AsyncPostcardsResourceWithRawResponse:
         """
