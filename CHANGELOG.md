@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.3.0 (2026-06-12)
+
+Full Changelog: [v2.2.0...v2.3.0](https://github.com/postgrid/postgrid-python/compare/v2.2.0...v2.3.0)
+
+### Features
+
+* **api:** update api with events and webhook capabilities ([6472f0c](https://github.com/postgrid/postgrid-python/commit/6472f0c67cae5d8946f43724d29f53762178918b))
+* New endpoints, fixed and aligned schemas ([c8be87f](https://github.com/postgrid/postgrid-python/commit/c8be87f4cfc054bc31b63e3dd1ab59183664801c))
+* PE-6131 HOTFIX: Fix idempotency key header for create endpoints ([6d2ab69](https://github.com/postgrid/postgrid-python/commit/6d2ab69231ab511d841c2fb914159513d1c64c27))
+* Update available premium paper IDs ([2791811](https://github.com/postgrid/postgrid-python/commit/27918110696bddf2afd84fc854d6a1d7ce139e9a))
+
 ## 2.2.0 (2026-05-13)
 
 Full Changelog: [v2.1.1...v2.2.0](https://github.com/postgrid/postgrid-python/compare/v2.1.1...v2.2.0)
