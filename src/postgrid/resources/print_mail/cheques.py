@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union
+from typing import Dict, Union, Mapping, cast
 from datetime import datetime
 from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, Base64FileInput, omit, not_given
-from ..._utils import path_template, maybe_transform, async_maybe_transform
+from ..._files import deepcopy_with_paths
+from ..._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
+from ..._utils import extract_files, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -63,7 +64,7 @@ class ChequesResource(SyncAPIResource):
         digital_only: DigitalOnlyParam | Omit = omit,
         envelope: Union[Literal["standard"], str] | Omit = omit,
         letter_html: str | Omit = omit,
-        letter_pdf: Union[str, Base64FileInput] | Omit = omit,
+        letter_pdf: Union[str, FileTypes] | Omit = omit,
         letter_settings: cheque_create_params.LetterSettings | Omit = omit,
         letter_template: str | Omit = omit,
         logo: str | Omit = omit,
@@ -105,6 +106,7 @@ class ChequesResource(SyncAPIResource):
         return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: ChequeSize | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -221,36 +223,45 @@ class ChequesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"idempotency-key": idempotency_key}), **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "amount": amount,
+                "bank_account": bank_account,
+                "from_": from_,
+                "to": to,
+                "currency_code": currency_code,
+                "description": description,
+                "digital_only": digital_only,
+                "envelope": envelope,
+                "letter_html": letter_html,
+                "letter_pdf": letter_pdf,
+                "letter_settings": letter_settings,
+                "letter_template": letter_template,
+                "logo": logo,
+                "mailing_class": mailing_class,
+                "memo": memo,
+                "merge_variables": merge_variables,
+                "message": message,
+                "metadata": metadata,
+                "number": number,
+                "redirect_to": redirect_to,
+                "return_envelope": return_envelope,
+                "send_date": send_date,
+                "size": size,
+            },
+            [["letterPDF"]],
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["letterPDF"]])
+        if files:
+            # It should be noted that the actual Content-Type header that will be
+            # sent to the server will contain a `boundary` parameter, e.g.
+            # multipart/form-data; boundary=---abc--
+            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/print-mail/v1/cheques",
-            body=maybe_transform(
-                {
-                    "amount": amount,
-                    "bank_account": bank_account,
-                    "from_": from_,
-                    "to": to,
-                    "currency_code": currency_code,
-                    "description": description,
-                    "digital_only": digital_only,
-                    "envelope": envelope,
-                    "letter_html": letter_html,
-                    "letter_pdf": letter_pdf,
-                    "letter_settings": letter_settings,
-                    "letter_template": letter_template,
-                    "logo": logo,
-                    "mailing_class": mailing_class,
-                    "memo": memo,
-                    "merge_variables": merge_variables,
-                    "message": message,
-                    "metadata": metadata,
-                    "number": number,
-                    "redirect_to": redirect_to,
-                    "return_envelope": return_envelope,
-                    "send_date": send_date,
-                    "size": size,
-                },
-                cheque_create_params.ChequeCreateParams,
-            ),
+            body=maybe_transform(body, cheque_create_params.ChequeCreateParams),
+            files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -561,7 +572,7 @@ class AsyncChequesResource(AsyncAPIResource):
         digital_only: DigitalOnlyParam | Omit = omit,
         envelope: Union[Literal["standard"], str] | Omit = omit,
         letter_html: str | Omit = omit,
-        letter_pdf: Union[str, Base64FileInput] | Omit = omit,
+        letter_pdf: Union[str, FileTypes] | Omit = omit,
         letter_settings: cheque_create_params.LetterSettings | Omit = omit,
         letter_template: str | Omit = omit,
         logo: str | Omit = omit,
@@ -603,6 +614,7 @@ class AsyncChequesResource(AsyncAPIResource):
         return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: ChequeSize | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -719,36 +731,45 @@ class AsyncChequesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {**strip_not_given({"idempotency-key": idempotency_key}), **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "amount": amount,
+                "bank_account": bank_account,
+                "from_": from_,
+                "to": to,
+                "currency_code": currency_code,
+                "description": description,
+                "digital_only": digital_only,
+                "envelope": envelope,
+                "letter_html": letter_html,
+                "letter_pdf": letter_pdf,
+                "letter_settings": letter_settings,
+                "letter_template": letter_template,
+                "logo": logo,
+                "mailing_class": mailing_class,
+                "memo": memo,
+                "merge_variables": merge_variables,
+                "message": message,
+                "metadata": metadata,
+                "number": number,
+                "redirect_to": redirect_to,
+                "return_envelope": return_envelope,
+                "send_date": send_date,
+                "size": size,
+            },
+            [["letterPDF"]],
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["letterPDF"]])
+        if files:
+            # It should be noted that the actual Content-Type header that will be
+            # sent to the server will contain a `boundary` parameter, e.g.
+            # multipart/form-data; boundary=---abc--
+            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/print-mail/v1/cheques",
-            body=await async_maybe_transform(
-                {
-                    "amount": amount,
-                    "bank_account": bank_account,
-                    "from_": from_,
-                    "to": to,
-                    "currency_code": currency_code,
-                    "description": description,
-                    "digital_only": digital_only,
-                    "envelope": envelope,
-                    "letter_html": letter_html,
-                    "letter_pdf": letter_pdf,
-                    "letter_settings": letter_settings,
-                    "letter_template": letter_template,
-                    "logo": logo,
-                    "mailing_class": mailing_class,
-                    "memo": memo,
-                    "merge_variables": merge_variables,
-                    "message": message,
-                    "metadata": metadata,
-                    "number": number,
-                    "redirect_to": redirect_to,
-                    "return_envelope": return_envelope,
-                    "send_date": send_date,
-                    "size": size,
-                },
-                cheque_create_params.ChequeCreateParams,
-            ),
+            body=await async_maybe_transform(body, cheque_create_params.ChequeCreateParams),
+            files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

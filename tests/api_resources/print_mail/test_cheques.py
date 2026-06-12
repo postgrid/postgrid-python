@@ -49,7 +49,7 @@ class TestCheques:
             },
             envelope="standard",
             letter_html="letterHTML",
-            letter_pdf="U3RhaW5sZXNzIHJvY2tz",
+            letter_pdf="https://example.com",
             letter_settings={"placement": "before_cheque"},
             letter_template="letterTemplate",
             logo="https://example.com",
@@ -81,6 +81,7 @@ class TestCheques:
             return_envelope="returnEnvelope",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
             size="us_letter",
+            idempotency_key="idempotency-key",
         )
         assert_matches_type(Cheque, cheque, path=["response"])
 
@@ -443,7 +444,7 @@ class TestAsyncCheques:
             },
             envelope="standard",
             letter_html="letterHTML",
-            letter_pdf="U3RhaW5sZXNzIHJvY2tz",
+            letter_pdf="https://example.com",
             letter_settings={"placement": "before_cheque"},
             letter_template="letterTemplate",
             logo="https://example.com",
@@ -475,6 +476,7 @@ class TestAsyncCheques:
             return_envelope="returnEnvelope",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
             size="us_letter",
+            idempotency_key="idempotency-key",
         )
         assert_matches_type(Cheque, cheque, path=["response"])
 

@@ -3,8 +3,8 @@
 from typing import Union
 from typing_extensions import TypeAlias
 
-from .snap_pack import SnapPack
+from .self_mailer import SelfMailer
 
-__all__ = ["SnapPackCreateResponse"]
+__all__ = ["SelfMailerCreateResponse"]
 
-SnapPackCreateResponse: TypeAlias = Union[SnapPack, SnapPack]
+SelfMailerCreateResponse: TypeAlias = Union[SelfMailer, SelfMailer]

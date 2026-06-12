@@ -13,6 +13,7 @@ from postgrid._utils import parse_datetime
 from postgrid.pagination import SyncSkipLimit, AsyncSkipLimit
 from postgrid.types.print_mail import (
     Letter,
+    LetterCreateResponse,
     LetterRetrieveURLResponse,
 )
 
@@ -38,7 +39,7 @@ class TestLetters:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -115,8 +116,9 @@ class TestLetters:
             return_envelope="returnEnvelope",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
             size="us_letter",
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -138,7 +140,7 @@ class TestLetters:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         letter = response.parse()
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -160,7 +162,7 @@ class TestLetters:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             letter = response.parse()
-            assert_matches_type(Letter, letter, path=["response"])
+            assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -180,7 +182,7 @@ class TestLetters:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -257,8 +259,9 @@ class TestLetters:
             return_envelope="returnEnvelope",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
             size="us_letter",
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -280,7 +283,7 @@ class TestLetters:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         letter = response.parse()
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -302,7 +305,7 @@ class TestLetters:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             letter = response.parse()
-            assert_matches_type(Letter, letter, path=["response"])
+            assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -322,7 +325,7 @@ class TestLetters:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -399,8 +402,9 @@ class TestLetters:
             return_envelope="returnEnvelope",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
             size="us_letter",
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -422,7 +426,7 @@ class TestLetters:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         letter = response.parse()
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -444,7 +448,7 @@ class TestLetters:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             letter = response.parse()
-            assert_matches_type(Letter, letter, path=["response"])
+            assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -722,7 +726,7 @@ class TestAsyncLetters:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -799,8 +803,9 @@ class TestAsyncLetters:
             return_envelope="returnEnvelope",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
             size="us_letter",
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -822,7 +827,7 @@ class TestAsyncLetters:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         letter = await response.parse()
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -844,7 +849,7 @@ class TestAsyncLetters:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             letter = await response.parse()
-            assert_matches_type(Letter, letter, path=["response"])
+            assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -864,7 +869,7 @@ class TestAsyncLetters:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -941,8 +946,9 @@ class TestAsyncLetters:
             return_envelope="returnEnvelope",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
             size="us_letter",
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -964,7 +970,7 @@ class TestAsyncLetters:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         letter = await response.parse()
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -986,7 +992,7 @@ class TestAsyncLetters:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             letter = await response.parse()
-            assert_matches_type(Letter, letter, path=["response"])
+            assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -1006,7 +1012,7 @@ class TestAsyncLetters:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1083,8 +1089,9 @@ class TestAsyncLetters:
             return_envelope="returnEnvelope",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
             size="us_letter",
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1106,7 +1113,7 @@ class TestAsyncLetters:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         letter = await response.parse()
-        assert_matches_type(Letter, letter, path=["response"])
+        assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1128,7 +1135,7 @@ class TestAsyncLetters:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             letter = await response.parse()
-            assert_matches_type(Letter, letter, path=["response"])
+            assert_matches_type(LetterCreateResponse, letter, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

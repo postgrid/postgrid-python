@@ -6,6 +6,7 @@ from typing import Dict, Union
 from datetime import datetime
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
+from ..._types import FileTypes
 from ..._utils import PropertyInfo
 from .letter_size import LetterSize
 from .address_placement import AddressPlacement
@@ -158,6 +159,8 @@ class LetterCreateWithHTML(TypedDict, total=False):
     size: LetterSize
     """Enum representing the supported letter sizes."""
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 LetterCreateWithHTMLFrom: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
 
@@ -294,6 +297,8 @@ class LetterCreateWithTemplate(TypedDict, total=False):
     size: LetterSize
     """Enum representing the supported letter sizes."""
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 LetterCreateWithTemplateFrom: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
 
@@ -307,7 +312,7 @@ class LetterCreateWithPdf(TypedDict, total=False):
     You can pass contact information inline here just like you can for the `to`.
     """
 
-    pdf: Required[str]
+    pdf: Required[Union[str, FileTypes]]
     """A URL pointing to a PDF file for the letter or the PDF file itself."""
 
     to: Required[LetterCreateWithPdfTo]
@@ -426,6 +431,8 @@ class LetterCreateWithPdf(TypedDict, total=False):
 
     size: LetterSize
     """Enum representing the supported letter sizes."""
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
 
 
 LetterCreateWithPdfFrom: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
