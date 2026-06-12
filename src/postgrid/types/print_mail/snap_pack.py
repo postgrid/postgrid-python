@@ -10,7 +10,7 @@ from pydantic import Field as FieldInfo
 from .contact import Contact
 from ..._models import BaseModel
 
-__all__ = ["SnapPackProgressionsResponse", "Cancellation"]
+__all__ = ["SnapPack", "Cancellation"]
 
 
 class Cancellation(BaseModel):
@@ -29,7 +29,7 @@ class Cancellation(BaseModel):
     """An optional note provided by the user who cancelled the order."""
 
 
-class SnapPackProgressionsResponse(BaseModel):
+class SnapPack(BaseModel):
     id: str
     """A unique ID prefixed with snap*pack*"""
 

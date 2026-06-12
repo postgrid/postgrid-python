@@ -13,6 +13,7 @@ from postgrid._utils import parse_datetime
 from postgrid.pagination import SyncSkipLimit, AsyncSkipLimit
 from postgrid.types.print_mail import (
     Postcard,
+    PostcardCreateResponse,
     PostcardRetrieveURLResponse,
 )
 
@@ -35,7 +36,7 @@ class TestPostcards:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -88,8 +89,9 @@ class TestPostcards:
             metadata={"foo": "bar"},
             paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -108,7 +110,7 @@ class TestPostcards:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         postcard = response.parse()
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -127,7 +129,7 @@ class TestPostcards:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             postcard = response.parse()
-            assert_matches_type(Postcard, postcard, path=["response"])
+            assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -144,7 +146,7 @@ class TestPostcards:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -197,8 +199,9 @@ class TestPostcards:
             metadata={"foo": "bar"},
             paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -217,7 +220,7 @@ class TestPostcards:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         postcard = response.parse()
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -236,7 +239,7 @@ class TestPostcards:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             postcard = response.parse()
-            assert_matches_type(Postcard, postcard, path=["response"])
+            assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -252,7 +255,7 @@ class TestPostcards:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -304,8 +307,9 @@ class TestPostcards:
             metadata={"foo": "bar"},
             paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -323,7 +327,7 @@ class TestPostcards:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         postcard = response.parse()
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -341,7 +345,7 @@ class TestPostcards:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             postcard = response.parse()
-            assert_matches_type(Postcard, postcard, path=["response"])
+            assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -349,7 +353,7 @@ class TestPostcards:
     @parametrize
     def test_method_create_overload_4(self, client: PostGrid) -> None:
         postcard = client.print_mail.postcards.create(
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="6x4",
             to={
                 "address_line1": "addressLine1",
@@ -357,13 +361,13 @@ class TestPostcards:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_create_with_all_params_overload_4(self, client: PostGrid) -> None:
         postcard = client.print_mail.postcards.create(
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="6x4",
             to={
                 "address_line1": "addressLine1",
@@ -409,14 +413,15 @@ class TestPostcards:
             metadata={"foo": "bar"},
             paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_create_overload_4(self, client: PostGrid) -> None:
         response = client.print_mail.postcards.with_raw_response.create(
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="6x4",
             to={
                 "address_line1": "addressLine1",
@@ -428,13 +433,13 @@ class TestPostcards:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         postcard = response.parse()
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_create_overload_4(self, client: PostGrid) -> None:
         with client.print_mail.postcards.with_streaming_response.create(
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="6x4",
             to={
                 "address_line1": "addressLine1",
@@ -446,7 +451,7 @@ class TestPostcards:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             postcard = response.parse()
-            assert_matches_type(Postcard, postcard, path=["response"])
+            assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -721,7 +726,7 @@ class TestAsyncPostcards:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -774,8 +779,9 @@ class TestAsyncPostcards:
             metadata={"foo": "bar"},
             paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -794,7 +800,7 @@ class TestAsyncPostcards:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         postcard = await response.parse()
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -813,7 +819,7 @@ class TestAsyncPostcards:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             postcard = await response.parse()
-            assert_matches_type(Postcard, postcard, path=["response"])
+            assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -830,7 +836,7 @@ class TestAsyncPostcards:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -883,8 +889,9 @@ class TestAsyncPostcards:
             metadata={"foo": "bar"},
             paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -903,7 +910,7 @@ class TestAsyncPostcards:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         postcard = await response.parse()
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -922,7 +929,7 @@ class TestAsyncPostcards:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             postcard = await response.parse()
-            assert_matches_type(Postcard, postcard, path=["response"])
+            assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -938,7 +945,7 @@ class TestAsyncPostcards:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -990,8 +997,9 @@ class TestAsyncPostcards:
             metadata={"foo": "bar"},
             paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1009,7 +1017,7 @@ class TestAsyncPostcards:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         postcard = await response.parse()
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1027,7 +1035,7 @@ class TestAsyncPostcards:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             postcard = await response.parse()
-            assert_matches_type(Postcard, postcard, path=["response"])
+            assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -1035,7 +1043,7 @@ class TestAsyncPostcards:
     @parametrize
     async def test_method_create_overload_4(self, async_client: AsyncPostGrid) -> None:
         postcard = await async_client.print_mail.postcards.create(
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="6x4",
             to={
                 "address_line1": "addressLine1",
@@ -1043,13 +1051,13 @@ class TestAsyncPostcards:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_create_with_all_params_overload_4(self, async_client: AsyncPostGrid) -> None:
         postcard = await async_client.print_mail.postcards.create(
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="6x4",
             to={
                 "address_line1": "addressLine1",
@@ -1095,14 +1103,15 @@ class TestAsyncPostcards:
             metadata={"foo": "bar"},
             paper="standard",
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_create_overload_4(self, async_client: AsyncPostGrid) -> None:
         response = await async_client.print_mail.postcards.with_raw_response.create(
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="6x4",
             to={
                 "address_line1": "addressLine1",
@@ -1114,13 +1123,13 @@ class TestAsyncPostcards:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         postcard = await response.parse()
-        assert_matches_type(Postcard, postcard, path=["response"])
+        assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_create_overload_4(self, async_client: AsyncPostGrid) -> None:
         async with async_client.print_mail.postcards.with_streaming_response.create(
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="6x4",
             to={
                 "address_line1": "addressLine1",
@@ -1132,7 +1141,7 @@ class TestAsyncPostcards:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             postcard = await response.parse()
-            assert_matches_type(Postcard, postcard, path=["response"])
+            assert_matches_type(PostcardCreateResponse, postcard, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

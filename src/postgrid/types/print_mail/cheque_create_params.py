@@ -6,7 +6,7 @@ from typing import Dict, Union
 from datetime import datetime
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
-from ..._types import Base64FileInput
+from ..._types import FileTypes
 from ..._utils import PropertyInfo
 from .cheque_size import ChequeSize
 from .digital_only_param import DigitalOnlyParam
@@ -71,7 +71,7 @@ class ChequeCreateParams(TypedDict, total=False):
     than one.
     """
 
-    letter_pdf: Annotated[Union[str, Base64FileInput], PropertyInfo(alias="letterPDF", format="base64")]
+    letter_pdf: Annotated[Union[str, FileTypes], PropertyInfo(alias="letterPDF")]
     """
     A URL pointing to a PDF for the letter attached to the cheque, or the PDF file
     itself when uploaded via a multipart form request. You can supply _either_ this,
@@ -177,6 +177,8 @@ class ChequeCreateParams(TypedDict, total=False):
 
     size: ChequeSize
     """Enum representing the supported cheque sizes."""
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
 
 
 From: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]

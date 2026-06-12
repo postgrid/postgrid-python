@@ -12,11 +12,8 @@ from tests.utils import assert_matches_type
 from postgrid._utils import parse_datetime
 from postgrid.pagination import SyncSkipLimit, AsyncSkipLimit
 from postgrid.types.print_mail import (
-    SnapPackListResponse,
+    SnapPack,
     SnapPackCreateResponse,
-    SnapPackDeleteResponse,
-    SnapPackRetrieveResponse,
-    SnapPackProgressionsResponse,
     SnapPackRetrieveCapabilitiesResponse,
 )
 
@@ -96,6 +93,7 @@ class TestSnapPacks:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
         assert_matches_type(SnapPackCreateResponse, snap_pack, path=["response"])
 
@@ -219,6 +217,7 @@ class TestSnapPacks:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
         assert_matches_type(SnapPackCreateResponse, snap_pack, path=["response"])
 
@@ -340,6 +339,7 @@ class TestSnapPacks:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
         assert_matches_type(SnapPackCreateResponse, snap_pack, path=["response"])
 
@@ -397,7 +397,7 @@ class TestSnapPacks:
         snap_pack = client.print_mail.snap_packs.retrieve(
             "id",
         )
-        assert_matches_type(SnapPackRetrieveResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -409,7 +409,7 @@ class TestSnapPacks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         snap_pack = response.parse()
-        assert_matches_type(SnapPackRetrieveResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -421,7 +421,7 @@ class TestSnapPacks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             snap_pack = response.parse()
-            assert_matches_type(SnapPackRetrieveResponse, snap_pack, path=["response"])
+            assert_matches_type(SnapPack, snap_pack, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -437,7 +437,7 @@ class TestSnapPacks:
     @parametrize
     def test_method_list(self, client: PostGrid) -> None:
         snap_pack = client.print_mail.snap_packs.list()
-        assert_matches_type(SyncSkipLimit[SnapPackListResponse], snap_pack, path=["response"])
+        assert_matches_type(SyncSkipLimit[SnapPack], snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -447,7 +447,7 @@ class TestSnapPacks:
             search="search",
             skip=0,
         )
-        assert_matches_type(SyncSkipLimit[SnapPackListResponse], snap_pack, path=["response"])
+        assert_matches_type(SyncSkipLimit[SnapPack], snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -457,7 +457,7 @@ class TestSnapPacks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         snap_pack = response.parse()
-        assert_matches_type(SyncSkipLimit[SnapPackListResponse], snap_pack, path=["response"])
+        assert_matches_type(SyncSkipLimit[SnapPack], snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -467,7 +467,7 @@ class TestSnapPacks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             snap_pack = response.parse()
-            assert_matches_type(SyncSkipLimit[SnapPackListResponse], snap_pack, path=["response"])
+            assert_matches_type(SyncSkipLimit[SnapPack], snap_pack, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -477,7 +477,7 @@ class TestSnapPacks:
         snap_pack = client.print_mail.snap_packs.delete(
             "id",
         )
-        assert_matches_type(SnapPackDeleteResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -489,7 +489,7 @@ class TestSnapPacks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         snap_pack = response.parse()
-        assert_matches_type(SnapPackDeleteResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -501,7 +501,7 @@ class TestSnapPacks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             snap_pack = response.parse()
-            assert_matches_type(SnapPackDeleteResponse, snap_pack, path=["response"])
+            assert_matches_type(SnapPack, snap_pack, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -519,7 +519,7 @@ class TestSnapPacks:
         snap_pack = client.print_mail.snap_packs.progressions(
             "id",
         )
-        assert_matches_type(SnapPackProgressionsResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -531,7 +531,7 @@ class TestSnapPacks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         snap_pack = response.parse()
-        assert_matches_type(SnapPackProgressionsResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -543,7 +543,7 @@ class TestSnapPacks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             snap_pack = response.parse()
-            assert_matches_type(SnapPackProgressionsResponse, snap_pack, path=["response"])
+            assert_matches_type(SnapPack, snap_pack, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -675,6 +675,7 @@ class TestAsyncSnapPacks:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
         assert_matches_type(SnapPackCreateResponse, snap_pack, path=["response"])
 
@@ -798,6 +799,7 @@ class TestAsyncSnapPacks:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
         assert_matches_type(SnapPackCreateResponse, snap_pack, path=["response"])
 
@@ -919,6 +921,7 @@ class TestAsyncSnapPacks:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
         assert_matches_type(SnapPackCreateResponse, snap_pack, path=["response"])
 
@@ -976,7 +979,7 @@ class TestAsyncSnapPacks:
         snap_pack = await async_client.print_mail.snap_packs.retrieve(
             "id",
         )
-        assert_matches_type(SnapPackRetrieveResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -988,7 +991,7 @@ class TestAsyncSnapPacks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         snap_pack = await response.parse()
-        assert_matches_type(SnapPackRetrieveResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1000,7 +1003,7 @@ class TestAsyncSnapPacks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             snap_pack = await response.parse()
-            assert_matches_type(SnapPackRetrieveResponse, snap_pack, path=["response"])
+            assert_matches_type(SnapPack, snap_pack, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -1016,7 +1019,7 @@ class TestAsyncSnapPacks:
     @parametrize
     async def test_method_list(self, async_client: AsyncPostGrid) -> None:
         snap_pack = await async_client.print_mail.snap_packs.list()
-        assert_matches_type(AsyncSkipLimit[SnapPackListResponse], snap_pack, path=["response"])
+        assert_matches_type(AsyncSkipLimit[SnapPack], snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1026,7 +1029,7 @@ class TestAsyncSnapPacks:
             search="search",
             skip=0,
         )
-        assert_matches_type(AsyncSkipLimit[SnapPackListResponse], snap_pack, path=["response"])
+        assert_matches_type(AsyncSkipLimit[SnapPack], snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1036,7 +1039,7 @@ class TestAsyncSnapPacks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         snap_pack = await response.parse()
-        assert_matches_type(AsyncSkipLimit[SnapPackListResponse], snap_pack, path=["response"])
+        assert_matches_type(AsyncSkipLimit[SnapPack], snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1046,7 +1049,7 @@ class TestAsyncSnapPacks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             snap_pack = await response.parse()
-            assert_matches_type(AsyncSkipLimit[SnapPackListResponse], snap_pack, path=["response"])
+            assert_matches_type(AsyncSkipLimit[SnapPack], snap_pack, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -1056,7 +1059,7 @@ class TestAsyncSnapPacks:
         snap_pack = await async_client.print_mail.snap_packs.delete(
             "id",
         )
-        assert_matches_type(SnapPackDeleteResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1068,7 +1071,7 @@ class TestAsyncSnapPacks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         snap_pack = await response.parse()
-        assert_matches_type(SnapPackDeleteResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1080,7 +1083,7 @@ class TestAsyncSnapPacks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             snap_pack = await response.parse()
-            assert_matches_type(SnapPackDeleteResponse, snap_pack, path=["response"])
+            assert_matches_type(SnapPack, snap_pack, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -1098,7 +1101,7 @@ class TestAsyncSnapPacks:
         snap_pack = await async_client.print_mail.snap_packs.progressions(
             "id",
         )
-        assert_matches_type(SnapPackProgressionsResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1110,7 +1113,7 @@ class TestAsyncSnapPacks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         snap_pack = await response.parse()
-        assert_matches_type(SnapPackProgressionsResponse, snap_pack, path=["response"])
+        assert_matches_type(SnapPack, snap_pack, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1122,7 +1125,7 @@ class TestAsyncSnapPacks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             snap_pack = await response.parse()
-            assert_matches_type(SnapPackProgressionsResponse, snap_pack, path=["response"])
+            assert_matches_type(SnapPack, snap_pack, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

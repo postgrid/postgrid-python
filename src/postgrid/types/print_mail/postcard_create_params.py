@@ -6,7 +6,7 @@ from typing import Dict, Union
 from datetime import datetime
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
-from ..._types import Base64FileInput
+from ..._types import FileTypes
 from ..._utils import PropertyInfo
 from .contact_create_with_first_name_param import ContactCreateWithFirstNameParam
 from .contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
@@ -144,6 +144,8 @@ class PostcardCreateWithHTML(TypedDict, total=False):
     You can use this parameter to schedule orders for a future date.
     """
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 PostcardCreateWithHTMLTo: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
 
@@ -266,6 +268,8 @@ class PostcardCreateWithTemplate(TypedDict, total=False):
     You can use this parameter to schedule orders for a future date.
     """
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 PostcardCreateWithTemplateTo: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
 
@@ -385,6 +389,8 @@ class PostcardCreateWithPdfurl(TypedDict, total=False):
     You can use this parameter to schedule orders for a future date.
     """
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 PostcardCreateWithPdfurlTo: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
 
@@ -392,11 +398,11 @@ PostcardCreateWithPdfurlFrom: TypeAlias = Union[ContactCreateWithFirstNameParam,
 
 
 class PostcardCreateWithPdfFile(TypedDict, total=False):
-    pdf: Required[Annotated[Union[str, Base64FileInput], PropertyInfo(format="base64")]]
-    """A 2 page PDF file.
+    pdf: Required[FileTypes]
+    """Represents a raw file upload.
 
-    The first page is the front of the postcard and the second page is the back
-    (where the address will be stamped on).
+    Sending the actual file requires a `multipart/form-data` request; in
+    `application/json` request bodies, supply a URL instead.
     """
 
     size: Required[Literal["6x4", "9x6", "11x6"]]
@@ -501,6 +507,8 @@ class PostcardCreateWithPdfFile(TypedDict, total=False):
 
     You can use this parameter to schedule orders for a future date.
     """
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
 
 
 PostcardCreateWithPdfFileTo: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]

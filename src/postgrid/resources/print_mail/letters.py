@@ -2,14 +2,22 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union
+from typing import Any, Dict, Union, Mapping, cast
 from datetime import datetime
 from typing_extensions import Literal, overload
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, required_args, maybe_transform, async_maybe_transform
+from ..._files import deepcopy_with_paths
+from ..._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
+from ..._utils import (
+    extract_files,
+    path_template,
+    required_args,
+    maybe_transform,
+    strip_not_given,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -32,6 +40,7 @@ from ...types.print_mail.letter_size import LetterSize
 from ...types.print_mail.address_placement import AddressPlacement
 from ...types.print_mail.attached_pdf_param import AttachedPdfParam
 from ...types.print_mail.plastic_card_param import PlasticCardParam
+from ...types.print_mail.letter_create_response import LetterCreateResponse
 from ...types.print_mail.letter_retrieve_url_response import LetterRetrieveURLResponse
 
 __all__ = ["LettersResource", "AsyncLettersResource"]
@@ -113,21 +122,24 @@ class LettersResource(SyncAPIResource):
         return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: LetterSize | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Letter:
+    ) -> LetterCreateResponse:
         """Create a letter.
 
         Note that you can supply one of the following:
 
         - HTML content for the letter
         - A template ID for the letter
-        - A URL or file for a PDF for the letter
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a PDF for the letter Create a letter via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -252,21 +264,24 @@ class LettersResource(SyncAPIResource):
         return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: LetterSize | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Letter:
+    ) -> LetterCreateResponse:
         """Create a letter.
 
         Note that you can supply one of the following:
 
         - HTML content for the letter
         - A template ID for the letter
-        - A URL or file for a PDF for the letter
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a PDF for the letter Create a letter via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -342,7 +357,7 @@ class LettersResource(SyncAPIResource):
         self,
         *,
         from_: letter_create_params.LetterCreateWithPdfFrom,
-        pdf: str,
+        pdf: Union[str, FileTypes],
         to: letter_create_params.LetterCreateWithPdfTo,
         address_placement: AddressPlacement | Omit = omit,
         attached_pdf: AttachedPdfParam | Omit = omit,
@@ -391,21 +406,24 @@ class LettersResource(SyncAPIResource):
         return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: LetterSize | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Letter:
+    ) -> LetterCreateResponse:
         """Create a letter.
 
         Note that you can supply one of the following:
 
         - HTML content for the letter
         - A template ID for the letter
-        - A URL or file for a PDF for the letter
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a PDF for the letter Create a letter via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -533,46 +551,61 @@ class LettersResource(SyncAPIResource):
         return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: LetterSize | Omit = omit,
+        idempotency_key: str | Omit = omit,
         template: str | Omit = omit,
-        pdf: str | Omit = omit,
+        pdf: Union[str, FileTypes] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Letter:
-        return self._post(
-            "/print-mail/v1/letters",
-            body=maybe_transform(
-                {
-                    "from_": from_,
-                    "html": html,
-                    "to": to,
-                    "address_placement": address_placement,
-                    "attached_pdf": attached_pdf,
-                    "color": color,
-                    "description": description,
-                    "double_sided": double_sided,
-                    "envelope": envelope,
-                    "mailing_class": mailing_class,
-                    "merge_variables": merge_variables,
-                    "metadata": metadata,
-                    "paper": paper,
-                    "perforated_page": perforated_page,
-                    "plastic_card": plastic_card,
-                    "return_envelope": return_envelope,
-                    "send_date": send_date,
-                    "size": size,
-                    "template": template,
-                    "pdf": pdf,
-                },
-                letter_create_params.LetterCreateParams,
+    ) -> LetterCreateResponse:
+        extra_headers = {**strip_not_given({"idempotency-key": idempotency_key}), **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "from_": from_,
+                "html": html,
+                "to": to,
+                "address_placement": address_placement,
+                "attached_pdf": attached_pdf,
+                "color": color,
+                "description": description,
+                "double_sided": double_sided,
+                "envelope": envelope,
+                "mailing_class": mailing_class,
+                "merge_variables": merge_variables,
+                "metadata": metadata,
+                "paper": paper,
+                "perforated_page": perforated_page,
+                "plastic_card": plastic_card,
+                "return_envelope": return_envelope,
+                "send_date": send_date,
+                "size": size,
+                "template": template,
+                "pdf": pdf,
+            },
+            [["pdf"]],
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["pdf"]])
+        if files:
+            # It should be noted that the actual Content-Type header that will be
+            # sent to the server will contain a `boundary` parameter, e.g.
+            # multipart/form-data; boundary=---abc--
+            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        return cast(
+            LetterCreateResponse,
+            self._post(
+                "/print-mail/v1/letters",
+                body=maybe_transform(body, letter_create_params.LetterCreateParams),
+                files=files,
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(
+                    Any, LetterCreateResponse
+                ),  # Union types cannot be passed in as arguments in the type system
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Letter,
         )
 
     def retrieve(
@@ -884,21 +917,24 @@ class AsyncLettersResource(AsyncAPIResource):
         return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: LetterSize | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Letter:
+    ) -> LetterCreateResponse:
         """Create a letter.
 
         Note that you can supply one of the following:
 
         - HTML content for the letter
         - A template ID for the letter
-        - A URL or file for a PDF for the letter
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a PDF for the letter Create a letter via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -1023,21 +1059,24 @@ class AsyncLettersResource(AsyncAPIResource):
         return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: LetterSize | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Letter:
+    ) -> LetterCreateResponse:
         """Create a letter.
 
         Note that you can supply one of the following:
 
         - HTML content for the letter
         - A template ID for the letter
-        - A URL or file for a PDF for the letter
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a PDF for the letter Create a letter via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -1113,7 +1152,7 @@ class AsyncLettersResource(AsyncAPIResource):
         self,
         *,
         from_: letter_create_params.LetterCreateWithPdfFrom,
-        pdf: str,
+        pdf: Union[str, FileTypes],
         to: letter_create_params.LetterCreateWithPdfTo,
         address_placement: AddressPlacement | Omit = omit,
         attached_pdf: AttachedPdfParam | Omit = omit,
@@ -1162,21 +1201,24 @@ class AsyncLettersResource(AsyncAPIResource):
         return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: LetterSize | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Letter:
+    ) -> LetterCreateResponse:
         """Create a letter.
 
         Note that you can supply one of the following:
 
         - HTML content for the letter
         - A template ID for the letter
-        - A URL or file for a PDF for the letter
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a PDF for the letter Create a letter via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -1304,46 +1346,61 @@ class AsyncLettersResource(AsyncAPIResource):
         return_envelope: str | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
         size: LetterSize | Omit = omit,
+        idempotency_key: str | Omit = omit,
         template: str | Omit = omit,
-        pdf: str | Omit = omit,
+        pdf: Union[str, FileTypes] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Letter:
-        return await self._post(
-            "/print-mail/v1/letters",
-            body=await async_maybe_transform(
-                {
-                    "from_": from_,
-                    "html": html,
-                    "to": to,
-                    "address_placement": address_placement,
-                    "attached_pdf": attached_pdf,
-                    "color": color,
-                    "description": description,
-                    "double_sided": double_sided,
-                    "envelope": envelope,
-                    "mailing_class": mailing_class,
-                    "merge_variables": merge_variables,
-                    "metadata": metadata,
-                    "paper": paper,
-                    "perforated_page": perforated_page,
-                    "plastic_card": plastic_card,
-                    "return_envelope": return_envelope,
-                    "send_date": send_date,
-                    "size": size,
-                    "template": template,
-                    "pdf": pdf,
-                },
-                letter_create_params.LetterCreateParams,
+    ) -> LetterCreateResponse:
+        extra_headers = {**strip_not_given({"idempotency-key": idempotency_key}), **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "from_": from_,
+                "html": html,
+                "to": to,
+                "address_placement": address_placement,
+                "attached_pdf": attached_pdf,
+                "color": color,
+                "description": description,
+                "double_sided": double_sided,
+                "envelope": envelope,
+                "mailing_class": mailing_class,
+                "merge_variables": merge_variables,
+                "metadata": metadata,
+                "paper": paper,
+                "perforated_page": perforated_page,
+                "plastic_card": plastic_card,
+                "return_envelope": return_envelope,
+                "send_date": send_date,
+                "size": size,
+                "template": template,
+                "pdf": pdf,
+            },
+            [["pdf"]],
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["pdf"]])
+        if files:
+            # It should be noted that the actual Content-Type header that will be
+            # sent to the server will contain a `boundary` parameter, e.g.
+            # multipart/form-data; boundary=---abc--
+            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        return cast(
+            LetterCreateResponse,
+            await self._post(
+                "/print-mail/v1/letters",
+                body=await async_maybe_transform(body, letter_create_params.LetterCreateParams),
+                files=files,
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(
+                    Any, LetterCreateResponse
+                ),  # Union types cannot be passed in as arguments in the type system
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Letter,
         )
 
     async def retrieve(

@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import Union, Optional
 from typing_extensions import Literal
 
 from pydantic import Field as FieldInfo
@@ -25,7 +25,7 @@ class DoubleSided(BaseModel):
     front_template: Optional[str] = FieldInfo(alias="frontTemplate", default=None)
     """The template ID for the front side of the double-sided plastic card."""
 
-    pdf: Optional[str] = None
+    pdf: Union[str, object, None] = None
     """
     A URL pointing to a PDF file for the double-sided plastic card or the file
     itself.
@@ -41,7 +41,7 @@ class SingleSided(BaseModel):
     Can specify one of this, `template`, or `pdf`.
     """
 
-    pdf: Optional[str] = None
+    pdf: Union[str, object, None] = None
     """
     A URL pointing to a PDF file for the single-sided plastic card or the PDF file
     itself.

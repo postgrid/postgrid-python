@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Optional
+from typing import Dict, Union, Mapping, Optional, cast
 from datetime import datetime
 
 import httpx
 
+from ..._files import deepcopy_with_paths
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import extract_files, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -124,23 +125,46 @@ class CampaignsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {**strip_not_given({"idempotency-key": idempotency_key}), **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "mailing_list": mailing_list,
+                "cheque": cheque,
+                "default_sender_contact": default_sender_contact,
+                "description": description,
+                "letter": letter,
+                "metadata": metadata,
+                "postcard": postcard,
+                "self_mailer": self_mailer,
+                "send_date": send_date,
+                "snap_pack": snap_pack,
+            },
+            [
+                ["letter", "pdf"],
+                ["postcard", "pdf"],
+                ["cheque", "letterPDF"],
+                ["selfMailer", "pdf"],
+                ["snapPack", "pdf"],
+            ],
+        )
+        files = extract_files(
+            cast(Mapping[str, object], body),
+            paths=[
+                ["letter", "pdf"],
+                ["postcard", "pdf"],
+                ["cheque", "letterPDF"],
+                ["selfMailer", "pdf"],
+                ["snapPack", "pdf"],
+            ],
+        )
+        if files:
+            # It should be noted that the actual Content-Type header that will be
+            # sent to the server will contain a `boundary` parameter, e.g.
+            # multipart/form-data; boundary=---abc--
+            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/print-mail/v1/campaigns",
-            body=maybe_transform(
-                {
-                    "mailing_list": mailing_list,
-                    "cheque": cheque,
-                    "default_sender_contact": default_sender_contact,
-                    "description": description,
-                    "letter": letter,
-                    "metadata": metadata,
-                    "postcard": postcard,
-                    "self_mailer": self_mailer,
-                    "send_date": send_date,
-                    "snap_pack": snap_pack,
-                },
-                campaign_create_params.CampaignCreateParams,
-            ),
+            body=maybe_transform(body, campaign_create_params.CampaignCreateParams),
+            files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -492,23 +516,46 @@ class AsyncCampaignsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {**strip_not_given({"idempotency-key": idempotency_key}), **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "mailing_list": mailing_list,
+                "cheque": cheque,
+                "default_sender_contact": default_sender_contact,
+                "description": description,
+                "letter": letter,
+                "metadata": metadata,
+                "postcard": postcard,
+                "self_mailer": self_mailer,
+                "send_date": send_date,
+                "snap_pack": snap_pack,
+            },
+            [
+                ["letter", "pdf"],
+                ["postcard", "pdf"],
+                ["cheque", "letterPDF"],
+                ["selfMailer", "pdf"],
+                ["snapPack", "pdf"],
+            ],
+        )
+        files = extract_files(
+            cast(Mapping[str, object], body),
+            paths=[
+                ["letter", "pdf"],
+                ["postcard", "pdf"],
+                ["cheque", "letterPDF"],
+                ["selfMailer", "pdf"],
+                ["snapPack", "pdf"],
+            ],
+        )
+        if files:
+            # It should be noted that the actual Content-Type header that will be
+            # sent to the server will contain a `boundary` parameter, e.g.
+            # multipart/form-data; boundary=---abc--
+            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/print-mail/v1/campaigns",
-            body=await async_maybe_transform(
-                {
-                    "mailing_list": mailing_list,
-                    "cheque": cheque,
-                    "default_sender_contact": default_sender_contact,
-                    "description": description,
-                    "letter": letter,
-                    "metadata": metadata,
-                    "postcard": postcard,
-                    "self_mailer": self_mailer,
-                    "send_date": send_date,
-                    "snap_pack": snap_pack,
-                },
-                campaign_create_params.CampaignCreateParams,
-            ),
+            body=await async_maybe_transform(body, campaign_create_params.CampaignCreateParams),
+            files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),

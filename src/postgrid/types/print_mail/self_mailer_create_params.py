@@ -6,7 +6,7 @@ from typing import Dict, Union
 from datetime import datetime
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
-from ..._types import Base64FileInput
+from ..._types import FileTypes
 from ..._utils import PropertyInfo
 from .contact_create_with_first_name_param import ContactCreateWithFirstNameParam
 from .contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
@@ -118,6 +118,8 @@ class SelfMailerCreateWithHTML(TypedDict, total=False):
     You can use this parameter to schedule orders for a future date.
     """
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 SelfMailerCreateWithHTMLFrom: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
 
@@ -214,6 +216,8 @@ class SelfMailerCreateWithTemplate(TypedDict, total=False):
     You can use this parameter to schedule orders for a future date.
     """
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 SelfMailerCreateWithTemplateFrom: TypeAlias = Union[
     ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str
@@ -309,6 +313,8 @@ class SelfMailerCreateWithPdfurl(TypedDict, total=False):
     You can use this parameter to schedule orders for a future date.
     """
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 SelfMailerCreateWithPdfurlFrom: TypeAlias = Union[
     ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str
@@ -324,11 +330,11 @@ class SelfMailerCreateWithPdfFile(TypedDict, total=False):
     You can pass contact information inline here just like you can for the `to`.
     """
 
-    pdf: Required[Annotated[Union[str, Base64FileInput], PropertyInfo(format="base64")]]
-    """A 2 page PDF file.
+    pdf: Required[FileTypes]
+    """Represents a raw file upload.
 
-    The first page is the inside of the self-mailer and the second page is the
-    outside (where the address will be stamped on).
+    Sending the actual file requires a `multipart/form-data` request; in
+    `application/json` request bodies, supply a URL instead.
     """
 
     size: Required[Literal["8.5x11_bifold", "8.5x11_trifold", "9.5x16_trifold"]]
@@ -401,6 +407,8 @@ class SelfMailerCreateWithPdfFile(TypedDict, total=False):
 
     You can use this parameter to schedule orders for a future date.
     """
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
 
 
 SelfMailerCreateWithPdfFileFrom: TypeAlias = Union[

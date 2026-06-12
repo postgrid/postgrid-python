@@ -13,6 +13,7 @@ from postgrid._utils import parse_datetime
 from postgrid.pagination import SyncSkipLimit, AsyncSkipLimit
 from postgrid.types.print_mail import (
     SelfMailer,
+    SelfMailerCreateResponse,
     SelfMailerRetrieveURLResponse,
 )
 
@@ -40,7 +41,7 @@ class TestSelfMailers:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -92,8 +93,9 @@ class TestSelfMailers:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -117,7 +119,7 @@ class TestSelfMailers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         self_mailer = response.parse()
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -141,7 +143,7 @@ class TestSelfMailers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             self_mailer = response.parse()
-            assert_matches_type(SelfMailer, self_mailer, path=["response"])
+            assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -163,7 +165,7 @@ class TestSelfMailers:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -215,8 +217,9 @@ class TestSelfMailers:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -240,7 +243,7 @@ class TestSelfMailers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         self_mailer = response.parse()
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -264,7 +267,7 @@ class TestSelfMailers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             self_mailer = response.parse()
-            assert_matches_type(SelfMailer, self_mailer, path=["response"])
+            assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -285,7 +288,7 @@ class TestSelfMailers:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -336,8 +339,9 @@ class TestSelfMailers:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -360,7 +364,7 @@ class TestSelfMailers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         self_mailer = response.parse()
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -383,7 +387,7 @@ class TestSelfMailers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             self_mailer = response.parse()
-            assert_matches_type(SelfMailer, self_mailer, path=["response"])
+            assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -396,7 +400,7 @@ class TestSelfMailers:
                 "country_code": "countryCode",
                 "first_name": "firstName",
             },
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
@@ -404,7 +408,7 @@ class TestSelfMailers:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -429,7 +433,7 @@ class TestSelfMailers:
                 "secret": True,
                 "skip_verification": True,
             },
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
@@ -455,8 +459,9 @@ class TestSelfMailers:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -467,7 +472,7 @@ class TestSelfMailers:
                 "country_code": "countryCode",
                 "first_name": "firstName",
             },
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
@@ -479,7 +484,7 @@ class TestSelfMailers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         self_mailer = response.parse()
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -490,7 +495,7 @@ class TestSelfMailers:
                 "country_code": "countryCode",
                 "first_name": "firstName",
             },
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
@@ -502,7 +507,7 @@ class TestSelfMailers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             self_mailer = response.parse()
-            assert_matches_type(SelfMailer, self_mailer, path=["response"])
+            assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -736,7 +741,7 @@ class TestAsyncSelfMailers:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -788,8 +793,9 @@ class TestAsyncSelfMailers:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -813,7 +819,7 @@ class TestAsyncSelfMailers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         self_mailer = await response.parse()
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -837,7 +843,7 @@ class TestAsyncSelfMailers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             self_mailer = await response.parse()
-            assert_matches_type(SelfMailer, self_mailer, path=["response"])
+            assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -859,7 +865,7 @@ class TestAsyncSelfMailers:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -911,8 +917,9 @@ class TestAsyncSelfMailers:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -936,7 +943,7 @@ class TestAsyncSelfMailers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         self_mailer = await response.parse()
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -960,7 +967,7 @@ class TestAsyncSelfMailers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             self_mailer = await response.parse()
-            assert_matches_type(SelfMailer, self_mailer, path=["response"])
+            assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -981,7 +988,7 @@ class TestAsyncSelfMailers:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1032,8 +1039,9 @@ class TestAsyncSelfMailers:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1056,7 +1064,7 @@ class TestAsyncSelfMailers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         self_mailer = await response.parse()
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1079,7 +1087,7 @@ class TestAsyncSelfMailers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             self_mailer = await response.parse()
-            assert_matches_type(SelfMailer, self_mailer, path=["response"])
+            assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -1092,7 +1100,7 @@ class TestAsyncSelfMailers:
                 "country_code": "countryCode",
                 "first_name": "firstName",
             },
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
@@ -1100,7 +1108,7 @@ class TestAsyncSelfMailers:
                 "first_name": "firstName",
             },
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1125,7 +1133,7 @@ class TestAsyncSelfMailers:
                 "secret": True,
                 "skip_verification": True,
             },
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
@@ -1151,8 +1159,9 @@ class TestAsyncSelfMailers:
             merge_variables={"foo": "bar"},
             metadata={"foo": "bar"},
             send_date=parse_datetime("2019-12-27T18:11:19.117Z"),
+            idempotency_key="idempotency-key",
         )
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1163,7 +1172,7 @@ class TestAsyncSelfMailers:
                 "country_code": "countryCode",
                 "first_name": "firstName",
             },
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
@@ -1175,7 +1184,7 @@ class TestAsyncSelfMailers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         self_mailer = await response.parse()
-        assert_matches_type(SelfMailer, self_mailer, path=["response"])
+        assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1186,7 +1195,7 @@ class TestAsyncSelfMailers:
                 "country_code": "countryCode",
                 "first_name": "firstName",
             },
-            pdf="U3RhaW5sZXNzIHJvY2tz",
+            pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
@@ -1198,7 +1207,7 @@ class TestAsyncSelfMailers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             self_mailer = await response.parse()
-            assert_matches_type(SelfMailer, self_mailer, path=["response"])
+            assert_matches_type(SelfMailerCreateResponse, self_mailer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
