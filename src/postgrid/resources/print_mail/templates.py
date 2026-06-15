@@ -26,6 +26,13 @@ __all__ = ["TemplatesResource", "AsyncTemplatesResource"]
 
 
 class TemplatesResource(SyncAPIResource):
+    """Create and manage reusable HTML templates.
+
+    A template's HTML can include
+     merge variables (e.g. `{{firstName}}`) and be referenced by ID when creating
+     letters, postcards, cheques, and self mailers.
+    """
+
     @cached_property
     def with_raw_response(self) -> TemplatesResourceWithRawResponse:
         """
@@ -266,6 +273,13 @@ class TemplatesResource(SyncAPIResource):
 
 
 class AsyncTemplatesResource(AsyncAPIResource):
+    """Create and manage reusable HTML templates.
+
+    A template's HTML can include
+     merge variables (e.g. `{{firstName}}`) and be referenced by ID when creating
+     letters, postcards, cheques, and self mailers.
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncTemplatesResourceWithRawResponse:
         """

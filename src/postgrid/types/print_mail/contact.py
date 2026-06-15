@@ -88,6 +88,13 @@ class Contact(BaseModel):
     province_or_state: Optional[str] = FieldInfo(alias="provinceOrState", default=None)
     """Province or state of the contact's address."""
 
+    secret: Optional[bool] = None
+    """
+    If `true`, the contact's details are hidden from the dashboard and API responses
+    apart from the final print. The contact ID can then be used as a token for
+    sending mail without giving access to the underlying data.
+    """
+
     skip_verification: Optional[bool] = FieldInfo(alias="skipVerification", default=None)
     """
     If `true`, PostGrid will skip running this contact's address through our address

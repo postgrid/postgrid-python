@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+from typing import Union
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
+from ..._types import FileTypes
 from ..._utils import PropertyInfo
 
 __all__ = ["PlasticCardParam", "DoubleSided", "SingleSided"]
@@ -24,7 +26,7 @@ class DoubleSided(TypedDict, total=False):
     front_template: Annotated[str, PropertyInfo(alias="frontTemplate")]
     """The template ID for the front side of the double-sided plastic card."""
 
-    pdf: str
+    pdf: Union[str, FileTypes]
     """
     A URL pointing to a PDF file for the double-sided plastic card or the file
     itself.
@@ -40,7 +42,7 @@ class SingleSided(TypedDict, total=False):
     Can specify one of this, `template`, or `pdf`.
     """
 
-    pdf: str
+    pdf: Union[str, FileTypes]
     """
     A URL pointing to a PDF file for the single-sided plastic card or the PDF file
     itself.

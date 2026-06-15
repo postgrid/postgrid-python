@@ -2,14 +2,22 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union
+from typing import Any, Dict, Union, Mapping, cast
 from datetime import datetime
 from typing_extensions import Literal, overload
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import path_template, required_args, maybe_transform, async_maybe_transform
+from ..._files import deepcopy_with_paths
+from ..._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
+from ..._utils import (
+    extract_files,
+    path_template,
+    required_args,
+    maybe_transform,
+    strip_not_given,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -21,11 +29,8 @@ from ..._response import (
 from ...pagination import SyncSkipLimit, AsyncSkipLimit
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.print_mail import snap_pack_list_params, snap_pack_create_params, snap_pack_retrieve_capabilities_params
-from ...types.print_mail.snap_pack_list_response import SnapPackListResponse
+from ...types.print_mail.snap_pack import SnapPack
 from ...types.print_mail.snap_pack_create_response import SnapPackCreateResponse
-from ...types.print_mail.snap_pack_delete_response import SnapPackDeleteResponse
-from ...types.print_mail.snap_pack_retrieve_response import SnapPackRetrieveResponse
-from ...types.print_mail.snap_pack_progressions_response import SnapPackProgressionsResponse
 from ...types.print_mail.snap_pack_retrieve_capabilities_response import SnapPackRetrieveCapabilitiesResponse
 
 __all__ = ["SnapPacksResource", "AsyncSnapPacksResource"]
@@ -104,6 +109,7 @@ class SnapPacksResource(SyncAPIResource):
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -117,7 +123,10 @@ class SnapPacksResource(SyncAPIResource):
 
         - HTML content for the inside and outside of the snap pack
         - Template IDs for the inside and outside of the snap pack
-        - A URL or file upload for a two-page PDF that matches the snap pack layout
+        - A URL for a two-page PDF that matches the snap pack layout Create a snap pack
+          via a multipart/form-data request. Accepts the same fields as the JSON create
+          body (nested objects are bracket-encoded form fields, e.g. `to[firstName]`);
+          use this content type to upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -204,6 +213,7 @@ class SnapPacksResource(SyncAPIResource):
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -217,7 +227,10 @@ class SnapPacksResource(SyncAPIResource):
 
         - HTML content for the inside and outside of the snap pack
         - Template IDs for the inside and outside of the snap pack
-        - A URL or file upload for a two-page PDF that matches the snap pack layout
+        - A URL for a two-page PDF that matches the snap pack layout Create a snap pack
+          via a multipart/form-data request. Accepts the same fields as the JSON create
+          body (nested objects are bracket-encoded form fields, e.g. `to[firstName]`);
+          use this content type to upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -267,7 +280,7 @@ class SnapPacksResource(SyncAPIResource):
         self,
         *,
         from_: snap_pack_create_params.SnapPackCreateWithPdfFrom,
-        pdf: str,
+        pdf: Union[str, FileTypes],
         size: Literal["8.5x11_bifold_v"],
         to: snap_pack_create_params.SnapPackCreateWithPdfTo,
         description: str | Omit = omit,
@@ -303,6 +316,7 @@ class SnapPacksResource(SyncAPIResource):
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -316,7 +330,10 @@ class SnapPacksResource(SyncAPIResource):
 
         - HTML content for the inside and outside of the snap pack
         - Template IDs for the inside and outside of the snap pack
-        - A URL or file upload for a two-page PDF that matches the snap pack layout
+        - A URL for a two-page PDF that matches the snap pack layout Create a snap pack
+          via a multipart/form-data request. Accepts the same fields as the JSON create
+          body (nested objects are bracket-encoded form fields, e.g. `to[firstName]`);
+          use this content type to upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -408,9 +425,10 @@ class SnapPacksResource(SyncAPIResource):
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         inside_template: str | Omit = omit,
         outside_template: str | Omit = omit,
-        pdf: str | Omit = omit,
+        pdf: Union[str, FileTypes] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -418,30 +436,44 @@ class SnapPacksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SnapPackCreateResponse:
-        return self._post(
-            "/print-mail/v1/snap_packs",
-            body=maybe_transform(
-                {
-                    "from_": from_,
-                    "inside_html": inside_html,
-                    "outside_html": outside_html,
-                    "size": size,
-                    "to": to,
-                    "description": description,
-                    "mailing_class": mailing_class,
-                    "merge_variables": merge_variables,
-                    "metadata": metadata,
-                    "send_date": send_date,
-                    "inside_template": inside_template,
-                    "outside_template": outside_template,
-                    "pdf": pdf,
-                },
-                snap_pack_create_params.SnapPackCreateParams,
+        extra_headers = {**strip_not_given({"idempotency-key": idempotency_key}), **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "from_": from_,
+                "inside_html": inside_html,
+                "outside_html": outside_html,
+                "size": size,
+                "to": to,
+                "description": description,
+                "mailing_class": mailing_class,
+                "merge_variables": merge_variables,
+                "metadata": metadata,
+                "send_date": send_date,
+                "inside_template": inside_template,
+                "outside_template": outside_template,
+                "pdf": pdf,
+            },
+            [["pdf"]],
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["pdf"]])
+        if files:
+            # It should be noted that the actual Content-Type header that will be
+            # sent to the server will contain a `boundary` parameter, e.g.
+            # multipart/form-data; boundary=---abc--
+            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        return cast(
+            SnapPackCreateResponse,
+            self._post(
+                "/print-mail/v1/snap_packs",
+                body=maybe_transform(body, snap_pack_create_params.SnapPackCreateParams),
+                files=files,
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(
+                    Any, SnapPackCreateResponse
+                ),  # Union types cannot be passed in as arguments in the type system
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=SnapPackCreateResponse,
         )
 
     def retrieve(
@@ -454,7 +486,7 @@ class SnapPacksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SnapPackRetrieveResponse:
+    ) -> SnapPack:
         """
         Retrieve a snap pack by ID.
 
@@ -474,7 +506,7 @@ class SnapPacksResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SnapPackRetrieveResponse,
+            cast_to=SnapPack,
         )
 
     def list(
@@ -489,7 +521,7 @@ class SnapPacksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SyncSkipLimit[SnapPackListResponse]:
+    ) -> SyncSkipLimit[SnapPack]:
         """
         Get a list of snap packs.
 
@@ -510,7 +542,7 @@ class SnapPacksResource(SyncAPIResource):
         """
         return self._get_api_list(
             "/print-mail/v1/snap_packs",
-            page=SyncSkipLimit[SnapPackListResponse],
+            page=SyncSkipLimit[SnapPack],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -525,7 +557,7 @@ class SnapPacksResource(SyncAPIResource):
                     snap_pack_list_params.SnapPackListParams,
                 ),
             ),
-            model=SnapPackListResponse,
+            model=SnapPack,
         )
 
     def delete(
@@ -538,7 +570,7 @@ class SnapPacksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SnapPackDeleteResponse:
+    ) -> SnapPack:
         """Cancel a snap pack by ID.
 
         Note that this operation cannot be undone and that
@@ -560,7 +592,7 @@ class SnapPacksResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SnapPackDeleteResponse,
+            cast_to=SnapPack,
         )
 
     def progressions(
@@ -573,7 +605,7 @@ class SnapPacksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SnapPackProgressionsResponse:
+    ) -> SnapPack:
         """Progresses a snap pack's `status` to the next stage.
 
         This is only available in
@@ -599,7 +631,7 @@ class SnapPacksResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SnapPackProgressionsResponse,
+            cast_to=SnapPack,
         )
 
     def retrieve_capabilities(
@@ -728,6 +760,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -741,7 +774,10 @@ class AsyncSnapPacksResource(AsyncAPIResource):
 
         - HTML content for the inside and outside of the snap pack
         - Template IDs for the inside and outside of the snap pack
-        - A URL or file upload for a two-page PDF that matches the snap pack layout
+        - A URL for a two-page PDF that matches the snap pack layout Create a snap pack
+          via a multipart/form-data request. Accepts the same fields as the JSON create
+          body (nested objects are bracket-encoded form fields, e.g. `to[firstName]`);
+          use this content type to upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -828,6 +864,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -841,7 +878,10 @@ class AsyncSnapPacksResource(AsyncAPIResource):
 
         - HTML content for the inside and outside of the snap pack
         - Template IDs for the inside and outside of the snap pack
-        - A URL or file upload for a two-page PDF that matches the snap pack layout
+        - A URL for a two-page PDF that matches the snap pack layout Create a snap pack
+          via a multipart/form-data request. Accepts the same fields as the JSON create
+          body (nested objects are bracket-encoded form fields, e.g. `to[firstName]`);
+          use this content type to upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -891,7 +931,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
         self,
         *,
         from_: snap_pack_create_params.SnapPackCreateWithPdfFrom,
-        pdf: str,
+        pdf: Union[str, FileTypes],
         size: Literal["8.5x11_bifold_v"],
         to: snap_pack_create_params.SnapPackCreateWithPdfTo,
         description: str | Omit = omit,
@@ -927,6 +967,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -940,7 +981,10 @@ class AsyncSnapPacksResource(AsyncAPIResource):
 
         - HTML content for the inside and outside of the snap pack
         - Template IDs for the inside and outside of the snap pack
-        - A URL or file upload for a two-page PDF that matches the snap pack layout
+        - A URL for a two-page PDF that matches the snap pack layout Create a snap pack
+          via a multipart/form-data request. Accepts the same fields as the JSON create
+          body (nested objects are bracket-encoded form fields, e.g. `to[firstName]`);
+          use this content type to upload the PDF file directly.
 
         Args:
           from_: The contact information of the sender. You can pass contact information inline
@@ -1032,9 +1076,10 @@ class AsyncSnapPacksResource(AsyncAPIResource):
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         inside_template: str | Omit = omit,
         outside_template: str | Omit = omit,
-        pdf: str | Omit = omit,
+        pdf: Union[str, FileTypes] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1042,30 +1087,44 @@ class AsyncSnapPacksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SnapPackCreateResponse:
-        return await self._post(
-            "/print-mail/v1/snap_packs",
-            body=await async_maybe_transform(
-                {
-                    "from_": from_,
-                    "inside_html": inside_html,
-                    "outside_html": outside_html,
-                    "size": size,
-                    "to": to,
-                    "description": description,
-                    "mailing_class": mailing_class,
-                    "merge_variables": merge_variables,
-                    "metadata": metadata,
-                    "send_date": send_date,
-                    "inside_template": inside_template,
-                    "outside_template": outside_template,
-                    "pdf": pdf,
-                },
-                snap_pack_create_params.SnapPackCreateParams,
+        extra_headers = {**strip_not_given({"idempotency-key": idempotency_key}), **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "from_": from_,
+                "inside_html": inside_html,
+                "outside_html": outside_html,
+                "size": size,
+                "to": to,
+                "description": description,
+                "mailing_class": mailing_class,
+                "merge_variables": merge_variables,
+                "metadata": metadata,
+                "send_date": send_date,
+                "inside_template": inside_template,
+                "outside_template": outside_template,
+                "pdf": pdf,
+            },
+            [["pdf"]],
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["pdf"]])
+        if files:
+            # It should be noted that the actual Content-Type header that will be
+            # sent to the server will contain a `boundary` parameter, e.g.
+            # multipart/form-data; boundary=---abc--
+            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        return cast(
+            SnapPackCreateResponse,
+            await self._post(
+                "/print-mail/v1/snap_packs",
+                body=await async_maybe_transform(body, snap_pack_create_params.SnapPackCreateParams),
+                files=files,
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(
+                    Any, SnapPackCreateResponse
+                ),  # Union types cannot be passed in as arguments in the type system
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=SnapPackCreateResponse,
         )
 
     async def retrieve(
@@ -1078,7 +1137,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SnapPackRetrieveResponse:
+    ) -> SnapPack:
         """
         Retrieve a snap pack by ID.
 
@@ -1098,7 +1157,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SnapPackRetrieveResponse,
+            cast_to=SnapPack,
         )
 
     def list(
@@ -1113,7 +1172,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AsyncPaginator[SnapPackListResponse, AsyncSkipLimit[SnapPackListResponse]]:
+    ) -> AsyncPaginator[SnapPack, AsyncSkipLimit[SnapPack]]:
         """
         Get a list of snap packs.
 
@@ -1134,7 +1193,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
         """
         return self._get_api_list(
             "/print-mail/v1/snap_packs",
-            page=AsyncSkipLimit[SnapPackListResponse],
+            page=AsyncSkipLimit[SnapPack],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -1149,7 +1208,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
                     snap_pack_list_params.SnapPackListParams,
                 ),
             ),
-            model=SnapPackListResponse,
+            model=SnapPack,
         )
 
     async def delete(
@@ -1162,7 +1221,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SnapPackDeleteResponse:
+    ) -> SnapPack:
         """Cancel a snap pack by ID.
 
         Note that this operation cannot be undone and that
@@ -1184,7 +1243,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SnapPackDeleteResponse,
+            cast_to=SnapPack,
         )
 
     async def progressions(
@@ -1197,7 +1256,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SnapPackProgressionsResponse:
+    ) -> SnapPack:
         """Progresses a snap pack's `status` to the next stage.
 
         This is only available in
@@ -1223,7 +1282,7 @@ class AsyncSnapPacksResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SnapPackProgressionsResponse,
+            cast_to=SnapPack,
         )
 
     async def retrieve_capabilities(

@@ -6,6 +6,7 @@ from typing import Dict, Union
 from datetime import datetime
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
+from ..._types import FileTypes
 from ..._utils import PropertyInfo
 from .contact_create_with_first_name_param import ContactCreateWithFirstNameParam
 from .contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
@@ -115,6 +116,8 @@ class SnapPackCreateWithHTML(TypedDict, total=False):
     You can use this parameter to schedule orders for a future date.
     """
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 SnapPackCreateWithHTMLFrom: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
 
@@ -212,6 +215,8 @@ class SnapPackCreateWithTemplate(TypedDict, total=False):
     You can use this parameter to schedule orders for a future date.
     """
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 SnapPackCreateWithTemplateFrom: TypeAlias = Union[
     ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str
@@ -228,7 +233,7 @@ class SnapPackCreateWithPdf(TypedDict, total=False):
     contact.
     """
 
-    pdf: Required[str]
+    pdf: Required[Union[str, FileTypes]]
     """
     A URL or a multipart-uploaded two-page PDF (first page is the outside, second
     page is the inside) that matches the selected snap pack size.
@@ -304,6 +309,8 @@ class SnapPackCreateWithPdf(TypedDict, total=False):
 
     You can use this parameter to schedule orders for a future date.
     """
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
 
 
 SnapPackCreateWithPdfFrom: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]

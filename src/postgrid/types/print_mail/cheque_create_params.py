@@ -6,13 +6,14 @@ from typing import Dict, Union
 from datetime import datetime
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
+from ..._types import FileTypes
 from ..._utils import PropertyInfo
 from .cheque_size import ChequeSize
 from .digital_only_param import DigitalOnlyParam
 from .contact_create_with_first_name_param import ContactCreateWithFirstNameParam
 from .contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
 
-__all__ = ["ChequeCreateParams", "From", "To", "RedirectTo"]
+__all__ = ["ChequeCreateParams", "From", "To", "LetterSettings", "RedirectTo"]
 
 
 class ChequeCreateParams(TypedDict, total=False):
@@ -63,7 +64,27 @@ class ChequeCreateParams(TypedDict, total=False):
     If a custom envelope ID is not specified, defaults to `standard`.
     """
 
-    logo_url: Annotated[str, PropertyInfo(alias="logoURL")]
+    letter_html: Annotated[str, PropertyInfo(alias="letterHTML")]
+    """The raw HTML content for a letter attached to the cheque, if any.
+
+    You can supply _either_ this, `letterTemplate`, or `letterPDF`, but not more
+    than one.
+    """
+
+    letter_pdf: Annotated[Union[str, FileTypes], PropertyInfo(alias="letterPDF")]
+    """
+    A URL pointing to a PDF for the letter attached to the cheque, or the PDF file
+    itself when uploaded via a multipart form request. You can supply _either_ this,
+    `letterHTML`, or `letterTemplate`, but not more than one.
+    """
+
+    letter_settings: Annotated[LetterSettings, PropertyInfo(alias="letterSettings")]
+    """Settings for a letter attached to a cheque."""
+
+    letter_template: Annotated[str, PropertyInfo(alias="letterTemplate")]
+    """A Template ID for the letter attached to the cheque, if any."""
+
+    logo: str
     """An optional logo URL for the cheque.
 
     This will be placed next to the recipient address at the top left corner of the
@@ -141,6 +162,12 @@ class ChequeCreateParams(TypedDict, total=False):
     signing cheques at your office before mailing them out yourself.
     """
 
+    return_envelope: Annotated[str, PropertyInfo(alias="returnEnvelope")]
+    """The return envelope (ID) sent out with the cheque, if any.
+
+    Note that you must first order return envelopes using the Return Envelopes API.
+    """
+
     send_date: Annotated[Union[str, datetime], PropertyInfo(alias="sendDate", format="iso8601")]
     """This order will transition from `ready` to `printing` on the day after this
     date.
@@ -151,9 +178,22 @@ class ChequeCreateParams(TypedDict, total=False):
     size: ChequeSize
     """Enum representing the supported cheque sizes."""
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 From: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
 
 To: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
+
+
+class LetterSettings(TypedDict, total=False):
+    """Settings for a letter attached to a cheque."""
+
+    placement: Literal["before_cheque", "after_cheque"]
+    """
+    Enum representing where a letter attached to a cheque is placed relative to the
+    cheque page.
+    """
+
 
 RedirectTo: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]

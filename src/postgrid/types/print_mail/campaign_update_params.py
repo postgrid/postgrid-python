@@ -5,9 +5,8 @@ from __future__ import annotations
 from typing import Dict, Union, Optional
 from typing_extensions import Literal, Annotated, TypedDict
 
-from ..._types import Base64FileInput
+from ..._types import FileTypes
 from ..._utils import PropertyInfo
-from ..._models import set_pydantic_config
 from .cheque_size import ChequeSize
 from .letter_size import LetterSize
 from .address_placement import AddressPlacement
@@ -96,7 +95,7 @@ class Cheque(TypedDict, total=False):
     envelope: str
     """The custom envelope ID or `"standard"`."""
 
-    letter_pdf: Annotated[Union[str, Base64FileInput], PropertyInfo(alias="letterPDF", format="base64")]
+    letter_pdf: Annotated[Union[str, FileTypes], PropertyInfo(alias="letterPDF")]
     """PDF file for an optional attached letter. Cannot be used with `letterTemplate`."""
 
     letter_settings: Annotated[ChequeLetterSettings, PropertyInfo(alias="letterSettings")]
@@ -161,9 +160,6 @@ class Cheque(TypedDict, total=False):
 
     size: ChequeSize
     """Enum representing the supported cheque sizes."""
-
-
-set_pydantic_config(Cheque, {"arbitrary_types_allowed": True})
 
 
 class Letter(TypedDict, total=False):
@@ -232,7 +228,15 @@ class Letter(TypedDict, total=False):
     metadata: Dict[str, str]
     """Optional key-value metadata."""
 
-    pdf: str
+    paper: Union[
+        Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"], str
+    ]
+    """Premium paper selection ("standard" or a premium paper ID).
+
+    If omitted, org default is used when configured; otherwise "standard".
+    """
+
+    pdf: Union[str, FileTypes]
     """A PDF file or URL for the letter content. Cannot be used with `template`."""
 
     perforated_page: Annotated[Literal[1], PropertyInfo(alias="perforatedPage")]
@@ -302,13 +306,22 @@ class Postcard(TypedDict, total=False):
     metadata: Dict[str, str]
     """Optional key-value metadata."""
 
-    paper: str
-    """Premium paper identifier.
+    paper: Union[
+        Literal[
+            "standard",
+            "premium_paper_heavy_1_glossy",
+            "premium_paper_postcard_uv_glossy_ss",
+            "premium_paper_postcard_uv_glossy_ss_120lb",
+            "premium_paper_postcard_satin_ds",
+        ],
+        str,
+    ]
+    """Premium paper selection ("standard" or a premium paper ID).
 
-    Use "standard" for regular stock or a premium*paper*\\** ID.
+    If omitted, org default is used when configured; otherwise "standard".
     """
 
-    pdf: str
+    pdf: Union[str, FileTypes]
     """A 2-page PDF file for the postcard content (front and back).
 
     Cannot be used with `frontTemplate`/`backTemplate`.
@@ -372,7 +385,7 @@ class SelfMailer(TypedDict, total=False):
     outside_template: Annotated[str, PropertyInfo(alias="outsideTemplate")]
     """ID of the template for the outside. Cannot be used with `pdf`."""
 
-    pdf: str
+    pdf: Union[str, FileTypes]
     """A 2-page PDF file for the self-mailer content.
 
     Cannot be used with `insideTemplate`/`outsideTemplate`.
@@ -436,7 +449,7 @@ class SnapPack(TypedDict, total=False):
     outside_template: Annotated[str, PropertyInfo(alias="outsideTemplate")]
     """ID of the template for the outside. Cannot be used with `pdf`."""
 
-    pdf: str
+    pdf: Union[str, FileTypes]
     """A 2-page PDF file for the snap pack content.
 
     Cannot be used with `insideTemplate`/`outsideTemplate`.

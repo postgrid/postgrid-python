@@ -10,6 +10,14 @@ from .boxes import (
     BoxesResourceWithStreamingResponse,
     AsyncBoxesResourceWithStreamingResponse,
 )
+from .events import (
+    EventsResource,
+    AsyncEventsResource,
+    EventsResourceWithRawResponse,
+    AsyncEventsResourceWithRawResponse,
+    EventsResourceWithStreamingResponse,
+    AsyncEventsResourceWithStreamingResponse,
+)
 from .cheques import (
     ChequesResource,
     AsyncChequesResource,
@@ -41,6 +49,14 @@ from .trackers import (
     AsyncTrackersResourceWithRawResponse,
     TrackersResourceWithStreamingResponse,
     AsyncTrackersResourceWithStreamingResponse,
+)
+from .webhooks import (
+    WebhooksResource,
+    AsyncWebhooksResource,
+    WebhooksResourceWithRawResponse,
+    AsyncWebhooksResourceWithRawResponse,
+    WebhooksResourceWithStreamingResponse,
+    AsyncWebhooksResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
 from .campaigns import (
@@ -132,6 +148,14 @@ from .template_editor_sessions import (
     TemplateEditorSessionsResourceWithStreamingResponse,
     AsyncTemplateEditorSessionsResourceWithStreamingResponse,
 )
+from .return_envelopes.return_envelopes import (
+    ReturnEnvelopesResource,
+    AsyncReturnEnvelopesResource,
+    ReturnEnvelopesResourceWithRawResponse,
+    AsyncReturnEnvelopesResourceWithRawResponse,
+    ReturnEnvelopesResourceWithStreamingResponse,
+    AsyncReturnEnvelopesResourceWithStreamingResponse,
+)
 from .virtual_mailboxes.virtual_mailboxes import (
     VirtualMailboxesResource,
     AsyncVirtualMailboxesResource,
@@ -155,10 +179,35 @@ __all__ = ["PrintMailResource", "AsyncPrintMailResource"]
 class PrintMailResource(SyncAPIResource):
     @cached_property
     def contacts(self) -> ContactsResource:
+        """Manage contacts that you can mail to.
+
+        Test mode addresses will always have a
+         `verified` status. In live mode, they may be `verified`, `corrected`, or
+         `failed`. Addresses that fail to be corrected are likely undeliverable, but
+         you can still send to them if you want to.
+
+         For test mode contacts, you have the ability to assert the `addressStatus` of
+         the contact by passing specific values to the `description` field. To receive
+         an `addressStatus` of `failed`, the description of the contact should be a
+         string with the exact value `test failed`. For an `addressStatus` value of
+         `corrected`, the description of the contact should be a string with the exact
+         value `test corrected`.
+
+         Our address correction engine will often be able to fix missing postal/ZIP
+         codes, city names, and also append ZIP+4. It is SERP (Canada Post) and CASS
+         (USPS) certified, so you can rest assured that if an address is verified, we
+         can deliver to it.
+        """
         return ContactsResource(self._client)
 
     @cached_property
     def templates(self) -> TemplatesResource:
+        """Create and manage reusable HTML templates.
+
+        A template's HTML can include
+         merge variables (e.g. `{{firstName}}`) and be referenced by ID when creating
+         letters, postcards, cheques, and self mailers.
+        """
         return TemplatesResource(self._client)
 
     @cached_property
@@ -178,24 +227,80 @@ class PrintMailResource(SyncAPIResource):
         return TrackersResource(self._client)
 
     @cached_property
+    def webhooks(self) -> WebhooksResource:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return WebhooksResource(self._client)
+
+    @cached_property
+    def events(self) -> EventsResource:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return EventsResource(self._client)
+
+    @cached_property
     def letters(self) -> LettersResource:
+        """Create and manage letter orders."""
         return LettersResource(self._client)
 
     @cached_property
     def postcards(self) -> PostcardsResource:
+        """Create and manage postcard mailings."""
         return PostcardsResource(self._client)
 
     @cached_property
     def bank_accounts(self) -> BankAccountsResource:
+        """Manage bank accounts that will be used for mailing cheques."""
         return BankAccountsResource(self._client)
 
     @cached_property
     def cheques(self) -> ChequesResource:
+        """Create and manage cheque orders."""
         return ChequesResource(self._client)
 
     @cached_property
     def self_mailers(self) -> SelfMailersResource:
+        """Create and manage self mailers."""
         return SelfMailersResource(self._client)
+
+    @cached_property
+    def return_envelopes(self) -> ReturnEnvelopesResource:
+        """
+        You can use the return envelopes API to create and manage return envelopes.
+         These are envelopes that are sent along with your mail (if specified) and
+         allow your recipients to send mail to a particular address without having to
+         purchase their own envelopes/stamps.
+
+         Note that you must order return envelopes and wait for the order to be
+         filled before you can use them. You can manage these return envelope orders
+         via the API as well as the dashboard.
+        """
+        return ReturnEnvelopesResource(self._client)
 
     @cached_property
     def campaigns(self) -> CampaignsResource:
@@ -250,6 +355,7 @@ class PrintMailResource(SyncAPIResource):
 
     @cached_property
     def boxes(self) -> BoxesResource:
+        """Create and manage box orders."""
         return BoxesResource(self._client)
 
     @cached_property
@@ -356,10 +462,35 @@ class PrintMailResource(SyncAPIResource):
 class AsyncPrintMailResource(AsyncAPIResource):
     @cached_property
     def contacts(self) -> AsyncContactsResource:
+        """Manage contacts that you can mail to.
+
+        Test mode addresses will always have a
+         `verified` status. In live mode, they may be `verified`, `corrected`, or
+         `failed`. Addresses that fail to be corrected are likely undeliverable, but
+         you can still send to them if you want to.
+
+         For test mode contacts, you have the ability to assert the `addressStatus` of
+         the contact by passing specific values to the `description` field. To receive
+         an `addressStatus` of `failed`, the description of the contact should be a
+         string with the exact value `test failed`. For an `addressStatus` value of
+         `corrected`, the description of the contact should be a string with the exact
+         value `test corrected`.
+
+         Our address correction engine will often be able to fix missing postal/ZIP
+         codes, city names, and also append ZIP+4. It is SERP (Canada Post) and CASS
+         (USPS) certified, so you can rest assured that if an address is verified, we
+         can deliver to it.
+        """
         return AsyncContactsResource(self._client)
 
     @cached_property
     def templates(self) -> AsyncTemplatesResource:
+        """Create and manage reusable HTML templates.
+
+        A template's HTML can include
+         merge variables (e.g. `{{firstName}}`) and be referenced by ID when creating
+         letters, postcards, cheques, and self mailers.
+        """
         return AsyncTemplatesResource(self._client)
 
     @cached_property
@@ -379,24 +510,80 @@ class AsyncPrintMailResource(AsyncAPIResource):
         return AsyncTrackersResource(self._client)
 
     @cached_property
+    def webhooks(self) -> AsyncWebhooksResource:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return AsyncWebhooksResource(self._client)
+
+    @cached_property
+    def events(self) -> AsyncEventsResource:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return AsyncEventsResource(self._client)
+
+    @cached_property
     def letters(self) -> AsyncLettersResource:
+        """Create and manage letter orders."""
         return AsyncLettersResource(self._client)
 
     @cached_property
     def postcards(self) -> AsyncPostcardsResource:
+        """Create and manage postcard mailings."""
         return AsyncPostcardsResource(self._client)
 
     @cached_property
     def bank_accounts(self) -> AsyncBankAccountsResource:
+        """Manage bank accounts that will be used for mailing cheques."""
         return AsyncBankAccountsResource(self._client)
 
     @cached_property
     def cheques(self) -> AsyncChequesResource:
+        """Create and manage cheque orders."""
         return AsyncChequesResource(self._client)
 
     @cached_property
     def self_mailers(self) -> AsyncSelfMailersResource:
+        """Create and manage self mailers."""
         return AsyncSelfMailersResource(self._client)
+
+    @cached_property
+    def return_envelopes(self) -> AsyncReturnEnvelopesResource:
+        """
+        You can use the return envelopes API to create and manage return envelopes.
+         These are envelopes that are sent along with your mail (if specified) and
+         allow your recipients to send mail to a particular address without having to
+         purchase their own envelopes/stamps.
+
+         Note that you must order return envelopes and wait for the order to be
+         filled before you can use them. You can manage these return envelope orders
+         via the API as well as the dashboard.
+        """
+        return AsyncReturnEnvelopesResource(self._client)
 
     @cached_property
     def campaigns(self) -> AsyncCampaignsResource:
@@ -451,6 +638,7 @@ class AsyncPrintMailResource(AsyncAPIResource):
 
     @cached_property
     def boxes(self) -> AsyncBoxesResource:
+        """Create and manage box orders."""
         return AsyncBoxesResource(self._client)
 
     @cached_property
@@ -560,10 +748,35 @@ class PrintMailResourceWithRawResponse:
 
     @cached_property
     def contacts(self) -> ContactsResourceWithRawResponse:
+        """Manage contacts that you can mail to.
+
+        Test mode addresses will always have a
+         `verified` status. In live mode, they may be `verified`, `corrected`, or
+         `failed`. Addresses that fail to be corrected are likely undeliverable, but
+         you can still send to them if you want to.
+
+         For test mode contacts, you have the ability to assert the `addressStatus` of
+         the contact by passing specific values to the `description` field. To receive
+         an `addressStatus` of `failed`, the description of the contact should be a
+         string with the exact value `test failed`. For an `addressStatus` value of
+         `corrected`, the description of the contact should be a string with the exact
+         value `test corrected`.
+
+         Our address correction engine will often be able to fix missing postal/ZIP
+         codes, city names, and also append ZIP+4. It is SERP (Canada Post) and CASS
+         (USPS) certified, so you can rest assured that if an address is verified, we
+         can deliver to it.
+        """
         return ContactsResourceWithRawResponse(self._print_mail.contacts)
 
     @cached_property
     def templates(self) -> TemplatesResourceWithRawResponse:
+        """Create and manage reusable HTML templates.
+
+        A template's HTML can include
+         merge variables (e.g. `{{firstName}}`) and be referenced by ID when creating
+         letters, postcards, cheques, and self mailers.
+        """
         return TemplatesResourceWithRawResponse(self._print_mail.templates)
 
     @cached_property
@@ -583,24 +796,80 @@ class PrintMailResourceWithRawResponse:
         return TrackersResourceWithRawResponse(self._print_mail.trackers)
 
     @cached_property
+    def webhooks(self) -> WebhooksResourceWithRawResponse:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return WebhooksResourceWithRawResponse(self._print_mail.webhooks)
+
+    @cached_property
+    def events(self) -> EventsResourceWithRawResponse:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return EventsResourceWithRawResponse(self._print_mail.events)
+
+    @cached_property
     def letters(self) -> LettersResourceWithRawResponse:
+        """Create and manage letter orders."""
         return LettersResourceWithRawResponse(self._print_mail.letters)
 
     @cached_property
     def postcards(self) -> PostcardsResourceWithRawResponse:
+        """Create and manage postcard mailings."""
         return PostcardsResourceWithRawResponse(self._print_mail.postcards)
 
     @cached_property
     def bank_accounts(self) -> BankAccountsResourceWithRawResponse:
+        """Manage bank accounts that will be used for mailing cheques."""
         return BankAccountsResourceWithRawResponse(self._print_mail.bank_accounts)
 
     @cached_property
     def cheques(self) -> ChequesResourceWithRawResponse:
+        """Create and manage cheque orders."""
         return ChequesResourceWithRawResponse(self._print_mail.cheques)
 
     @cached_property
     def self_mailers(self) -> SelfMailersResourceWithRawResponse:
+        """Create and manage self mailers."""
         return SelfMailersResourceWithRawResponse(self._print_mail.self_mailers)
+
+    @cached_property
+    def return_envelopes(self) -> ReturnEnvelopesResourceWithRawResponse:
+        """
+        You can use the return envelopes API to create and manage return envelopes.
+         These are envelopes that are sent along with your mail (if specified) and
+         allow your recipients to send mail to a particular address without having to
+         purchase their own envelopes/stamps.
+
+         Note that you must order return envelopes and wait for the order to be
+         filled before you can use them. You can manage these return envelope orders
+         via the API as well as the dashboard.
+        """
+        return ReturnEnvelopesResourceWithRawResponse(self._print_mail.return_envelopes)
 
     @cached_property
     def campaigns(self) -> CampaignsResourceWithRawResponse:
@@ -655,6 +924,7 @@ class PrintMailResourceWithRawResponse:
 
     @cached_property
     def boxes(self) -> BoxesResourceWithRawResponse:
+        """Create and manage box orders."""
         return BoxesResourceWithRawResponse(self._print_mail.boxes)
 
     @cached_property
@@ -745,10 +1015,35 @@ class AsyncPrintMailResourceWithRawResponse:
 
     @cached_property
     def contacts(self) -> AsyncContactsResourceWithRawResponse:
+        """Manage contacts that you can mail to.
+
+        Test mode addresses will always have a
+         `verified` status. In live mode, they may be `verified`, `corrected`, or
+         `failed`. Addresses that fail to be corrected are likely undeliverable, but
+         you can still send to them if you want to.
+
+         For test mode contacts, you have the ability to assert the `addressStatus` of
+         the contact by passing specific values to the `description` field. To receive
+         an `addressStatus` of `failed`, the description of the contact should be a
+         string with the exact value `test failed`. For an `addressStatus` value of
+         `corrected`, the description of the contact should be a string with the exact
+         value `test corrected`.
+
+         Our address correction engine will often be able to fix missing postal/ZIP
+         codes, city names, and also append ZIP+4. It is SERP (Canada Post) and CASS
+         (USPS) certified, so you can rest assured that if an address is verified, we
+         can deliver to it.
+        """
         return AsyncContactsResourceWithRawResponse(self._print_mail.contacts)
 
     @cached_property
     def templates(self) -> AsyncTemplatesResourceWithRawResponse:
+        """Create and manage reusable HTML templates.
+
+        A template's HTML can include
+         merge variables (e.g. `{{firstName}}`) and be referenced by ID when creating
+         letters, postcards, cheques, and self mailers.
+        """
         return AsyncTemplatesResourceWithRawResponse(self._print_mail.templates)
 
     @cached_property
@@ -768,24 +1063,80 @@ class AsyncPrintMailResourceWithRawResponse:
         return AsyncTrackersResourceWithRawResponse(self._print_mail.trackers)
 
     @cached_property
+    def webhooks(self) -> AsyncWebhooksResourceWithRawResponse:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return AsyncWebhooksResourceWithRawResponse(self._print_mail.webhooks)
+
+    @cached_property
+    def events(self) -> AsyncEventsResourceWithRawResponse:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return AsyncEventsResourceWithRawResponse(self._print_mail.events)
+
+    @cached_property
     def letters(self) -> AsyncLettersResourceWithRawResponse:
+        """Create and manage letter orders."""
         return AsyncLettersResourceWithRawResponse(self._print_mail.letters)
 
     @cached_property
     def postcards(self) -> AsyncPostcardsResourceWithRawResponse:
+        """Create and manage postcard mailings."""
         return AsyncPostcardsResourceWithRawResponse(self._print_mail.postcards)
 
     @cached_property
     def bank_accounts(self) -> AsyncBankAccountsResourceWithRawResponse:
+        """Manage bank accounts that will be used for mailing cheques."""
         return AsyncBankAccountsResourceWithRawResponse(self._print_mail.bank_accounts)
 
     @cached_property
     def cheques(self) -> AsyncChequesResourceWithRawResponse:
+        """Create and manage cheque orders."""
         return AsyncChequesResourceWithRawResponse(self._print_mail.cheques)
 
     @cached_property
     def self_mailers(self) -> AsyncSelfMailersResourceWithRawResponse:
+        """Create and manage self mailers."""
         return AsyncSelfMailersResourceWithRawResponse(self._print_mail.self_mailers)
+
+    @cached_property
+    def return_envelopes(self) -> AsyncReturnEnvelopesResourceWithRawResponse:
+        """
+        You can use the return envelopes API to create and manage return envelopes.
+         These are envelopes that are sent along with your mail (if specified) and
+         allow your recipients to send mail to a particular address without having to
+         purchase their own envelopes/stamps.
+
+         Note that you must order return envelopes and wait for the order to be
+         filled before you can use them. You can manage these return envelope orders
+         via the API as well as the dashboard.
+        """
+        return AsyncReturnEnvelopesResourceWithRawResponse(self._print_mail.return_envelopes)
 
     @cached_property
     def campaigns(self) -> AsyncCampaignsResourceWithRawResponse:
@@ -840,6 +1191,7 @@ class AsyncPrintMailResourceWithRawResponse:
 
     @cached_property
     def boxes(self) -> AsyncBoxesResourceWithRawResponse:
+        """Create and manage box orders."""
         return AsyncBoxesResourceWithRawResponse(self._print_mail.boxes)
 
     @cached_property
@@ -930,10 +1282,35 @@ class PrintMailResourceWithStreamingResponse:
 
     @cached_property
     def contacts(self) -> ContactsResourceWithStreamingResponse:
+        """Manage contacts that you can mail to.
+
+        Test mode addresses will always have a
+         `verified` status. In live mode, they may be `verified`, `corrected`, or
+         `failed`. Addresses that fail to be corrected are likely undeliverable, but
+         you can still send to them if you want to.
+
+         For test mode contacts, you have the ability to assert the `addressStatus` of
+         the contact by passing specific values to the `description` field. To receive
+         an `addressStatus` of `failed`, the description of the contact should be a
+         string with the exact value `test failed`. For an `addressStatus` value of
+         `corrected`, the description of the contact should be a string with the exact
+         value `test corrected`.
+
+         Our address correction engine will often be able to fix missing postal/ZIP
+         codes, city names, and also append ZIP+4. It is SERP (Canada Post) and CASS
+         (USPS) certified, so you can rest assured that if an address is verified, we
+         can deliver to it.
+        """
         return ContactsResourceWithStreamingResponse(self._print_mail.contacts)
 
     @cached_property
     def templates(self) -> TemplatesResourceWithStreamingResponse:
+        """Create and manage reusable HTML templates.
+
+        A template's HTML can include
+         merge variables (e.g. `{{firstName}}`) and be referenced by ID when creating
+         letters, postcards, cheques, and self mailers.
+        """
         return TemplatesResourceWithStreamingResponse(self._print_mail.templates)
 
     @cached_property
@@ -953,24 +1330,80 @@ class PrintMailResourceWithStreamingResponse:
         return TrackersResourceWithStreamingResponse(self._print_mail.trackers)
 
     @cached_property
+    def webhooks(self) -> WebhooksResourceWithStreamingResponse:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return WebhooksResourceWithStreamingResponse(self._print_mail.webhooks)
+
+    @cached_property
+    def events(self) -> EventsResourceWithStreamingResponse:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return EventsResourceWithStreamingResponse(self._print_mail.events)
+
+    @cached_property
     def letters(self) -> LettersResourceWithStreamingResponse:
+        """Create and manage letter orders."""
         return LettersResourceWithStreamingResponse(self._print_mail.letters)
 
     @cached_property
     def postcards(self) -> PostcardsResourceWithStreamingResponse:
+        """Create and manage postcard mailings."""
         return PostcardsResourceWithStreamingResponse(self._print_mail.postcards)
 
     @cached_property
     def bank_accounts(self) -> BankAccountsResourceWithStreamingResponse:
+        """Manage bank accounts that will be used for mailing cheques."""
         return BankAccountsResourceWithStreamingResponse(self._print_mail.bank_accounts)
 
     @cached_property
     def cheques(self) -> ChequesResourceWithStreamingResponse:
+        """Create and manage cheque orders."""
         return ChequesResourceWithStreamingResponse(self._print_mail.cheques)
 
     @cached_property
     def self_mailers(self) -> SelfMailersResourceWithStreamingResponse:
+        """Create and manage self mailers."""
         return SelfMailersResourceWithStreamingResponse(self._print_mail.self_mailers)
+
+    @cached_property
+    def return_envelopes(self) -> ReturnEnvelopesResourceWithStreamingResponse:
+        """
+        You can use the return envelopes API to create and manage return envelopes.
+         These are envelopes that are sent along with your mail (if specified) and
+         allow your recipients to send mail to a particular address without having to
+         purchase their own envelopes/stamps.
+
+         Note that you must order return envelopes and wait for the order to be
+         filled before you can use them. You can manage these return envelope orders
+         via the API as well as the dashboard.
+        """
+        return ReturnEnvelopesResourceWithStreamingResponse(self._print_mail.return_envelopes)
 
     @cached_property
     def campaigns(self) -> CampaignsResourceWithStreamingResponse:
@@ -1025,6 +1458,7 @@ class PrintMailResourceWithStreamingResponse:
 
     @cached_property
     def boxes(self) -> BoxesResourceWithStreamingResponse:
+        """Create and manage box orders."""
         return BoxesResourceWithStreamingResponse(self._print_mail.boxes)
 
     @cached_property
@@ -1115,10 +1549,35 @@ class AsyncPrintMailResourceWithStreamingResponse:
 
     @cached_property
     def contacts(self) -> AsyncContactsResourceWithStreamingResponse:
+        """Manage contacts that you can mail to.
+
+        Test mode addresses will always have a
+         `verified` status. In live mode, they may be `verified`, `corrected`, or
+         `failed`. Addresses that fail to be corrected are likely undeliverable, but
+         you can still send to them if you want to.
+
+         For test mode contacts, you have the ability to assert the `addressStatus` of
+         the contact by passing specific values to the `description` field. To receive
+         an `addressStatus` of `failed`, the description of the contact should be a
+         string with the exact value `test failed`. For an `addressStatus` value of
+         `corrected`, the description of the contact should be a string with the exact
+         value `test corrected`.
+
+         Our address correction engine will often be able to fix missing postal/ZIP
+         codes, city names, and also append ZIP+4. It is SERP (Canada Post) and CASS
+         (USPS) certified, so you can rest assured that if an address is verified, we
+         can deliver to it.
+        """
         return AsyncContactsResourceWithStreamingResponse(self._print_mail.contacts)
 
     @cached_property
     def templates(self) -> AsyncTemplatesResourceWithStreamingResponse:
+        """Create and manage reusable HTML templates.
+
+        A template's HTML can include
+         merge variables (e.g. `{{firstName}}`) and be referenced by ID when creating
+         letters, postcards, cheques, and self mailers.
+        """
         return AsyncTemplatesResourceWithStreamingResponse(self._print_mail.templates)
 
     @cached_property
@@ -1138,24 +1597,80 @@ class AsyncPrintMailResourceWithStreamingResponse:
         return AsyncTrackersResourceWithStreamingResponse(self._print_mail.trackers)
 
     @cached_property
+    def webhooks(self) -> AsyncWebhooksResourceWithStreamingResponse:
+        """Create and manage Webhooks.
+
+        Webhooks can be used to notify your application when events occur in PostGrid.
+        For example, you may use a `letter.updated` webhook to receive a notification
+        when a letter has been processed for delivery.
+
+        Every webhook has a `secret` and this is used to sign the payload of the event.
+
+        You can choose what format you want the payload to be delivered in. By default,
+        the webhook payload will be delivered as a [JSON Web Token](https://jwt.io/).
+        When you receive the event, you can verify it using a JWT library available for
+        your particular language (using the HMAC SHA256 Algorithm). There are
+        [many](https://jwt.io/#libraries-io) off-the-shelf solutions you can use.
+
+        You can alternatively choose to receive a JSON payload. In this case, you'll
+        also receive a `PostGrid-Signature` HTTP header along with the payload.
+
+        You must respond with a `200` status from your webhook. Otherwise, PostGrid
+        will retry the webhook up to 3 times. First, after 1 hour, then 2 hours, then
+        4 hours. We will also keep track of every invocation and its response status.
+        You can retrieve data about prior invocations using the webhook invocations
+        list endpoint below.
+        """
+        return AsyncWebhooksResourceWithStreamingResponse(self._print_mail.webhooks)
+
+    @cached_property
+    def events(self) -> AsyncEventsResourceWithStreamingResponse:
+        """View Events related to your orders.
+
+        An event is created whenever a webhook is triggered. For example, if a webhook
+        is created that listens to `letter.updated` events and the delivery status of a
+        letter is updated, an event detailing the updated fields will get created.
+        """
+        return AsyncEventsResourceWithStreamingResponse(self._print_mail.events)
+
+    @cached_property
     def letters(self) -> AsyncLettersResourceWithStreamingResponse:
+        """Create and manage letter orders."""
         return AsyncLettersResourceWithStreamingResponse(self._print_mail.letters)
 
     @cached_property
     def postcards(self) -> AsyncPostcardsResourceWithStreamingResponse:
+        """Create and manage postcard mailings."""
         return AsyncPostcardsResourceWithStreamingResponse(self._print_mail.postcards)
 
     @cached_property
     def bank_accounts(self) -> AsyncBankAccountsResourceWithStreamingResponse:
+        """Manage bank accounts that will be used for mailing cheques."""
         return AsyncBankAccountsResourceWithStreamingResponse(self._print_mail.bank_accounts)
 
     @cached_property
     def cheques(self) -> AsyncChequesResourceWithStreamingResponse:
+        """Create and manage cheque orders."""
         return AsyncChequesResourceWithStreamingResponse(self._print_mail.cheques)
 
     @cached_property
     def self_mailers(self) -> AsyncSelfMailersResourceWithStreamingResponse:
+        """Create and manage self mailers."""
         return AsyncSelfMailersResourceWithStreamingResponse(self._print_mail.self_mailers)
+
+    @cached_property
+    def return_envelopes(self) -> AsyncReturnEnvelopesResourceWithStreamingResponse:
+        """
+        You can use the return envelopes API to create and manage return envelopes.
+         These are envelopes that are sent along with your mail (if specified) and
+         allow your recipients to send mail to a particular address without having to
+         purchase their own envelopes/stamps.
+
+         Note that you must order return envelopes and wait for the order to be
+         filled before you can use them. You can manage these return envelope orders
+         via the API as well as the dashboard.
+        """
+        return AsyncReturnEnvelopesResourceWithStreamingResponse(self._print_mail.return_envelopes)
 
     @cached_property
     def campaigns(self) -> AsyncCampaignsResourceWithStreamingResponse:
@@ -1210,6 +1725,7 @@ class AsyncPrintMailResourceWithStreamingResponse:
 
     @cached_property
     def boxes(self) -> AsyncBoxesResourceWithStreamingResponse:
+        """Create and manage box orders."""
         return AsyncBoxesResourceWithStreamingResponse(self._print_mail.boxes)
 
     @cached_property

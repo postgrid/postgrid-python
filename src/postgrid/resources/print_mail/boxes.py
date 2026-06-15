@@ -31,6 +31,8 @@ __all__ = ["BoxesResource", "AsyncBoxesResource"]
 
 
 class BoxesResource(SyncAPIResource):
+    """Create and manage box orders."""
+
     @cached_property
     def with_raw_response(self) -> BoxesResourceWithRawResponse:
         """
@@ -330,6 +332,8 @@ class BoxesResource(SyncAPIResource):
 
 
 class AsyncBoxesResource(AsyncAPIResource):
+    """Create and manage box orders."""
+
     @cached_property
     def with_raw_response(self) -> AsyncBoxesResourceWithRawResponse:
         """

@@ -27,6 +27,26 @@ __all__ = ["ContactsResource", "AsyncContactsResource"]
 
 
 class ContactsResource(SyncAPIResource):
+    """Manage contacts that you can mail to.
+
+    Test mode addresses will always have a
+     `verified` status. In live mode, they may be `verified`, `corrected`, or
+     `failed`. Addresses that fail to be corrected are likely undeliverable, but
+     you can still send to them if you want to.
+
+     For test mode contacts, you have the ability to assert the `addressStatus` of
+     the contact by passing specific values to the `description` field. To receive
+     an `addressStatus` of `failed`, the description of the contact should be a
+     string with the exact value `test failed`. For an `addressStatus` value of
+     `corrected`, the description of the contact should be a string with the exact
+     value `test corrected`.
+
+     Our address correction engine will often be able to fix missing postal/ZIP
+     codes, city names, and also append ZIP+4. It is SERP (Canada Post) and CASS
+     (USPS) certified, so you can rest assured that if an address is verified, we
+     can deliver to it.
+    """
+
     @cached_property
     def with_raw_response(self) -> ContactsResourceWithRawResponse:
         """
@@ -65,6 +85,7 @@ class ContactsResource(SyncAPIResource):
         phone_number: str | Omit = omit,
         postal_or_zip: str | Omit = omit,
         province_or_state: str | Omit = omit,
+        secret: bool | Omit = omit,
         skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -120,6 +141,10 @@ class ContactsResource(SyncAPIResource):
 
           province_or_state: Province or state of the contact's address.
 
+          secret: If `true`, the contact's details are hidden from the dashboard and API responses
+              apart from the final print. The contact ID can then be used as a token for
+              sending mail without giving access to the underlying data.
+
           skip_verification: If `true`, PostGrid will skip running this contact's address through our address
               verification system.
 
@@ -152,6 +177,7 @@ class ContactsResource(SyncAPIResource):
         phone_number: str | Omit = omit,
         postal_or_zip: str | Omit = omit,
         province_or_state: str | Omit = omit,
+        secret: bool | Omit = omit,
         skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -207,6 +233,10 @@ class ContactsResource(SyncAPIResource):
 
           province_or_state: Province or state of the contact's address.
 
+          secret: If `true`, the contact's details are hidden from the dashboard and API responses
+              apart from the final print. The contact ID can then be used as a token for
+              sending mail without giving access to the underlying data.
+
           skip_verification: If `true`, PostGrid will skip running this contact's address through our address
               verification system.
 
@@ -239,6 +269,7 @@ class ContactsResource(SyncAPIResource):
         phone_number: str | Omit = omit,
         postal_or_zip: str | Omit = omit,
         province_or_state: str | Omit = omit,
+        secret: bool | Omit = omit,
         skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -266,6 +297,7 @@ class ContactsResource(SyncAPIResource):
                     "phone_number": phone_number,
                     "postal_or_zip": postal_or_zip,
                     "province_or_state": province_or_state,
+                    "secret": secret,
                     "skip_verification": skip_verification,
                 },
                 contact_create_params.ContactCreateParams,
@@ -397,6 +429,26 @@ class ContactsResource(SyncAPIResource):
 
 
 class AsyncContactsResource(AsyncAPIResource):
+    """Manage contacts that you can mail to.
+
+    Test mode addresses will always have a
+     `verified` status. In live mode, they may be `verified`, `corrected`, or
+     `failed`. Addresses that fail to be corrected are likely undeliverable, but
+     you can still send to them if you want to.
+
+     For test mode contacts, you have the ability to assert the `addressStatus` of
+     the contact by passing specific values to the `description` field. To receive
+     an `addressStatus` of `failed`, the description of the contact should be a
+     string with the exact value `test failed`. For an `addressStatus` value of
+     `corrected`, the description of the contact should be a string with the exact
+     value `test corrected`.
+
+     Our address correction engine will often be able to fix missing postal/ZIP
+     codes, city names, and also append ZIP+4. It is SERP (Canada Post) and CASS
+     (USPS) certified, so you can rest assured that if an address is verified, we
+     can deliver to it.
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncContactsResourceWithRawResponse:
         """
@@ -435,6 +487,7 @@ class AsyncContactsResource(AsyncAPIResource):
         phone_number: str | Omit = omit,
         postal_or_zip: str | Omit = omit,
         province_or_state: str | Omit = omit,
+        secret: bool | Omit = omit,
         skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -490,6 +543,10 @@ class AsyncContactsResource(AsyncAPIResource):
 
           province_or_state: Province or state of the contact's address.
 
+          secret: If `true`, the contact's details are hidden from the dashboard and API responses
+              apart from the final print. The contact ID can then be used as a token for
+              sending mail without giving access to the underlying data.
+
           skip_verification: If `true`, PostGrid will skip running this contact's address through our address
               verification system.
 
@@ -522,6 +579,7 @@ class AsyncContactsResource(AsyncAPIResource):
         phone_number: str | Omit = omit,
         postal_or_zip: str | Omit = omit,
         province_or_state: str | Omit = omit,
+        secret: bool | Omit = omit,
         skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -577,6 +635,10 @@ class AsyncContactsResource(AsyncAPIResource):
 
           province_or_state: Province or state of the contact's address.
 
+          secret: If `true`, the contact's details are hidden from the dashboard and API responses
+              apart from the final print. The contact ID can then be used as a token for
+              sending mail without giving access to the underlying data.
+
           skip_verification: If `true`, PostGrid will skip running this contact's address through our address
               verification system.
 
@@ -609,6 +671,7 @@ class AsyncContactsResource(AsyncAPIResource):
         phone_number: str | Omit = omit,
         postal_or_zip: str | Omit = omit,
         province_or_state: str | Omit = omit,
+        secret: bool | Omit = omit,
         skip_verification: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -636,6 +699,7 @@ class AsyncContactsResource(AsyncAPIResource):
                     "phone_number": phone_number,
                     "postal_or_zip": postal_or_zip,
                     "province_or_state": province_or_state,
+                    "secret": secret,
                     "skip_verification": skip_verification,
                 },
                 contact_create_params.ContactCreateParams,

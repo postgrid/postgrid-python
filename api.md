@@ -52,6 +52,25 @@ Methods:
 - <code title="get /v1/intl_addver/completions">client.intl_address_verification.<a href="./src/postgrid/resources/intl_address_verification.py">get_autocomplete_previews</a>(\*\*<a href="src/postgrid/types/intl_address_verification_get_autocomplete_previews_params.py">params</a>) -> <a href="./src/postgrid/types/intl_address_verification_get_autocomplete_previews_response.py">IntlAddressVerificationGetAutocompletePreviewsResponse</a></code>
 - <code title="post /v1/intl_addver/verifications">client.intl_address_verification.<a href="./src/postgrid/resources/intl_address_verification.py">verify</a>(\*\*<a href="src/postgrid/types/intl_address_verification_verify_params.py">params</a>) -> <a href="./src/postgrid/types/intl_address_verification_verify_response.py">IntlAddressVerificationVerifyResponse</a></code>
 
+# BulkVerification
+
+Types:
+
+```python
+from postgrid.types import (
+    AddverList,
+    BulkVerificationRetrieveResponse,
+    BulkVerificationListResponse,
+    BulkVerificationUploadResponse,
+)
+```
+
+Methods:
+
+- <code title="get /v1/addver_lists/{id}">client.bulk_verification.<a href="./src/postgrid/resources/bulk_verification.py">retrieve</a>(id) -> <a href="./src/postgrid/types/bulk_verification_retrieve_response.py">BulkVerificationRetrieveResponse</a></code>
+- <code title="get /v1/addver_lists">client.bulk_verification.<a href="./src/postgrid/resources/bulk_verification.py">list</a>(\*\*<a href="src/postgrid/types/bulk_verification_list_params.py">params</a>) -> <a href="./src/postgrid/types/bulk_verification_list_response.py">BulkVerificationListResponse</a></code>
+- <code title="post /v1/addver_lists">client.bulk_verification.<a href="./src/postgrid/resources/bulk_verification.py">upload</a>(\*\*<a href="src/postgrid/types/bulk_verification_upload_params.py">params</a>) -> <a href="./src/postgrid/types/bulk_verification_upload_response.py">BulkVerificationUploadResponse</a></code>
+
 # PrintMail
 
 ## Contacts
@@ -115,6 +134,35 @@ Methods:
 - <code title="delete /print-mail/v1/trackers/{id}">client.print_mail.trackers.<a href="./src/postgrid/resources/print_mail/trackers.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/tracker_delete_response.py">TrackerDeleteResponse</a></code>
 - <code title="get /print-mail/v1/trackers/{id}/visits">client.print_mail.trackers.<a href="./src/postgrid/resources/print_mail/trackers.py">retrieve_visits</a>(id, \*\*<a href="src/postgrid/types/print_mail/tracker_retrieve_visits_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/tracker_retrieve_visits_response.py">SyncSkipLimit[TrackerRetrieveVisitsResponse]</a></code>
 
+## Webhooks
+
+Types:
+
+```python
+from postgrid.types.print_mail import Webhook, WebhookInvocation, WebhookDeleteResponse
+```
+
+Methods:
+
+- <code title="post /print-mail/v1/webhooks">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/webhook_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/webhook.py">Webhook</a></code>
+- <code title="get /print-mail/v1/webhooks/{id}">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">retrieve</a>(id) -> <a href="./src/postgrid/types/print_mail/webhook.py">Webhook</a></code>
+- <code title="post /print-mail/v1/webhooks/{id}">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">update</a>(id, \*\*<a href="src/postgrid/types/print_mail/webhook_update_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/webhook.py">Webhook</a></code>
+- <code title="get /print-mail/v1/webhooks">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/webhook_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/webhook.py">SyncSkipLimit[Webhook]</a></code>
+- <code title="delete /print-mail/v1/webhooks/{id}">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/webhook_delete_response.py">WebhookDeleteResponse</a></code>
+- <code title="get /print-mail/v1/webhooks/{id}/invocations">client.print_mail.webhooks.<a href="./src/postgrid/resources/print_mail/webhooks.py">list_invocations</a>(id, \*\*<a href="src/postgrid/types/print_mail/webhook_list_invocations_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/webhook_invocation.py">SyncSkipLimit[WebhookInvocation]</a></code>
+
+## Events
+
+Types:
+
+```python
+from postgrid.types.print_mail import Event
+```
+
+Methods:
+
+- <code title="get /print-mail/v1/events">client.print_mail.events.<a href="./src/postgrid/resources/print_mail/events.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/event_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/event.py">SyncSkipLimit[Event]</a></code>
+
 ## Letters
 
 Types:
@@ -126,13 +174,14 @@ from postgrid.types.print_mail import (
     Letter,
     LetterSize,
     PlasticCard,
+    LetterCreateResponse,
     LetterRetrieveURLResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /print-mail/v1/letters">client.print_mail.letters.<a href="./src/postgrid/resources/print_mail/letters.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/letter_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/letter.py">Letter</a></code>
+- <code title="post /print-mail/v1/letters">client.print_mail.letters.<a href="./src/postgrid/resources/print_mail/letters.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/letter_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/letter_create_response.py">LetterCreateResponse</a></code>
 - <code title="get /print-mail/v1/letters/{id}">client.print_mail.letters.<a href="./src/postgrid/resources/print_mail/letters.py">retrieve</a>(id) -> <a href="./src/postgrid/types/print_mail/letter.py">Letter</a></code>
 - <code title="get /print-mail/v1/letters">client.print_mail.letters.<a href="./src/postgrid/resources/print_mail/letters.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/letter_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/letter.py">SyncSkipLimit[Letter]</a></code>
 - <code title="delete /print-mail/v1/letters/{id}">client.print_mail.letters.<a href="./src/postgrid/resources/print_mail/letters.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/letter.py">Letter</a></code>
@@ -145,12 +194,12 @@ Methods:
 Types:
 
 ```python
-from postgrid.types.print_mail import Postcard, PostcardRetrieveURLResponse
+from postgrid.types.print_mail import Postcard, PostcardCreateResponse, PostcardRetrieveURLResponse
 ```
 
 Methods:
 
-- <code title="post /print-mail/v1/postcards">client.print_mail.postcards.<a href="./src/postgrid/resources/print_mail/postcards.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/postcard_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/postcard.py">Postcard</a></code>
+- <code title="post /print-mail/v1/postcards">client.print_mail.postcards.<a href="./src/postgrid/resources/print_mail/postcards.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/postcard_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/postcard_create_response.py">PostcardCreateResponse</a></code>
 - <code title="get /print-mail/v1/postcards/{id}">client.print_mail.postcards.<a href="./src/postgrid/resources/print_mail/postcards.py">retrieve</a>(id) -> <a href="./src/postgrid/types/print_mail/postcard.py">Postcard</a></code>
 - <code title="get /print-mail/v1/postcards">client.print_mail.postcards.<a href="./src/postgrid/resources/print_mail/postcards.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/postcard_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/postcard.py">SyncSkipLimit[Postcard]</a></code>
 - <code title="delete /print-mail/v1/postcards/{id}">client.print_mail.postcards.<a href="./src/postgrid/resources/print_mail/postcards.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/postcard.py">Postcard</a></code>
@@ -197,17 +246,51 @@ Methods:
 Types:
 
 ```python
-from postgrid.types.print_mail import SelfMailer, SelfMailerRetrieveURLResponse
+from postgrid.types.print_mail import (
+    SelfMailer,
+    SelfMailerCreateResponse,
+    SelfMailerRetrieveURLResponse,
+)
 ```
 
 Methods:
 
-- <code title="post /print-mail/v1/self_mailers">client.print_mail.self_mailers.<a href="./src/postgrid/resources/print_mail/self_mailers.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/self_mailer_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/self_mailer.py">SelfMailer</a></code>
+- <code title="post /print-mail/v1/self_mailers">client.print_mail.self_mailers.<a href="./src/postgrid/resources/print_mail/self_mailers.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/self_mailer_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/self_mailer_create_response.py">SelfMailerCreateResponse</a></code>
 - <code title="get /print-mail/v1/self_mailers/{id}">client.print_mail.self_mailers.<a href="./src/postgrid/resources/print_mail/self_mailers.py">retrieve</a>(id) -> <a href="./src/postgrid/types/print_mail/self_mailer.py">SelfMailer</a></code>
 - <code title="get /print-mail/v1/self_mailers">client.print_mail.self_mailers.<a href="./src/postgrid/resources/print_mail/self_mailers.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/self_mailer_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/self_mailer.py">SyncSkipLimit[SelfMailer]</a></code>
 - <code title="delete /print-mail/v1/self_mailers/{id}">client.print_mail.self_mailers.<a href="./src/postgrid/resources/print_mail/self_mailers.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/self_mailer.py">SelfMailer</a></code>
 - <code title="post /print-mail/v1/self_mailers/{id}/progressions">client.print_mail.self_mailers.<a href="./src/postgrid/resources/print_mail/self_mailers.py">progress</a>(id) -> <a href="./src/postgrid/types/print_mail/self_mailer.py">SelfMailer</a></code>
 - <code title="get /print-mail/v1/self_mailers/{id}/url">client.print_mail.self_mailers.<a href="./src/postgrid/resources/print_mail/self_mailers.py">retrieve_url</a>(id) -> <a href="./src/postgrid/types/print_mail/self_mailer_retrieve_url_response.py">SelfMailerRetrieveURLResponse</a></code>
+
+## ReturnEnvelopes
+
+Types:
+
+```python
+from postgrid.types.print_mail import ReturnEnvelope
+```
+
+Methods:
+
+- <code title="post /print-mail/v1/return_envelopes">client.print_mail.return_envelopes.<a href="./src/postgrid/resources/print_mail/return_envelopes/return_envelopes.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/return_envelope_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelope.py">ReturnEnvelope</a></code>
+- <code title="get /print-mail/v1/return_envelopes/{id}">client.print_mail.return_envelopes.<a href="./src/postgrid/resources/print_mail/return_envelopes/return_envelopes.py">retrieve</a>(id) -> <a href="./src/postgrid/types/print_mail/return_envelope.py">ReturnEnvelope</a></code>
+- <code title="get /print-mail/v1/return_envelopes">client.print_mail.return_envelopes.<a href="./src/postgrid/resources/print_mail/return_envelopes/return_envelopes.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/return_envelope_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelope.py">SyncSkipLimit[ReturnEnvelope]</a></code>
+
+### Orders
+
+Types:
+
+```python
+from postgrid.types.print_mail.return_envelopes import ReturnEnvelopeOrder
+```
+
+Methods:
+
+- <code title="post /print-mail/v1/return_envelopes/{id}/orders">client.print_mail.return_envelopes.orders.<a href="./src/postgrid/resources/print_mail/return_envelopes/orders.py">create</a>(id, \*\*<a href="src/postgrid/types/print_mail/return_envelopes/order_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelopes/return_envelope_order.py">ReturnEnvelopeOrder</a></code>
+- <code title="get /print-mail/v1/return_envelopes/{id}/orders/{orderID}">client.print_mail.return_envelopes.orders.<a href="./src/postgrid/resources/print_mail/return_envelopes/orders.py">retrieve</a>(order_id, \*, id, \*\*<a href="src/postgrid/types/print_mail/return_envelopes/order_retrieve_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelopes/return_envelope_order.py">ReturnEnvelopeOrder</a></code>
+- <code title="get /print-mail/v1/return_envelopes/{id}/orders">client.print_mail.return_envelopes.orders.<a href="./src/postgrid/resources/print_mail/return_envelopes/orders.py">list</a>(id, \*\*<a href="src/postgrid/types/print_mail/return_envelopes/order_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelopes/return_envelope_order.py">SyncSkipLimit[ReturnEnvelopeOrder]</a></code>
+- <code title="delete /print-mail/v1/return_envelopes/{id}/orders/{orderID}">client.print_mail.return_envelopes.orders.<a href="./src/postgrid/resources/print_mail/return_envelopes/orders.py">cancel</a>(order_id, \*, id, \*\*<a href="src/postgrid/types/print_mail/return_envelopes/order_cancel_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/return_envelopes/return_envelope_order.py">ReturnEnvelopeOrder</a></code>
+- <code title="post /print-mail/v1/return_envelopes/{id}/orders/{orderID}/fills">client.print_mail.return_envelopes.orders.<a href="./src/postgrid/resources/print_mail/return_envelopes/orders.py">fill</a>(order_id, \*, id) -> <a href="./src/postgrid/types/print_mail/return_envelopes/return_envelope_order.py">ReturnEnvelopeOrder</a></code>
 
 ## Campaigns
 
@@ -355,11 +438,8 @@ Types:
 
 ```python
 from postgrid.types.print_mail import (
+    SnapPack,
     SnapPackCreateResponse,
-    SnapPackRetrieveResponse,
-    SnapPackListResponse,
-    SnapPackDeleteResponse,
-    SnapPackProgressionsResponse,
     SnapPackRetrieveCapabilitiesResponse,
 )
 ```
@@ -367,10 +447,10 @@ from postgrid.types.print_mail import (
 Methods:
 
 - <code title="post /print-mail/v1/snap_packs">client.print_mail.snap_packs.<a href="./src/postgrid/resources/print_mail/snap_packs.py">create</a>(\*\*<a href="src/postgrid/types/print_mail/snap_pack_create_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/snap_pack_create_response.py">SnapPackCreateResponse</a></code>
-- <code title="get /print-mail/v1/snap_packs/{id}">client.print_mail.snap_packs.<a href="./src/postgrid/resources/print_mail/snap_packs.py">retrieve</a>(id) -> <a href="./src/postgrid/types/print_mail/snap_pack_retrieve_response.py">SnapPackRetrieveResponse</a></code>
-- <code title="get /print-mail/v1/snap_packs">client.print_mail.snap_packs.<a href="./src/postgrid/resources/print_mail/snap_packs.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/snap_pack_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/snap_pack_list_response.py">SyncSkipLimit[SnapPackListResponse]</a></code>
-- <code title="delete /print-mail/v1/snap_packs/{id}">client.print_mail.snap_packs.<a href="./src/postgrid/resources/print_mail/snap_packs.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/snap_pack_delete_response.py">SnapPackDeleteResponse</a></code>
-- <code title="post /print-mail/v1/snap_packs/{id}/progressions">client.print_mail.snap_packs.<a href="./src/postgrid/resources/print_mail/snap_packs.py">progressions</a>(id) -> <a href="./src/postgrid/types/print_mail/snap_pack_progressions_response.py">SnapPackProgressionsResponse</a></code>
+- <code title="get /print-mail/v1/snap_packs/{id}">client.print_mail.snap_packs.<a href="./src/postgrid/resources/print_mail/snap_packs.py">retrieve</a>(id) -> <a href="./src/postgrid/types/print_mail/snap_pack.py">SnapPack</a></code>
+- <code title="get /print-mail/v1/snap_packs">client.print_mail.snap_packs.<a href="./src/postgrid/resources/print_mail/snap_packs.py">list</a>(\*\*<a href="src/postgrid/types/print_mail/snap_pack_list_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/snap_pack.py">SyncSkipLimit[SnapPack]</a></code>
+- <code title="delete /print-mail/v1/snap_packs/{id}">client.print_mail.snap_packs.<a href="./src/postgrid/resources/print_mail/snap_packs.py">delete</a>(id) -> <a href="./src/postgrid/types/print_mail/snap_pack.py">SnapPack</a></code>
+- <code title="post /print-mail/v1/snap_packs/{id}/progressions">client.print_mail.snap_packs.<a href="./src/postgrid/resources/print_mail/snap_packs.py">progressions</a>(id) -> <a href="./src/postgrid/types/print_mail/snap_pack.py">SnapPack</a></code>
 - <code title="get /print-mail/v1/snap_packs/capabilities">client.print_mail.snap_packs.<a href="./src/postgrid/resources/print_mail/snap_packs.py">retrieve_capabilities</a>(\*\*<a href="src/postgrid/types/print_mail/snap_pack_retrieve_capabilities_params.py">params</a>) -> <a href="./src/postgrid/types/print_mail/snap_pack_retrieve_capabilities_response.py">SnapPackRetrieveCapabilitiesResponse</a></code>
 
 ## TargetedListBuilds

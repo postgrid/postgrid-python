@@ -2,14 +2,22 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union
+from typing import Any, Dict, Union, Mapping, cast
 from datetime import datetime
 from typing_extensions import Literal, overload
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, Base64FileInput, omit, not_given
-from ..._utils import path_template, required_args, maybe_transform, async_maybe_transform
+from ..._files import deepcopy_with_paths
+from ..._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
+from ..._utils import (
+    extract_files,
+    path_template,
+    required_args,
+    maybe_transform,
+    strip_not_given,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -22,12 +30,15 @@ from ...pagination import SyncSkipLimit, AsyncSkipLimit
 from ..._base_client import AsyncPaginator, make_request_options
 from ...types.print_mail import postcard_list_params, postcard_cancel_params, postcard_create_params
 from ...types.print_mail.postcard import Postcard
+from ...types.print_mail.postcard_create_response import PostcardCreateResponse
 from ...types.print_mail.postcard_retrieve_url_response import PostcardRetrieveURLResponse
 
 __all__ = ["PostcardsResource", "AsyncPostcardsResource"]
 
 
 class PostcardsResource(SyncAPIResource):
+    """Create and manage postcard mailings."""
+
     @cached_property
     def with_raw_response(self) -> PostcardsResourceWithRawResponse:
         """
@@ -88,24 +99,37 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
-        paper: str | Omit = omit,
+        paper: Union[
+            Literal[
+                "standard",
+                "premium_paper_heavy_1_glossy",
+                "premium_paper_postcard_uv_glossy_ss",
+                "premium_paper_postcard_uv_glossy_ss_120lb",
+                "premium_paper_postcard_satin_ds",
+            ],
+            str,
+        ]
+        | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Postcard:
+    ) -> PostcardCreateResponse:
         """Create a postcard.
 
         Note that you can supply one of the following:
 
         - HTML content for the front and back of the postcard
         - A template ID for the front and back of the postcard
-        - A URL or file for a 2 page PDF where the first page is the front of the
-          postcard and the second page is the back
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a 2 page PDF where the first page is the front of the postcard and
+          the second page is the back Create a postcard via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           back_html: The HTML content for the back of the postcard. You can supply _either_ this or
@@ -138,8 +162,19 @@ class PostcardsResource(SyncAPIResource):
 
           metadata: See the section on Metadata.
 
-          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
-              ID.
+          paper: Premium paper selection used for this postcard.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_heavy_1_glossy`
+              - `premium_paper_postcard_uv_glossy_ss`
+              - `premium_paper_postcard_uv_glossy_ss_120lb`
+              - `premium_paper_postcard_satin_ds`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default postcard paper is used when configured; otherwise
+              `standard`.
 
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
@@ -160,22 +195,72 @@ class PostcardsResource(SyncAPIResource):
         *,
         back_template: str,
         front_template: str,
+        size: Literal["6x4", "9x6", "11x6"],
+        to: postcard_create_params.PostcardCreateWithTemplateTo,
+        description: str | Omit = omit,
+        from_: postcard_create_params.PostcardCreateWithTemplateFrom | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        paper: Union[
+            Literal[
+                "standard",
+                "premium_paper_heavy_1_glossy",
+                "premium_paper_postcard_uv_glossy_ss",
+                "premium_paper_postcard_uv_glossy_ss_120lb",
+                "premium_paper_postcard_satin_ds",
+            ],
+            str,
+        ]
+        | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Postcard:
+    ) -> PostcardCreateResponse:
         """Create a postcard.
 
         Note that you can supply one of the following:
 
         - HTML content for the front and back of the postcard
         - A template ID for the front and back of the postcard
-        - A URL or file for a 2 page PDF where the first page is the front of the
-          postcard and the second page is the back
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a 2 page PDF where the first page is the front of the postcard and
+          the second page is the back Create a postcard via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           back_template: The template ID for the back of the postcard. You can supply _either_ this or
@@ -183,6 +268,47 @@ class PostcardsResource(SyncAPIResource):
 
           front_template: The template ID for the front of the postcard. You can supply _either_ this or
               `frontHTML` but not both.
+
+          size: Enum representing the supported postcard sizes.
+
+          to: The recipient of this order. You can either supply the contact information
+              inline here or provide a contact ID. PostGrid will automatically deduplicate
+              contacts regardless of whether you provide the information inline here or call
+              the contact creation endpoint.
+
+          description: An optional string describing this resource. Will be visible in the API and the
+              dashboard.
+
+          from_: The contact information of the sender. You can pass contact information inline
+              here just like you can for the `to`. Unlike other order types, the sender
+              address is optional for postcards.
+
+          mailing_class: The mailing class of this order. If not provided, automatically set to
+              `first_class`.
+
+          merge_variables: These will be merged with the variables in the template or HTML you create this
+              order with. The keys in this object should match the variable names in the
+              template _exactly_ as they are case-sensitive. Note that these _do not_ apply to
+              PDFs uploaded with the order.
+
+          metadata: See the section on Metadata.
+
+          paper: Premium paper selection used for this postcard.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_heavy_1_glossy`
+              - `premium_paper_postcard_uv_glossy_ss`
+              - `premium_paper_postcard_uv_glossy_ss_120lb`
+              - `premium_paper_postcard_satin_ds`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default postcard paper is used when configured; otherwise
+              `standard`.
+
+          send_date: This order will transition from `ready` to `printing` on the day after this
+              date. You can use this parameter to schedule orders for a future date.
 
           extra_headers: Send extra headers
 
@@ -234,24 +360,37 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
-        paper: str | Omit = omit,
+        paper: Union[
+            Literal[
+                "standard",
+                "premium_paper_heavy_1_glossy",
+                "premium_paper_postcard_uv_glossy_ss",
+                "premium_paper_postcard_uv_glossy_ss_120lb",
+                "premium_paper_postcard_satin_ds",
+            ],
+            str,
+        ]
+        | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Postcard:
+    ) -> PostcardCreateResponse:
         """Create a postcard.
 
         Note that you can supply one of the following:
 
         - HTML content for the front and back of the postcard
         - A template ID for the front and back of the postcard
-        - A URL or file for a 2 page PDF where the first page is the front of the
-          postcard and the second page is the back
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a 2 page PDF where the first page is the front of the postcard and
+          the second page is the back Create a postcard via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           pdf: A URL pointing to a 2 page PDF file. The first page is the front of the postcard
@@ -281,8 +420,19 @@ class PostcardsResource(SyncAPIResource):
 
           metadata: See the section on Metadata.
 
-          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
-              ID.
+          paper: Premium paper selection used for this postcard.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_heavy_1_glossy`
+              - `premium_paper_postcard_uv_glossy_ss`
+              - `premium_paper_postcard_uv_glossy_ss_120lb`
+              - `premium_paper_postcard_satin_ds`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default postcard paper is used when configured; otherwise
+              `standard`.
 
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
@@ -301,7 +451,7 @@ class PostcardsResource(SyncAPIResource):
     def create(
         self,
         *,
-        pdf: Union[str, Base64FileInput],
+        pdf: FileTypes,
         size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithPdfFileTo,
         description: str | Omit = omit,
@@ -337,28 +487,42 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
-        paper: str | Omit = omit,
+        paper: Union[
+            Literal[
+                "standard",
+                "premium_paper_heavy_1_glossy",
+                "premium_paper_postcard_uv_glossy_ss",
+                "premium_paper_postcard_uv_glossy_ss_120lb",
+                "premium_paper_postcard_satin_ds",
+            ],
+            str,
+        ]
+        | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Postcard:
+    ) -> PostcardCreateResponse:
         """Create a postcard.
 
         Note that you can supply one of the following:
 
         - HTML content for the front and back of the postcard
         - A template ID for the front and back of the postcard
-        - A URL or file for a 2 page PDF where the first page is the front of the
-          postcard and the second page is the back
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a 2 page PDF where the first page is the front of the postcard and
+          the second page is the back Create a postcard via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
-          pdf: A 2 page PDF file. The first page is the front of the postcard and the second
-              page is the back (where the address will be stamped on).
+          pdf: Represents a raw file upload. Sending the actual file requires a
+              `multipart/form-data` request; in `application/json` request bodies, supply a
+              URL instead.
 
           size: Enum representing the supported postcard sizes.
 
@@ -384,8 +548,19 @@ class PostcardsResource(SyncAPIResource):
 
           metadata: See the section on Metadata.
 
-          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
-              ID.
+          paper: Premium paper selection used for this postcard.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_heavy_1_glossy`
+              - `premium_paper_postcard_uv_glossy_ss`
+              - `premium_paper_postcard_uv_glossy_ss_120lb`
+              - `premium_paper_postcard_satin_ds`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default postcard paper is used when configured; otherwise
+              `standard`.
 
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
@@ -401,20 +576,23 @@ class PostcardsResource(SyncAPIResource):
         ...
 
     @required_args(
-        ["back_html", "front_html", "size", "to"], ["back_template", "front_template"], ["pdf", "size", "to"]
+        ["back_html", "front_html", "size", "to"],
+        ["back_template", "front_template", "size", "to"],
+        ["pdf", "size", "to"],
     )
     def create(
         self,
         *,
         back_html: str | Omit = omit,
         front_html: str | Omit = omit,
-        size: Literal["6x4", "9x6", "11x6"] | Omit = omit,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithHTMLTo
+        | postcard_create_params.PostcardCreateWithTemplateTo
         | postcard_create_params.PostcardCreateWithPdfurlTo
-        | postcard_create_params.PostcardCreateWithPdfFileTo
-        | Omit = omit,
+        | postcard_create_params.PostcardCreateWithPdfFileTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithHTMLFrom
+        | postcard_create_params.PostcardCreateWithTemplateFrom
         | postcard_create_params.PostcardCreateWithPdfurlFrom
         | postcard_create_params.PostcardCreateWithPdfFileFrom
         | Omit = omit,
@@ -449,43 +627,68 @@ class PostcardsResource(SyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
-        paper: str | Omit = omit,
+        paper: Union[
+            Literal[
+                "standard",
+                "premium_paper_heavy_1_glossy",
+                "premium_paper_postcard_uv_glossy_ss",
+                "premium_paper_postcard_uv_glossy_ss_120lb",
+                "premium_paper_postcard_satin_ds",
+            ],
+            str,
+        ]
+        | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         back_template: str | Omit = omit,
         front_template: str | Omit = omit,
-        pdf: str | Union[str, Base64FileInput] | Omit = omit,
+        pdf: str | FileTypes | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Postcard:
-        return self._post(
-            "/print-mail/v1/postcards",
-            body=maybe_transform(
-                {
-                    "back_html": back_html,
-                    "front_html": front_html,
-                    "size": size,
-                    "to": to,
-                    "description": description,
-                    "from_": from_,
-                    "mailing_class": mailing_class,
-                    "merge_variables": merge_variables,
-                    "metadata": metadata,
-                    "paper": paper,
-                    "send_date": send_date,
-                    "back_template": back_template,
-                    "front_template": front_template,
-                    "pdf": pdf,
-                },
-                postcard_create_params.PostcardCreateParams,
+    ) -> PostcardCreateResponse:
+        extra_headers = {**strip_not_given({"idempotency-key": idempotency_key}), **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "back_html": back_html,
+                "front_html": front_html,
+                "size": size,
+                "to": to,
+                "description": description,
+                "from_": from_,
+                "mailing_class": mailing_class,
+                "merge_variables": merge_variables,
+                "metadata": metadata,
+                "paper": paper,
+                "send_date": send_date,
+                "back_template": back_template,
+                "front_template": front_template,
+                "pdf": pdf,
+            },
+            [["pdf"]],
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["pdf"]])
+        if files:
+            # It should be noted that the actual Content-Type header that will be
+            # sent to the server will contain a `boundary` parameter, e.g.
+            # multipart/form-data; boundary=---abc--
+            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        return cast(
+            PostcardCreateResponse,
+            self._post(
+                "/print-mail/v1/postcards",
+                body=maybe_transform(body, postcard_create_params.PostcardCreateParams),
+                files=files,
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(
+                    Any, PostcardCreateResponse
+                ),  # Union types cannot be passed in as arguments in the type system
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Postcard,
         )
 
     def retrieve(
@@ -722,6 +925,8 @@ class PostcardsResource(SyncAPIResource):
 
 
 class AsyncPostcardsResource(AsyncAPIResource):
+    """Create and manage postcard mailings."""
+
     @cached_property
     def with_raw_response(self) -> AsyncPostcardsResourceWithRawResponse:
         """
@@ -782,24 +987,37 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
-        paper: str | Omit = omit,
+        paper: Union[
+            Literal[
+                "standard",
+                "premium_paper_heavy_1_glossy",
+                "premium_paper_postcard_uv_glossy_ss",
+                "premium_paper_postcard_uv_glossy_ss_120lb",
+                "premium_paper_postcard_satin_ds",
+            ],
+            str,
+        ]
+        | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Postcard:
+    ) -> PostcardCreateResponse:
         """Create a postcard.
 
         Note that you can supply one of the following:
 
         - HTML content for the front and back of the postcard
         - A template ID for the front and back of the postcard
-        - A URL or file for a 2 page PDF where the first page is the front of the
-          postcard and the second page is the back
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a 2 page PDF where the first page is the front of the postcard and
+          the second page is the back Create a postcard via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           back_html: The HTML content for the back of the postcard. You can supply _either_ this or
@@ -832,8 +1050,19 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           metadata: See the section on Metadata.
 
-          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
-              ID.
+          paper: Premium paper selection used for this postcard.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_heavy_1_glossy`
+              - `premium_paper_postcard_uv_glossy_ss`
+              - `premium_paper_postcard_uv_glossy_ss_120lb`
+              - `premium_paper_postcard_satin_ds`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default postcard paper is used when configured; otherwise
+              `standard`.
 
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
@@ -854,22 +1083,72 @@ class AsyncPostcardsResource(AsyncAPIResource):
         *,
         back_template: str,
         front_template: str,
+        size: Literal["6x4", "9x6", "11x6"],
+        to: postcard_create_params.PostcardCreateWithTemplateTo,
+        description: str | Omit = omit,
+        from_: postcard_create_params.PostcardCreateWithTemplateFrom | Omit = omit,
+        mailing_class: Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ]
+        | Omit = omit,
+        merge_variables: Dict[str, object] | Omit = omit,
+        metadata: Dict[str, object] | Omit = omit,
+        paper: Union[
+            Literal[
+                "standard",
+                "premium_paper_heavy_1_glossy",
+                "premium_paper_postcard_uv_glossy_ss",
+                "premium_paper_postcard_uv_glossy_ss_120lb",
+                "premium_paper_postcard_satin_ds",
+            ],
+            str,
+        ]
+        | Omit = omit,
+        send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Postcard:
+    ) -> PostcardCreateResponse:
         """Create a postcard.
 
         Note that you can supply one of the following:
 
         - HTML content for the front and back of the postcard
         - A template ID for the front and back of the postcard
-        - A URL or file for a 2 page PDF where the first page is the front of the
-          postcard and the second page is the back
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a 2 page PDF where the first page is the front of the postcard and
+          the second page is the back Create a postcard via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           back_template: The template ID for the back of the postcard. You can supply _either_ this or
@@ -877,6 +1156,47 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           front_template: The template ID for the front of the postcard. You can supply _either_ this or
               `frontHTML` but not both.
+
+          size: Enum representing the supported postcard sizes.
+
+          to: The recipient of this order. You can either supply the contact information
+              inline here or provide a contact ID. PostGrid will automatically deduplicate
+              contacts regardless of whether you provide the information inline here or call
+              the contact creation endpoint.
+
+          description: An optional string describing this resource. Will be visible in the API and the
+              dashboard.
+
+          from_: The contact information of the sender. You can pass contact information inline
+              here just like you can for the `to`. Unlike other order types, the sender
+              address is optional for postcards.
+
+          mailing_class: The mailing class of this order. If not provided, automatically set to
+              `first_class`.
+
+          merge_variables: These will be merged with the variables in the template or HTML you create this
+              order with. The keys in this object should match the variable names in the
+              template _exactly_ as they are case-sensitive. Note that these _do not_ apply to
+              PDFs uploaded with the order.
+
+          metadata: See the section on Metadata.
+
+          paper: Premium paper selection used for this postcard.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_heavy_1_glossy`
+              - `premium_paper_postcard_uv_glossy_ss`
+              - `premium_paper_postcard_uv_glossy_ss_120lb`
+              - `premium_paper_postcard_satin_ds`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default postcard paper is used when configured; otherwise
+              `standard`.
+
+          send_date: This order will transition from `ready` to `printing` on the day after this
+              date. You can use this parameter to schedule orders for a future date.
 
           extra_headers: Send extra headers
 
@@ -928,24 +1248,37 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
-        paper: str | Omit = omit,
+        paper: Union[
+            Literal[
+                "standard",
+                "premium_paper_heavy_1_glossy",
+                "premium_paper_postcard_uv_glossy_ss",
+                "premium_paper_postcard_uv_glossy_ss_120lb",
+                "premium_paper_postcard_satin_ds",
+            ],
+            str,
+        ]
+        | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Postcard:
+    ) -> PostcardCreateResponse:
         """Create a postcard.
 
         Note that you can supply one of the following:
 
         - HTML content for the front and back of the postcard
         - A template ID for the front and back of the postcard
-        - A URL or file for a 2 page PDF where the first page is the front of the
-          postcard and the second page is the back
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a 2 page PDF where the first page is the front of the postcard and
+          the second page is the back Create a postcard via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
           pdf: A URL pointing to a 2 page PDF file. The first page is the front of the postcard
@@ -975,8 +1308,19 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           metadata: See the section on Metadata.
 
-          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
-              ID.
+          paper: Premium paper selection used for this postcard.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_heavy_1_glossy`
+              - `premium_paper_postcard_uv_glossy_ss`
+              - `premium_paper_postcard_uv_glossy_ss_120lb`
+              - `premium_paper_postcard_satin_ds`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default postcard paper is used when configured; otherwise
+              `standard`.
 
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
@@ -995,7 +1339,7 @@ class AsyncPostcardsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        pdf: Union[str, Base64FileInput],
+        pdf: FileTypes,
         size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithPdfFileTo,
         description: str | Omit = omit,
@@ -1031,28 +1375,42 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
-        paper: str | Omit = omit,
+        paper: Union[
+            Literal[
+                "standard",
+                "premium_paper_heavy_1_glossy",
+                "premium_paper_postcard_uv_glossy_ss",
+                "premium_paper_postcard_uv_glossy_ss_120lb",
+                "premium_paper_postcard_satin_ds",
+            ],
+            str,
+        ]
+        | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Postcard:
+    ) -> PostcardCreateResponse:
         """Create a postcard.
 
         Note that you can supply one of the following:
 
         - HTML content for the front and back of the postcard
         - A template ID for the front and back of the postcard
-        - A URL or file for a 2 page PDF where the first page is the front of the
-          postcard and the second page is the back
-        - Upload the aforementioned PDF file via a multipart form upload request
+        - A URL for a 2 page PDF where the first page is the front of the postcard and
+          the second page is the back Create a postcard via a multipart/form-data
+          request. Accepts the same fields as the JSON create body (nested objects are
+          bracket-encoded form fields, e.g. `to[firstName]`); use this content type to
+          upload the PDF file directly.
 
         Args:
-          pdf: A 2 page PDF file. The first page is the front of the postcard and the second
-              page is the back (where the address will be stamped on).
+          pdf: Represents a raw file upload. Sending the actual file requires a
+              `multipart/form-data` request; in `application/json` request bodies, supply a
+              URL instead.
 
           size: Enum representing the supported postcard sizes.
 
@@ -1078,8 +1436,19 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           metadata: See the section on Metadata.
 
-          paper: Premium paper identifier. Use "standard" for regular stock or a premium*paper*\\**
-              ID.
+          paper: Premium paper selection used for this postcard.
+
+              Available values include:
+
+              - `standard`
+              - `premium_paper_heavy_1_glossy`
+              - `premium_paper_postcard_uv_glossy_ss`
+              - `premium_paper_postcard_uv_glossy_ss_120lb`
+              - `premium_paper_postcard_satin_ds`
+
+              Not all premium paper options are enabled for all organizations. If omitted, the
+              organization default postcard paper is used when configured; otherwise
+              `standard`.
 
           send_date: This order will transition from `ready` to `printing` on the day after this
               date. You can use this parameter to schedule orders for a future date.
@@ -1095,20 +1464,23 @@ class AsyncPostcardsResource(AsyncAPIResource):
         ...
 
     @required_args(
-        ["back_html", "front_html", "size", "to"], ["back_template", "front_template"], ["pdf", "size", "to"]
+        ["back_html", "front_html", "size", "to"],
+        ["back_template", "front_template", "size", "to"],
+        ["pdf", "size", "to"],
     )
     async def create(
         self,
         *,
         back_html: str | Omit = omit,
         front_html: str | Omit = omit,
-        size: Literal["6x4", "9x6", "11x6"] | Omit = omit,
+        size: Literal["6x4", "9x6", "11x6"],
         to: postcard_create_params.PostcardCreateWithHTMLTo
+        | postcard_create_params.PostcardCreateWithTemplateTo
         | postcard_create_params.PostcardCreateWithPdfurlTo
-        | postcard_create_params.PostcardCreateWithPdfFileTo
-        | Omit = omit,
+        | postcard_create_params.PostcardCreateWithPdfFileTo,
         description: str | Omit = omit,
         from_: postcard_create_params.PostcardCreateWithHTMLFrom
+        | postcard_create_params.PostcardCreateWithTemplateFrom
         | postcard_create_params.PostcardCreateWithPdfurlFrom
         | postcard_create_params.PostcardCreateWithPdfFileFrom
         | Omit = omit,
@@ -1143,43 +1515,68 @@ class AsyncPostcardsResource(AsyncAPIResource):
         | Omit = omit,
         merge_variables: Dict[str, object] | Omit = omit,
         metadata: Dict[str, object] | Omit = omit,
-        paper: str | Omit = omit,
+        paper: Union[
+            Literal[
+                "standard",
+                "premium_paper_heavy_1_glossy",
+                "premium_paper_postcard_uv_glossy_ss",
+                "premium_paper_postcard_uv_glossy_ss_120lb",
+                "premium_paper_postcard_satin_ds",
+            ],
+            str,
+        ]
+        | Omit = omit,
         send_date: Union[str, datetime] | Omit = omit,
+        idempotency_key: str | Omit = omit,
         back_template: str | Omit = omit,
         front_template: str | Omit = omit,
-        pdf: str | Union[str, Base64FileInput] | Omit = omit,
+        pdf: str | FileTypes | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Postcard:
-        return await self._post(
-            "/print-mail/v1/postcards",
-            body=await async_maybe_transform(
-                {
-                    "back_html": back_html,
-                    "front_html": front_html,
-                    "size": size,
-                    "to": to,
-                    "description": description,
-                    "from_": from_,
-                    "mailing_class": mailing_class,
-                    "merge_variables": merge_variables,
-                    "metadata": metadata,
-                    "paper": paper,
-                    "send_date": send_date,
-                    "back_template": back_template,
-                    "front_template": front_template,
-                    "pdf": pdf,
-                },
-                postcard_create_params.PostcardCreateParams,
+    ) -> PostcardCreateResponse:
+        extra_headers = {**strip_not_given({"idempotency-key": idempotency_key}), **(extra_headers or {})}
+        body = deepcopy_with_paths(
+            {
+                "back_html": back_html,
+                "front_html": front_html,
+                "size": size,
+                "to": to,
+                "description": description,
+                "from_": from_,
+                "mailing_class": mailing_class,
+                "merge_variables": merge_variables,
+                "metadata": metadata,
+                "paper": paper,
+                "send_date": send_date,
+                "back_template": back_template,
+                "front_template": front_template,
+                "pdf": pdf,
+            },
+            [["pdf"]],
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["pdf"]])
+        if files:
+            # It should be noted that the actual Content-Type header that will be
+            # sent to the server will contain a `boundary` parameter, e.g.
+            # multipart/form-data; boundary=---abc--
+            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        return cast(
+            PostcardCreateResponse,
+            await self._post(
+                "/print-mail/v1/postcards",
+                body=await async_maybe_transform(body, postcard_create_params.PostcardCreateParams),
+                files=files,
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(
+                    Any, PostcardCreateResponse
+                ),  # Union types cannot be passed in as arguments in the type system
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Postcard,
         )
 
     async def retrieve(

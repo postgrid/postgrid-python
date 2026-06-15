@@ -1,7 +1,7 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import builtins
-from typing import Dict, Optional
+from typing import Dict, Union, Optional
 from datetime import datetime
 from typing_extensions import Literal
 
@@ -170,6 +170,23 @@ class Letter(BaseModel):
 
     metadata: Optional[Dict[str, builtins.object]] = None
     """See the section on Metadata."""
+
+    paper: Union[
+        Literal["standard", "premium_paper_letter_standard_white_70lb", "premium_paper_letter_standard_white_80lb"],
+        str,
+        None,
+    ] = None
+    """Premium paper selection used for this letter.
+
+    Available values include:
+
+    - `standard`
+    - `premium_paper_letter_standard_white_70lb`
+    - `premium_paper_letter_standard_white_80lb`
+
+    Not all premium paper options are enabled for all organizations. If omitted, the
+    organization default letter paper is used when configured; otherwise `standard`.
+    """
 
     pdf_workflow_run: Optional[str] = FieldInfo(alias="pdfWorkflowRun", default=None)
     """The ID of the PDF workflow run that created the letter, if any."""

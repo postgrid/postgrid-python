@@ -1,0 +1,137 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+import builtins
+from typing import Dict, Optional
+from datetime import datetime
+from typing_extensions import Literal
+
+from pydantic import Field as FieldInfo
+
+from ..._models import BaseModel
+
+__all__ = ["ReturnEnvelope", "To"]
+
+
+class To(BaseModel):
+    """The contact denormalized onto a return envelope when it is created.
+
+    Unlike
+    a full contact it is not a standalone resource, so it has no `object`,
+    `live`, `createdAt`, or `updatedAt` fields.
+    """
+
+    id: str
+    """A unique ID prefixed with contact\\__"""
+
+    address_line1: str = FieldInfo(alias="addressLine1")
+    """The first line of the contact's address."""
+
+    address_status: Literal["verified", "corrected", "failed"] = FieldInfo(alias="addressStatus")
+    """One of `verified`, `corrected`, or `failed`."""
+
+    country_code: str = FieldInfo(alias="countryCode")
+    """The ISO 3611-1 country code of the contact's address."""
+
+    address_errors: Optional[str] = FieldInfo(alias="addressErrors", default=None)
+    """
+    A series of human-readable errors/warnings that were raised when running the
+    provided address through our address verification.
+    """
+
+    address_line2: Optional[str] = FieldInfo(alias="addressLine2", default=None)
+    """Second line of the contact's address, if applicable."""
+
+    city: Optional[str] = None
+    """The city of the contact's address."""
+
+    company_name: Optional[str] = FieldInfo(alias="companyName", default=None)
+    """Company name of the contact."""
+
+    description: Optional[str] = None
+    """An optional string describing this resource.
+
+    Will be visible in the API and the dashboard.
+    """
+
+    email: Optional[str] = None
+    """Email of the contact."""
+
+    first_name: Optional[str] = FieldInfo(alias="firstName", default=None)
+    """First name of the contact."""
+
+    force_verified_status: Optional[bool] = FieldInfo(alias="forceVerifiedStatus", default=None)
+    """
+    If `true`, PostGrid will force this contact to have an `addressStatus` of
+    `verified` even if our address verification system says otherwise.
+    """
+
+    job_title: Optional[str] = FieldInfo(alias="jobTitle", default=None)
+    """Job title of the contact."""
+
+    last_name: Optional[str] = FieldInfo(alias="lastName", default=None)
+    """Last name of the contact."""
+
+    metadata: Optional[Dict[str, object]] = None
+    """See the section on Metadata."""
+
+    phone_number: Optional[str] = FieldInfo(alias="phoneNumber", default=None)
+    """Phone number of the contact."""
+
+    postal_or_zip: Optional[str] = FieldInfo(alias="postalOrZip", default=None)
+    """The postal or ZIP code of the contact's address."""
+
+    province_or_state: Optional[str] = FieldInfo(alias="provinceOrState", default=None)
+    """Province or state of the contact's address."""
+
+    secret: Optional[bool] = None
+    """
+    If `true`, the contact's details are hidden from the dashboard and API responses
+    apart from the final print. The contact ID can then be used as a token for
+    sending mail without giving access to the underlying data.
+    """
+
+    skip_verification: Optional[bool] = FieldInfo(alias="skipVerification", default=None)
+    """
+    If `true`, PostGrid will skip running this contact's address through our address
+    verification system.
+    """
+
+
+class ReturnEnvelope(BaseModel):
+    id: str
+    """A unique ID prefixed with return*envelope*"""
+
+    available: int
+    """The number of return envelopes available to use in your orders immediately.
+
+    This increases when a return envelope order is filled and decreases as you send
+    orders which include this return envelope.
+    """
+
+    created_at: datetime = FieldInfo(alias="createdAt")
+    """The UTC time at which this resource was created."""
+
+    live: bool
+    """`true` if this is a live mode resource else `false`."""
+
+    object: Literal["return_envelope"]
+    """Always `return_envelope`."""
+
+    to: To
+    """The contact denormalized onto a return envelope when it is created.
+
+    Unlike a full contact it is not a standalone resource, so it has no `object`,
+    `live`, `createdAt`, or `updatedAt` fields.
+    """
+
+    updated_at: datetime = FieldInfo(alias="updatedAt")
+    """The UTC time at which this resource was last updated."""
+
+    description: Optional[str] = None
+    """An optional string describing this resource.
+
+    Will be visible in the API and the dashboard.
+    """
+
+    metadata: Optional[Dict[str, builtins.object]] = None
+    """See the section on Metadata."""

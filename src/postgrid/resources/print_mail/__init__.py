@@ -8,6 +8,14 @@ from .boxes import (
     BoxesResourceWithStreamingResponse,
     AsyncBoxesResourceWithStreamingResponse,
 )
+from .events import (
+    EventsResource,
+    AsyncEventsResource,
+    EventsResourceWithRawResponse,
+    AsyncEventsResourceWithRawResponse,
+    EventsResourceWithStreamingResponse,
+    AsyncEventsResourceWithStreamingResponse,
+)
 from .cheques import (
     ChequesResource,
     AsyncChequesResource,
@@ -47,6 +55,14 @@ from .trackers import (
     AsyncTrackersResourceWithRawResponse,
     TrackersResourceWithStreamingResponse,
     AsyncTrackersResourceWithStreamingResponse,
+)
+from .webhooks import (
+    WebhooksResource,
+    AsyncWebhooksResource,
+    WebhooksResourceWithRawResponse,
+    AsyncWebhooksResourceWithRawResponse,
+    WebhooksResourceWithStreamingResponse,
+    AsyncWebhooksResourceWithStreamingResponse,
 )
 from .campaigns import (
     CampaignsResource,
@@ -112,6 +128,14 @@ from .mailing_lists import (
     MailingListsResourceWithStreamingResponse,
     AsyncMailingListsResourceWithStreamingResponse,
 )
+from .return_envelopes import (
+    ReturnEnvelopesResource,
+    AsyncReturnEnvelopesResource,
+    ReturnEnvelopesResourceWithRawResponse,
+    AsyncReturnEnvelopesResourceWithRawResponse,
+    ReturnEnvelopesResourceWithStreamingResponse,
+    AsyncReturnEnvelopesResourceWithStreamingResponse,
+)
 from .sub_organizations import (
     SubOrganizationsResource,
     AsyncSubOrganizationsResource,
@@ -172,6 +196,18 @@ __all__ = [
     "AsyncTrackersResourceWithRawResponse",
     "TrackersResourceWithStreamingResponse",
     "AsyncTrackersResourceWithStreamingResponse",
+    "WebhooksResource",
+    "AsyncWebhooksResource",
+    "WebhooksResourceWithRawResponse",
+    "AsyncWebhooksResourceWithRawResponse",
+    "WebhooksResourceWithStreamingResponse",
+    "AsyncWebhooksResourceWithStreamingResponse",
+    "EventsResource",
+    "AsyncEventsResource",
+    "EventsResourceWithRawResponse",
+    "AsyncEventsResourceWithRawResponse",
+    "EventsResourceWithStreamingResponse",
+    "AsyncEventsResourceWithStreamingResponse",
     "LettersResource",
     "AsyncLettersResource",
     "LettersResourceWithRawResponse",
@@ -202,6 +238,12 @@ __all__ = [
     "AsyncSelfMailersResourceWithRawResponse",
     "SelfMailersResourceWithStreamingResponse",
     "AsyncSelfMailersResourceWithStreamingResponse",
+    "ReturnEnvelopesResource",
+    "AsyncReturnEnvelopesResource",
+    "ReturnEnvelopesResourceWithRawResponse",
+    "AsyncReturnEnvelopesResourceWithRawResponse",
+    "ReturnEnvelopesResourceWithStreamingResponse",
+    "AsyncReturnEnvelopesResourceWithStreamingResponse",
     "CampaignsResource",
     "AsyncCampaignsResource",
     "CampaignsResourceWithRawResponse",

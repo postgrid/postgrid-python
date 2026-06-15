@@ -28,6 +28,8 @@ __all__ = ["BankAccountsResource", "AsyncBankAccountsResource"]
 
 
 class BankAccountsResource(SyncAPIResource):
+    """Manage bank accounts that will be used for mailing cheques."""
+
     @cached_property
     def with_raw_response(self) -> BankAccountsResourceWithRawResponse:
         """
@@ -79,6 +81,10 @@ class BankAccountsResource(SyncAPIResource):
 
         You must specify _either_ `signatureImage` or `signatureText`. The image can be
         supplied as either a URL or a multipart file upload.
+
+        Note that the reasonable character limit for `signatureText` is 6 capital
+        letters or 20 lowercase letters — anything exceeding that will likely overflow
+        onto a new line.
 
         Args:
           account_number: The account number of the bank account.
@@ -150,6 +156,10 @@ class BankAccountsResource(SyncAPIResource):
         You must specify _either_ `signatureImage` or `signatureText`. The image can be
         supplied as either a URL or a multipart file upload.
 
+        Note that the reasonable character limit for `signatureText` is 6 capital
+        letters or 20 lowercase letters — anything exceeding that will likely overflow
+        onto a new line.
+
         Args:
           account_number: The account number of the bank account.
 
@@ -220,6 +230,10 @@ class BankAccountsResource(SyncAPIResource):
 
         You must specify _either_ `signatureImage` or `signatureText`. The image can be
         supplied as either a URL or a multipart file upload.
+
+        Note that the reasonable character limit for `signatureText` is 6 capital
+        letters or 20 lowercase letters — anything exceeding that will likely overflow
+        onto a new line.
 
         Args:
           account_number: The account number of the bank account.
@@ -326,6 +340,9 @@ class BankAccountsResource(SyncAPIResource):
         """
         Retrieve a bank account by ID.
 
+        Note that we do not return the complete account number or the signature image
+        for security reasons.
+
         Args:
           extra_headers: Send extra headers
 
@@ -360,6 +377,9 @@ class BankAccountsResource(SyncAPIResource):
     ) -> SyncSkipLimit[BankAccount]:
         """
         Get a list of bank accounts.
+
+        Note that we do not return the complete account number or the signature image
+        for security reasons.
 
         Args:
           search: You can supply any string to help narrow down the list of resources. For
@@ -432,6 +452,8 @@ class BankAccountsResource(SyncAPIResource):
 
 
 class AsyncBankAccountsResource(AsyncAPIResource):
+    """Manage bank accounts that will be used for mailing cheques."""
+
     @cached_property
     def with_raw_response(self) -> AsyncBankAccountsResourceWithRawResponse:
         """
@@ -483,6 +505,10 @@ class AsyncBankAccountsResource(AsyncAPIResource):
 
         You must specify _either_ `signatureImage` or `signatureText`. The image can be
         supplied as either a URL or a multipart file upload.
+
+        Note that the reasonable character limit for `signatureText` is 6 capital
+        letters or 20 lowercase letters — anything exceeding that will likely overflow
+        onto a new line.
 
         Args:
           account_number: The account number of the bank account.
@@ -554,6 +580,10 @@ class AsyncBankAccountsResource(AsyncAPIResource):
         You must specify _either_ `signatureImage` or `signatureText`. The image can be
         supplied as either a URL or a multipart file upload.
 
+        Note that the reasonable character limit for `signatureText` is 6 capital
+        letters or 20 lowercase letters — anything exceeding that will likely overflow
+        onto a new line.
+
         Args:
           account_number: The account number of the bank account.
 
@@ -624,6 +654,10 @@ class AsyncBankAccountsResource(AsyncAPIResource):
 
         You must specify _either_ `signatureImage` or `signatureText`. The image can be
         supplied as either a URL or a multipart file upload.
+
+        Note that the reasonable character limit for `signatureText` is 6 capital
+        letters or 20 lowercase letters — anything exceeding that will likely overflow
+        onto a new line.
 
         Args:
           account_number: The account number of the bank account.
@@ -730,6 +764,9 @@ class AsyncBankAccountsResource(AsyncAPIResource):
         """
         Retrieve a bank account by ID.
 
+        Note that we do not return the complete account number or the signature image
+        for security reasons.
+
         Args:
           extra_headers: Send extra headers
 
@@ -764,6 +801,9 @@ class AsyncBankAccountsResource(AsyncAPIResource):
     ) -> AsyncPaginator[BankAccount, AsyncSkipLimit[BankAccount]]:
         """
         Get a list of bank accounts.
+
+        Note that we do not return the complete account number or the signature image
+        for security reasons.
 
         Args:
           search: You can supply any string to help narrow down the list of resources. For

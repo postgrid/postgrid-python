@@ -6,7 +6,7 @@ from typing import Dict, Union
 from datetime import datetime
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
-from ..._types import Base64FileInput
+from ..._types import FileTypes
 from ..._utils import PropertyInfo
 from .contact_create_with_first_name_param import ContactCreateWithFirstNameParam
 from .contact_create_with_company_name_param import ContactCreateWithCompanyNameParam
@@ -17,6 +17,8 @@ __all__ = [
     "PostcardCreateWithHTMLTo",
     "PostcardCreateWithHTMLFrom",
     "PostcardCreateWithTemplate",
+    "PostcardCreateWithTemplateTo",
+    "PostcardCreateWithTemplateFrom",
     "PostcardCreateWithPdfurl",
     "PostcardCreateWithPdfurlTo",
     "PostcardCreateWithPdfurlFrom",
@@ -110,10 +112,29 @@ class PostcardCreateWithHTML(TypedDict, total=False):
     metadata: Dict[str, object]
     """See the section on Metadata."""
 
-    paper: str
-    """Premium paper identifier.
+    paper: Union[
+        Literal[
+            "standard",
+            "premium_paper_heavy_1_glossy",
+            "premium_paper_postcard_uv_glossy_ss",
+            "premium_paper_postcard_uv_glossy_ss_120lb",
+            "premium_paper_postcard_satin_ds",
+        ],
+        str,
+    ]
+    """Premium paper selection used for this postcard.
 
-    Use "standard" for regular stock or a premium*paper*\\** ID.
+    Available values include:
+
+    - `standard`
+    - `premium_paper_heavy_1_glossy`
+    - `premium_paper_postcard_uv_glossy_ss`
+    - `premium_paper_postcard_uv_glossy_ss_120lb`
+    - `premium_paper_postcard_satin_ds`
+
+    Not all premium paper options are enabled for all organizations. If omitted, the
+    organization default postcard paper is used when configured; otherwise
+    `standard`.
     """
 
     send_date: Annotated[Union[str, datetime], PropertyInfo(alias="sendDate", format="iso8601")]
@@ -122,6 +143,8 @@ class PostcardCreateWithHTML(TypedDict, total=False):
 
     You can use this parameter to schedule orders for a future date.
     """
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
 
 
 PostcardCreateWithHTMLTo: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
@@ -141,6 +164,118 @@ class PostcardCreateWithTemplate(TypedDict, total=False):
 
     You can supply _either_ this or `frontHTML` but not both.
     """
+
+    size: Required[Literal["6x4", "9x6", "11x6"]]
+    """Enum representing the supported postcard sizes."""
+
+    to: Required[PostcardCreateWithTemplateTo]
+    """The recipient of this order.
+
+    You can either supply the contact information inline here or provide a contact
+    ID. PostGrid will automatically deduplicate contacts regardless of whether you
+    provide the information inline here or call the contact creation endpoint.
+    """
+
+    description: str
+    """An optional string describing this resource.
+
+    Will be visible in the API and the dashboard.
+    """
+
+    from_: Annotated[PostcardCreateWithTemplateFrom, PropertyInfo(alias="from")]
+    """The contact information of the sender.
+
+    You can pass contact information inline here just like you can for the `to`.
+    Unlike other order types, the sender address is optional for postcards.
+    """
+
+    mailing_class: Annotated[
+        Literal[
+            "first_class",
+            "standard_class",
+            "express",
+            "certified",
+            "certified_return_receipt",
+            "registered",
+            "usps_first_class",
+            "usps_standard_class",
+            "usps_eddm",
+            "usps_express_2_day",
+            "usps_express_3_day",
+            "usps_first_class_certified",
+            "usps_first_class_certified_return_receipt",
+            "usps_first_class_registered",
+            "usps_express_3_day_signature_confirmation",
+            "usps_express_3_day_certified",
+            "usps_express_3_day_certified_return_receipt",
+            "ca_post_lettermail",
+            "ca_post_personalized",
+            "ca_post_neighbourhood_mail",
+            "ups_express_overnight",
+            "ups_express_2_day",
+            "ups_express_3_day",
+            "royal_mail_first_class",
+            "royal_mail_second_class",
+            "au_post_second_class",
+        ],
+        PropertyInfo(alias="mailingClass"),
+    ]
+    """The mailing class of this order.
+
+    If not provided, automatically set to `first_class`.
+    """
+
+    merge_variables: Annotated[Dict[str, object], PropertyInfo(alias="mergeVariables")]
+    """
+    These will be merged with the variables in the template or HTML you create this
+    order with. The keys in this object should match the variable names in the
+    template _exactly_ as they are case-sensitive. Note that these _do not_ apply to
+    PDFs uploaded with the order.
+    """
+
+    metadata: Dict[str, object]
+    """See the section on Metadata."""
+
+    paper: Union[
+        Literal[
+            "standard",
+            "premium_paper_heavy_1_glossy",
+            "premium_paper_postcard_uv_glossy_ss",
+            "premium_paper_postcard_uv_glossy_ss_120lb",
+            "premium_paper_postcard_satin_ds",
+        ],
+        str,
+    ]
+    """Premium paper selection used for this postcard.
+
+    Available values include:
+
+    - `standard`
+    - `premium_paper_heavy_1_glossy`
+    - `premium_paper_postcard_uv_glossy_ss`
+    - `premium_paper_postcard_uv_glossy_ss_120lb`
+    - `premium_paper_postcard_satin_ds`
+
+    Not all premium paper options are enabled for all organizations. If omitted, the
+    organization default postcard paper is used when configured; otherwise
+    `standard`.
+    """
+
+    send_date: Annotated[Union[str, datetime], PropertyInfo(alias="sendDate", format="iso8601")]
+    """This order will transition from `ready` to `printing` on the day after this
+    date.
+
+    You can use this parameter to schedule orders for a future date.
+    """
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
+
+PostcardCreateWithTemplateTo: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
+
+PostcardCreateWithTemplateFrom: TypeAlias = Union[
+    ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str
+]
 
 
 class PostcardCreateWithPdfurl(TypedDict, total=False):
@@ -222,10 +357,29 @@ class PostcardCreateWithPdfurl(TypedDict, total=False):
     metadata: Dict[str, object]
     """See the section on Metadata."""
 
-    paper: str
-    """Premium paper identifier.
+    paper: Union[
+        Literal[
+            "standard",
+            "premium_paper_heavy_1_glossy",
+            "premium_paper_postcard_uv_glossy_ss",
+            "premium_paper_postcard_uv_glossy_ss_120lb",
+            "premium_paper_postcard_satin_ds",
+        ],
+        str,
+    ]
+    """Premium paper selection used for this postcard.
 
-    Use "standard" for regular stock or a premium*paper*\\** ID.
+    Available values include:
+
+    - `standard`
+    - `premium_paper_heavy_1_glossy`
+    - `premium_paper_postcard_uv_glossy_ss`
+    - `premium_paper_postcard_uv_glossy_ss_120lb`
+    - `premium_paper_postcard_satin_ds`
+
+    Not all premium paper options are enabled for all organizations. If omitted, the
+    organization default postcard paper is used when configured; otherwise
+    `standard`.
     """
 
     send_date: Annotated[Union[str, datetime], PropertyInfo(alias="sendDate", format="iso8601")]
@@ -235,6 +389,8 @@ class PostcardCreateWithPdfurl(TypedDict, total=False):
     You can use this parameter to schedule orders for a future date.
     """
 
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
+
 
 PostcardCreateWithPdfurlTo: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]
 
@@ -242,11 +398,11 @@ PostcardCreateWithPdfurlFrom: TypeAlias = Union[ContactCreateWithFirstNameParam,
 
 
 class PostcardCreateWithPdfFile(TypedDict, total=False):
-    pdf: Required[Annotated[Union[str, Base64FileInput], PropertyInfo(format="base64")]]
-    """A 2 page PDF file.
+    pdf: Required[FileTypes]
+    """Represents a raw file upload.
 
-    The first page is the front of the postcard and the second page is the back
-    (where the address will be stamped on).
+    Sending the actual file requires a `multipart/form-data` request; in
+    `application/json` request bodies, supply a URL instead.
     """
 
     size: Required[Literal["6x4", "9x6", "11x6"]]
@@ -320,10 +476,29 @@ class PostcardCreateWithPdfFile(TypedDict, total=False):
     metadata: Dict[str, object]
     """See the section on Metadata."""
 
-    paper: str
-    """Premium paper identifier.
+    paper: Union[
+        Literal[
+            "standard",
+            "premium_paper_heavy_1_glossy",
+            "premium_paper_postcard_uv_glossy_ss",
+            "premium_paper_postcard_uv_glossy_ss_120lb",
+            "premium_paper_postcard_satin_ds",
+        ],
+        str,
+    ]
+    """Premium paper selection used for this postcard.
 
-    Use "standard" for regular stock or a premium*paper*\\** ID.
+    Available values include:
+
+    - `standard`
+    - `premium_paper_heavy_1_glossy`
+    - `premium_paper_postcard_uv_glossy_ss`
+    - `premium_paper_postcard_uv_glossy_ss_120lb`
+    - `premium_paper_postcard_satin_ds`
+
+    Not all premium paper options are enabled for all organizations. If omitted, the
+    organization default postcard paper is used when configured; otherwise
+    `standard`.
     """
 
     send_date: Annotated[Union[str, datetime], PropertyInfo(alias="sendDate", format="iso8601")]
@@ -332,6 +507,8 @@ class PostcardCreateWithPdfFile(TypedDict, total=False):
 
     You can use this parameter to schedule orders for a future date.
     """
+
+    idempotency_key: Annotated[str, PropertyInfo(alias="idempotency-key")]
 
 
 PostcardCreateWithPdfFileTo: TypeAlias = Union[ContactCreateWithFirstNameParam, ContactCreateWithCompanyNameParam, str]

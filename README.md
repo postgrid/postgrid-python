@@ -212,6 +212,25 @@ response = client.address_verification.verify(
 print(response.address)
 ```
 
+## File uploads
+
+Request parameters that correspond to file uploads can be passed as `bytes`, or a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance or a tuple of `(filename, contents, media type)`.
+
+```python
+from pathlib import Path
+from postgrid import PostGrid
+
+client = PostGrid()
+
+client.bulk_verification.upload(
+    file=Path("/path/to/file"),
+    mappings={"line1": "line1"},
+    name="name",
+)
+```
+
+The async client uses the exact same interface. If you pass a [`PathLike`](https://docs.python.org/3/library/os.html#os.PathLike) instance, the file contents will be read asynchronously automatically.
+
 ## Handling errors
 
 When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `postgrid.APIConnectionError` is raised.
