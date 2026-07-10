@@ -34,7 +34,6 @@ client = PostGrid(
 
 contact = client.print_mail.contacts.create(
     address_line1="addressLine1",
-    country_code="countryCode",
     first_name="firstName",
 )
 print(contact.id)
@@ -64,7 +63,6 @@ client = AsyncPostGrid(
 async def main() -> None:
     contact = await client.print_mail.contacts.create(
         address_line1="addressLine1",
-        country_code="countryCode",
         first_name="firstName",
     )
     print(contact.id)
@@ -104,7 +102,6 @@ async def main() -> None:
     ) as client:
         contact = await client.print_mail.contacts.create(
             address_line1="addressLine1",
-            country_code="countryCode",
             first_name="firstName",
         )
         print(contact.id)

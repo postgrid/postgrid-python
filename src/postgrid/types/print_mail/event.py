@@ -44,6 +44,9 @@ class Event(BaseModel):
         "campaign.created",
         "campaign.updated",
         "virtual_mailbox_item.created",
+        "postal_statement.created",
+        "document.created",
+        "document.updated",
     ]
     """The type of event that a Webhook can listen for and that an Event represents."""
 

@@ -29,7 +29,6 @@ class TestSelfMailers:
         self_mailer = client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -37,7 +36,6 @@ class TestSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -49,11 +47,11 @@ class TestSelfMailers:
         self_mailer = client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -71,11 +69,11 @@ class TestSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -103,7 +101,6 @@ class TestSelfMailers:
         response = client.print_mail.self_mailers.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -111,7 +108,6 @@ class TestSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -127,7 +123,6 @@ class TestSelfMailers:
         with client.print_mail.self_mailers.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -135,7 +130,6 @@ class TestSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -153,7 +147,6 @@ class TestSelfMailers:
         self_mailer = client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -161,7 +154,6 @@ class TestSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -173,11 +165,11 @@ class TestSelfMailers:
         self_mailer = client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -195,11 +187,11 @@ class TestSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -227,7 +219,6 @@ class TestSelfMailers:
         response = client.print_mail.self_mailers.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -235,7 +226,6 @@ class TestSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -251,7 +241,6 @@ class TestSelfMailers:
         with client.print_mail.self_mailers.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -259,7 +248,6 @@ class TestSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -277,14 +265,12 @@ class TestSelfMailers:
         self_mailer = client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -296,11 +282,11 @@ class TestSelfMailers:
         self_mailer = client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -317,11 +303,11 @@ class TestSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -349,14 +335,12 @@ class TestSelfMailers:
         response = client.print_mail.self_mailers.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -372,14 +356,12 @@ class TestSelfMailers:
         with client.print_mail.self_mailers.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -397,14 +379,12 @@ class TestSelfMailers:
         self_mailer = client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -416,11 +396,11 @@ class TestSelfMailers:
         self_mailer = client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -437,11 +417,11 @@ class TestSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -469,14 +449,12 @@ class TestSelfMailers:
         response = client.print_mail.self_mailers.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -492,14 +470,12 @@ class TestSelfMailers:
         with client.print_mail.self_mailers.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -729,7 +705,6 @@ class TestAsyncSelfMailers:
         self_mailer = await async_client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -737,7 +712,6 @@ class TestAsyncSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -749,11 +723,11 @@ class TestAsyncSelfMailers:
         self_mailer = await async_client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -771,11 +745,11 @@ class TestAsyncSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -803,7 +777,6 @@ class TestAsyncSelfMailers:
         response = await async_client.print_mail.self_mailers.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -811,7 +784,6 @@ class TestAsyncSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -827,7 +799,6 @@ class TestAsyncSelfMailers:
         async with async_client.print_mail.self_mailers.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -835,7 +806,6 @@ class TestAsyncSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -853,7 +823,6 @@ class TestAsyncSelfMailers:
         self_mailer = await async_client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -861,7 +830,6 @@ class TestAsyncSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -873,11 +841,11 @@ class TestAsyncSelfMailers:
         self_mailer = await async_client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -895,11 +863,11 @@ class TestAsyncSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -927,7 +895,6 @@ class TestAsyncSelfMailers:
         response = await async_client.print_mail.self_mailers.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -935,7 +902,6 @@ class TestAsyncSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -951,7 +917,6 @@ class TestAsyncSelfMailers:
         async with async_client.print_mail.self_mailers.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -959,7 +924,6 @@ class TestAsyncSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -977,14 +941,12 @@ class TestAsyncSelfMailers:
         self_mailer = await async_client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -996,11 +958,11 @@ class TestAsyncSelfMailers:
         self_mailer = await async_client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -1017,11 +979,11 @@ class TestAsyncSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -1049,14 +1011,12 @@ class TestAsyncSelfMailers:
         response = await async_client.print_mail.self_mailers.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -1072,14 +1032,12 @@ class TestAsyncSelfMailers:
         async with async_client.print_mail.self_mailers.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -1097,14 +1055,12 @@ class TestAsyncSelfMailers:
         self_mailer = await async_client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -1116,11 +1072,11 @@ class TestAsyncSelfMailers:
         self_mailer = await async_client.print_mail.self_mailers.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -1137,11 +1093,11 @@ class TestAsyncSelfMailers:
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -1169,14 +1125,12 @@ class TestAsyncSelfMailers:
         response = await async_client.print_mail.self_mailers.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -1192,14 +1146,12 @@ class TestAsyncSelfMailers:
         async with async_client.print_mail.self_mailers.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf=b"Example data",
             size="8.5x11_bifold",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:

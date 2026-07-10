@@ -99,6 +99,9 @@ class WebhooksResource(SyncAPIResource):
                 "campaign.created",
                 "campaign.updated",
                 "virtual_mailbox_item.created",
+                "postal_statement.created",
+                "document.created",
+                "document.updated",
             ]
         ],
         url: str,
@@ -216,6 +219,9 @@ class WebhooksResource(SyncAPIResource):
                 "campaign.created",
                 "campaign.updated",
                 "virtual_mailbox_item.created",
+                "postal_statement.created",
+                "document.created",
+                "document.updated",
             ]
         ]
         | Omit = omit,
@@ -486,6 +492,9 @@ class AsyncWebhooksResource(AsyncAPIResource):
                 "campaign.created",
                 "campaign.updated",
                 "virtual_mailbox_item.created",
+                "postal_statement.created",
+                "document.created",
+                "document.updated",
             ]
         ],
         url: str,
@@ -603,6 +612,9 @@ class AsyncWebhooksResource(AsyncAPIResource):
                 "campaign.created",
                 "campaign.updated",
                 "virtual_mailbox_item.created",
+                "postal_statement.created",
+                "document.created",
+                "document.updated",
             ]
         ]
         | Omit = omit,

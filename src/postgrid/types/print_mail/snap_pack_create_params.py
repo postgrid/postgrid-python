@@ -27,10 +27,15 @@ __all__ = [
 
 class SnapPackCreateWithHTML(TypedDict, total=False):
     from_: Required[Annotated[SnapPackCreateWithHTMLFrom, PropertyInfo(alias="from")]]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`
-    contact.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     inside_html: Required[Annotated[str, PropertyInfo(alias="insideHTML")]]
@@ -49,11 +54,15 @@ class SnapPackCreateWithHTML(TypedDict, total=False):
     """Enum representing the supported snap pack sizes."""
 
     to: Required[SnapPackCreateWithHTMLTo]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str
@@ -126,10 +135,15 @@ SnapPackCreateWithHTMLTo: TypeAlias = Union[ContactCreateWithFirstNameParam, Con
 
 class SnapPackCreateWithTemplate(TypedDict, total=False):
     from_: Required[Annotated[SnapPackCreateWithTemplateFrom, PropertyInfo(alias="from")]]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`
-    contact.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     inside_template: Required[Annotated[str, PropertyInfo(alias="insideTemplate")]]
@@ -148,11 +162,15 @@ class SnapPackCreateWithTemplate(TypedDict, total=False):
     """Enum representing the supported snap pack sizes."""
 
     to: Required[SnapPackCreateWithTemplateTo]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str
@@ -227,10 +245,15 @@ SnapPackCreateWithTemplateTo: TypeAlias = Union[ContactCreateWithFirstNameParam,
 
 class SnapPackCreateWithPdf(TypedDict, total=False):
     from_: Required[Annotated[SnapPackCreateWithPdfFrom, PropertyInfo(alias="from")]]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`
-    contact.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     pdf: Required[Union[str, FileTypes]]
@@ -243,11 +266,15 @@ class SnapPackCreateWithPdf(TypedDict, total=False):
     """Enum representing the supported snap pack sizes."""
 
     to: Required[SnapPackCreateWithPdfTo]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str

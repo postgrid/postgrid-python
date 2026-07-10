@@ -45,11 +45,15 @@ class PostcardCreateWithHTML(TypedDict, total=False):
     """Enum representing the supported postcard sizes."""
 
     to: Required[PostcardCreateWithHTMLTo]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str
@@ -59,10 +63,15 @@ class PostcardCreateWithHTML(TypedDict, total=False):
     """
 
     from_: Annotated[PostcardCreateWithHTMLFrom, PropertyInfo(alias="from")]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`.
-    Unlike other order types, the sender address is optional for postcards.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     mailing_class: Annotated[
@@ -169,11 +178,15 @@ class PostcardCreateWithTemplate(TypedDict, total=False):
     """Enum representing the supported postcard sizes."""
 
     to: Required[PostcardCreateWithTemplateTo]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str
@@ -183,10 +196,15 @@ class PostcardCreateWithTemplate(TypedDict, total=False):
     """
 
     from_: Annotated[PostcardCreateWithTemplateFrom, PropertyInfo(alias="from")]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`.
-    Unlike other order types, the sender address is optional for postcards.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     mailing_class: Annotated[
@@ -290,11 +308,15 @@ class PostcardCreateWithPdfurl(TypedDict, total=False):
     """Enum representing the supported postcard sizes."""
 
     to: Required[PostcardCreateWithPdfurlTo]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str
@@ -304,10 +326,15 @@ class PostcardCreateWithPdfurl(TypedDict, total=False):
     """
 
     from_: Annotated[PostcardCreateWithPdfurlFrom, PropertyInfo(alias="from")]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`.
-    Unlike other order types, the sender address is optional for postcards.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     mailing_class: Annotated[
@@ -409,11 +436,15 @@ class PostcardCreateWithPdfFile(TypedDict, total=False):
     """Enum representing the supported postcard sizes."""
 
     to: Required[PostcardCreateWithPdfFileTo]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str
@@ -423,10 +454,15 @@ class PostcardCreateWithPdfFile(TypedDict, total=False):
     """
 
     from_: Annotated[PostcardCreateWithPdfFileFrom, PropertyInfo(alias="from")]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`.
-    Unlike other order types, the sender address is optional for postcards.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     mailing_class: Annotated[

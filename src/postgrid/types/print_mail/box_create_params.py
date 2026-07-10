@@ -21,17 +21,27 @@ class BoxCreateParams(TypedDict, total=False):
     """
 
     from_: Required[Annotated[From, PropertyInfo(alias="from")]]
-    """The 'from' (sender) of the entire box.
+    """A contact provided in one of two ways:
 
-    Accepts inline ContactCreate or a contactID.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     to: Required[To]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str
@@ -119,6 +129,16 @@ class Cheque(_ChequeReservedKeywords, total=False):
     """The cheque number."""
 
     to: Required[ChequeTo]
+    """A contact provided in one of two ways:
+
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
+    """
 
     logo_url: Annotated[str, PropertyInfo(alias="logoURL")]
     """A URL to a logo for the cheque (optional)."""
