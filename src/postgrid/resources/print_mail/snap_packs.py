@@ -129,8 +129,16 @@ class SnapPacksResource(SyncAPIResource):
           use this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to` contact.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           inside_html: The HTML content for the inside of the snap pack. You can supply _either_ this
               or `insideTemplate` but not both.
@@ -140,10 +148,16 @@ class SnapPacksResource(SyncAPIResource):
 
           size: Enum representing the supported snap pack sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -233,8 +247,16 @@ class SnapPacksResource(SyncAPIResource):
           use this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to` contact.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           inside_template: The template ID for the inside of the snap pack. You can supply _either_ this or
               `insideHTML` but not both.
@@ -244,10 +266,16 @@ class SnapPacksResource(SyncAPIResource):
 
           size: Enum representing the supported snap pack sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -336,18 +364,32 @@ class SnapPacksResource(SyncAPIResource):
           use this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to` contact.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           pdf: A URL or a multipart-uploaded two-page PDF (first page is the outside, second
               page is the inside) that matches the selected snap pack size.
 
           size: Enum representing the supported snap pack sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -780,8 +822,16 @@ class AsyncSnapPacksResource(AsyncAPIResource):
           use this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to` contact.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           inside_html: The HTML content for the inside of the snap pack. You can supply _either_ this
               or `insideTemplate` but not both.
@@ -791,10 +841,16 @@ class AsyncSnapPacksResource(AsyncAPIResource):
 
           size: Enum representing the supported snap pack sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -884,8 +940,16 @@ class AsyncSnapPacksResource(AsyncAPIResource):
           use this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to` contact.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           inside_template: The template ID for the inside of the snap pack. You can supply _either_ this or
               `insideHTML` but not both.
@@ -895,10 +959,16 @@ class AsyncSnapPacksResource(AsyncAPIResource):
 
           size: Enum representing the supported snap pack sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -987,18 +1057,32 @@ class AsyncSnapPacksResource(AsyncAPIResource):
           use this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to` contact.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           pdf: A URL or a multipart-uploaded two-page PDF (first page is the outside, second
               page is the inside) that matches the selected snap pack size.
 
           size: Enum representing the supported snap pack sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.

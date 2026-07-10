@@ -140,17 +140,30 @@ class PostcardsResource(SyncAPIResource):
 
           size: Enum representing the supported postcard sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
 
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`. Unlike other order types, the sender
-              address is optional for postcards.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           mailing_class: The mailing class of this order. If not provided, automatically set to
               `first_class`.
@@ -271,17 +284,30 @@ class PostcardsResource(SyncAPIResource):
 
           size: Enum representing the supported postcard sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
 
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`. Unlike other order types, the sender
-              address is optional for postcards.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           mailing_class: The mailing class of this order. If not provided, automatically set to
               `first_class`.
@@ -398,17 +424,30 @@ class PostcardsResource(SyncAPIResource):
 
           size: Enum representing the supported postcard sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
 
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`. Unlike other order types, the sender
-              address is optional for postcards.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           mailing_class: The mailing class of this order. If not provided, automatically set to
               `first_class`.
@@ -526,17 +565,30 @@ class PostcardsResource(SyncAPIResource):
 
           size: Enum representing the supported postcard sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
 
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`. Unlike other order types, the sender
-              address is optional for postcards.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           mailing_class: The mailing class of this order. If not provided, automatically set to
               `first_class`.
@@ -1028,17 +1080,30 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           size: Enum representing the supported postcard sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
 
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`. Unlike other order types, the sender
-              address is optional for postcards.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           mailing_class: The mailing class of this order. If not provided, automatically set to
               `first_class`.
@@ -1159,17 +1224,30 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           size: Enum representing the supported postcard sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
 
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`. Unlike other order types, the sender
-              address is optional for postcards.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           mailing_class: The mailing class of this order. If not provided, automatically set to
               `first_class`.
@@ -1286,17 +1364,30 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           size: Enum representing the supported postcard sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
 
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`. Unlike other order types, the sender
-              address is optional for postcards.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           mailing_class: The mailing class of this order. If not provided, automatically set to
               `first_class`.
@@ -1414,17 +1505,30 @@ class AsyncPostcardsResource(AsyncAPIResource):
 
           size: Enum representing the supported postcard sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
 
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`. Unlike other order types, the sender
-              address is optional for postcards.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           mailing_class: The mailing class of this order. If not provided, automatically set to
               `first_class`.

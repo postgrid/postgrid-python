@@ -29,13 +29,11 @@ class TestLetters:
         letter = client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             html="html",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -47,11 +45,11 @@ class TestLetters:
         letter = client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -67,11 +65,11 @@ class TestLetters:
             html="html",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -126,13 +124,11 @@ class TestLetters:
         response = client.print_mail.letters.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             html="html",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -148,13 +144,11 @@ class TestLetters:
         with client.print_mail.letters.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             html="html",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -172,13 +166,11 @@ class TestLetters:
         letter = client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             template="template",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -190,11 +182,11 @@ class TestLetters:
         letter = client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -210,11 +202,11 @@ class TestLetters:
             template="template",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -269,13 +261,11 @@ class TestLetters:
         response = client.print_mail.letters.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             template="template",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -291,13 +281,11 @@ class TestLetters:
         with client.print_mail.letters.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             template="template",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -315,13 +303,11 @@ class TestLetters:
         letter = client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -333,11 +319,11 @@ class TestLetters:
         letter = client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -353,11 +339,11 @@ class TestLetters:
             pdf="https://example.com",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -412,13 +398,11 @@ class TestLetters:
         response = client.print_mail.letters.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -434,13 +418,11 @@ class TestLetters:
         with client.print_mail.letters.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -716,13 +698,11 @@ class TestAsyncLetters:
         letter = await async_client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             html="html",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -734,11 +714,11 @@ class TestAsyncLetters:
         letter = await async_client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -754,11 +734,11 @@ class TestAsyncLetters:
             html="html",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -813,13 +793,11 @@ class TestAsyncLetters:
         response = await async_client.print_mail.letters.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             html="html",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -835,13 +813,11 @@ class TestAsyncLetters:
         async with async_client.print_mail.letters.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             html="html",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -859,13 +835,11 @@ class TestAsyncLetters:
         letter = await async_client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             template="template",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -877,11 +851,11 @@ class TestAsyncLetters:
         letter = await async_client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -897,11 +871,11 @@ class TestAsyncLetters:
             template="template",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -956,13 +930,11 @@ class TestAsyncLetters:
         response = await async_client.print_mail.letters.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             template="template",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -978,13 +950,11 @@ class TestAsyncLetters:
         async with async_client.print_mail.letters.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             template="template",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -1002,13 +972,11 @@ class TestAsyncLetters:
         letter = await async_client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -1020,11 +988,11 @@ class TestAsyncLetters:
         letter = await async_client.print_mail.letters.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -1040,11 +1008,11 @@ class TestAsyncLetters:
             pdf="https://example.com",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -1099,13 +1067,11 @@ class TestAsyncLetters:
         response = await async_client.print_mail.letters.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -1121,13 +1087,11 @@ class TestAsyncLetters:
         async with async_client.print_mail.letters.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:

@@ -32,7 +32,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -47,11 +46,11 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -67,11 +66,11 @@ class TestPostcards:
             description="description",
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -102,7 +101,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -121,7 +119,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -142,7 +139,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -157,11 +153,11 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -177,11 +173,11 @@ class TestPostcards:
             description="description",
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -212,7 +208,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -231,7 +226,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -251,7 +245,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -265,11 +258,11 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -285,11 +278,11 @@ class TestPostcards:
             description="description",
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -319,7 +312,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -337,7 +329,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -357,7 +348,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -371,11 +361,11 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -391,11 +381,11 @@ class TestPostcards:
             description="description",
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -425,7 +415,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -443,7 +432,6 @@ class TestPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -722,7 +710,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -737,11 +724,11 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -757,11 +744,11 @@ class TestAsyncPostcards:
             description="description",
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -792,7 +779,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -811,7 +797,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -832,7 +817,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -847,11 +831,11 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -867,11 +851,11 @@ class TestAsyncPostcards:
             description="description",
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -902,7 +886,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -921,7 +904,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -941,7 +923,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -955,11 +936,11 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -975,11 +956,11 @@ class TestAsyncPostcards:
             description="description",
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -1009,7 +990,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -1027,7 +1007,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -1047,7 +1026,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -1061,11 +1039,11 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -1081,11 +1059,11 @@ class TestAsyncPostcards:
             description="description",
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -1115,7 +1093,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -1133,7 +1110,6 @@ class TestAsyncPostcards:
             size="6x4",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:

@@ -42,6 +42,9 @@ class Webhook(BaseModel):
             "campaign.created",
             "campaign.updated",
             "virtual_mailbox_item.created",
+            "postal_statement.created",
+            "document.created",
+            "document.updated",
         ]
     ] = FieldInfo(alias="enabledEvents")
     """The list of event types this webhook listens for."""
