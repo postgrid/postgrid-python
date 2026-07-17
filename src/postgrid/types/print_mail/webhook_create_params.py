@@ -33,6 +33,9 @@ class WebhookCreateParams(TypedDict, total=False):
                     "campaign.created",
                     "campaign.updated",
                     "virtual_mailbox_item.created",
+                    "postal_statement.created",
+                    "document.created",
+                    "document.updated",
                 ]
             ],
             PropertyInfo(alias="enabledEvents"),

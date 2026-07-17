@@ -30,9 +30,15 @@ __all__ = [
 
 class SelfMailerCreateWithHTML(TypedDict, total=False):
     from_: Required[Annotated[SelfMailerCreateWithHTMLFrom, PropertyInfo(alias="from")]]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     inside_html: Required[Annotated[str, PropertyInfo(alias="insideHTML")]]
@@ -51,11 +57,15 @@ class SelfMailerCreateWithHTML(TypedDict, total=False):
     """Enum representing the supported self-mailer sizes."""
 
     to: Required[SelfMailerCreateWithHTMLTo]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str
@@ -128,9 +138,15 @@ SelfMailerCreateWithHTMLTo: TypeAlias = Union[ContactCreateWithFirstNameParam, C
 
 class SelfMailerCreateWithTemplate(TypedDict, total=False):
     from_: Required[Annotated[SelfMailerCreateWithTemplateFrom, PropertyInfo(alias="from")]]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     inside_template: Required[Annotated[str, PropertyInfo(alias="insideTemplate")]]
@@ -149,11 +165,15 @@ class SelfMailerCreateWithTemplate(TypedDict, total=False):
     """Enum representing the supported self-mailer sizes."""
 
     to: Required[SelfMailerCreateWithTemplateTo]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str
@@ -230,9 +250,15 @@ SelfMailerCreateWithTemplateTo: TypeAlias = Union[
 
 class SelfMailerCreateWithPdfurl(TypedDict, total=False):
     from_: Required[Annotated[SelfMailerCreateWithPdfurlFrom, PropertyInfo(alias="from")]]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     pdf: Required[str]
@@ -246,11 +272,15 @@ class SelfMailerCreateWithPdfurl(TypedDict, total=False):
     """Enum representing the supported self-mailer sizes."""
 
     to: Required[SelfMailerCreateWithPdfurlTo]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str
@@ -325,9 +355,15 @@ SelfMailerCreateWithPdfurlTo: TypeAlias = Union[ContactCreateWithFirstNameParam,
 
 class SelfMailerCreateWithPdfFile(TypedDict, total=False):
     from_: Required[Annotated[SelfMailerCreateWithPdfFileFrom, PropertyInfo(alias="from")]]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     pdf: Required[FileTypes]
@@ -341,11 +377,15 @@ class SelfMailerCreateWithPdfFile(TypedDict, total=False):
     """Enum representing the supported self-mailer sizes."""
 
     to: Required[SelfMailerCreateWithPdfFileTo]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     description: str

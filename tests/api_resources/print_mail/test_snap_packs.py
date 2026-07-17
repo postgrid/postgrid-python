@@ -29,7 +29,6 @@ class TestSnapPacks:
         snap_pack = client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -37,7 +36,6 @@ class TestSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -49,11 +47,11 @@ class TestSnapPacks:
         snap_pack = client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -71,11 +69,11 @@ class TestSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -103,7 +101,6 @@ class TestSnapPacks:
         response = client.print_mail.snap_packs.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -111,7 +108,6 @@ class TestSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -127,7 +123,6 @@ class TestSnapPacks:
         with client.print_mail.snap_packs.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -135,7 +130,6 @@ class TestSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -153,7 +147,6 @@ class TestSnapPacks:
         snap_pack = client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -161,7 +154,6 @@ class TestSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -173,11 +165,11 @@ class TestSnapPacks:
         snap_pack = client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -195,11 +187,11 @@ class TestSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -227,7 +219,6 @@ class TestSnapPacks:
         response = client.print_mail.snap_packs.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -235,7 +226,6 @@ class TestSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -251,7 +241,6 @@ class TestSnapPacks:
         with client.print_mail.snap_packs.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -259,7 +248,6 @@ class TestSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -277,14 +265,12 @@ class TestSnapPacks:
         snap_pack = client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -296,11 +282,11 @@ class TestSnapPacks:
         snap_pack = client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -317,11 +303,11 @@ class TestSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -349,14 +335,12 @@ class TestSnapPacks:
         response = client.print_mail.snap_packs.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -372,14 +356,12 @@ class TestSnapPacks:
         with client.print_mail.snap_packs.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -611,7 +593,6 @@ class TestAsyncSnapPacks:
         snap_pack = await async_client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -619,7 +600,6 @@ class TestAsyncSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -631,11 +611,11 @@ class TestAsyncSnapPacks:
         snap_pack = await async_client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -653,11 +633,11 @@ class TestAsyncSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -685,7 +665,6 @@ class TestAsyncSnapPacks:
         response = await async_client.print_mail.snap_packs.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -693,7 +672,6 @@ class TestAsyncSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -709,7 +687,6 @@ class TestAsyncSnapPacks:
         async with async_client.print_mail.snap_packs.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_html="insideHTML",
@@ -717,7 +694,6 @@ class TestAsyncSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -735,7 +711,6 @@ class TestAsyncSnapPacks:
         snap_pack = await async_client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -743,7 +718,6 @@ class TestAsyncSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -755,11 +729,11 @@ class TestAsyncSnapPacks:
         snap_pack = await async_client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -777,11 +751,11 @@ class TestAsyncSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -809,7 +783,6 @@ class TestAsyncSnapPacks:
         response = await async_client.print_mail.snap_packs.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -817,7 +790,6 @@ class TestAsyncSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -833,7 +805,6 @@ class TestAsyncSnapPacks:
         async with async_client.print_mail.snap_packs.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             inside_template="insideTemplate",
@@ -841,7 +812,6 @@ class TestAsyncSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:
@@ -859,14 +829,12 @@ class TestAsyncSnapPacks:
         snap_pack = await async_client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -878,11 +846,11 @@ class TestAsyncSnapPacks:
         snap_pack = await async_client.print_mail.snap_packs.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -899,11 +867,11 @@ class TestAsyncSnapPacks:
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
                 "address_line2": "addressLine2",
                 "city": "city",
                 "company_name": "companyName",
+                "country_code": "countryCode",
                 "description": "description",
                 "email": "email",
                 "force_verified_status": True,
@@ -931,14 +899,12 @@ class TestAsyncSnapPacks:
         response = await async_client.print_mail.snap_packs.with_raw_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         )
@@ -954,14 +920,12 @@ class TestAsyncSnapPacks:
         async with async_client.print_mail.snap_packs.with_streaming_response.create(
             from_={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
             pdf="https://example.com",
             size="8.5x11_bifold_v",
             to={
                 "address_line1": "addressLine1",
-                "country_code": "countryCode",
                 "first_name": "firstName",
             },
         ) as response:

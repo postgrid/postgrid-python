@@ -142,16 +142,30 @@ class LettersResource(SyncAPIResource):
           upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           html: The HTML content for the letter. You can supply _either_ this or `template` but
               not both.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           address_placement: Enum representing the placement of the address on the letter.
 
@@ -284,16 +298,30 @@ class LettersResource(SyncAPIResource):
           upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           template: The template ID for the letter. You can supply _either_ this or `html` but not
               both.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           address_placement: Enum representing the placement of the address on the letter.
 
@@ -426,15 +454,29 @@ class LettersResource(SyncAPIResource):
           upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           pdf: A URL pointing to a PDF file for the letter or the PDF file itself.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           address_placement: Enum representing the placement of the address on the letter.
 
@@ -937,16 +979,30 @@ class AsyncLettersResource(AsyncAPIResource):
           upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           html: The HTML content for the letter. You can supply _either_ this or `template` but
               not both.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           address_placement: Enum representing the placement of the address on the letter.
 
@@ -1079,16 +1135,30 @@ class AsyncLettersResource(AsyncAPIResource):
           upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           template: The template ID for the letter. You can supply _either_ this or `html` but not
               both.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           address_placement: Enum representing the placement of the address on the letter.
 
@@ -1221,15 +1291,29 @@ class AsyncLettersResource(AsyncAPIResource):
           upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           pdf: A URL pointing to a PDF file for the letter or the PDF file itself.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           address_placement: Enum representing the placement of the address on the letter.
 

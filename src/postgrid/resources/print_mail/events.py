@@ -77,6 +77,9 @@ class EventsResource(SyncAPIResource):
                 "campaign.created",
                 "campaign.updated",
                 "virtual_mailbox_item.created",
+                "postal_statement.created",
+                "document.created",
+                "document.updated",
             ]
         ]
         | Omit = omit,
@@ -174,6 +177,9 @@ class AsyncEventsResource(AsyncAPIResource):
                 "campaign.created",
                 "campaign.updated",
                 "virtual_mailbox_item.created",
+                "postal_statement.created",
+                "document.created",
+                "document.updated",
             ]
         ]
         | Omit = omit,

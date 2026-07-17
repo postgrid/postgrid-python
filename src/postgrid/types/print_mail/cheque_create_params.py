@@ -24,17 +24,27 @@ class ChequeCreateParams(TypedDict, total=False):
     """The bank account (ID) associated with the cheque."""
 
     from_: Required[Annotated[From, PropertyInfo(alias="from")]]
-    """The contact information of the sender.
+    """A contact provided in one of two ways:
 
-    You can pass contact information inline here just like you can for the `to`.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     to: Required[To]
-    """The recipient of this order.
+    """A contact provided in one of two ways:
 
-    You can either supply the contact information inline here or provide a contact
-    ID. PostGrid will automatically deduplicate contacts regardless of whether you
-    provide the information inline here or call the contact creation endpoint.
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     currency_code: Annotated[Literal["USD", "CAD"], PropertyInfo(alias="currencyCode")]
@@ -154,12 +164,15 @@ class ChequeCreateParams(TypedDict, total=False):
     """
 
     redirect_to: Annotated[RedirectTo, PropertyInfo(alias="redirectTo")]
-    """
-    Providing this inserts a blank page at the start of the cheque with the
-    recipient you provide here. This leaves the cheque that follows intact, which
-    means you can use this to intercept at cheque at the redirected address and then
-    mail it forward to the final recipient yourself. One use case for this is
-    signing cheques at your office before mailing them out yourself.
+    """A contact provided in one of two ways:
+
+    - an **inline contact body** with the same fields you would use to create a
+      contact (there is no need to create the contact first), or
+    - the **ID of an existing contact** (e.g. `contact_123`).
+
+    You never send the full stored contact object (with `id`, `object`,
+    `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+    responses.
     """
 
     return_envelope: Annotated[str, PropertyInfo(alias="returnEnvelope")]

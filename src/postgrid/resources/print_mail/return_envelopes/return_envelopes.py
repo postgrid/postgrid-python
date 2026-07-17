@@ -98,8 +98,16 @@ class ReturnEnvelopesResource(SyncAPIResource):
         `return_envelope_already_exists_error`.
 
         Args:
-          to: A contact ID or a contact object containing the address that will be printed
-              onto the return envelope.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -284,8 +292,16 @@ class AsyncReturnEnvelopesResource(AsyncAPIResource):
         `return_envelope_already_exists_error`.
 
         Args:
-          to: A contact ID or a contact object containing the address that will be printed
-              onto the return envelope.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.

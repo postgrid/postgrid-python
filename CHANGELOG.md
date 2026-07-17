@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.4.0 (2026-07-17)
+
+Full Changelog: [v2.3.0...v2.4.0](https://github.com/postgrid/postgrid-python/compare/v2.3.0...v2.4.0)
+
+### Features
+
+* Make Contact requirements for mailers clearer - can pass in ID or contact inline ([5015d23](https://github.com/postgrid/postgrid-python/commit/5015d230ab97935f90f21f9ab6489f0f08482d89))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([5e47f3c](https://github.com/postgrid/postgrid-python/commit/5e47f3c364222a47680c85496002f389f2325fad))
+
 ## 2.3.0 (2026-06-12)
 
 Full Changelog: [v2.2.0...v2.3.0](https://github.com/postgrid/postgrid-python/compare/v2.2.0...v2.3.0)

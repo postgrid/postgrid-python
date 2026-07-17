@@ -71,11 +71,11 @@ class ContactsResource(SyncAPIResource):
         self,
         *,
         address_line1: str,
-        country_code: str,
         first_name: str,
         address_line2: str | Omit = omit,
         city: str | Omit = omit,
         company_name: str | Omit = omit,
+        country_code: str | Omit = omit,
         description: str | Omit = omit,
         email: str | Omit = omit,
         force_verified_status: bool | Omit = omit,
@@ -113,13 +113,14 @@ class ContactsResource(SyncAPIResource):
         Args:
           address_line1: The first line of the contact's address.
 
-          country_code: The ISO 3611-1 country code of the contact's address.
-
           address_line2: Second line of the contact's address, if applicable.
 
           city: The city of the contact's address.
 
           company_name: Company name of the contact.
+
+          country_code: The ISO 3611-1 country code of the contact's address. If omitted, your
+              organization's default country code is used.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -164,9 +165,9 @@ class ContactsResource(SyncAPIResource):
         *,
         address_line1: str,
         company_name: str,
-        country_code: str,
         address_line2: str | Omit = omit,
         city: str | Omit = omit,
+        country_code: str | Omit = omit,
         description: str | Omit = omit,
         email: str | Omit = omit,
         first_name: str | Omit = omit,
@@ -205,11 +206,12 @@ class ContactsResource(SyncAPIResource):
         Args:
           address_line1: The first line of the contact's address.
 
-          country_code: The ISO 3611-1 country code of the contact's address.
-
           address_line2: Second line of the contact's address, if applicable.
 
           city: The city of the contact's address.
+
+          country_code: The ISO 3611-1 country code of the contact's address. If omitted, your
+              organization's default country code is used.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -250,16 +252,16 @@ class ContactsResource(SyncAPIResource):
         """
         ...
 
-    @required_args(["address_line1", "country_code", "first_name"], ["address_line1", "company_name", "country_code"])
+    @required_args(["address_line1", "first_name"], ["address_line1", "company_name"])
     def create(
         self,
         *,
         address_line1: str,
-        country_code: str,
         first_name: str | Omit = omit,
         address_line2: str | Omit = omit,
         city: str | Omit = omit,
         company_name: str | Omit = omit,
+        country_code: str | Omit = omit,
         description: str | Omit = omit,
         email: str | Omit = omit,
         force_verified_status: bool | Omit = omit,
@@ -283,11 +285,11 @@ class ContactsResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "address_line1": address_line1,
-                    "country_code": country_code,
                     "first_name": first_name,
                     "address_line2": address_line2,
                     "city": city,
                     "company_name": company_name,
+                    "country_code": country_code,
                     "description": description,
                     "email": email,
                     "force_verified_status": force_verified_status,
@@ -473,11 +475,11 @@ class AsyncContactsResource(AsyncAPIResource):
         self,
         *,
         address_line1: str,
-        country_code: str,
         first_name: str,
         address_line2: str | Omit = omit,
         city: str | Omit = omit,
         company_name: str | Omit = omit,
+        country_code: str | Omit = omit,
         description: str | Omit = omit,
         email: str | Omit = omit,
         force_verified_status: bool | Omit = omit,
@@ -515,13 +517,14 @@ class AsyncContactsResource(AsyncAPIResource):
         Args:
           address_line1: The first line of the contact's address.
 
-          country_code: The ISO 3611-1 country code of the contact's address.
-
           address_line2: Second line of the contact's address, if applicable.
 
           city: The city of the contact's address.
 
           company_name: Company name of the contact.
+
+          country_code: The ISO 3611-1 country code of the contact's address. If omitted, your
+              organization's default country code is used.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -566,9 +569,9 @@ class AsyncContactsResource(AsyncAPIResource):
         *,
         address_line1: str,
         company_name: str,
-        country_code: str,
         address_line2: str | Omit = omit,
         city: str | Omit = omit,
+        country_code: str | Omit = omit,
         description: str | Omit = omit,
         email: str | Omit = omit,
         first_name: str | Omit = omit,
@@ -607,11 +610,12 @@ class AsyncContactsResource(AsyncAPIResource):
         Args:
           address_line1: The first line of the contact's address.
 
-          country_code: The ISO 3611-1 country code of the contact's address.
-
           address_line2: Second line of the contact's address, if applicable.
 
           city: The city of the contact's address.
+
+          country_code: The ISO 3611-1 country code of the contact's address. If omitted, your
+              organization's default country code is used.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -652,16 +656,16 @@ class AsyncContactsResource(AsyncAPIResource):
         """
         ...
 
-    @required_args(["address_line1", "country_code", "first_name"], ["address_line1", "company_name", "country_code"])
+    @required_args(["address_line1", "first_name"], ["address_line1", "company_name"])
     async def create(
         self,
         *,
         address_line1: str,
-        country_code: str,
         first_name: str | Omit = omit,
         address_line2: str | Omit = omit,
         city: str | Omit = omit,
         company_name: str | Omit = omit,
+        country_code: str | Omit = omit,
         description: str | Omit = omit,
         email: str | Omit = omit,
         force_verified_status: bool | Omit = omit,
@@ -685,11 +689,11 @@ class AsyncContactsResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "address_line1": address_line1,
-                    "country_code": country_code,
                     "first_name": first_name,
                     "address_line2": address_line2,
                     "city": city,
                     "company_name": company_name,
+                    "country_code": country_code,
                     "description": description,
                     "email": email,
                     "force_verified_status": force_verified_status,

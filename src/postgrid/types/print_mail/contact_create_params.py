@@ -14,9 +14,6 @@ class ContactCreateWithFirstName(TypedDict, total=False):
     address_line1: Required[Annotated[str, PropertyInfo(alias="addressLine1")]]
     """The first line of the contact's address."""
 
-    country_code: Required[Annotated[str, PropertyInfo(alias="countryCode")]]
-    """The ISO 3611-1 country code of the contact's address."""
-
     first_name: Required[Annotated[str, PropertyInfo(alias="firstName")]]
 
     address_line2: Annotated[str, PropertyInfo(alias="addressLine2")]
@@ -27,6 +24,12 @@ class ContactCreateWithFirstName(TypedDict, total=False):
 
     company_name: Annotated[str, PropertyInfo(alias="companyName")]
     """Company name of the contact."""
+
+    country_code: Annotated[str, PropertyInfo(alias="countryCode")]
+    """The ISO 3611-1 country code of the contact's address.
+
+    If omitted, your organization's default country code is used.
+    """
 
     description: str
     """An optional string describing this resource.
@@ -81,14 +84,17 @@ class ContactCreateWithCompanyName(TypedDict, total=False):
 
     company_name: Required[Annotated[str, PropertyInfo(alias="companyName")]]
 
-    country_code: Required[Annotated[str, PropertyInfo(alias="countryCode")]]
-    """The ISO 3611-1 country code of the contact's address."""
-
     address_line2: Annotated[str, PropertyInfo(alias="addressLine2")]
     """Second line of the contact's address, if applicable."""
 
     city: str
     """The city of the contact's address."""
+
+    country_code: Annotated[str, PropertyInfo(alias="countryCode")]
+    """The ISO 3611-1 country code of the contact's address.
+
+    If omitted, your organization's default country code is used.
+    """
 
     description: str
     """An optional string describing this resource.

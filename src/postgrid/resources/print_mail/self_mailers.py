@@ -121,8 +121,16 @@ class SelfMailersResource(SyncAPIResource):
           this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           inside_html: The HTML content for the inside of the self-mailer. You can supply _either_ this
               or `insideTemplate` but not both.
@@ -132,10 +140,16 @@ class SelfMailersResource(SyncAPIResource):
 
           size: Enum representing the supported self-mailer sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -226,8 +240,16 @@ class SelfMailersResource(SyncAPIResource):
           this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           inside_template: The template ID for the inside of the self-mailer. You can supply _either_ this
               or `insideHTML` but not both.
@@ -237,10 +259,16 @@ class SelfMailersResource(SyncAPIResource):
 
           size: Enum representing the supported self-mailer sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -330,8 +358,16 @@ class SelfMailersResource(SyncAPIResource):
           this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           pdf: A URL pointing to a 2 page PDF file. The first page is the inside of the
               self-mailer and the second page is the outside (where the address will be
@@ -339,10 +375,16 @@ class SelfMailersResource(SyncAPIResource):
 
           size: Enum representing the supported self-mailer sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -432,8 +474,16 @@ class SelfMailersResource(SyncAPIResource):
           this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           pdf: Represents a raw file upload. Sending the actual file requires a
               `multipart/form-data` request; in `application/json` request bodies, supply a
@@ -441,10 +491,16 @@ class SelfMailersResource(SyncAPIResource):
 
           size: Enum representing the supported self-mailer sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -856,8 +912,16 @@ class AsyncSelfMailersResource(AsyncAPIResource):
           this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           inside_html: The HTML content for the inside of the self-mailer. You can supply _either_ this
               or `insideTemplate` but not both.
@@ -867,10 +931,16 @@ class AsyncSelfMailersResource(AsyncAPIResource):
 
           size: Enum representing the supported self-mailer sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -961,8 +1031,16 @@ class AsyncSelfMailersResource(AsyncAPIResource):
           this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           inside_template: The template ID for the inside of the self-mailer. You can supply _either_ this
               or `insideHTML` but not both.
@@ -972,10 +1050,16 @@ class AsyncSelfMailersResource(AsyncAPIResource):
 
           size: Enum representing the supported self-mailer sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -1065,8 +1149,16 @@ class AsyncSelfMailersResource(AsyncAPIResource):
           this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           pdf: A URL pointing to a 2 page PDF file. The first page is the inside of the
               self-mailer and the second page is the outside (where the address will be
@@ -1074,10 +1166,16 @@ class AsyncSelfMailersResource(AsyncAPIResource):
 
           size: Enum representing the supported self-mailer sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
@@ -1167,8 +1265,16 @@ class AsyncSelfMailersResource(AsyncAPIResource):
           this content type to upload the PDF file directly.
 
         Args:
-          from_: The contact information of the sender. You can pass contact information inline
-              here just like you can for the `to`.
+          from_:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           pdf: Represents a raw file upload. Sending the actual file requires a
               `multipart/form-data` request; in `application/json` request bodies, supply a
@@ -1176,10 +1282,16 @@ class AsyncSelfMailersResource(AsyncAPIResource):
 
           size: Enum representing the supported self-mailer sizes.
 
-          to: The recipient of this order. You can either supply the contact information
-              inline here or provide a contact ID. PostGrid will automatically deduplicate
-              contacts regardless of whether you provide the information inline here or call
-              the contact creation endpoint.
+          to:
+              A contact provided in one of two ways:
+
+              - an **inline contact body** with the same fields you would use to create a
+                contact (there is no need to create the contact first), or
+              - the **ID of an existing contact** (e.g. `contact_123`).
+
+              You never send the full stored contact object (with `id`, `object`,
+              `addressStatus`, `createdAt`, etc.) here — that shape is only ever returned in
+              responses.
 
           description: An optional string describing this resource. Will be visible in the API and the
               dashboard.
